@@ -1,0 +1,54 @@
+[
+  {
+    "name": "DayCombat",
+    "phases": [
+      {
+        "name": "LandBaseAerialSupportJetAssault",
+        "apiName": "api_air_base_injection"
+      },
+      {
+        "name": "JetAssault",
+        "apiName": "api_injection_kouku"
+      },
+      {
+        "name": "LandBaseAerialSupport",
+        "apiName": "api_air_base_attack"
+      },
+      {
+        "name": "CarrierBasedAerialCombat",
+        "apiName": "api_kouku"
+      },
+      {
+        "name": "SupportExpedition",
+        "apiName": "api_kouku"
+      },
+      { "name": "OpeningASW" },
+      { "name": "OpeningTorpedoSalvo" },
+      { "name": "FirstShellingPhase" },
+      { "name": "SecondShellingPhase" },
+      { "name": "ThirdShellingPhase" },
+      { "name": "ClosingTorpedoSalvo" }
+    ]
+  },
+
+  { "name": "NightBattle" },
+  {
+    "name": "AerialBattle",
+    "phases": [
+      { "name": "LandBaseAerialSupportJetAssault" },
+      { "name": "JetAssault" },
+      { "name": "LandBaseAerialSupport" },
+      { "name": "AerialCombat" }
+    ]
+  },
+  {
+    "name": "AirDefense",
+    "phases": [
+      { "name": "LandBaseAerialSupportJetAssault" },
+      { "name": "JetAssault" },
+      { "name": "LandBaseAerialSupport" },
+      { "name": "AerialCombat" }
+    ]
+  },
+  { "name": "AirRaid" }
+]

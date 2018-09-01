@@ -1,0 +1,3490 @@
+[
+  {
+    "id": 1,
+    "name": "12cm単装砲",
+    "firepower": 1,
+    "antiAir": 1,
+    "range": 1,
+    "types": [1, 1, 1, 1, 0]
+  },
+  {
+    "id": 2,
+    "name": "12.7cm連装砲",
+    "firepower": 2,
+    "antiAir": 2,
+    "range": 1,
+    "types": [1, 1, 1, 1, 0]
+  },
+  {
+    "id": 3,
+    "name": "10cm連装高角砲",
+    "firepower": 2,
+    "antiAir": 7,
+    "range": 1,
+    "types": [1, 1, 1, 16, 0]
+  },
+  {
+    "id": 4,
+    "name": "14cm単装砲",
+    "firepower": 2,
+    "accuracy": 1,
+    "range": 2,
+    "types": [1, 1, 2, 2, 0]
+  },
+  {
+    "id": 5,
+    "name": "15.5cm三連装砲",
+    "firepower": 7,
+    "antiAir": 4,
+    "accuracy": 1,
+    "range": 2,
+    "types": [1, 1, 2, 2, 0]
+  },
+  {
+    "id": 6,
+    "name": "20.3cm連装砲",
+    "firepower": 8,
+    "antiAir": 3,
+    "range": 2,
+    "types": [1, 1, 2, 2, 0]
+  },
+  {
+    "id": 7,
+    "name": "35.6cm連装砲",
+    "firepower": 15,
+    "antiAir": 4,
+    "range": 3,
+    "types": [1, 1, 3, 3, 0]
+  },
+  {
+    "id": 8,
+    "name": "41cm連装砲",
+    "firepower": 20,
+    "antiAir": 4,
+    "range": 3,
+    "types": [1, 1, 3, 3, 0]
+  },
+  {
+    "id": 9,
+    "name": "46cm三連装砲",
+    "firepower": 26,
+    "antiAir": 5,
+    "range": 4,
+    "types": [1, 1, 3, 3, 0]
+  },
+  {
+    "id": 10,
+    "name": "12.7cm連装高角砲",
+    "firepower": 2,
+    "antiAir": 4,
+    "accuracy": 1,
+    "range": 1,
+    "types": [1, 2, 4, 16, 0]
+  },
+  {
+    "id": 11,
+    "name": "15.2cm単装砲",
+    "firepower": 2,
+    "accuracy": 1,
+    "range": 2,
+    "types": [1, 2, 4, 4, 0]
+  },
+  {
+    "id": 12,
+    "name": "15.5cm三連装副砲",
+    "firepower": 7,
+    "antiAir": 3,
+    "accuracy": 2,
+    "range": 2,
+    "types": [1, 2, 4, 4, 0]
+  },
+  {
+    "id": 13,
+    "name": "61cm三連装魚雷",
+    "torpedo": 5,
+    "range": 1,
+    "types": [2, 3, 5, 5, 0]
+  },
+  {
+    "id": 14,
+    "name": "61cm四連装魚雷",
+    "torpedo": 7,
+    "range": 1,
+    "types": [2, 3, 5, 5, 0]
+  },
+  {
+    "id": 15,
+    "name": "61cm四連装(酸素)魚雷",
+    "torpedo": 10,
+    "range": 1,
+    "types": [2, 3, 5, 5, 0]
+  },
+  {
+    "id": 16,
+    "name": "九七式艦攻",
+    "torpedo": 5,
+    "asw": 4,
+    "los": 1,
+    "radius": 4,
+    "cost": 5,
+    "types": [3, 5, 8, 8, 1]
+  },
+  {
+    "id": 17,
+    "name": "天山",
+    "torpedo": 7,
+    "asw": 3,
+    "los": 1,
+    "radius": 5,
+    "cost": 6,
+    "types": [3, 5, 8, 8, 1]
+  },
+  {
+    "id": 18,
+    "name": "流星",
+    "torpedo": 10,
+    "asw": 4,
+    "los": 1,
+    "radius": 6,
+    "cost": 7,
+    "types": [3, 5, 8, 8, 17]
+  },
+  {
+    "id": 19,
+    "name": "九六式艦戦",
+    "antiAir": 2,
+    "radius": 3,
+    "cost": 3,
+    "types": [3, 5, 6, 6, 11]
+  },
+  {
+    "id": 20,
+    "name": "零式艦戦21型",
+    "antiAir": 5,
+    "radius": 7,
+    "cost": 4,
+    "types": [3, 5, 6, 6, 11]
+  },
+  {
+    "id": 21,
+    "name": "零式艦戦52型",
+    "antiAir": 6,
+    "radius": 6,
+    "cost": 5,
+    "types": [3, 5, 6, 6, 12]
+  },
+  {
+    "id": 22,
+    "name": "烈風",
+    "antiAir": 10,
+    "radius": 5,
+    "cost": 7,
+    "types": [3, 5, 6, 6, 13]
+  },
+  {
+    "id": 23,
+    "name": "九九式艦爆",
+    "bomb": 5,
+    "asw": 3,
+    "radius": 4,
+    "cost": 4,
+    "types": [3, 5, 7, 7, 15]
+  },
+  {
+    "id": 24,
+    "name": "彗星",
+    "bomb": 8,
+    "asw": 3,
+    "radius": 4,
+    "cost": 5,
+    "types": [3, 5, 7, 7, 16]
+  },
+  {
+    "id": 25,
+    "name": "零式水上偵察機",
+    "bomb": 1,
+    "asw": 2,
+    "antiAir": 1,
+    "accuracy": 1,
+    "los": 5,
+    "radius": 7,
+    "cost": 5,
+    "types": [5, 7, 10, 10, 2]
+  },
+  {
+    "id": 26,
+    "name": "瑞雲",
+    "bomb": 4,
+    "asw": 4,
+    "antiAir": 2,
+    "accuracy": 1,
+    "los": 6,
+    "radius": 5,
+    "cost": 6,
+    "types": [5, 43, 11, 10, 2]
+  },
+  {
+    "id": 27,
+    "name": "13号対空電探",
+    "antiAir": 2,
+    "accuracy": 1,
+    "los": 3,
+    "types": [5, 8, 12, 11, 0]
+  },
+  {
+    "id": 28,
+    "name": "22号対水上電探",
+    "accuracy": 3,
+    "los": 5,
+    "types": [5, 8, 12, 11, 0]
+  },
+  {
+    "id": 29,
+    "name": "33号対水上電探",
+    "accuracy": 5,
+    "los": 7,
+    "types": [5, 8, 12, 11, 0]
+  },
+  {
+    "id": 30,
+    "name": "21号対空電探",
+    "antiAir": 4,
+    "accuracy": 2,
+    "los": 4,
+    "types": [5, 8, 13, 11, 0]
+  },
+  {
+    "id": 31,
+    "name": "32号対水上電探",
+    "accuracy": 8,
+    "los": 10,
+    "types": [5, 8, 13, 11, 0]
+  },
+  {
+    "id": 32,
+    "name": "14号対空電探",
+    "antiAir": 6,
+    "accuracy": 4,
+    "los": 5,
+    "types": [5, 8, 13, 11, 0]
+  },
+  {
+    "id": 33,
+    "name": "改良型艦本式タービン",
+    "evasion": 6,
+    "types": [6, 31, 17, 19, 0]
+  },
+  {
+    "id": 34,
+    "name": "強化型艦本式缶",
+    "evasion": 10,
+    "types": [6, 31, 17, 19, 0]
+  },
+  {
+    "id": 35,
+    "name": "三式弾",
+    "antiAir": 5,
+    "types": [4, 28, 18, 12, 0]
+  },
+  {
+    "id": 36,
+    "name": "九一式徹甲弾",
+    "firepower": 8,
+    "accuracy": 1,
+    "types": [4, 25, 19, 13, 0]
+  },
+  {
+    "id": 37,
+    "name": "7.7mm機銃",
+    "antiAir": 2,
+    "evasion": 1,
+    "types": [4, 6, 21, 15, 0]
+  },
+  {
+    "id": 38,
+    "name": "12.7mm単装機銃",
+    "antiAir": 3,
+    "evasion": 1,
+    "types": [4, 6, 21, 15, 0]
+  },
+  {
+    "id": 39,
+    "name": "25mm連装機銃",
+    "antiAir": 5,
+    "evasion": 1,
+    "types": [4, 6, 21, 15, 0]
+  },
+  {
+    "id": 40,
+    "name": "25mm三連装機銃",
+    "antiAir": 6,
+    "evasion": 1,
+    "types": [4, 6, 21, 15, 0]
+  },
+  {
+    "id": 41,
+    "name": "甲標的 甲",
+    "torpedo": 12,
+    "types": [2, 4, 22, 5, 0]
+  },
+  {
+    "id": 42,
+    "name": "応急修理要員",
+    "types": [6, 30, 23, 14, 0]
+  },
+  {
+    "id": 43,
+    "name": "応急修理女神",
+    "types": [6, 30, 23, 14, 0]
+  },
+  {
+    "id": 44,
+    "name": "九四式爆雷投射機",
+    "asw": 5,
+    "types": [7, 32, 15, 17, 0]
+  },
+  {
+    "id": 45,
+    "name": "三式爆雷投射機",
+    "asw": 8,
+    "types": [7, 32, 15, 17, 0]
+  },
+  {
+    "id": 46,
+    "name": "九三式水中聴音機",
+    "asw": 6,
+    "accuracy": 1,
+    "types": [7, 10, 14, 18, 0]
+  },
+  {
+    "id": 47,
+    "name": "三式水中探信儀",
+    "asw": 10,
+    "accuracy": 2,
+    "types": [7, 10, 14, 18, 0]
+  },
+  {
+    "id": 48,
+    "name": "12.7cm単装高角砲",
+    "firepower": 1,
+    "antiAir": 3,
+    "range": 1,
+    "types": [1, 1, 1, 16, 0]
+  },
+  {
+    "id": 49,
+    "name": "25mm単装機銃",
+    "antiAir": 4,
+    "evasion": 1,
+    "types": [4, 6, 21, 15, 0]
+  },
+  {
+    "id": 50,
+    "name": "20.3cm(3号)連装砲",
+    "firepower": 10,
+    "antiAir": 4,
+    "accuracy": 1,
+    "range": 2,
+    "types": [1, 1, 2, 2, 0]
+  },
+  {
+    "id": 51,
+    "name": "12cm30連装噴進砲",
+    "antiAir": 8,
+    "types": [4, 29, 21, 15, 0]
+  },
+  {
+    "id": 52,
+    "name": "流星改",
+    "torpedo": 13,
+    "asw": 3,
+    "los": 2,
+    "radius": 6,
+    "cost": 8,
+    "types": [3, 5, 8, 8, 17]
+  },
+  {
+    "id": 53,
+    "name": "烈風改",
+    "antiAir": 12,
+    "radius": 5,
+    "cost": 8,
+    "types": [3, 5, 6, 6, 13]
+  },
+  {
+    "id": 54,
+    "name": "彩雲",
+    "accuracy": 2,
+    "los": 9,
+    "radius": 8,
+    "cost": 9,
+    "types": [5, 7, 9, 9, 1]
+  },
+  {
+    "id": 55,
+    "name": "紫電改二",
+    "antiAir": 9,
+    "evasion": 3,
+    "radius": 3,
+    "cost": 6,
+    "types": [3, 5, 6, 6, 12]
+  },
+  {
+    "id": 56,
+    "name": "震電改",
+    "antiAir": 15,
+    "radius": 2,
+    "cost": 9,
+    "types": [3, 5, 6, 6, 20]
+  },
+  {
+    "id": 57,
+    "name": "彗星一二型甲",
+    "bomb": 10,
+    "asw": 3,
+    "los": 1,
+    "radius": 5,
+    "cost": 6,
+    "types": [3, 5, 7, 7, 16]
+  },
+  {
+    "id": 58,
+    "name": "61cm五連装(酸素)魚雷",
+    "torpedo": 12,
+    "accuracy": 1,
+    "range": 1,
+    "types": [2, 3, 5, 5, 0]
+  },
+  {
+    "id": 59,
+    "name": "零式水上観測機",
+    "bomb": 1,
+    "asw": 4,
+    "antiAir": 2,
+    "accuracy": 2,
+    "los": 6,
+    "radius": 3,
+    "cost": 6,
+    "types": [5, 7, 10, 10, 2]
+  },
+  {
+    "id": 60,
+    "name": "零式艦戦62型(爆戦)",
+    "bomb": 4,
+    "asw": 3,
+    "antiAir": 4,
+    "radius": 4,
+    "cost": 5,
+    "types": [3, 5, 7, 7, 12]
+  },
+  {
+    "id": 61,
+    "name": "二式艦上偵察機",
+    "antiAir": 1,
+    "accuracy": 3,
+    "los": 7,
+    "radius": 5,
+    "cost": 6,
+    "types": [5, 7, 9, 9, 1]
+  },
+  {
+    "id": 62,
+    "name": "試製晴嵐",
+    "bomb": 11,
+    "asw": 6,
+    "accuracy": 1,
+    "los": 6,
+    "radius": 4,
+    "cost": 10,
+    "types": [5, 43, 11, 10, 2]
+  },
+  {
+    "id": 63,
+    "name": "12.7cm連装砲B型改二",
+    "firepower": 3,
+    "antiAir": 2,
+    "range": 1,
+    "types": [1, 1, 1, 1, 0]
+  },
+  {
+    "id": 64,
+    "name": "Ju87C改",
+    "bomb": 9,
+    "asw": 5,
+    "accuracy": 1,
+    "radius": 4,
+    "cost": 6,
+    "types": [3, 5, 7, 7, 14]
+  },
+  {
+    "id": 65,
+    "name": "15.2cm連装砲",
+    "firepower": 5,
+    "antiAir": 3,
+    "accuracy": 3,
+    "range": 2,
+    "types": [1, 1, 2, 2, 0]
+  },
+  {
+    "id": 66,
+    "name": "8cm高角砲",
+    "firepower": 1,
+    "antiAir": 6,
+    "accuracy": 2,
+    "range": 1,
+    "types": [1, 2, 4, 16, 0]
+  },
+  {
+    "id": 67,
+    "name": "53cm艦首(酸素)魚雷",
+    "torpedo": 15,
+    "accuracy": 2,
+    "range": 1,
+    "types": [2, 3, 5, 5, 0]
+  },
+  {
+    "id": 68,
+    "name": "大発動艇",
+    "types": [8, 14, 24, 20, 0]
+  },
+  {
+    "id": 69,
+    "name": "カ号観測機",
+    "asw": 9,
+    "accuracy": 1,
+    "types": [3, 15, 25, 21, 0]
+  },
+  {
+    "id": 70,
+    "name": "三式指揮連絡機(対潜)",
+    "asw": 7,
+    "accuracy": 2,
+    "los": 1,
+    "types": [3, 16, 26, 22, 0]
+  },
+  {
+    "id": 71,
+    "name": "10cm連装高角砲(砲架)",
+    "firepower": 1,
+    "antiAir": 7,
+    "accuracy": 1,
+    "range": 1,
+    "types": [1, 2, 4, 16, 0]
+  },
+  {
+    "id": 72,
+    "name": "増設バルジ(中型艦)",
+    "armor": 7,
+    "evasion": -2,
+    "types": [6, 17, 27, 23, 0]
+  },
+  {
+    "id": 73,
+    "name": "増設バルジ(大型艦)",
+    "armor": 9,
+    "evasion": -3,
+    "types": [6, 17, 28, 23, 0]
+  },
+  {
+    "id": 74,
+    "name": "探照灯",
+    "los": 2,
+    "types": [8, 18, 29, 24, 0]
+  },
+  {
+    "id": 75,
+    "name": "ドラム缶(輸送用)",
+    "types": [9, 19, 30, 25, 0]
+  },
+  {
+    "id": 76,
+    "name": "38cm連装砲",
+    "firepower": 16,
+    "antiAir": 1,
+    "accuracy": 1,
+    "range": 3,
+    "types": [1, 1, 3, 3, 0]
+  },
+  {
+    "id": 77,
+    "name": "15cm連装副砲",
+    "firepower": 4,
+    "antiAir": 2,
+    "accuracy": 2,
+    "range": 2,
+    "types": [1, 2, 4, 4, 0]
+  },
+  {
+    "id": 78,
+    "name": "12.7cm単装砲",
+    "firepower": 2,
+    "accuracy": 1,
+    "range": 1,
+    "types": [1, 1, 1, 1, 0]
+  },
+  {
+    "id": 79,
+    "name": "瑞雲(六三四空)",
+    "bomb": 6,
+    "asw": 5,
+    "antiAir": 2,
+    "accuracy": 1,
+    "los": 6,
+    "radius": 5,
+    "cost": 6,
+    "types": [5, 43, 11, 10, 2]
+  },
+  {
+    "id": 80,
+    "name": "瑞雲12型",
+    "bomb": 7,
+    "asw": 5,
+    "antiAir": 3,
+    "accuracy": 1,
+    "los": 6,
+    "radius": 5,
+    "cost": 7,
+    "types": [5, 43, 11, 10, 2]
+  },
+  {
+    "id": 81,
+    "name": "瑞雲12型(六三四空)",
+    "bomb": 9,
+    "asw": 6,
+    "antiAir": 3,
+    "accuracy": 1,
+    "los": 7,
+    "radius": 5,
+    "cost": 7,
+    "types": [5, 43, 11, 10, 2]
+  },
+  {
+    "id": 82,
+    "name": "九七式艦攻(九三一空)",
+    "torpedo": 6,
+    "asw": 7,
+    "los": 2,
+    "radius": 4,
+    "cost": 5,
+    "types": [3, 5, 8, 8, 1]
+  },
+  {
+    "id": 83,
+    "name": "天山(九三一空)",
+    "torpedo": 9,
+    "asw": 8,
+    "los": 2,
+    "radius": 5,
+    "cost": 6,
+    "types": [3, 5, 8, 8, 1]
+  },
+  {
+    "id": 84,
+    "name": "2cm 四連装FlaK 38",
+    "antiAir": 7,
+    "accuracy": 1,
+    "types": [4, 6, 21, 15, 0]
+  },
+  {
+    "id": 85,
+    "name": "3.7cm FlaK M42",
+    "firepower": 1,
+    "antiAir": 8,
+    "accuracy": 1,
+    "types": [4, 6, 21, 15, 0]
+  },
+  {
+    "id": 86,
+    "name": "艦艇修理施設",
+    "types": [10, 20, 31, 26, 0]
+  },
+  {
+    "id": 87,
+    "name": "新型高温高圧缶",
+    "evasion": 13,
+    "types": [6, 31, 17, 19, 0]
+  },
+  {
+    "id": 88,
+    "name": "22号対水上電探改四",
+    "asw": 2,
+    "accuracy": 8,
+    "los": 5,
+    "types": [5, 8, 12, 11, 0]
+  },
+  {
+    "id": 89,
+    "name": "21号対空電探改",
+    "antiAir": 5,
+    "evasion": 1,
+    "accuracy": 3,
+    "los": 6,
+    "types": [5, 8, 13, 11, 0]
+  },
+  {
+    "id": 90,
+    "name": "20.3cm(2号)連装砲",
+    "firepower": 9,
+    "antiAir": 3,
+    "accuracy": 1,
+    "range": 2,
+    "types": [1, 1, 2, 2, 0]
+  },
+  {
+    "id": 91,
+    "name": "12.7cm連装高角砲(後期型)",
+    "firepower": 2,
+    "asw": 1,
+    "antiAir": 5,
+    "evasion": 1,
+    "accuracy": 1,
+    "range": 1,
+    "types": [1, 2, 1, 16, 0]
+  },
+  {
+    "id": 92,
+    "name": "毘式40mm連装機銃",
+    "antiAir": 6,
+    "evasion": 1,
+    "types": [4, 6, 21, 15, 0]
+  },
+  {
+    "id": 93,
+    "name": "九七式艦攻(友永隊)",
+    "torpedo": 11,
+    "asw": 5,
+    "antiAir": 1,
+    "accuracy": 3,
+    "los": 4,
+    "radius": 4,
+    "cost": 5,
+    "types": [3, 5, 8, 8, 1]
+  },
+  {
+    "id": 94,
+    "name": "天山一二型(友永隊)",
+    "torpedo": 14,
+    "asw": 6,
+    "antiAir": 1,
+    "accuracy": 3,
+    "los": 5,
+    "radius": 5,
+    "cost": 6,
+    "types": [3, 5, 8, 8, 1]
+  },
+  {
+    "id": 95,
+    "name": "潜水艦53cm艦首魚雷(8門)",
+    "torpedo": 16,
+    "accuracy": 3,
+    "range": 1,
+    "types": [2, 3, 32, 5, 0]
+  },
+  {
+    "id": 96,
+    "name": "零式艦戦21型(熟練)",
+    "antiAir": 8,
+    "evasion": 2,
+    "accuracy": 2,
+    "los": 1,
+    "radius": 7,
+    "cost": 4,
+    "types": [3, 5, 6, 6, 11]
+  },
+  {
+    "id": 97,
+    "name": "九九式艦爆(熟練)",
+    "bomb": 7,
+    "asw": 4,
+    "antiAir": 1,
+    "accuracy": 2,
+    "los": 2,
+    "radius": 4,
+    "cost": 4,
+    "types": [3, 5, 7, 7, 15]
+  },
+  {
+    "id": 98,
+    "name": "九七式艦攻(熟練)",
+    "torpedo": 8,
+    "asw": 5,
+    "accuracy": 2,
+    "los": 2,
+    "radius": 4,
+    "cost": 5,
+    "types": [3, 5, 8, 8, 1]
+  },
+  {
+    "id": 99,
+    "name": "九九式艦爆(江草隊)",
+    "bomb": 10,
+    "asw": 5,
+    "accuracy": 4,
+    "los": 3,
+    "radius": 4,
+    "cost": 4,
+    "types": [3, 5, 7, 7, 15]
+  },
+  {
+    "id": 100,
+    "name": "彗星(江草隊)",
+    "bomb": 13,
+    "asw": 5,
+    "antiAir": 1,
+    "accuracy": 4,
+    "los": 4,
+    "radius": 5,
+    "cost": 5,
+    "types": [3, 5, 7, 7, 16]
+  },
+  {
+    "id": 101,
+    "name": "照明弾",
+    "types": [11, 21, 33, 27, 0]
+  },
+  {
+    "id": 102,
+    "name": "九八式水上偵察機(夜偵)",
+    "asw": 1,
+    "accuracy": 1,
+    "los": 3,
+    "radius": 6,
+    "cost": 8,
+    "types": [5, 7, 10, 10, 2]
+  },
+  {
+    "id": 103,
+    "name": "試製35.6cm三連装砲",
+    "firepower": 18,
+    "antiAir": 5,
+    "accuracy": 2,
+    "range": 3,
+    "types": [1, 1, 3, 3, 0]
+  },
+  {
+    "id": 104,
+    "name": "35.6cm連装砲(ダズル迷彩)",
+    "firepower": 15,
+    "antiAir": 5,
+    "evasion": 1,
+    "accuracy": 1,
+    "range": 3,
+    "types": [1, 1, 3, 3, 0]
+  },
+  {
+    "id": 105,
+    "name": "試製41cm三連装砲",
+    "firepower": 22,
+    "antiAir": 5,
+    "accuracy": 2,
+    "range": 3,
+    "types": [1, 1, 3, 3, 0]
+  },
+  {
+    "id": 106,
+    "name": "13号対空電探改",
+    "antiAir": 4,
+    "evasion": 1,
+    "accuracy": 2,
+    "los": 4,
+    "types": [5, 8, 12, 11, 0]
+  },
+  {
+    "id": 107,
+    "name": "艦隊司令部施設",
+    "antiAir": 1,
+    "evasion": 1,
+    "accuracy": 1,
+    "los": 1,
+    "types": [12, 22, 34, 28, 0]
+  },
+  {
+    "id": 108,
+    "name": "熟練艦載機整備員",
+    "firepower": 10,
+    "antiAir": 1,
+    "accuracy": 1,
+    "los": 1,
+    "range": 3,
+    "types": [13, 23, 35, 29, 0]
+  },
+  {
+    "id": 109,
+    "name": "零戦52型丙(六〇一空)",
+    "antiAir": 9,
+    "evasion": 1,
+    "accuracy": 1,
+    "radius": 6,
+    "cost": 5,
+    "types": [3, 5, 6, 6, 13]
+  },
+  {
+    "id": 110,
+    "name": "烈風(六〇一空)",
+    "antiAir": 11,
+    "evasion": 2,
+    "accuracy": 1,
+    "radius": 5,
+    "cost": 7,
+    "types": [3, 5, 6, 6, 13]
+  },
+  {
+    "id": 111,
+    "name": "彗星(六〇一空)",
+    "bomb": 11,
+    "asw": 4,
+    "accuracy": 1,
+    "los": 1,
+    "radius": 5,
+    "cost": 5,
+    "types": [3, 5, 7, 7, 16]
+  },
+  {
+    "id": 112,
+    "name": "天山(六〇一空)",
+    "torpedo": 10,
+    "asw": 4,
+    "accuracy": 1,
+    "los": 2,
+    "radius": 5,
+    "cost": 6,
+    "types": [3, 5, 8, 8, 1]
+  },
+  {
+    "id": 113,
+    "name": "流星(六〇一空)",
+    "torpedo": 13,
+    "asw": 5,
+    "accuracy": 1,
+    "los": 3,
+    "radius": 6,
+    "cost": 7,
+    "types": [3, 5, 8, 8, 17]
+  },
+  {
+    "id": 114,
+    "name": "38cm連装砲改",
+    "firepower": 17,
+    "antiAir": 2,
+    "accuracy": 3,
+    "range": 3,
+    "types": [1, 1, 3, 3, 0]
+  },
+  {
+    "id": 115,
+    "name": "Ar196改",
+    "bomb": 1,
+    "asw": 5,
+    "antiAir": 1,
+    "accuracy": 2,
+    "los": 5,
+    "radius": 3,
+    "cost": 5,
+    "types": [5, 7, 10, 10, 2]
+  },
+  {
+    "id": 116,
+    "name": "一式徹甲弾",
+    "firepower": 9,
+    "accuracy": 2,
+    "types": [4, 25, 19, 13, 0]
+  },
+  {
+    "id": 117,
+    "name": "試製46cm連装砲",
+    "firepower": 23,
+    "antiAir": 4,
+    "accuracy": 1,
+    "range": 4,
+    "types": [1, 1, 3, 3, 0]
+  },
+  {
+    "id": 118,
+    "name": "紫雲",
+    "bomb": 1,
+    "asw": 2,
+    "accuracy": 1,
+    "los": 8,
+    "radius": 4,
+    "cost": 9,
+    "types": [5, 7, 10, 10, 2]
+  },
+  {
+    "id": 119,
+    "name": "14cm連装砲",
+    "firepower": 4,
+    "accuracy": 2,
+    "range": 2,
+    "types": [1, 1, 2, 2, 0]
+  },
+  {
+    "id": 120,
+    "name": "91式高射装置",
+    "antiAir": 2,
+    "evasion": 1,
+    "types": [14, 24, 36, 30, 0]
+  },
+  {
+    "id": 121,
+    "name": "94式高射装置",
+    "antiAir": 3,
+    "evasion": 1,
+    "types": [14, 24, 36, 30, 0]
+  },
+  {
+    "id": 122,
+    "name": "10cm連装高角砲+高射装置",
+    "firepower": 3,
+    "antiAir": 10,
+    "evasion": 1,
+    "accuracy": 1,
+    "range": 1,
+    "types": [1, 1, 1, 16, 0]
+  },
+  {
+    "id": 123,
+    "name": "SKC34 20.3cm連装砲",
+    "firepower": 10,
+    "antiAir": 2,
+    "accuracy": 3,
+    "range": 2,
+    "types": [1, 1, 2, 2, 0]
+  },
+  {
+    "id": 124,
+    "name": "FuMO25 レーダー",
+    "firepower": 3,
+    "antiAir": 7,
+    "accuracy": 10,
+    "los": 9,
+    "types": [5, 8, 13, 11, 0]
+  },
+  {
+    "id": 125,
+    "name": "61cm三連装(酸素)魚雷",
+    "torpedo": 8,
+    "armor": 1,
+    "evasion": 1,
+    "range": 1,
+    "types": [2, 3, 5, 5, 0]
+  },
+  {
+    "id": 126,
+    "name": "WG42 (Wurfgerät 42)",
+    "firepower": 1,
+    "armor": -1,
+    "range": 1,
+    "types": [15, 26, 37, 31, 0]
+  },
+  {
+    "id": 127,
+    "name": "試製FaT仕様九五式酸素魚雷改",
+    "torpedo": 14,
+    "evasion": 2,
+    "accuracy": 7,
+    "range": 1,
+    "types": [2, 3, 32, 5, 0]
+  },
+  {
+    "id": 128,
+    "name": "試製51cm連装砲",
+    "firepower": 30,
+    "antiAir": 5,
+    "evasion": -1,
+    "accuracy": 1,
+    "range": 4,
+    "types": [1, 1, 3, 3, 0]
+  },
+  {
+    "id": 129,
+    "name": "熟練見張員",
+    "antiAir": 1,
+    "evasion": 3,
+    "accuracy": 2,
+    "los": 2,
+    "types": [16, 27, 39, 32, 0]
+  },
+  {
+    "id": 130,
+    "name": "12.7cm高角砲+高射装置",
+    "firepower": 1,
+    "antiAir": 8,
+    "evasion": 1,
+    "accuracy": 1,
+    "range": 1,
+    "types": [1, 2, 4, 16, 0]
+  },
+  {
+    "id": 131,
+    "name": "25mm三連装機銃 集中配備",
+    "antiAir": 9,
+    "evasion": 1,
+    "types": [4, 6, 21, 15, 0]
+  },
+  {
+    "id": 132,
+    "name": "零式水中聴音機",
+    "asw": 11,
+    "evasion": 1,
+    "accuracy": 1,
+    "los": 1,
+    "types": [7, 10, 40, 18, 0]
+  },
+  {
+    "id": 133,
+    "name": "381mm/50 三連装砲",
+    "firepower": 20,
+    "antiAir": 2,
+    "evasion": -1,
+    "accuracy": -3,
+    "range": 4,
+    "types": [1, 1, 3, 3, 0]
+  },
+  {
+    "id": 134,
+    "name": "OTO 152mm三連装速射砲",
+    "firepower": 8,
+    "antiAir": 2,
+    "armor": 1,
+    "accuracy": 1,
+    "range": 2,
+    "types": [1, 2, 4, 4, 0]
+  },
+  {
+    "id": 135,
+    "name": "90mm単装高角砲",
+    "firepower": 1,
+    "antiAir": 8,
+    "accuracy": 1,
+    "range": 1,
+    "types": [1, 2, 4, 16, 0]
+  },
+  {
+    "id": 136,
+    "name": "プリエーゼ式水中防御隔壁",
+    "armor": 7,
+    "evasion": -1,
+    "types": [6, 17, 28, 23, 0]
+  },
+  {
+    "id": 137,
+    "name": "381mm/50 三連装砲改",
+    "firepower": 21,
+    "antiAir": 4,
+    "evasion": -1,
+    "accuracy": -1,
+    "range": 4,
+    "types": [1, 1, 3, 3, 0]
+  },
+  {
+    "id": 138,
+    "name": "二式大艇",
+    "asw": 1,
+    "accuracy": 1,
+    "los": 12,
+    "radius": 20,
+    "cost": 25,
+    "types": [17, 33, 41, 33, 19]
+  },
+  {
+    "id": 139,
+    "name": "15.2cm連装砲改",
+    "firepower": 6,
+    "antiAir": 3,
+    "accuracy": 4,
+    "range": 2,
+    "types": [1, 1, 2, 2, 0]
+  },
+  {
+    "id": 140,
+    "name": "96式150cm探照灯",
+    "antiAir": 1,
+    "los": 3,
+    "types": [8, 18, 42, 24, 0]
+  },
+  {
+    "id": 141,
+    "name": "32号対水上電探改",
+    "accuracy": 9,
+    "los": 11,
+    "types": [5, 8, 13, 11, 0]
+  },
+  {
+    "id": 142,
+    "name": "15m二重測距儀+21号電探改二",
+    "firepower": 1,
+    "antiAir": 8,
+    "armor": 1,
+    "evasion": 1,
+    "accuracy": 9,
+    "los": 7,
+    "types": [5, 8, 13, 11, 0]
+  },
+  {
+    "id": 143,
+    "name": "九七式艦攻(村田隊)",
+    "torpedo": 12,
+    "asw": 5,
+    "antiAir": 1,
+    "accuracy": 2,
+    "los": 4,
+    "radius": 4,
+    "cost": 5,
+    "types": [3, 5, 8, 8, 1]
+  },
+  {
+    "id": 144,
+    "name": "天山一二型(村田隊)",
+    "torpedo": 15,
+    "asw": 6,
+    "antiAir": 1,
+    "accuracy": 2,
+    "los": 4,
+    "radius": 5,
+    "cost": 6,
+    "types": [3, 5, 8, 8, 1]
+  },
+  {
+    "id": 145,
+    "name": "戦闘糧食",
+    "types": [18, 34, 43, 34, 0]
+  },
+  {
+    "id": 146,
+    "name": "洋上補給",
+    "armor": -2,
+    "types": [19, 35, 44, 35, 0]
+  },
+  {
+    "id": 147,
+    "name": "120mm連装砲",
+    "firepower": 3,
+    "antiAir": 2,
+    "accuracy": 1,
+    "range": 1,
+    "types": [1, 1, 1, 1, 0]
+  },
+  {
+    "id": 148,
+    "name": "試製南山",
+    "bomb": 11,
+    "asw": 4,
+    "antiAir": 1,
+    "los": 2,
+    "radius": 5,
+    "cost": 9,
+    "types": [3, 5, 7, 7, 24]
+  },
+  {
+    "id": 149,
+    "name": "四式水中聴音機",
+    "asw": 12,
+    "armor": 1,
+    "accuracy": 1,
+    "types": [7, 10, 14, 18, 0]
+  },
+  {
+    "id": 150,
+    "name": "秋刀魚の缶詰",
+    "types": [18, 34, 43, 34, 0]
+  },
+  {
+    "id": 151,
+    "name": "試製景雲(艦偵型)",
+    "firepower": 2,
+    "accuracy": 2,
+    "los": 11,
+    "radius": 8,
+    "cost": 12,
+    "types": [5, 7, 9, 9, 1]
+  },
+  {
+    "id": 152,
+    "name": "零式艦戦52型(熟練)",
+    "antiAir": 9,
+    "evasion": 2,
+    "accuracy": 1,
+    "los": 1,
+    "radius": 6,
+    "cost": 5,
+    "types": [3, 5, 6, 6, 12]
+  },
+  {
+    "id": 153,
+    "name": "零戦52型丙(付岩井小隊)",
+    "antiAir": 10,
+    "evasion": 2,
+    "accuracy": 1,
+    "los": 1,
+    "radius": 6,
+    "cost": 5,
+    "types": [3, 5, 6, 6, 12]
+  },
+  {
+    "id": 154,
+    "name": "零戦62型(爆戦/岩井隊)",
+    "bomb": 4,
+    "asw": 3,
+    "antiAir": 7,
+    "evasion": 2,
+    "accuracy": 1,
+    "los": 1,
+    "radius": 5,
+    "cost": 5,
+    "types": [3, 5, 7, 7, 12]
+  },
+  {
+    "id": 155,
+    "name": "零戦21型(付岩本小隊)",
+    "antiAir": 9,
+    "evasion": 3,
+    "accuracy": 1,
+    "los": 1,
+    "radius": 7,
+    "cost": 4,
+    "types": [3, 5, 6, 6, 11]
+  },
+  {
+    "id": 156,
+    "name": "零戦52型甲(付岩本小隊)",
+    "antiAir": 11,
+    "evasion": 3,
+    "accuracy": 1,
+    "los": 1,
+    "radius": 6,
+    "cost": 5,
+    "types": [3, 5, 6, 6, 12]
+  },
+  {
+    "id": 157,
+    "name": "零式艦戦53型(岩本隊)",
+    "antiAir": 12,
+    "evasion": 4,
+    "accuracy": 2,
+    "los": 3,
+    "radius": 6,
+    "cost": 6,
+    "types": [3, 5, 6, 6, 12]
+  },
+  {
+    "id": 158,
+    "name": "Bf109T改",
+    "firepower": 1,
+    "antiAir": 8,
+    "evasion": 4,
+    "radius": 2,
+    "cost": 6,
+    "types": [3, 5, 6, 6, 14]
+  },
+  {
+    "id": 159,
+    "name": "Fw190T改",
+    "firepower": 2,
+    "antiAir": 10,
+    "evasion": 2,
+    "radius": 3,
+    "cost": 6,
+    "types": [3, 5, 6, 6, 14]
+  },
+  {
+    "id": 160,
+    "name": "10.5cm連装砲",
+    "firepower": 3,
+    "antiAir": 6,
+    "evasion": 1,
+    "accuracy": 2,
+    "range": 1,
+    "types": [1, 2, 4, 16, 0]
+  },
+  {
+    "id": 161,
+    "name": "16inch三連装砲 Mk.7",
+    "firepower": 24,
+    "antiAir": 3,
+    "armor": 1,
+    "accuracy": 4,
+    "range": 3,
+    "types": [1, 1, 3, 3, 0]
+  },
+  {
+    "id": 162,
+    "name": "203mm/53 連装砲",
+    "firepower": 9,
+    "antiAir": 1,
+    "accuracy": -2,
+    "range": 3,
+    "types": [1, 1, 2, 2, 0]
+  },
+  {
+    "id": 163,
+    "name": "Ro.43水偵",
+    "firepower": 1,
+    "asw": 2,
+    "antiAir": 1,
+    "evasion": 1,
+    "accuracy": 2,
+    "los": 4,
+    "radius": 3,
+    "cost": 4,
+    "types": [5, 7, 10, 10, 25]
+  },
+  {
+    "id": 164,
+    "name": "Ro.44水上戦闘機",
+    "asw": 1,
+    "antiAir": 2,
+    "evasion": 2,
+    "accuracy": 1,
+    "los": 2,
+    "radius": 3,
+    "cost": 4,
+    "types": [5, 36, 45, 43, 25]
+  },
+  {
+    "id": 165,
+    "name": "二式水戦改",
+    "asw": 1,
+    "antiAir": 3,
+    "evasion": 2,
+    "accuracy": 1,
+    "los": 1,
+    "radius": 4,
+    "cost": 5,
+    "types": [5, 36, 45, 43, 3]
+  },
+  {
+    "id": 166,
+    "name": "大発動艇(八九式中戦車&陸戦隊)",
+    "types": [8, 14, 24, 20, 0]
+  },
+  {
+    "id": 167,
+    "name": "特二式内火艇",
+    "types": [20, 37, 46, 36, 0]
+  },
+  {
+    "id": 168,
+    "name": "九六式陸攻",
+    "torpedo": 8,
+    "bomb": 10,
+    "asw": 2,
+    "antiAir": 1,
+    "los": 2,
+    "radius": 8,
+    "cost": 10,
+    "types": [21, 38, 47, 37, 4]
+  },
+  {
+    "id": 169,
+    "name": "一式陸攻",
+    "torpedo": 10,
+    "bomb": 12,
+    "asw": 2,
+    "antiAir": 2,
+    "los": 3,
+    "radius": 9,
+    "cost": 12,
+    "types": [21, 38, 47, 37, 4]
+  },
+  {
+    "id": 170,
+    "name": "一式陸攻(野中隊)",
+    "torpedo": 12,
+    "bomb": 13,
+    "asw": 2,
+    "antiAir": 3,
+    "accuracy": 1,
+    "los": 4,
+    "radius": 9,
+    "cost": 12,
+    "types": [21, 38, 47, 37, 4]
+  },
+  {
+    "id": 171,
+    "name": "OS2U",
+    "bomb": 1,
+    "asw": 1,
+    "antiAir": 1,
+    "evasion": 1,
+    "accuracy": 2,
+    "los": 6,
+    "radius": 3,
+    "cost": 6,
+    "types": [5, 7, 10, 10, 2]
+  },
+  {
+    "id": 172,
+    "name": "5inch連装砲 Mk.28 mod.2",
+    "firepower": 4,
+    "antiAir": 9,
+    "armor": 1,
+    "evasion": 1,
+    "accuracy": 2,
+    "range": 1,
+    "types": [1, 2, 4, 16, 0]
+  },
+  {
+    "id": 173,
+    "name": "Bofors 40mm四連装機関砲",
+    "firepower": 1,
+    "antiAir": 10,
+    "armor": 1,
+    "evasion": 2,
+    "accuracy": 1,
+    "types": [4, 6, 21, 15, 0]
+  },
+  {
+    "id": 174,
+    "name": "53cm連装魚雷",
+    "torpedo": 3,
+    "evasion": 2,
+    "range": 1,
+    "types": [2, 3, 5, 5, 0]
+  },
+  {
+    "id": 175,
+    "name": "雷電",
+    "antiAir": 6,
+    "interception": 2,
+    "antiBomber": 5,
+    "radius": 2,
+    "cost": 6,
+    "types": [22, 39, 48, 38, 18]
+  },
+  {
+    "id": 176,
+    "name": "三式戦 飛燕",
+    "antiAir": 8,
+    "interception": 3,
+    "antiBomber": 1,
+    "radius": 3,
+    "cost": 7,
+    "types": [22, 39, 48, 44, 18]
+  },
+  {
+    "id": 177,
+    "name": "三式戦 飛燕(飛行第244戦隊)",
+    "antiAir": 9,
+    "interception": 4,
+    "antiBomber": 3,
+    "radius": 4,
+    "cost": 7,
+    "types": [22, 39, 48, 44, 18]
+  },
+  {
+    "id": 178,
+    "name": "PBY-5A Catalina",
+    "asw": 2,
+    "accuracy": 2,
+    "los": 9,
+    "radius": 10,
+    "cost": 13,
+    "types": [17, 33, 41, 33, 19]
+  },
+  {
+    "id": 179,
+    "name": "試製61cm六連装(酸素)魚雷",
+    "torpedo": 14,
+    "accuracy": 2,
+    "range": 1,
+    "types": [2, 3, 5, 5, 0]
+  },
+  {
+    "id": 180,
+    "name": "一式陸攻 二二型甲",
+    "torpedo": 11,
+    "bomb": 12,
+    "asw": 2,
+    "antiAir": 3,
+    "los": 4,
+    "radius": 10,
+    "cost": 12,
+    "types": [21, 38, 47, 37, 4]
+  },
+  {
+    "id": 181,
+    "name": "零式艦戦32型",
+    "antiAir": 5,
+    "evasion": 2,
+    "radius": 5,
+    "cost": 4,
+    "types": [3, 5, 6, 6, 11]
+  },
+  {
+    "id": 182,
+    "name": "零式艦戦32型(熟練)",
+    "antiAir": 8,
+    "evasion": 4,
+    "accuracy": 1,
+    "radius": 5,
+    "cost": 4,
+    "types": [3, 5, 6, 6, 11]
+  },
+  {
+    "id": 183,
+    "name": "16inch三連装砲 Mk.7+GFCS",
+    "firepower": 24,
+    "antiAir": 3,
+    "armor": 1,
+    "evasion": 1,
+    "accuracy": 7,
+    "range": 3,
+    "types": [1, 1, 3, 3, 0]
+  },
+  {
+    "id": 184,
+    "name": "Re.2001 OR改",
+    "firepower": 3,
+    "antiAir": 6,
+    "evasion": 2,
+    "radius": 4,
+    "cost": 6,
+    "types": [3, 5, 6, 6, 14]
+  },
+  {
+    "id": 185,
+    "name": "三式戦 飛燕一型丁",
+    "antiAir": 9,
+    "interception": 3,
+    "antiBomber": 2,
+    "radius": 4,
+    "cost": 7,
+    "types": [22, 39, 48, 44, 18]
+  },
+  {
+    "id": 186,
+    "name": "一式陸攻 三四型",
+    "torpedo": 11,
+    "bomb": 12,
+    "asw": 2,
+    "antiAir": 4,
+    "accuracy": 1,
+    "los": 4,
+    "radius": 8,
+    "cost": 12,
+    "types": [21, 38, 47, 37, 4]
+  },
+  {
+    "id": 187,
+    "name": "銀河",
+    "torpedo": 14,
+    "bomb": 14,
+    "asw": 3,
+    "antiAir": 3,
+    "accuracy": 1,
+    "los": 3,
+    "radius": 9,
+    "cost": 13,
+    "types": [21, 38, 47, 37, 4]
+  },
+  {
+    "id": 188,
+    "name": "Re.2001 G改",
+    "firepower": 3,
+    "torpedo": 4,
+    "antiAir": 4,
+    "evasion": 2,
+    "radius": 3,
+    "cost": 6,
+    "types": [3, 5, 8, 8, 14]
+  },
+  {
+    "id": 189,
+    "name": "Re.2005 改",
+    "firepower": 1,
+    "antiAir": 11,
+    "evasion": 3,
+    "radius": 3,
+    "cost": 6,
+    "types": [3, 5, 6, 6, 14]
+  },
+  {
+    "id": 190,
+    "name": "38.1cm Mk.I連装砲",
+    "firepower": 18,
+    "antiAir": 1,
+    "accuracy": 1,
+    "range": 3,
+    "types": [1, 1, 3, 3, 0]
+  },
+  {
+    "id": 191,
+    "name": "QF 2ポンド8連装ポンポン砲",
+    "firepower": 1,
+    "antiAir": 10,
+    "types": [4, 6, 21, 15, 0]
+  },
+  {
+    "id": 192,
+    "name": "38.1cm Mk.I/N連装砲改",
+    "firepower": 19,
+    "antiAir": 3,
+    "accuracy": 2,
+    "range": 3,
+    "types": [1, 1, 3, 3, 0]
+  },
+  {
+    "id": 193,
+    "name": "特大発動艇",
+    "types": [8, 14, 24, 20, 0]
+  },
+  {
+    "id": 194,
+    "name": "Laté 298B",
+    "firepower": 2,
+    "torpedo": 4,
+    "bomb": 5,
+    "asw": 2,
+    "antiAir": 1,
+    "evasion": 1,
+    "los": 4,
+    "radius": 4,
+    "cost": 7,
+    "types": [5, 43, 11, 10, 14]
+  },
+  {
+    "id": 195,
+    "name": "SBD",
+    "firepower": 1,
+    "bomb": 6,
+    "asw": 3,
+    "antiAir": 2,
+    "evasion": 2,
+    "accuracy": 1,
+    "los": 2,
+    "radius": 4,
+    "cost": 5,
+    "types": [3, 5, 7, 7, 21]
+  },
+  {
+    "id": 196,
+    "name": "TBD",
+    "firepower": 1,
+    "torpedo": 5,
+    "asw": 4,
+    "los": 2,
+    "radius": 4,
+    "cost": 6,
+    "types": [3, 5, 8, 8, 21]
+  },
+  {
+    "id": 197,
+    "name": "F4F-3",
+    "firepower": 1,
+    "antiAir": 4,
+    "evasion": 2,
+    "radius": 4,
+    "cost": 5,
+    "types": [3, 5, 6, 6, 21]
+  },
+  {
+    "id": 198,
+    "name": "F4F-4",
+    "firepower": 1,
+    "antiAir": 5,
+    "evasion": 2,
+    "accuracy": 1,
+    "los": 1,
+    "radius": 4,
+    "cost": 6,
+    "types": [3, 5, 6, 6, 21]
+  },
+  {
+    "id": 199,
+    "name": "噴式景雲改",
+    "bomb": 15,
+    "antiAir": 6,
+    "accuracy": 1,
+    "los": 3,
+    "range": 3,
+    "radius": 3,
+    "cost": 14,
+    "types": [3, 40, 57, 39, 22]
+  },
+  {
+    "id": 200,
+    "name": "橘花改",
+    "bomb": 11,
+    "antiAir": 12,
+    "evasion": 1,
+    "range": 3,
+    "radius": 2,
+    "cost": 13,
+    "types": [3, 40, 57, 40, 23]
+  },
+  {
+    "id": 201,
+    "name": "紫電一一型",
+    "antiAir": 8,
+    "armor": 1,
+    "interception": 1,
+    "antiBomber": 1,
+    "radius": 3,
+    "cost": 6,
+    "types": [22, 39, 48, 38, 12]
+  },
+  {
+    "id": 202,
+    "name": "紫電二一型 紫電改",
+    "antiAir": 9,
+    "armor": 2,
+    "interception": 3,
+    "antiBomber": 1,
+    "radius": 4,
+    "cost": 6,
+    "types": [22, 39, 48, 38, 12]
+  },
+  {
+    "id": 203,
+    "name": "艦本新設計 増設バルジ(中型艦)",
+    "armor": 8,
+    "evasion": -1,
+    "types": [6, 17, 27, 23, 0]
+  },
+  {
+    "id": 204,
+    "name": "艦本新設計 増設バルジ(大型艦)",
+    "armor": 10,
+    "evasion": -2,
+    "types": [6, 17, 28, 23, 0]
+  },
+  {
+    "id": 205,
+    "name": "F6F-3",
+    "firepower": 1,
+    "antiAir": 8,
+    "evasion": 2,
+    "accuracy": 1,
+    "los": 1,
+    "radius": 5,
+    "cost": 8,
+    "types": [3, 5, 6, 6, 21]
+  },
+  {
+    "id": 206,
+    "name": "F6F-5",
+    "firepower": 1,
+    "antiAir": 10,
+    "evasion": 3,
+    "accuracy": 1,
+    "los": 1,
+    "radius": 5,
+    "cost": 8,
+    "types": [3, 5, 6, 6, 21]
+  },
+  {
+    "id": 207,
+    "name": "瑞雲(六三一空)",
+    "bomb": 7,
+    "asw": 2,
+    "antiAir": 1,
+    "accuracy": 2,
+    "los": 4,
+    "radius": 5,
+    "cost": 6,
+    "types": [5, 43, 11, 10, 24]
+  },
+  {
+    "id": 208,
+    "name": "晴嵐(六三一空)",
+    "bomb": 12,
+    "asw": 3,
+    "accuracy": 2,
+    "los": 6,
+    "radius": 4,
+    "cost": 10,
+    "types": [5, 43, 11, 10, 2]
+  },
+  {
+    "id": 209,
+    "name": "彩雲(輸送用分解済)",
+    "types": [23, 41, 50, 41, 0]
+  },
+  {
+    "id": 210,
+    "name": "潜水艦搭載電探&水防式望遠鏡",
+    "firepower": 1,
+    "antiAir": 1,
+    "evasion": 8,
+    "accuracy": 2,
+    "los": 4,
+    "types": [24, 42, 51, 42, 0]
+  },
+  {
+    "id": 211,
+    "name": "潜水艦搭載電探&逆探(E27)",
+    "firepower": 1,
+    "antiAir": 1,
+    "evasion": 11,
+    "accuracy": 3,
+    "los": 5,
+    "types": [24, 42, 51, 42, 0]
+  },
+  {
+    "id": 212,
+    "name": "彩雲(東カロリン空)",
+    "firepower": 1,
+    "accuracy": 2,
+    "los": 10,
+    "radius": 8,
+    "cost": 9,
+    "types": [5, 7, 9, 9, 1]
+  },
+  {
+    "id": 213,
+    "name": "後期型艦首魚雷(6門)",
+    "torpedo": 15,
+    "evasion": 1,
+    "accuracy": 3,
+    "range": 1,
+    "types": [2, 3, 32, 5, 0]
+  },
+  {
+    "id": 214,
+    "name": "熟練聴音員+後期型艦首魚雷(6門)",
+    "torpedo": 15,
+    "evasion": 4,
+    "accuracy": 5,
+    "los": 1,
+    "range": 1,
+    "types": [2, 3, 32, 5, 0]
+  },
+  {
+    "id": 215,
+    "name": "Ro.44水上戦闘機bis",
+    "asw": 1,
+    "antiAir": 3,
+    "evasion": 2,
+    "accuracy": 2,
+    "los": 3,
+    "radius": 3,
+    "cost": 4,
+    "types": [5, 36, 45, 43, 25]
+  },
+  {
+    "id": 216,
+    "name": "二式水戦改(熟練)",
+    "asw": 1,
+    "antiAir": 5,
+    "evasion": 2,
+    "accuracy": 1,
+    "los": 1,
+    "radius": 4,
+    "cost": 5,
+    "types": [5, 36, 45, 43, 3]
+  },
+  {
+    "id": 217,
+    "name": "強風改",
+    "antiAir": 5,
+    "evasion": 3,
+    "los": 1,
+    "radius": 3,
+    "cost": 6,
+    "types": [5, 36, 45, 43, 26]
+  },
+  {
+    "id": 218,
+    "name": "四式戦 疾風",
+    "antiAir": 10,
+    "interception": 1,
+    "antiBomber": 1,
+    "radius": 5,
+    "cost": 7,
+    "types": [22, 39, 48, 44, 27]
+  },
+  {
+    "id": 219,
+    "name": "零式艦戦63型(爆戦)",
+    "bomb": 5,
+    "asw": 2,
+    "antiAir": 5,
+    "radius": 4,
+    "cost": 6,
+    "types": [3, 5, 7, 7, 12]
+  },
+  {
+    "id": 220,
+    "name": "8cm高角砲改+増設機銃",
+    "firepower": 1,
+    "antiAir": 7,
+    "evasion": 1,
+    "accuracy": 2,
+    "range": 1,
+    "types": [1, 2, 4, 16, 0]
+  },
+  {
+    "id": 221,
+    "name": "一式戦 隼II型",
+    "antiAir": 6,
+    "interception": 2,
+    "radius": 6,
+    "cost": 4,
+    "types": [22, 39, 48, 44, 18]
+  },
+  {
+    "id": 222,
+    "name": "一式戦 隼III型甲",
+    "firepower": 1,
+    "antiAir": 7,
+    "interception": 3,
+    "antiBomber": 1,
+    "radius": 6,
+    "cost": 4,
+    "types": [22, 39, 48, 44, 27]
+  },
+  {
+    "id": 223,
+    "name": "一式戦 隼III型甲(54戦隊)",
+    "firepower": 2,
+    "antiAir": 8,
+    "interception": 3,
+    "antiBomber": 1,
+    "los": 1,
+    "radius": 7,
+    "cost": 4,
+    "types": [22, 39, 48, 44, 27]
+  },
+  {
+    "id": 224,
+    "name": "爆装一式戦 隼III型改(55戦隊)",
+    "firepower": 3,
+    "bomb": 8,
+    "antiAir": 6,
+    "evasion": 2,
+    "accuracy": 3,
+    "los": 1,
+    "radius": 5,
+    "cost": 4,
+    "types": [22, 39, 47, 44, 27]
+  },
+  {
+    "id": 225,
+    "name": "一式戦 隼II型(64戦隊)",
+    "firepower": 1,
+    "antiAir": 11,
+    "interception": 5,
+    "antiBomber": 1,
+    "los": 1,
+    "radius": 7,
+    "cost": 4,
+    "types": [22, 39, 48, 44, 27]
+  },
+  {
+    "id": 226,
+    "name": "九五式爆雷",
+    "asw": 4,
+    "types": [7, 32, 15, 17, 0]
+  },
+  {
+    "id": 227,
+    "name": "二式爆雷",
+    "asw": 7,
+    "types": [7, 32, 15, 17, 0]
+  },
+  {
+    "id": 228,
+    "name": "九六式艦戦改",
+    "antiAir": 4,
+    "evasion": 1,
+    "radius": 4,
+    "cost": 3,
+    "types": [3, 5, 6, 6, 1]
+  },
+  {
+    "id": 229,
+    "name": "12.7cm単装高角砲(後期型)",
+    "firepower": 1,
+    "asw": 1,
+    "antiAir": 4,
+    "evasion": 1,
+    "accuracy": 1,
+    "range": 1,
+    "types": [1, 1, 1, 16, 0]
+  },
+  {
+    "id": 230,
+    "name": "特大発動艇+戦車第11連隊",
+    "types": [8, 14, 24, 20, 0]
+  },
+  {
+    "id": 231,
+    "name": "30.5cm三連装砲",
+    "firepower": 16,
+    "armor": 1,
+    "accuracy": 1,
+    "range": 3,
+    "types": [1, 1, 3, 3, 0]
+  },
+  {
+    "id": 232,
+    "name": "30.5cm三連装砲改",
+    "firepower": 17,
+    "antiAir": 3,
+    "armor": 1,
+    "evasion": 1,
+    "accuracy": 3,
+    "range": 3,
+    "types": [1, 1, 3, 3, 0]
+  },
+  {
+    "id": 233,
+    "name": "F4U-1D",
+    "firepower": 1,
+    "bomb": 7,
+    "asw": 1,
+    "antiAir": 7,
+    "evasion": 1,
+    "los": 1,
+    "radius": 6,
+    "cost": 9,
+    "types": [3, 5, 7, 7, 21]
+  },
+  {
+    "id": 234,
+    "name": "15.5cm三連装副砲改",
+    "firepower": 7,
+    "antiAir": 5,
+    "evasion": 1,
+    "accuracy": 4,
+    "range": 2,
+    "types": [1, 2, 4, 4, 0]
+  },
+  {
+    "id": 235,
+    "name": "15.5cm三連装砲改",
+    "firepower": 7,
+    "antiAir": 5,
+    "armor": 1,
+    "evasion": 1,
+    "accuracy": 3,
+    "range": 2,
+    "types": [1, 1, 2, 2, 0]
+  },
+  {
+    "id": 236,
+    "name": "41cm三連装砲改",
+    "firepower": 22,
+    "antiAir": 6,
+    "armor": 1,
+    "accuracy": 4,
+    "range": 3,
+    "types": [1, 1, 3, 3, 0]
+  },
+  {
+    "id": 237,
+    "name": "瑞雲(六三四空/熟練)",
+    "bomb": 9,
+    "asw": 6,
+    "antiAir": 4,
+    "evasion": 1,
+    "accuracy": 1,
+    "los": 7,
+    "radius": 5,
+    "cost": 7,
+    "types": [5, 43, 11, 10, 2]
+  },
+  {
+    "id": 238,
+    "name": "零式水上偵察機11型乙",
+    "firepower": 1,
+    "asw": 7,
+    "antiAir": 1,
+    "accuracy": 2,
+    "los": 6,
+    "radius": 7,
+    "cost": 5,
+    "types": [5, 7, 10, 10, 2]
+  },
+  {
+    "id": 239,
+    "name": "零式水上偵察機11型乙(熟練)",
+    "firepower": 2,
+    "asw": 8,
+    "antiAir": 1,
+    "accuracy": 3,
+    "los": 8,
+    "radius": 7,
+    "cost": 5,
+    "types": [5, 7, 10, 10, 2]
+  },
+  {
+    "id": 240,
+    "name": "22号対水上電探改四(後期調整型)",
+    "firepower": 1,
+    "asw": 2,
+    "accuracy": 9,
+    "los": 7,
+    "types": [5, 8, 12, 11, 0]
+  },
+  {
+    "id": 241,
+    "name": "戦闘糧食(特別なおにぎり)",
+    "types": [18, 34, 43, 34, 0]
+  },
+  {
+    "id": 242,
+    "name": "Swordfish",
+    "firepower": 2,
+    "torpedo": 3,
+    "asw": 4,
+    "accuracy": 1,
+    "los": 1,
+    "radius": 3,
+    "cost": 3,
+    "types": [3, 5, 8, 8, 28]
+  },
+  {
+    "id": 243,
+    "name": "Swordfish Mk.II(熟練)",
+    "firepower": 3,
+    "torpedo": 5,
+    "asw": 6,
+    "accuracy": 3,
+    "los": 2,
+    "radius": 3,
+    "cost": 3,
+    "types": [3, 5, 8, 8, 28]
+  },
+  {
+    "id": 244,
+    "name": "Swordfish Mk.III(熟練)",
+    "firepower": 4,
+    "torpedo": 8,
+    "asw": 10,
+    "accuracy": 4,
+    "los": 5,
+    "radius": 3,
+    "cost": 4,
+    "types": [3, 5, 8, 8, 28]
+  },
+  {
+    "id": 245,
+    "name": "38cm四連装砲",
+    "firepower": 21,
+    "antiAir": 1,
+    "accuracy": 1,
+    "range": 3,
+    "types": [1, 1, 3, 3, 0]
+  },
+  {
+    "id": 246,
+    "name": "38cm四連装砲改",
+    "firepower": 22,
+    "antiAir": 2,
+    "armor": 1,
+    "accuracy": 3,
+    "range": 2,
+    "types": [1, 1, 3, 3, 0]
+  },
+  {
+    "id": 247,
+    "name": "15.2cm三連装砲",
+    "firepower": 6,
+    "antiAir": 1,
+    "accuracy": 3,
+    "range": 2,
+    "types": [1, 2, 4, 4, 0]
+  },
+  {
+    "id": 248,
+    "name": "Skua",
+    "bomb": 4,
+    "asw": 2,
+    "antiAir": 2,
+    "evasion": 2,
+    "radius": 4,
+    "cost": 4,
+    "types": [3, 5, 7, 7, 14]
+  },
+  {
+    "id": 249,
+    "name": "Fulmar",
+    "firepower": 1,
+    "asw": 2,
+    "antiAir": 3,
+    "evasion": 1,
+    "accuracy": 2,
+    "los": 1,
+    "radius": 4,
+    "cost": 5,
+    "types": [3, 5, 6, 6, 14]
+  },
+  {
+    "id": 250,
+    "name": "Spitfire Mk.I",
+    "firepower": 1,
+    "antiAir": 7,
+    "interception": 1,
+    "antiBomber": 2,
+    "radius": 4,
+    "cost": 5,
+    "types": [22, 39, 48, 44, 29]
+  },
+  {
+    "id": 251,
+    "name": "Spitfire Mk.V",
+    "firepower": 1,
+    "antiAir": 9,
+    "interception": 2,
+    "antiBomber": 3,
+    "radius": 5,
+    "cost": 5,
+    "types": [22, 39, 48, 44, 29]
+  },
+  {
+    "id": 252,
+    "name": "Seafire Mk.III改",
+    "firepower": 1,
+    "antiAir": 9,
+    "armor": 1,
+    "evasion": 2,
+    "accuracy": 1,
+    "radius": 4,
+    "cost": 6,
+    "types": [3, 5, 6, 6, 29]
+  },
+  {
+    "id": 253,
+    "name": "Spitfire Mk.IX(熟練)",
+    "firepower": 1,
+    "antiAir": 10,
+    "interception": 4,
+    "antiBomber": 2,
+    "radius": 4,
+    "cost": 6,
+    "types": [22, 39, 48, 44, 29]
+  },
+  {
+    "id": 254,
+    "name": "F6F-3N",
+    "asw": 4,
+    "antiAir": 8,
+    "evasion": 3,
+    "accuracy": 2,
+    "los": 2,
+    "radius": 5,
+    "cost": 9,
+    "types": [3, 5, 6, 45, 21]
+  },
+  {
+    "id": 255,
+    "name": "F6F-5N",
+    "asw": 5,
+    "antiAir": 10,
+    "evasion": 3,
+    "accuracy": 3,
+    "los": 3,
+    "radius": 5,
+    "cost": 9,
+    "types": [3, 5, 6, 45, 21]
+  },
+  {
+    "id": 256,
+    "name": "TBF",
+    "firepower": 2,
+    "torpedo": 9,
+    "asw": 6,
+    "antiAir": 1,
+    "los": 2,
+    "radius": 6,
+    "cost": 10,
+    "types": [3, 5, 8, 8, 21]
+  },
+  {
+    "id": 257,
+    "name": "TBM-3D",
+    "firepower": 2,
+    "torpedo": 9,
+    "asw": 8,
+    "antiAir": 1,
+    "accuracy": 2,
+    "los": 4,
+    "radius": 6,
+    "cost": 11,
+    "types": [3, 5, 8, 46, 21]
+  },
+  {
+    "id": 258,
+    "name": "夜間作戦航空要員",
+    "firepower": 1,
+    "armor": 1,
+    "range": 2,
+    "types": [13, 23, 35, 29, 0]
+  },
+  {
+    "id": 259,
+    "name": "夜間作戦航空要員+熟練甲板員",
+    "firepower": 3,
+    "armor": 1,
+    "evasion": 1,
+    "accuracy": 2,
+    "range": 3,
+    "types": [13, 23, 35, 29, 0]
+  },
+  {
+    "id": 260,
+    "name": "Type124 ASDIC",
+    "asw": 11,
+    "evasion": 1,
+    "accuracy": 2,
+    "types": [7, 10, 14, 18, 0]
+  },
+  {
+    "id": 261,
+    "name": "Type144/147 ASDIC",
+    "asw": 13,
+    "evasion": 1,
+    "accuracy": 3,
+    "types": [7, 10, 14, 18, 0]
+  },
+  {
+    "id": 262,
+    "name": "HF/DF + Type144/147 ASDIC",
+    "asw": 15,
+    "evasion": 2,
+    "accuracy": 3,
+    "los": 2,
+    "types": [7, 10, 14, 18, 0]
+  },
+  {
+    "id": 263,
+    "name": "紫電改(三四三空) 戦闘301",
+    "antiAir": 11,
+    "armor": 2,
+    "interception": 4,
+    "antiBomber": 2,
+    "radius": 4,
+    "cost": 6,
+    "types": [22, 39, 48, 38, 12]
+  },
+  {
+    "id": 266,
+    "name": "12.7cm連装砲C型改二",
+    "firepower": 3,
+    "antiAir": 2,
+    "armor": 1,
+    "accuracy": 1,
+    "range": 1,
+    "types": [1, 1, 1, 1, 0]
+  },
+  {
+    "id": 267,
+    "name": "12.7cm連装砲D型改二",
+    "firepower": 3,
+    "antiAir": 3,
+    "armor": 1,
+    "evasion": 1,
+    "accuracy": 2,
+    "range": 1,
+    "types": [1, 1, 1, 1, 0]
+  },
+  {
+    "id": 268,
+    "name": "北方迷彩(+北方装備)",
+    "armor": 2,
+    "evasion": 2,
+    "types": [6, 17, 27, 23, 0]
+  },
+  {
+    "id": 269,
+    "name": "試製東海",
+    "bomb": 2,
+    "asw": 10,
+    "los": 5,
+    "radius": 8,
+    "cost": 9,
+    "types": [21, 38, 47, 47, 30]
+  },
+  {
+    "id": 270,
+    "name": "東海(九〇一空)",
+    "bomb": 2,
+    "asw": 11,
+    "accuracy": 1,
+    "los": 6,
+    "radius": 8,
+    "cost": 9,
+    "types": [21, 38, 47, 47, 30]
+  },
+  {
+    "id": 271,
+    "name": "紫電改四",
+    "antiAir": 10,
+    "armor": 1,
+    "evasion": 3,
+    "accuracy": 1,
+    "radius": 4,
+    "cost": 7,
+    "types": [3, 5, 6, 6, 12]
+  },
+  {
+    "id": 272,
+    "name": "遊撃部隊 艦隊司令部",
+    "armor": 1,
+    "evasion": 1,
+    "accuracy": 1,
+    "los": 1,
+    "types": [12, 22, 34, 28, 0]
+  },
+  {
+    "id": 273,
+    "name": "彩雲(偵四)",
+    "antiAir": 2,
+    "accuracy": 2,
+    "los": 10,
+    "radius": 7,
+    "cost": 9,
+    "types": [5, 7, 9, 9, 1]
+  },
+  {
+    "id": 274,
+    "name": "12cm30連装噴進砲改二",
+    "antiAir": 8,
+    "armor": 1,
+    "evasion": 3,
+    "accuracy": 1,
+    "types": [4, 29, 21, 15, 0]
+  },
+  {
+    "id": 275,
+    "name": "10cm連装高角砲改+増設機銃",
+    "firepower": 2,
+    "antiAir": 9,
+    "armor": 1,
+    "evasion": 1,
+    "accuracy": 2,
+    "range": 1,
+    "types": [1, 2, 4, 16, 0]
+  },
+  {
+    "id": 276,
+    "name": "46cm三連装砲改",
+    "firepower": 27,
+    "antiAir": 6,
+    "armor": 2,
+    "accuracy": 2,
+    "range": 4,
+    "types": [1, 1, 3, 3, 0]
+  },
+  {
+    "id": 277,
+    "name": "FM-2",
+    "firepower": 2,
+    "bomb": 2,
+    "asw": 1,
+    "antiAir": 6,
+    "evasion": 2,
+    "accuracy": 2,
+    "radius": 4,
+    "cost": 6,
+    "types": [3, 5, 7, 7, 21]
+  },
+  {
+    "id": 278,
+    "name": "SK レーダー",
+    "antiAir": 8,
+    "evasion": 2,
+    "accuracy": 1,
+    "los": 10,
+    "types": [5, 8, 13, 11, 0]
+  },
+  {
+    "id": 279,
+    "name": "SK&SG レーダー",
+    "firepower": 1,
+    "antiAir": 9,
+    "evasion": 4,
+    "accuracy": 4,
+    "los": 12,
+    "range": 2,
+    "types": [5, 8, 13, 11, 0]
+  },
+  {
+    "id": 280,
+    "name": "QF 4.7inch砲 Mk.XII改",
+    "firepower": 3,
+    "asw": 1,
+    "antiAir": 3,
+    "evasion": 1,
+    "accuracy": 1,
+    "range": 1,
+    "types": [1, 1, 1, 1, 0]
+  },
+  {
+    "id": 281,
+    "name": "51cm連装砲",
+    "firepower": 32,
+    "antiAir": 5,
+    "armor": 2,
+    "evasion": -1,
+    "accuracy": 1,
+    "range": 4,
+    "types": [1, 1, 3, 3, 0]
+  },
+  {
+    "id": 282,
+    "name": "130mm B-13連装砲",
+    "firepower": 4,
+    "antiAir": 1,
+    "armor": 1,
+    "range": 1,
+    "types": [1, 1, 1, 1, 0]
+  },
+  {
+    "id": 283,
+    "name": "533mm 三連装魚雷",
+    "firepower": 1,
+    "torpedo": 5,
+    "evasion": 1,
+    "range": 1,
+    "types": [2, 3, 5, 5, 0]
+  },
+  {
+    "id": 284,
+    "name": "5inch単装砲 Mk.30",
+    "firepower": 2,
+    "antiAir": 6,
+    "armor": 1,
+    "evasion": 2,
+    "accuracy": 1,
+    "range": 1,
+    "types": [1, 1, 1, 16, 0]
+  },
+  {
+    "id": 285,
+    "name": "61cm三連装(酸素)魚雷後期型",
+    "torpedo": 9,
+    "armor": 1,
+    "evasion": 2,
+    "accuracy": 2,
+    "range": 1,
+    "types": [2, 3, 5, 5, 0]
+  },
+  {
+    "id": 286,
+    "name": "61cm四連装(酸素)魚雷後期型",
+    "torpedo": 11,
+    "armor": 1,
+    "accuracy": 2,
+    "range": 1,
+    "types": [2, 3, 5, 5, 0]
+  },
+  {
+    "id": 287,
+    "name": "三式爆雷投射機 集中配備",
+    "asw": 12,
+    "types": [7, 32, 15, 17, 0]
+  },
+  {
+    "id": 288,
+    "name": "試製15cm9連装対潜噴進砲",
+    "asw": 15,
+    "accuracy": 1,
+    "types": [7, 32, 15, 17, 0]
+  },
+  {
+    "id": 289,
+    "name": "35.6cm三連装砲改(ダズル迷彩仕様)",
+    "firepower": 19,
+    "antiAir": 5,
+    "evasion": 2,
+    "accuracy": 3,
+    "range": 3,
+    "types": [1, 1, 3, 3, 0]
+  },
+  {
+    "id": 290,
+    "name": "41cm三連装砲改二",
+    "firepower": 23,
+    "antiAir": 6,
+    "accuracy": 5,
+    "range": 3,
+    "types": [1, 1, 3, 3, 0]
+  },
+  {
+    "id": 291,
+    "name": "彗星二二型(六三四空)",
+    "bomb": 11,
+    "asw": 4,
+    "antiAir": 1,
+    "accuracy": 2,
+    "range": 3,
+    "radius": 5,
+    "types": [3, 5, 7, 7, 16]
+  },
+  {
+    "id": 292,
+    "name": "彗星二二型(六三四空/熟練)",
+    "bomb": 12,
+    "asw": 5,
+    "antiAir": 2,
+    "accuracy": 3,
+    "los": 2,
+    "range": 3,
+    "radius": 6,
+    "types": [3, 5, 7, 7, 16]
+  },
+  {
+    "id": 293,
+    "name": "12cm単装砲改二",
+    "firepower": 1,
+    "armor": 1,
+    "evasion": 1,
+    "accuracy": 1,
+    "range": 1,
+    "types": [1, 1, 1, 1, 0]
+  },
+  {
+    "id": 294,
+    "name": "12.7cm連装砲A型改二",
+    "firepower": 2,
+    "antiAir": 1,
+    "armor": 1,
+    "accuracy": 1,
+    "range": 1,
+    "types": [1, 1, 1, 1, 0]
+  },
+  {
+    "id": 295,
+    "name": "12.7cm連装砲A型改三(戦時改修)+高射装置",
+    "firepower": 2,
+    "antiAir": 8,
+    "armor": 1,
+    "accuracy": 1,
+    "range": 1,
+    "types": [1, 1, 1, 16, 0]
+  },
+  {
+    "id": 296,
+    "name": "12.7cm連装砲B型改四(戦時改修)+高射装置",
+    "firepower": 3,
+    "antiAir": 9,
+    "armor": 1,
+    "accuracy": 1,
+    "range": 1,
+    "types": [1, 1, 1, 16, 0]
+  },
+  {
+    "id": 501,
+    "name": "5inch単装砲",
+    "firepower": 1,
+    "range": 1,
+    "types": [1, 1, 1, 1, 0]
+  },
+  {
+    "id": 502,
+    "name": "5inch連装砲",
+    "firepower": 2,
+    "range": 1,
+    "types": [1, 1, 1, 1, 0]
+  },
+  {
+    "id": 503,
+    "name": "3inch単装高角砲",
+    "firepower": 1,
+    "antiAir": 1,
+    "range": 1,
+    "types": [1, 1, 1, 16, 0]
+  },
+  {
+    "id": 504,
+    "name": "5inch単装高射砲",
+    "firepower": 2,
+    "antiAir": 2,
+    "range": 2,
+    "types": [1, 1, 2, 2, 0]
+  },
+  {
+    "id": 505,
+    "name": "8inch三連装砲",
+    "firepower": 8,
+    "antiAir": 2,
+    "range": 2,
+    "types": [1, 1, 2, 2, 0]
+  },
+  {
+    "id": 506,
+    "name": "6inch連装速射砲",
+    "firepower": 3,
+    "antiAir": 3,
+    "range": 2,
+    "types": [1, 1, 2, 2, 0]
+  },
+  {
+    "id": 507,
+    "name": "14inch連装砲",
+    "firepower": 10,
+    "antiAir": 4,
+    "range": 3,
+    "types": [1, 1, 3, 3, 0]
+  },
+  {
+    "id": 508,
+    "name": "16inch連装砲",
+    "firepower": 15,
+    "antiAir": 4,
+    "range": 3,
+    "types": [1, 1, 3, 3, 0]
+  },
+  {
+    "id": 509,
+    "name": "16inch三連装砲",
+    "firepower": 20,
+    "antiAir": 5,
+    "range": 3,
+    "types": [1, 1, 3, 3, 0]
+  },
+  {
+    "id": 510,
+    "name": "5inch単装高射砲",
+    "firepower": 1,
+    "antiAir": 2,
+    "range": 1,
+    "types": [1, 2, 4, 16, 0]
+  },
+  {
+    "id": 511,
+    "name": "6inch単装砲",
+    "firepower": 1,
+    "range": 2,
+    "types": [1, 2, 4, 4, 0]
+  },
+  {
+    "id": 512,
+    "name": "12.5inch連装副砲",
+    "firepower": 7,
+    "antiAir": 3,
+    "range": 2,
+    "types": [1, 2, 4, 4, 0]
+  },
+  {
+    "id": 513,
+    "name": "21inch魚雷前期型",
+    "torpedo": 2,
+    "range": 1,
+    "types": [2, 3, 5, 5, 0]
+  },
+  {
+    "id": 514,
+    "name": "21inch魚雷後期型",
+    "torpedo": 5,
+    "range": 1,
+    "types": [2, 3, 5, 5, 0]
+  },
+  {
+    "id": 515,
+    "name": "高速深海魚雷",
+    "torpedo": 10,
+    "range": 1,
+    "types": [2, 3, 5, 5, 0]
+  },
+  {
+    "id": 516,
+    "name": "深海棲艦攻",
+    "torpedo": 4,
+    "asw": 2,
+    "los": 5,
+    "types": [3, 5, 8, 8, 0]
+  },
+  {
+    "id": 517,
+    "name": "深海棲艦攻 Mark.II",
+    "torpedo": 6,
+    "asw": 4,
+    "los": 5,
+    "types": [3, 5, 8, 8, 0]
+  },
+  {
+    "id": 518,
+    "name": "深海棲艦攻 Mark.III",
+    "torpedo": 11,
+    "antiAir": 4,
+    "asw": 7,
+    "los": 5,
+    "types": [3, 5, 8, 8, 0]
+  },
+  {
+    "id": 519,
+    "name": "深海棲艦戦",
+    "antiAir": 2,
+    "types": [3, 5, 6, 6, 0]
+  },
+  {
+    "id": 520,
+    "name": "深海棲艦戦 Mark.II",
+    "antiAir": 5,
+    "types": [3, 5, 6, 6, 0]
+  },
+  {
+    "id": 521,
+    "name": "深海棲艦戦 Mark.III",
+    "antiAir": 9,
+    "types": [3, 5, 6, 6, 0]
+  },
+  {
+    "id": 522,
+    "name": "飛び魚艦戦",
+    "antiAir": 13,
+    "types": [3, 5, 6, 6, 0]
+  },
+  {
+    "id": 523,
+    "name": "深海棲艦爆",
+    "bomb": 3,
+    "asw": 1,
+    "types": [3, 5, 7, 7, 0]
+  },
+  {
+    "id": 524,
+    "name": "深海棲艦爆 Mark.II",
+    "bomb": 6,
+    "asw": 2,
+    "types": [3, 5, 7, 7, 0]
+  },
+  {
+    "id": 525,
+    "name": "深海棲艦偵察機",
+    "antiAir": 1,
+    "asw": 1,
+    "los": 5,
+    "types": [5, 7, 10, 10, 0]
+  },
+  {
+    "id": 526,
+    "name": "飛び魚偵察機",
+    "antiAir": 2,
+    "asw": 2,
+    "los": 10,
+    "types": [5, 7, 10, 10, 0]
+  },
+  {
+    "id": 527,
+    "name": "対空レーダ― Mark.I",
+    "antiAir": 5,
+    "accuracy": 5,
+    "los": 5,
+    "types": [5, 8, 12, 11, 0]
+  },
+  {
+    "id": 528,
+    "name": "水上レーダ― Mark.I",
+    "accuracy": 10,
+    "los": 5,
+    "types": [5, 8, 12, 11, 0]
+  },
+  {
+    "id": 529,
+    "name": "水上レーダ― Mark.II",
+    "accuracy": 15,
+    "los": 10,
+    "types": [5, 8, 12, 11, 0]
+  },
+  {
+    "id": 530,
+    "name": "対空レーダ― Mark.II",
+    "antiAir": 10,
+    "accuracy": 5,
+    "los": 10,
+    "types": [5, 8, 13, 11, 0]
+  },
+  {
+    "id": 531,
+    "name": "深海水上レーダー",
+    "antiAir": 5,
+    "asw": 5,
+    "accuracy": 24,
+    "evasion": 3,
+    "los": 16,
+    "types": [5, 8, 13, 11, 0]
+  },
+  {
+    "id": 532,
+    "name": "深海対空レーダ―",
+    "antiAir": 18,
+    "asw": 5,
+    "accuracy": 16,
+    "evasion": 2,
+    "los": 12,
+    "types": [5, 8, 13, 11, 0]
+  },
+  {
+    "id": 533,
+    "name": "改良型深海タービン",
+    "evasion": 10,
+    "types": [6, 31, 17, 19, 0]
+  },
+  {
+    "id": 534,
+    "name": "強化型深海缶",
+    "evasion": 15,
+    "types": [6, 31, 17, 19, 0]
+  },
+  {
+    "id": 535,
+    "name": "対空散弾",
+    "antiAir": 10,
+    "types": [4, 28, 18, 12, 0]
+  },
+  {
+    "id": 536,
+    "name": "劣化徹甲弾",
+    "firepower": 15,
+    "accuracy": 5,
+    "types": [4, 25, 19, 13, 0]
+  },
+  {
+    "id": 537,
+    "name": "12.7mm機銃",
+    "antiAir": 2,
+    "types": [4, 6, 21, 15, 0]
+  },
+  {
+    "id": 538,
+    "name": "20mm機銃",
+    "antiAir": 4,
+    "types": [4, 6, 21, 15, 0]
+  },
+  {
+    "id": 539,
+    "name": "40mm二連装機関砲",
+    "antiAir": 8,
+    "types": [4, 6, 21, 15, 0]
+  },
+  {
+    "id": 540,
+    "name": "40mm四連装機関砲",
+    "antiAir": 12,
+    "types": [4, 6, 21, 15, 0]
+  },
+  {
+    "id": 541,
+    "name": "深海烏賊魚雷",
+    "torpedo": 18,
+    "accuracy": 5,
+    "types": [2, 4, 22, 5, 0]
+  },
+  {
+    "id": 542,
+    "name": "深海爆雷投射機",
+    "asw": 7,
+    "types": [7, 32, 15, 17, 0]
+  },
+  {
+    "id": 543,
+    "name": "深海ソナー",
+    "asw": 9,
+    "types": [7, 10, 14, 18, 0]
+  },
+  {
+    "id": 544,
+    "name": "深海爆雷投射機 Mk.II",
+    "asw": 13,
+    "types": [7, 32, 15, 17, 0]
+  },
+  {
+    "id": 545,
+    "name": "深海ソナー Mk.II",
+    "asw": 16,
+    "types": [7, 10, 14, 18, 0]
+  },
+  {
+    "id": 546,
+    "name": "飛び魚艦爆",
+    "bomb": 10,
+    "antiAir": 8,
+    "asw": 7,
+    "types": [3, 5, 7, 7, 0]
+  },
+  {
+    "id": 547,
+    "name": "深海猫艦戦",
+    "antiAir": 10,
+    "accuracy": 1,
+    "types": [3, 5, 6, 6, 0]
+  },
+  {
+    "id": 548,
+    "name": "深海地獄艦爆",
+    "bomb": 11,
+    "asw": 4,
+    "accuracy": 3,
+    "los": 3,
+    "types": [3, 5, 7, 7, 0]
+  },
+  {
+    "id": 549,
+    "name": "深海復讐艦攻",
+    "torpedo": 13,
+    "antiAir": 4,
+    "asw": 5,
+    "accuracy": 2,
+    "los": 5,
+    "types": [3, 5, 8, 8, 0]
+  },
+  {
+    "id": 550,
+    "name": "5inch連装両用莢砲",
+    "firepower": 2,
+    "antiAir": 9,
+    "accuracy": 3,
+    "range": 2,
+    "types": [1, 1, 1, 16, 0]
+  },
+  {
+    "id": 551,
+    "name": "20inch連装砲",
+    "firepower": 27,
+    "antiAir": 4,
+    "accuracy": 3,
+    "range": 3,
+    "types": [1, 1, 3, 3, 0]
+  },
+  {
+    "id": 552,
+    "name": "15inch要塞砲",
+    "firepower": 13,
+    "armor": 3,
+    "accuracy": 4,
+    "range": 3,
+    "types": [1, 1, 3, 3, 0]
+  },
+  {
+    "id": 553,
+    "name": "4inch連装両用砲+CIC",
+    "firepower": 5,
+    "antiAir": 15,
+    "accuracy": 5,
+    "range": 2,
+    "types": [1, 1, 1, 16, 0]
+  },
+  {
+    "id": 554,
+    "name": "深海水上攻撃機",
+    "bomb": 8,
+    "antiAir": 4,
+    "asw": 8,
+    "accuracy": 1,
+    "los": 6,
+    "types": [5, 43, 11, 10, 0]
+  },
+  {
+    "id": 555,
+    "name": "深海水上攻撃機改",
+    "bomb": 13,
+    "antiAir": 9,
+    "asw": 10,
+    "accuracy": 3,
+    "los": 7,
+    "types": [5, 43, 11, 10, 0]
+  },
+  {
+    "id": 556,
+    "name": "深海猫艦戦改",
+    "antiAir": 12,
+    "accuracy": 2,
+    "evasion": 2,
+    "types": [3, 5, 6, 6, 0]
+  },
+  {
+    "id": 557,
+    "name": "深海地獄艦爆改",
+    "bomb": 15,
+    "asw": 8,
+    "accuracy": 4,
+    "los": 5,
+    "types": [3, 5, 7, 7, 0]
+  },
+  {
+    "id": 558,
+    "name": "深海復讐艦攻改",
+    "torpedo": 16,
+    "antiAir": 5,
+    "asw": 9,
+    "accuracy": 3,
+    "los": 6,
+    "types": [3, 5, 8, 8, 0]
+  },
+  {
+    "id": 559,
+    "name": "深海FCS+CIC",
+    "antiAir": 6,
+    "asw": 20,
+    "accuracy": 5,
+    "evasion": 3,
+    "los": 3,
+    "types": [7, 10, 14, 18, 0]
+  },
+  {
+    "id": 560,
+    "name": "深海探照灯",
+    "firepower": 2,
+    "los": 2,
+    "types": [8, 18, 29, 24, 0]
+  },
+  {
+    "id": 561,
+    "name": "深海解放陸爆",
+    "bomb": 11,
+    "antiAir": 3,
+    "asw": 5,
+    "accuracy": 1,
+    "los": 3,
+    "types": [3, 5, 7, 7, 0]
+  },
+  {
+    "id": 562,
+    "name": "深海解放陸爆Ace",
+    "bomb": 16,
+    "antiAir": 5,
+    "asw": 7,
+    "accuracy": 2,
+    "los": 4,
+    "types": [3, 5, 7, 7, 0]
+  },
+  {
+    "id": 563,
+    "name": "8inch長射程連装砲",
+    "firepower": 8,
+    "antiAir": 1,
+    "accuracy": -1,
+    "range": 3,
+    "types": [1, 1, 2, 2, 0]
+  },
+  {
+    "id": 564,
+    "name": "深海水上偵察観測機",
+    "antiAir": 2,
+    "asw": 2,
+    "accuracy": 5,
+    "los": 5,
+    "types": [5, 7, 10, 10, 0]
+  },
+  {
+    "id": 565,
+    "name": "5inch沿岸設置砲",
+    "firepower": 3,
+    "armor": 2,
+    "evasion": 3,
+    "range": 2,
+    "types": [1, 1, 1, 1, 0]
+  },
+  {
+    "id": 566,
+    "name": "深海猫艦戦(爆装)",
+    "bomb": 8,
+    "antiAir": 7,
+    "asw": 2,
+    "accuracy": 2,
+    "types": [3, 5, 7, 7, 0]
+  },
+  {
+    "id": 567,
+    "name": "沿岸設置レーダー",
+    "antiAir": 4,
+    "accuracy": 16,
+    "los": 8,
+    "types": [5, 8, 13, 11, 0]
+  },
+  {
+    "id": 568,
+    "name": "16inch三連装砲",
+    "firepower": 24,
+    "armor": 1,
+    "antiAir": 3,
+    "accuracy": 4,
+    "range": 3,
+    "types": [1, 1, 3, 3, 0]
+  },
+  {
+    "id": 569,
+    "name": "深海偵察飛行艇",
+    "firepower": 3,
+    "antiAir": 1,
+    "asw": 2,
+    "accuracy": 8,
+    "los": 9,
+    "types": [5, 7, 10, 10, 0]
+  },
+  {
+    "id": 570,
+    "name": "高速深海魚雷 mod.2",
+    "torpedo": 13,
+    "accuracy": 3,
+    "range": 1,
+    "types": [2, 4, 22, 5, 0]
+  },
+  {
+    "id": 571,
+    "name": "深海水母小鬼機",
+    "firepower": 4,
+    "bomb": 15,
+    "armor": 4,
+    "antiAir": 11,
+    "asw": 15,
+    "accuracy": 8,
+    "los": 8,
+    "range": 4,
+    "types": [5, 43, 11, 10, 0]
+  },
+  {
+    "id": 572,
+    "name": "深海熊猫艦戦",
+    "firepower": 8,
+    "armor": 8,
+    "antiAir": 18,
+    "accuracy": 8,
+    "evasion": 8,
+    "types": [3, 5, 6, 6, 0]
+  },
+  {
+    "id": 573,
+    "name": "深海潜水下駄履き",
+    "firepower": 6,
+    "bomb": 18,
+    "armor": 3,
+    "antiAir": 6,
+    "asw": 9,
+    "accuracy": 12,
+    "evasion": 6,
+    "los": 3,
+    "range": 5,
+    "types": [5, 43, 11, 10, 0]
+  },
+  {
+    "id": 574,
+    "name": "深海攻撃哨戒鷹",
+    "firepower": 3,
+    "bomb": 14,
+    "armor": 3,
+    "antiAir": 8,
+    "asw": 22,
+    "accuracy": 8,
+    "evasion": 3,
+    "los": 3,
+    "range": 4,
+    "types": [3, 5, 8, 8, 0]
+  },
+  {
+    "id": 575,
+    "name": "深海攻撃哨戒鷹改",
+    "firepower": 5,
+    "bomb": 18,
+    "armor": 3,
+    "antiAir": 9,
+    "asw": 27,
+    "accuracy": 9,
+    "evasion": 4,
+    "los": 3,
+    "range": 4,
+    "types": [3, 5, 8, 8, 0]
+  },
+  {
+    "id": 576,
+    "name": "深海12inch三連装砲",
+    "firepower": 16,
+    "armor": 2,
+    "antiAir": 3,
+    "accuracy": 9,
+    "evasion": 2,
+    "range": 3,
+    "types": [1, 1, 3, 3, 0]
+  },
+  {
+    "id": 577,
+    "name": "深海15inch四連装砲",
+    "firepower": 24,
+    "armor": 2,
+    "antiAir": 4,
+    "accuracy": 8,
+    "evasion": 1,
+    "range": 3,
+    "types": [1, 1, 3, 3, 0]
+  },
+  {
+    "id": 578,
+    "name": "深海15inch連装砲後期型",
+    "firepower": 19,
+    "armor": 1,
+    "antiAir": 8,
+    "accuracy": 10,
+    "evasion": 2,
+    "range": 3,
+    "types": [1, 1, 3, 3, 0]
+  },
+  {
+    "id": 579,
+    "name": "深海14inch海峡連装砲",
+    "firepower": 17,
+    "armor": 3,
+    "antiAir": 4,
+    "accuracy": 13,
+    "evasion": 3,
+    "range": 3,
+    "types": [1, 1, 3, 3, 0]
+  },
+  {
+    "id": 580,
+    "name": "深海待伏魚雷",
+    "torpedo": 19,
+    "accuracy": 9,
+    "range": 1,
+    "types": [2, 4, 22, 5, 0]
+  },
+  {
+    "id": 581,
+    "name": "夜猫深海艦戦",
+    "firepower": 2,
+    "antiAir": 11,
+    "accuracy": 3,
+    "evasion": 3,
+    "los": 2,
+    "range": 1,
+    "types": [3, 5, 6, 45, 0]
+  },
+  {
+    "id": 582,
+    "name": "夜深海艦爆",
+    "firepower": 3,
+    "bomb": 16,
+    "antiAir": 5,
+    "accuracy": 4,
+    "asw": 11,
+    "los": 6,
+    "range": 2,
+    "types": [3, 5, 7, 7, 0]
+  },
+  {
+    "id": 583,
+    "name": "夜復讐深海艦攻",
+    "firepower": 4,
+    "torpedo": 15,
+    "antiAir": 6,
+    "accuracy": 5,
+    "asw": 12,
+    "los": 7,
+    "range": 2,
+    "types": [3, 5, 8, 46, 0]
+  },
+  {
+    "id": 584,
+    "name": "深海14inch連装砲改",
+    "firepower": 22,
+    "antiAir": 4,
+    "armor": 4,
+    "accuracy": 14,
+    "evasion": 4,
+    "range": 3,
+    "types": [1, 1, 3, 3, 0]
+  },
+  {
+    "id": 585,
+    "name": "深海16inch三連装砲改",
+    "firepower": 27,
+    "antiAir": 4,
+    "armor": 5,
+    "accuracy": 20,
+    "range": 4,
+    "types": [1, 1, 3, 3, 0]
+  }
+]
