@@ -11,7 +11,7 @@ declare module 'redux-orm' {
     id: IdType
   }
 
-  export interface TableState<Item = any, Meta = any> {
+  export interface TableState<Item = any, Meta = { maxId: number }> {
     items: string[]
     itemsById: { [index: string]: Item }
     meta: Meta
@@ -226,8 +226,9 @@ declare module 'redux-orm' {
     ...args: any[]
   ) => Result
 
-  export function createSelector<State extends ORMCommonState = ORMCommonState, RootState = { orm: State }>(
+  export function createSelector<Session, State extends ORMCommonState = ORMCommonState, RootState = { orm: State }>(
     orm: ORM<State>,
-    ...args: Array<ORMSelector<State>>
-  ): (state: RootState) => any
+    ormStateSelector: (rootState: RootState) => State,
+    sessionSelector: (session: SessionWithModels<State>) => Session
+  ): (state: RootState) => Session
 }

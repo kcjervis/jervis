@@ -7,9 +7,8 @@ import Checkbox from '@material-ui/core/Checkbox'
 import Divider from '@material-ui/core/Divider'
 import Typography from '@material-ui/core/Typography'
 
-import { ShipModel } from '../calculator/models'
+import ShipModel from '../calculator/Ship'
 import MasterData from '../data'
-import shipClasses from '../data/shipClasses'
 import { actions } from '../redux/modules/orm'
 
 interface IShipsPageProps extends RouteComponentProps<{}> {
@@ -49,12 +48,9 @@ class ShipsPage extends React.Component<IShipsPageProps, IShipsPageState> {
   /**
    * 艦娘マスターデータにモデルを適応してソートしたもの
    */
-  public baseShips = (MasterData.ships as Array<{ id: number }>)
-    .filter(({ id }) => id < 2000)
-    .map(ship => new ShipModel({ masterId: ship.id }) as any)
-    .sort((a, b) => a.sortId - b.sortId)
+  public readonly baseShips = MasterData.allShipIds.map(ShipModel.createShipById).sort((a, b) => a.sortId - b.sortId)
 
-  public categories = [
+  public readonly categories = [
     { name: '戦艦級', types: [8, 9, 10, 12] },
     { name: '航空母艦', types: [7, 11, 18] },
     { name: '重巡級', types: [5, 6] },
@@ -92,7 +88,7 @@ class ShipsPage extends React.Component<IShipsPageProps, IShipsPageState> {
     const { visibleTypes, visibleAlly, visibleAbysall, visibleBasic } = this.state
 
     const visibleShips = this.baseShips.filter(ship => {
-      if (!visibleTypes.includes(ship.shipType)) {
+      if (!visibleTypes.includes(ship.shipTypeId)) {
         return false
       }
       if (visibleAlly && ship.isAbysall) {
@@ -102,7 +98,7 @@ class ShipsPage extends React.Component<IShipsPageProps, IShipsPageState> {
         return false
       }
       if (!visibleBasic) {
-        if (!ship.canConvert && ship.canRemodel) {
+        if (!ship.remodel.canConvert && ship.remodel.canRemodel) {
           return false
         }
       }
@@ -138,10 +134,10 @@ class ShipsPage extends React.Component<IShipsPageProps, IShipsPageState> {
         {this.visibleShipClasses.map(({ classId, ships }) => (
           <div key={classId}>
             {/*深海棲艦なら艦型名は非表示*/}
-            {!this.state.visibleAbysall && <Typography>{shipClasses[classId]}</Typography>}
+            {!this.state.visibleAbysall && <Typography>{MasterData.getShipClassName(classId)}</Typography>}
             {ships.map(ship => (
               <Button key={ship.masterId} onClick={this.selectShip(ship)}>
-                <img src={ship.image.banner} />
+                <img src={require(`../images/ships/banner/${ship.masterId}.png`)} />
               </Button>
             ))}
             <Divider />

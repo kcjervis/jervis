@@ -9,9 +9,7 @@ const styles = (theme: Theme) => ({
   root: {}
 })
 
-export interface ITopMenuProps
-  extends WithStyles<typeof styles>,
-    RouteComponentProps<{}> {}
+export interface ITopMenuProps extends WithStyles<typeof styles>, RouteComponentProps<{}> {}
 
 const TopMenu: React.SFC<ITopMenuProps> = props => {
   const {
@@ -32,12 +30,7 @@ const TopMenu: React.SFC<ITopMenuProps> = props => {
   return (
     <div>
       <AppBar position="static">
-        <Tabs
-          value={isActive && pathname}
-          onChange={handleChange}
-          fullWidth={true}
-          indicatorColor="primary"
-        >
+        <Tabs value={isActive && pathname} onChange={handleChange} fullWidth={true} indicatorColor="primary">
           {paths.map(({ label, path }) => (
             <Tab key={path} label={label} value={path} />
           ))}

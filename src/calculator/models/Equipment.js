@@ -34,7 +34,7 @@ export default class Equipment {
     this.image.icon = ImageManager.import(`equipments/icons/${this.iconId}.png`)
     if (!this.isAbysall) {
       this.image.itemOn = ImageManager.import(
-        `equipments/itemOn/${this.masterId.toString().padStart(3, '0')}.png`
+        `equipments/itemOn/${this.masterId}.png`
       )
     }
   }

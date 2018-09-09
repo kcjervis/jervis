@@ -1,11 +1,14 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import { RouteComponentProps, withRouter } from 'react-router'
 import { Dispatch } from 'redux'
 
+import Button from '@material-ui/core/Button'
 import Card from '@material-ui/core/Card'
 import CardContent from '@material-ui/core/CardContent'
 import { StyleRulesCallback, withStyles, WithStyles } from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography'
+import Add from '@material-ui/icons/Add'
 
 import { RemoveButton } from '../components/IconButtons'
 import EquipmentLabel from './EquipmentLabel'
@@ -15,6 +18,10 @@ import { actions, selectors } from '../redux/modules/orm'
 import { RootState } from '../types'
 
 const styles: StyleRulesCallback = theme => ({
+  addShipButton: {
+    margin: theme.spacing.unit,
+    minHeight: 80
+  },
   card: {
     padding: theme.spacing.unit,
     margin: theme.spacing.unit
@@ -62,20 +69,39 @@ const displayedStatNames = [
   'range'
 ]
 
-interface IShipPlateProps extends WithStyles {
-  ship: {
+interface IShipPlateProps extends WithStyles, RouteComponentProps<{}> {
+  ship?: {
     id: number
     equipments: any[]
     [index: string]: any
   }
+  fleetId: number
+  index: number
   removeShip: (id: number) => void
 }
 
 /**
  * 編成ページの艦娘UI
  */
-const ShipPlate: React.SFC<IShipPlateProps> = ({ ship, classes, removeShip }) => {
-  const { name, slots, image, equipments, expansionEquipment } = ship
+const ShipPlate: React.SFC<IShipPlateProps> = ({ ship, fleetId, index, classes, removeShip, history }) => {
+  const handleAddShip = () => {
+    history.push('/ships', { fleetId, index })
+  }
+  if (!ship) {
+    return (
+      <Button
+        className={classes.addShipButton}
+        variant="outlined"
+        fullWidth={true}
+        size="large"
+        onClick={handleAddShip}
+      >
+        <Add />
+        艦娘
+      </Button>
+    )
+  }
+  const { name, slots, image, equipments } = ship
   const handleRemove = () => {
     removeShip(ship.id)
   }
@@ -85,22 +111,17 @@ const ShipPlate: React.SFC<IShipPlateProps> = ({ ship, classes, removeShip }) =>
         <div className={classes.flexContent}>
           <img src={image.banner} />
         </div>
-        {equipments.map((equipment, index) => (
+        {equipments.map((equipment, equipIndex) => (
           <EquipmentLabel
-            key={index}
+            key={equipIndex}
             className={classes.flexContent}
             shipId={ship.id}
             equipmentId={equipment && equipment.id}
-            index={index}
-            slotSize={slots[index]}
+            index={equipIndex}
+            slotSize={slots[equipIndex]}
+            isReinforceExpansion={equipIndex > slots.length}
           />
         ))}
-        <EquipmentLabel
-          className={classes.flexContent}
-          shipId={ship.id}
-          equipmentId={expansionEquipment && expansionEquipment.id}
-          index="expansionEquipment"
-        />
       </CardContent>
       <CardContent className={classes.flexContainer}>
         <Typography>{name}</Typography>
@@ -123,7 +144,7 @@ interface IShipPlateConnectedProps {
 }
 
 const mapStateToProps = (state: RootState, props: IShipPlateConnectedProps) => ({
-  ship: selectors.shipSelector(state).find(({ id }: { id: number }) => id === props.shipId)
+  ship: selectors.shipSelector(state, props)
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
@@ -151,8 +172,9 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
   }
 })
 
-const Styled = withStyles(styles)(ShipPlate)
-const WithDragAndDrop = withDragAndDrop('ShipPlate')(Styled)
+const WithRouter = withRouter(ShipPlate)
+const WithStyles = withStyles(styles)(WithRouter)
+const WithDragAndDrop = withDragAndDrop('ShipPlate')(WithStyles)
 export default connect(
   mapStateToProps,
   mapDispatchToProps

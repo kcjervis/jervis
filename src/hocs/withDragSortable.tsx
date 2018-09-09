@@ -4,21 +4,21 @@ import { ConnectDragSource, ConnectDropTarget, DragSource, DragSourceSpec, DropT
 const withDragSortable = (type: string) => <WrappedProps extends {}>(
   WrappedComponent: React.ComponentType<WrappedProps>
 ) => {
-  type THocProps = WrappedProps & {
-    isDragging: boolean
-    connectDragSource: ConnectDragSource
-    connectDropTarget: ConnectDropTarget
+  interface IProps {
     index: number
-    onSortEnd: (object: { dragProps: THocProps; hoverProps: THocProps }) => void
+    onSortEnd: (object: { dragProps: IProps; hoverProps: IProps }) => void
+    isDragging?: boolean
+    connectDragSource?: ConnectDragSource
+    connectDropTarget?: ConnectDropTarget
   }
 
-  const cardSource: DragSourceSpec<THocProps, {}> = {
+  const cardSource: DragSourceSpec<IProps, {}> = {
     beginDrag(props, monitor, component) {
       return { component }
     }
   }
 
-  const cardTarget: DropTargetSpec<THocProps> = {
+  const cardTarget: DropTargetSpec<IProps> = {
     hover(props, monitor) {
       const dragProps = monitor.getItem().component.props
       const hoverProps = props
@@ -33,7 +33,7 @@ const withDragSortable = (type: string) => <WrappedProps extends {}>(
   @DropTarget(type, cardTarget, connect => ({
     connectDropTarget: connect.dropTarget()
   }))
-  class DragSortable extends React.Component<THocProps> {
+  class DragSortable extends React.Component<IProps> {
     public static displayName = `withDragSortable(${WrappedComponent.name})`
 
     public static readonly WrappedComponent = WrappedComponent
@@ -41,11 +41,15 @@ const withDragSortable = (type: string) => <WrappedProps extends {}>(
     public render() {
       const { isDragging, connectDragSource, connectDropTarget } = this.props
       const opacity = isDragging ? 0 : 1
-      return connectDragSource(
-        connectDropTarget(
-          <div style={{ opacity, display: 'inline-block' }}>
-            <WrappedComponent {...this.props} />
-          </div>
+      return (
+        connectDragSource &&
+        connectDropTarget &&
+        connectDragSource(
+          connectDropTarget(
+            <div style={{ opacity, display: 'inline-block' }}>
+              <WrappedComponent {...this.props} />
+            </div>
+          )
         )
       )
     }

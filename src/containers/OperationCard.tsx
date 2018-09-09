@@ -1,7 +1,8 @@
 import { StyleRulesCallback, withStyles, WithStyles } from '@material-ui/core/styles'
 import React from 'react'
-import { connect, MapDispatchToProps } from 'react-redux'
+import { connect } from 'react-redux'
 import { RouteComponentProps, withRouter } from 'react-router'
+import { Dispatch } from 'redux'
 
 import Card from '@material-ui/core/Card'
 import Typography from '@material-ui/core/Typography'
@@ -22,12 +23,11 @@ const styles: StyleRulesCallback = theme => ({
   }
 })
 
-interface IDispatchProps {
-  onRemove: () => void
-}
-
-interface IOperationCardProps extends IDispatchProps, WithStyles, RouteComponentProps<{}> {
+interface IOperationCardProps extends WithStyles, RouteComponentProps<{}> {
   operationId: number
+  index: number
+  onRemove: () => void
+  onSortEnd: (obj: { dragProps: IOperationCardProps; hoverProps: IOperationCardProps }) => void
 }
 
 const OperationCard: React.SFC<IOperationCardProps> = props => {
@@ -46,11 +46,16 @@ const OperationCard: React.SFC<IOperationCardProps> = props => {
   )
 }
 
-const mapDispatchToProps: MapDispatchToProps<IDispatchProps, IOperationCardProps> = (dispatch, props) => ({
+interface IDispatchProps {
+  operationId: number
+  index: number
+}
+
+const mapDispatchToProps = (dispatch: Dispatch, props: IDispatchProps) => ({
   onRemove: () => {
     dispatch(actions.removeOperation(props.operationId))
   },
-  onSortEnd: ({ dragProps, hoverProps }: any) => {
+  onSortEnd: ({ dragProps, hoverProps }: { dragProps: any; hoverProps: any }) => {
     const dragId = dragProps.operationId
     const hoverId = hoverProps.operationId
     if (dragId === hoverId) {
@@ -61,10 +66,12 @@ const mapDispatchToProps: MapDispatchToProps<IDispatchProps, IOperationCardProps
   }
 })
 
-const WithDragSortable = withDragSortable('OperationCard')(OperationCard)
+const WithRouter = withRouter(OperationCard)
+const WithStyles = withStyles(styles)(WithRouter)
+const WithDragSortable = withDragSortable('OperationCard')(WithStyles)
 const Connected = connect(
   null,
   mapDispatchToProps
 )(WithDragSortable)
 
-export default withStyles(styles)(withRouter(Connected))
+export default Connected

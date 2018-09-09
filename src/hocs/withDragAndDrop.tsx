@@ -5,10 +5,10 @@ const withDragAndDrop = (type: string) => <WrappedProps extends {}>(
   WrappedComponent: React.ComponentType<WrappedProps>
 ) => {
   type THocProps = WrappedProps & {
-    isDragging: boolean
-    connectDragSource: ConnectDragSource
-    connectDropTarget: ConnectDropTarget
-    index: number
+    isDragging?: boolean
+    connectDragSource?: ConnectDragSource
+    connectDropTarget?: ConnectDropTarget
+    index: number | string
     onEndDrag: (object: { dragProps: THocProps; dropProps: THocProps }) => void
   }
 
@@ -44,7 +44,7 @@ const withDragAndDrop = (type: string) => <WrappedProps extends {}>(
       const opacity = isDragging ? 0 : 1
       return connectDragSource(
         connectDropTarget(
-          <div style={{ opacity, display: 'inline-block' }}>
+          <div style={{ opacity }}>
             <WrappedComponent {...restProps} />
           </div>
         )

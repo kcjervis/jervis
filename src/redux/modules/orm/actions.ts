@@ -35,16 +35,22 @@ export const updateShip = createStandardAction('UPDATE_SHIP')<IUpdateShipPayload
 export const removeShip = createStandardAction('REMOVE_SHIP')<number>()
 
 export interface IEquipmentPayload {
+  id?: number
+  masterId?: number
+  shipId?: number
+  landBasedAirCorpsId?: number
+  index?: number | string
+  improvement?: number
+  internalProficiency?: number
+}
+
+export interface IUpdateEquipmentPayload extends IEquipmentPayload {
   id: number
-  masterId: number
-  index: number
-  improvement: number
-  internalProficiency: number
 }
 
 const createEquipmentAction = <T extends string>(type: T) => createStandardAction(type)<IEquipmentPayload>()
 export const createEquipment = createEquipmentAction('CREATE_EQUIPMENT')
-export const updateEquipment = createEquipmentAction('UPDATE_EQUIPMENT')
+export const updateEquipment = createStandardAction('UPDATE_EQUIPMENT')<IUpdateEquipmentPayload>()
 export const upsertEquipment = createEquipmentAction('UPSERT_EQUIPMENT')
 export const removeEquipment = createStandardAction('REMOVE_EQUIPMENT')<number>()
 
