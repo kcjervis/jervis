@@ -1,6 +1,7 @@
+import React from 'react'
+
 import Button from '@material-ui/core/Button'
 import { StyleRulesCallback, withStyles, WithStyles } from '@material-ui/core/styles'
-import React from 'react'
 
 const styles: StyleRulesCallback = theme => ({
   root: {

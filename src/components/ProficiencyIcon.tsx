@@ -1,10 +1,9 @@
 import React from 'react'
-import PropTypes from 'prop-types'
-import { withStyles } from '@material-ui/core/styles'
 
+import { StyleRulesCallback, withStyles, WithStyles } from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography'
 
-const styles = theme => ({
+const styles: StyleRulesCallback = theme => ({
   root: {
     display: 'inline-block',
     position: 'relative',
@@ -18,7 +17,11 @@ const styles = theme => ({
   }
 })
 
-const ProficiencyIcon = ({ internalProficiency, classes }) => {
+interface IProficiencyIconProps extends WithStyles {
+  internalProficiency: number
+}
+
+const ProficiencyIcon: React.SFC<IProficiencyIconProps> = ({ internalProficiency, classes }) => {
   const borders = [10, 25, 40, 55, 70, 85, 100]
   const level = borders.filter(border => internalProficiency >= border).length
   return (
@@ -27,11 +30,6 @@ const ProficiencyIcon = ({ internalProficiency, classes }) => {
       <Typography className={classes.value}>{internalProficiency}</Typography>
     </div>
   )
-}
-
-ProficiencyIcon.propTypes = {
-  internalProficiency: PropTypes.number.isRequired,
-  classes: PropTypes.object.isRequired
 }
 
 export default withStyles(styles)(ProficiencyIcon)

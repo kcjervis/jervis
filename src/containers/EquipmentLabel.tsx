@@ -14,11 +14,14 @@ import Typography from '@material-ui/core/Typography'
 import Add from '@material-ui/icons/Add'
 
 import EquipmentCard from '../components/EquipmentCard'
+import EquipmentIcon from '../components/EquipmentIcon'
 import ProficiencyIcon from '../components/ProficiencyIcon'
 
 import withDragAndDrop from '../hocs/withDragAndDrop'
 import { actions, selectors } from '../redux/modules/orm'
 
+import { EquipmentModel } from '../calculator'
+import { updateEquipment } from '../redux/modules/orm/actions'
 import { RootState } from '../types'
 
 const styles: StyleRulesCallback = theme => ({
@@ -38,13 +41,15 @@ const styles: StyleRulesCallback = theme => ({
 })
 
 interface IEquipmentLabelProps extends WithStyles, RouteComponentProps<{}> {
-  equipment: any
+  equipment?: EquipmentModel
   slotSize?: number
   index: number | string
   shipId?: number
   landBasedAirCorpsId?: number
   className: string
   isReinforceExpansion?: boolean
+  onRemove: () => void
+  updateEquipment: (payload: { id: number; improvement?: number; internalProficiency?: number }) => void
 }
 
 interface IEquipmentLabelState {
@@ -63,6 +68,14 @@ class EquipmentLabel extends React.Component<IEquipmentLabelProps, IEquipmentLab
   public handleAddEquipment = () => {
     const { shipId, landBasedAirCorpsId, index, history } = this.props
     history.push('./equipments', { shipId, landBasedAirCorpsId, index })
+  }
+
+  public handleReselect = () => {
+    const { equipment, history } = this.props
+    if (!equipment) {
+      return
+    }
+    history.push('./equipments', { id: equipment.id })
   }
 
   public render() {
@@ -84,7 +97,7 @@ class EquipmentLabel extends React.Component<IEquipmentLabelProps, IEquipmentLab
       <div className={className}>
         {/*装備ラベル*/}
         <Card className={classes.card} elevation={0} onClick={this.handleClick}>
-          <img src={equipment.image.icon} />
+          <EquipmentIcon iconId={equipment.type.iconId} />
           <Typography className={classes.typography}>{equipment.name}</Typography>
           <div style={{ display: 'flex', marginLeft: 'auto' }}>
             {internalProficiency >= 0 && <ProficiencyIcon internalProficiency={internalProficiency} />}
@@ -101,7 +114,14 @@ class EquipmentLabel extends React.Component<IEquipmentLabelProps, IEquipmentLab
             <ClickAwayListener onClickAway={this.handleClose}>
               <Fade {...TransitionProps} timeout={500}>
                 <div>
-                  <EquipmentCard equipment={equipment} slotSize={slotSize} onClose={this.handleClose} />
+                  <EquipmentCard
+                    equipment={equipment}
+                    slotSize={slotSize}
+                    onRemove={this.props.onRemove}
+                    onReselect={this.handleReselect}
+                    onClose={this.handleClose}
+                    updateEquipment={this.props.updateEquipment}
+                  />
                 </div>
               </Fade>
             </ClickAwayListener>
@@ -125,7 +145,13 @@ const mapStateToProps = (state: RootState, props: IEquipmentLabelConnectedProps)
   equipment: selectors.equipmentSelector(state, props)
 })
 
-const mapDispatchToProps = (dispatch: Dispatch) => ({
+const mapDispatchToProps = (dispatch: Dispatch, props: IEquipmentLabelConnectedProps) => ({
+  updateEquipment(payload: { id: number; improvement?: number; internalProficiency?: number }) {
+    dispatch(actions.updateEquipment(payload))
+  },
+  onRemove() {
+    dispatch(actions.removeEquipment(props.equipmentId))
+  },
   onEndDrag({
     dragProps,
     dropProps

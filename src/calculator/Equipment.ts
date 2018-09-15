@@ -1,4 +1,11 @@
-import MasterData from '../data'
+import MasterData, { EquipmentType, MasterEquipmentModel } from '../data'
+
+export interface IEquipmentObj {
+  id?: number
+  masterId: number
+  improvement: number
+  internalProficiency: number
+}
 
 export default class Equipment {
   public static createEquipmentById(masterId: number) {
@@ -7,58 +14,27 @@ export default class Equipment {
   public readonly id?: number
   public readonly masterId: number
   public readonly name: string
-  public readonly types: Readonly<number[]>
-  public readonly hp: number
-  public readonly armor: number
-  public readonly firepower: number
-  public readonly torpedo: number
-  public readonly speed: number
-  public readonly bombing: number
-  public readonly antiAir: number
-  public readonly asw: number
-  public readonly accuracy: number
-  public readonly evasion: number
-  public readonly los: number
-  public readonly luck: number
-  public readonly range: number
+
+  public readonly master: MasterEquipmentModel
 
   public readonly improvement: number
   public readonly internalProficiency: number
 
-  public readonly categoryId: number
-  public readonly iconId: number
-
   public readonly isAbysall: boolean
 
-  constructor(equipmentObj: { id?: number; masterId: number; improvement: number; internalProficiency: number }) {
+  public readonly type: EquipmentType
+
+  constructor(equipmentObj: IEquipmentObj) {
     this.id = equipmentObj.id
+    this.masterId = equipmentObj.masterId
 
-    const masterEquipment = MasterData.getEquipment(equipmentObj.masterId)
-    if (!masterEquipment) {
-      throw new Error('master equipment is undefined')
-    }
-    this.masterId = masterEquipment.id
-    this.name = masterEquipment.name
-    this.types = masterEquipment.types
-    this.hp = masterEquipment.hp
-    this.armor = masterEquipment.armor
-    this.firepower = masterEquipment.firepower
-    this.torpedo = masterEquipment.torpedo
-    this.speed = masterEquipment.speed
-    this.bombing = masterEquipment.bombing
-    this.antiAir = masterEquipment.antiAir
-    this.asw = masterEquipment.asw
-    this.accuracy = masterEquipment.accuracy
-    this.evasion = masterEquipment.evasion
-    this.los = masterEquipment.los
-    this.luck = masterEquipment.luck
-    this.range = masterEquipment.range
+    this.master = MasterData.getEquipment(this.masterId)
+    this.type = new EquipmentType(this.master.typeIds)
 
+    this.name = this.master.name
     this.improvement = equipmentObj.improvement
     this.internalProficiency = equipmentObj.internalProficiency
 
-    this.categoryId = this.types[2]
-    this.iconId = this.types[3]
     this.isAbysall = this.masterId > 500
   }
 }

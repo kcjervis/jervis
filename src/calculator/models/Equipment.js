@@ -18,8 +18,8 @@ export default class Equipment {
     this.id = id
     this.index = index
     this.masterId = masterId
-    this.categoryId = this.types[2]
-    this.iconId = this.types[3]
+    this.categoryId = this.typeIds[2]
+    this.iconId = this.typeIds[3]
 
     this.improvement = improvement
     this.internalProficiency = internalProficiency

@@ -15,7 +15,6 @@ interface IFleetPageProps extends WithStyles {
 
 const FleetPage: React.SFC<IFleetPageProps> = ({ fleet, classes }) => {
   const fleetId = fleet.id
-
   return (
     <div>
       {fleet.ships.map((ship, index) => (

@@ -8,8 +8,10 @@ import Fade from '@material-ui/core/Fade'
 import Paper from '@material-ui/core/Paper'
 import Popper from '@material-ui/core/Popper'
 import { StyleRulesCallback, withStyles, WithStyles } from '@material-ui/core/styles'
+import Typography from '@material-ui/core/Typography'
 
 import EquipmentCard from '../components/EquipmentCard'
+import EquipmentIcon from '../components/EquipmentIcon'
 
 import EquipmentModel from '../calculator/Equipment'
 import MasterData from '../data'
@@ -52,7 +54,8 @@ const styles: StyleRulesCallback = theme => ({
   equipmentButton: {
     display: 'flex',
     justifyContent: 'flex-start',
-    width: 300
+    width: 300,
+    textTransform: 'none'
   }
 })
 
@@ -70,9 +73,13 @@ interface IEquipmentsPageState {
 class EquipmentsPage extends React.Component<IEquipmentsPageProps, IEquipmentsPageState> {
   public state = { selectedIconId: 1, visibleAbysall: false, anchorEl: null, equipment: null }
 
-  public baseEquipments = MasterData.allEquipmentIds
-    .map(EquipmentModel.createEquipmentById)
-    .sort((equip1, equip2) => equip1.iconId - equip2.iconId)
+  public baseEquipments = MasterData.allEquipmentIds.map(EquipmentModel.createEquipmentById).sort((equip1, equip2) => {
+    const iconIdDiff = equip1.type.iconId - equip2.type.iconId
+    if (iconIdDiff) {
+      return iconIdDiff
+    }
+    return equip1.masterId - equip2.masterId
+  })
 
   public selectIconId = (selectedIconId: number | string) => () => this.setState({ selectedIconId })
 
@@ -86,7 +93,6 @@ class EquipmentsPage extends React.Component<IEquipmentsPageProps, IEquipmentsPa
 
     const { masterId } = equipment
     const payload = { ...location.state, masterId }
-
     // if (equipment.isAerialCombatPlane) {
     //   payload.internalProficiency = 120
     // }
@@ -110,7 +116,9 @@ class EquipmentsPage extends React.Component<IEquipmentsPageProps, IEquipmentsPa
     const { classes } = this.props
 
     const visibleType = buttonTypes.find(({ iconId }) => iconId === selectedIconId)
-    const visibleEquipments = this.baseEquipments.filter(({ categoryId, isAbysall }) => {
+    const visibleEquipments = this.baseEquipments.filter(equip => {
+      const { isAbysall } = equip
+      const { categoryId } = equip.type
       if (visibleType) {
         if (!visibleType.categoryIds.includes(categoryId)) {
           return false
@@ -132,7 +140,7 @@ class EquipmentsPage extends React.Component<IEquipmentsPageProps, IEquipmentsPa
         <div>
           {buttonTypes.map(({ iconId }) => (
             <Button key={iconId} onClick={this.selectIconId(iconId)}>
-              <img src={require(`../images/equipments/icons/${iconId}.png`)} />
+              <EquipmentIcon iconId={iconId} />
             </Button>
           ))}
           <Button onClick={this.selectIconId('other')}>他</Button>
@@ -144,13 +152,12 @@ class EquipmentsPage extends React.Component<IEquipmentsPageProps, IEquipmentsPa
             <Button
               className={classes.equipmentButton}
               key={index}
-              style={{ textTransform: 'none' }}
               onClick={this.selectEquipment(equip)}
               onMouseEnter={this.handleEquipmentCardOpen(equip)}
               onMouseLeave={this.handleEquipmentCardClose}
             >
-              <img src={require(`../images/equipments/icons/${equip.iconId}.png`)} />
-              {equip.name}
+              <EquipmentIcon iconId={equip.type.iconId} />
+              <Typography align="left">{equip.name}</Typography>
             </Button>
           ))}
         </div>

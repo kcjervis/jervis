@@ -1,11 +1,11 @@
 const fs = require('fs')
-const start2 = require('./start2.json')
+const { api_mst_slotitem } = require('@kancolle/data')
 
 const equipmentPropMap = [
   { prop: 'id', mstProp: 'api_id', type: 'number' },
   { prop: 'sortNo', mstProp: 'api_sortno', type: 'number' },
   { prop: 'name', mstProp: 'api_name', type: 'string' },
-  { prop: 'types', mstProp: 'api_type', type: 'Array' },
+  { prop: 'typeIds', mstProp: 'api_type', type: 'Array' },
   { prop: 'hp', mstProp: 'api_taik', type: 'number' },
   { prop: 'armor', mstProp: 'api_souk', type: 'number' },
   { prop: 'firepower', mstProp: 'api_houg', type: 'number' },
@@ -22,10 +22,11 @@ const equipmentPropMap = [
 ]
 
 const newEquipmentsData = []
-for (const mstEquipment of start2.api_data.api_mst_slotitem) {
+for (const mstEquipment of api_mst_slotitem) {
   const newData = {}
-  for (const { prop, mstProp, type } of equipmentPropMap) {
+  for (const { prop, mstProp } of equipmentPropMap) {
     const mstValue = mstEquipment[mstProp]
+    if (!mstValue) continue
     newData[prop] = mstValue
   }
   newEquipmentsData.push(newData)

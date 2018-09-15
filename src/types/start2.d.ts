@@ -5,7 +5,7 @@ declare module '*/start2' {
 
   type TApiMaterials = [number, number, number, number]
 
-  type TEquipmentTypes = [number, number, number, number, number]
+  type TEquipmentTypeIds = [number, number, number, number, number]
 
   export type TApiAbysallShip = {
     "api_id": number,
@@ -75,7 +75,7 @@ declare module '*/start2' {
     "api_id": number,
     "api_sortno": number,
     "api_name": string,
-    "api_type": TEquipmentTypes,
+    "api_type": TEquipmentTypeIds,
     "api_taik": number,
     "api_souk": number,
     "api_houg": number,

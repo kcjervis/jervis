@@ -8,7 +8,6 @@ declare module '*/ships' {
     readingName: string
     shipTypeId: number
     classId: number
-    classNo: number
     minHp: number
     maxHp: number
     minArmor: number

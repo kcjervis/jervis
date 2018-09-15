@@ -7,6 +7,8 @@ import Checkbox from '@material-ui/core/Checkbox'
 import Divider from '@material-ui/core/Divider'
 import Typography from '@material-ui/core/Typography'
 
+import ShipBanner from '../components/ShipBanner'
+
 import ShipModel from '../calculator/Ship'
 import MasterData from '../data'
 import { actions } from '../redux/modules/orm'
@@ -16,7 +18,7 @@ interface IShipsPageProps extends RouteComponentProps<{}> {
 }
 
 interface IShipsPageState {
-  visibleTypes: number[]
+  visibleTypeIds: number[]
   visibleAlly: boolean
   visibleAbysall: boolean
   visibleBasic: boolean
@@ -30,7 +32,7 @@ class ShipsPage extends React.Component<IShipsPageProps, IShipsPageState> {
     /**
      * 表示艦種
      */
-    visibleTypes: [8, 9, 10, 12],
+    visibleTypeIds: [8, 9, 10, 12],
     /**
      * 味方表示
      */
@@ -48,21 +50,27 @@ class ShipsPage extends React.Component<IShipsPageProps, IShipsPageState> {
   /**
    * 艦娘マスターデータにモデルを適応してソートしたもの
    */
-  public readonly baseShips = MasterData.allShipIds.map(ShipModel.createShipById).sort((a, b) => a.sortId - b.sortId)
+  public readonly baseShips = MasterData.allShipIds.map(ShipModel.createShipById).sort((shipA, shipB) => {
+    const sortIdDiff = shipA.sortId - shipB.sortId
+    if (sortIdDiff === 0) {
+      return shipA.masterId - shipB.masterId
+    }
+    return sortIdDiff
+  })
 
   public readonly categories = [
-    { name: '戦艦級', types: [8, 9, 10, 12] },
-    { name: '航空母艦', types: [7, 11, 18] },
-    { name: '重巡級', types: [5, 6] },
-    { name: '軽巡級', types: [3, 4, 20] },
-    { name: '駆逐艦', types: [2] },
-    { name: '海防艦', types: [1] },
-    { name: '潜水艦', types: [13, 14] },
-    { name: '補助艦艇', types: [15, 16, 17, 19, 20, 21, 22] }
+    { name: '戦艦級', typeIds: [8, 9, 10, 12] },
+    { name: '航空母艦', typeIds: [7, 11, 18] },
+    { name: '重巡級', typeIds: [5, 6] },
+    { name: '軽巡級', typeIds: [3, 4, 20] },
+    { name: '駆逐艦', typeIds: [2] },
+    { name: '海防艦', typeIds: [1] },
+    { name: '潜水艦', typeIds: [13, 14] },
+    { name: '補助艦艇', typeIds: [15, 16, 17, 19, 20, 21, 22] }
   ]
 
-  public setTypes = (visibleTypes: number[]) => () => {
-    this.setState({ visibleTypes })
+  public setTypeIds = (visibleTypeIds: number[]) => () => {
+    this.setState({ visibleTypeIds })
   }
 
   public toggleAbysall = () => {
@@ -74,6 +82,9 @@ class ShipsPage extends React.Component<IShipsPageProps, IShipsPageState> {
    */
   public selectShip = ({ masterId, slots }: { masterId: number; slots: number[] }) => () => {
     const { location, history, createShip } = this.props
+    if (!location.state) {
+      return
+    }
     const { fleetId, index } = location.state
     if (typeof fleetId === 'number' && typeof index === 'number') {
       createShip({ masterId, slots, fleetId, index })
@@ -85,10 +96,10 @@ class ShipsPage extends React.Component<IShipsPageProps, IShipsPageState> {
    * 艦型ごとに艦娘を分類した配列を取得
    */
   get visibleShipClasses() {
-    const { visibleTypes, visibleAlly, visibleAbysall, visibleBasic } = this.state
+    const { visibleTypeIds, visibleAlly, visibleAbysall, visibleBasic } = this.state
 
     const visibleShips = this.baseShips.filter(ship => {
-      if (!visibleTypes.includes(ship.shipTypeId)) {
+      if (!visibleTypeIds.includes(ship.shipTypeId)) {
         return false
       }
       if (visibleAlly && ship.isAbysall) {
@@ -127,7 +138,12 @@ class ShipsPage extends React.Component<IShipsPageProps, IShipsPageState> {
 
         {/*表示する艦娘のカテゴリー選択ボタン*/}
         {this.categories.map(category => (
-          <Button key={category.name} size="small" children={category.name} onClick={this.setTypes(category.types)} />
+          <Button
+            key={category.name}
+            size="small"
+            children={category.name}
+            onClick={this.setTypeIds(category.typeIds)}
+          />
         ))}
 
         {/*艦娘一覧を表示*/}
@@ -137,7 +153,7 @@ class ShipsPage extends React.Component<IShipsPageProps, IShipsPageState> {
             {!this.state.visibleAbysall && <Typography>{MasterData.getShipClassName(classId)}</Typography>}
             {ships.map(ship => (
               <Button key={ship.masterId} onClick={this.selectShip(ship)}>
-                <img src={require(`../images/ships/banner/${ship.masterId}.png`)} />
+                <ShipBanner masterId={ship.masterId} />
               </Button>
             ))}
             <Divider />

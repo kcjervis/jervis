@@ -28,6 +28,7 @@
     "typesafe-actions": "^2.0.4"
   },
   "devDependencies": {
+    "@kancolle/data": "^2018.9.12",
     "@types/history": "^4.7.0",
     "@types/react": "^16.4.11",
     "@types/react-dom": "^16.0.7",

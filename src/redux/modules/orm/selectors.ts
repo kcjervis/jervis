@@ -10,7 +10,7 @@ const sessionSelector = createSelector(orm, ormStateSelector, session => session
 
 const toRefArrayByIndex = <F extends { index: number }>(querySet: QuerySet<F>, length: number) => {
   const array = Array.from({ length })
-  querySet.toRefArray().forEach(query => array[query.index])
+  querySet.toRefArray().forEach(query => (array[query.index] = query))
   return array
 }
 
@@ -40,25 +40,38 @@ export const landBasedAirCorpsListSelector = createSelector(orm, ormStateSelecto
 export const landBasedAirCorpsSelector = (state: RootState, props: { landBasedAirCorpsId: number }) =>
   landBasedAirCorpsListSelector(state).find(({ id }) => id === props.landBasedAirCorpsId)
 
-export const fleetModelArraySelector = ()
+export const fleetModelArraySelector = createSelector(orm, ormStateSelector, session =>
+  session.Fleet.all()
+    .toModelArray()
+    .map(fleet => {
+      const ships = toRefArrayByIndex(fleet.ships, 6)
+      return { ...fleet.ref, ships }
+    })
+)
 
-export const fleetSelector = (state: RootState, props: { fleetId: number }) => {
-  const fleet = sessionSelector(state).Fleet.withId(props.fleetId)
-  const ships = toRefArrayByIndex(fleet.ships, 6)
-  return { ...fleet.ref, ships }
-}
+export const fleetSelector = (state: RootState, props: { fleetId: number }) =>
+  fleetModelArraySelector(state).find(({ id }) => id === props.fleetId)
 
-export const shipSelector = (state: RootState, props: { shipId: number }) => {
-  const ship = sessionSelector(state).Ship.withId(props.shipId)
-  const shipObj = ship.ref
-  shipObj.equipments = toRefArrayByIndex(ship.equipments, shipObj.slots.length).map(e => e && e)
-  return shipObj
-}
+export const shipModelArraySelector = createSelector(orm, ormStateSelector, session =>
+  session.Ship.all()
+    .toModelArray()
+    .map(ship => {
+      const equipments = toRefArrayByIndex(ship.equipments, ship.slots.length + 1)
+      return { ...ship.ref, equipments }
+    })
+)
 
-export const equipmentSelector = (state: RootState, props: { equipmentId: number }) => {
-  const equipment = sessionSelector(state).Equipment.withId(props.equipmentId)
-  return equipment.ref
-}
+export const shipSelector = (state: RootState, props: { shipId: number }) =>
+  shipModelArraySelector(state).find(({ id }) => id === props.shipId)
+
+export const equipmentModelArraySelector = createSelector(orm, ormStateSelector, session =>
+  session.Equipment.all()
+    .toModelArray()
+    .map(equip => new EquipmentModel(equip.ref))
+)
+
+export const equipmentSelector = (state: RootState, props: { equipmentId: number }) =>
+  equipmentModelArraySelector(state).find(({ id }) => id === props.equipmentId)
 
 export default {
   operationsSelector,

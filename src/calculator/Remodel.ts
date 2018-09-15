@@ -1,17 +1,14 @@
 import MasterData from '../data'
-import Ship from './Ship'
 export default class Remodel {
-  public readonly nextId = this.ShipModel.masterShip.remodel.nextId
+  public readonly canRemodel: boolean
+  public readonly canConvert: boolean
 
-  public readonly nextLevel = this.ShipModel.masterShip.remodel.nextLevel
-
-  public readonly canRemodel = this.nextId > 0
-
-  public get canConvert() {
-    const { nextId } = this
-    const nextShipData = MasterData.getShip(nextId)
-    return nextId && nextShipData && nextId === nextShipData.remodel.nextId
+  constructor(public readonly currentId: number, public readonly nextId: number, public readonly nextLevel: number) {
+    this.canRemodel = this.nextId > 0
+    this.canConvert = false
+    if (this.canRemodel) {
+      const nextShipData = MasterData.getShip(nextId)
+      this.canConvert = Boolean(nextId && nextShipData && currentId === nextShipData.remodel.nextId)
+    }
   }
-
-  constructor(public readonly ShipModel: Ship) {}
 }

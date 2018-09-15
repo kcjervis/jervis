@@ -15,19 +15,15 @@ const styles: StyleRulesCallback = theme => ({
 
 interface IStatLabelProps extends WithStyles {
   statName: string
-  value: number | string | number[]
+  value: number | string
 }
 
 const StatLabel: React.SFC<IStatLabelProps> = ({ statName, value, classes }) => {
   const stat = statKeys.find(({ key }) => key === statName)
   const label = stat ? stat.name : statName
 
-  if (Array.isArray(value)) {
-    value = value.join(',')
-  }
-
   let image
-  if (statName !== 'types') {
+  if (statName !== 'typeIds') {
     try {
       image = require(`../images/icons/${statName}.png`)
     } catch (error) {

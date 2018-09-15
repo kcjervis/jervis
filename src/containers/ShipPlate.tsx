@@ -11,6 +11,7 @@ import Typography from '@material-ui/core/Typography'
 import Add from '@material-ui/icons/Add'
 
 import { RemoveButton } from '../components/IconButtons'
+import ShipBanner from '../components/ShipBanner'
 import EquipmentLabel from './EquipmentLabel'
 
 import withDragAndDrop from '../hocs/withDragAndDrop'
@@ -101,7 +102,7 @@ const ShipPlate: React.SFC<IShipPlateProps> = ({ ship, fleetId, index, classes, 
       </Button>
     )
   }
-  const { name, slots, image, equipments } = ship
+  const { name, slots, equipments } = ship
   const handleRemove = () => {
     removeShip(ship.id)
   }
@@ -109,8 +110,19 @@ const ShipPlate: React.SFC<IShipPlateProps> = ({ ship, fleetId, index, classes, 
     <Card className={classes.card}>
       <CardContent className={classes.flexContainer}>
         <div className={classes.flexContent}>
-          <img src={image.banner} />
+          <ShipBanner masterId={ship.masterId} />
         </div>
+        <Typography>{name}</Typography>
+        {displayedStatNames.map(statName => (
+          <div key={statName} className={classes.stat}>
+            <img src={require(`../images/icons/${statName}.png`)} style={{ filter: 'brightness(150%)' }} />
+            <Typography>{15}</Typography>
+          </div>
+        ))}
+        <RemoveButton onClick={handleRemove} />
+      </CardContent>
+
+      <CardContent className={classes.flexContainer}>
         {equipments.map((equipment, equipIndex) => (
           <EquipmentLabel
             key={equipIndex}
@@ -119,19 +131,9 @@ const ShipPlate: React.SFC<IShipPlateProps> = ({ ship, fleetId, index, classes, 
             equipmentId={equipment && equipment.id}
             index={equipIndex}
             slotSize={slots[equipIndex]}
-            isReinforceExpansion={equipIndex > slots.length}
+            isReinforceExpansion={equipIndex + 1 > slots.length}
           />
         ))}
-      </CardContent>
-      <CardContent className={classes.flexContainer}>
-        <Typography>{name}</Typography>
-        {displayedStatNames.map(statName => (
-          <div key={statName} className={classes.stat}>
-            <img src={require(`../images/icons/${statName}.png`)} style={{ filter: 'invert(100%) brightness(120%)' }} />
-            <Typography>{15}</Typography>
-          </div>
-        ))}
-        <RemoveButton onClick={handleRemove} />
       </CardContent>
     </Card>
   )

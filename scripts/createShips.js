@@ -1,5 +1,5 @@
 const fs = require('fs')
-const start2 = require('./start2.json')
+const { api_mst_ship } = require('@kancolle/data')
 const shipsData = require('../src/data/ships.json')
 
 const shipPropMap = [
@@ -26,15 +26,13 @@ const shipPropMap = [
   { prop: 'maxAmmo', mstProp: 'api_bull_max', type: 'number' },
 ]
 
-const getSlots = (mstShip, shipData) => {
+const getSlotCapacities = (mstShip, shipData) => {
   const { api_slot_num, api_maxeq } = mstShip
-  if (typeof api_maxeq === 'number') {
+  if (Array.isArray(api_maxeq)) {
     return Array.from({ length: api_slot_num }, (_, i) => api_maxeq[i])
   }
-
   if (!shipData) return new Array(api_slot_num).fill(-1)
-  return shipData.slots
-
+  return shipData.slotCapacities
 }
 
 const getRemodel = mstShip => {
@@ -52,7 +50,7 @@ const getRemodel = mstShip => {
 }
 
 const newShipsData = []
-for (const mstShip of start2.api_data.api_mst_ship) {
+for (const mstShip of api_mst_ship) {
 
   const shipData = shipsData.find(({ id }) => id === mstShip.api_id)
   const newShip = {}
@@ -62,9 +60,9 @@ for (const mstShip of start2.api_data.api_mst_ship) {
     const dataValue = shipData && shipData[prop]
     if (type === 'number' || type === 'string') {
 
-      if (typeof mstValue !== 'undefined') {
+      if (typeof mstValue !== 'undefined' || typeof mstValue !== 'null') {
         newShip[prop] = mstValue
-      } else if (typeof dataValue !== 'undefined') {
+      } else if (typeof dataValue !== 'undefined' || typeof dataValue !== 'null') {
         newShip[prop] = dataValue
       } else {
         newShip[prop] = type === 'number' ? -1 : ""
@@ -85,12 +83,12 @@ for (const mstShip of start2.api_data.api_mst_ship) {
 
     }
   }
-  newShip.slotCapacities = getSlots(mstShip, shipData)
+  newShip.slotCapacities = getSlotCapacities(mstShip, shipData)
   newShip.equipments = shipData ? shipData.equipments : []
   newShip.remodel = getRemodel(mstShip)
   newShipsData.push(newShip)
   if (!shipData) console.log(mstShip.api_name)
 }
-fs.writeFile('newShips.json', JSON.stringify(newShipsData), err => {
+fs.writeFile('ships.json', JSON.stringify(newShipsData), err => {
   console.log(err)
 })
