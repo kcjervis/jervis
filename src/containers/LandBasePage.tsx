@@ -4,7 +4,8 @@ import { Dispatch } from 'redux'
 
 import { StyleRulesCallback, withStyles, WithStyles } from '@material-ui/core/styles'
 
-import LandBasedFleetCard, { IAirCorps, ILandBasedFleetCardProps } from '../components/LandBasedFleetCard'
+import { LandBasedAirCorpsModel } from '../calculator'
+import LandBasedFleetCard, { ILandBasedAirCorpsCardProps } from '../components/LandBasedAirCorpsCard'
 import { actions, selectors } from '../redux/modules/orm'
 import { RootState } from '../types'
 
@@ -16,17 +17,17 @@ const styles: StyleRulesCallback = theme => ({
 })
 
 interface ILandBasePageProps extends WithStyles {
-  airCorpsList: IAirCorps[]
+  landBase: LandBasedAirCorpsModel[]
   onEndDrag: (...args: any[]) => void
 }
 
-const LandBasePage: React.SFC<ILandBasePageProps> = ({ airCorpsList, classes, onEndDrag }) => {
+const LandBasePage: React.SFC<ILandBasePageProps> = ({ landBase, classes, onEndDrag }) => {
   return (
     <div className={classes.root}>
-      {airCorpsList.map(airCorps => (
+      {landBase.map(airCorps => (
         <LandBasedFleetCard
-          key={`lbas${airCorps.id}`}
-          airCorps={airCorps}
+          key={airCorps.id}
+          landBasedAirCorps={airCorps}
           index={airCorps.index}
           onEndDrag={onEndDrag}
         />
@@ -35,43 +36,42 @@ const LandBasePage: React.SFC<ILandBasePageProps> = ({ airCorpsList, classes, on
   )
 }
 
-interface ILandBasePageConnectedProps {
-  operationId: number
-}
-
-const mapStateToProps = (state: RootState, props: ILandBasePageConnectedProps) => ({
-  airCorpsList: selectors
-    .landBasedAirCorpsListSelector(state)
-    .filter(airCorps => airCorps.operationId === props.operationId)
-    .sort((a, b) => a.index - b.index)
-})
-
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  onEndDrag({ dragProps, dropProps }: { dragProps: ILandBasedFleetCardProps; dropProps: ILandBasedFleetCardProps }) {
-    const dragId = dragProps.airCorps.id
-    const dropId = dropProps.airCorps.id
+  onEndDrag({
+    dragProps,
+    dropProps
+  }: {
+    dragProps: ILandBasedAirCorpsCardProps
+    dropProps: ILandBasedAirCorpsCardProps
+  }) {
+    const dragId = dragProps.landBasedAirCorps.id
+    const dropId = dropProps.landBasedAirCorps.id
     if (dragId === dropId) {
       return
     }
-    dispatch(
-      actions.updateLandBasedAirCorps({
-        id: dragId,
-        operationId: dragProps.airCorps.operationId,
-        index: dragProps.airCorps.index
-      })
-    )
-    dispatch(
-      actions.updateLandBasedAirCorps({
-        id: dropId,
-        operationId: dragProps.airCorps.operationId,
-        index: dragProps.airCorps.index
-      })
-    )
+    if (typeof dragId === 'number') {
+      const { index } = dropProps.landBasedAirCorps
+      dispatch(
+        actions.updateLandBasedAirCorps({
+          id: dragId,
+          index
+        })
+      )
+    }
+    if (typeof dropId === 'number') {
+      const { index } = dragProps.landBasedAirCorps
+      dispatch(
+        actions.updateLandBasedAirCorps({
+          id: dropId,
+          index
+        })
+      )
+    }
   }
 })
 
 const WithStyles = withStyles(styles)(LandBasePage)
 export default connect(
-  mapStateToProps,
+  null,
   mapDispatchToProps
 )(WithStyles)

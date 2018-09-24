@@ -9,12 +9,13 @@ import Typography from '@material-ui/core/Typography'
 
 import ShipBanner from '../components/ShipBanner'
 
-import ShipModel from '../calculator/Ship'
+import ShipModel from '../calculator/ShipModel'
 import MasterData from '../data'
 import { actions } from '../redux/modules/orm'
+import { IShipPayload } from '../redux/modules/orm/actions'
 
 interface IShipsPageProps extends RouteComponentProps<{}> {
-  createShip: (payload: { masterId: number; slots: number[]; fleetId: number; index: number }) => void
+  createShip: (payload: IShipPayload) => void
 }
 
 interface IShipsPageState {
@@ -80,14 +81,22 @@ class ShipsPage extends React.Component<IShipsPageProps, IShipsPageState> {
   /**
    * 選択した艦娘を新しく作成して艦隊に編入する
    */
-  public selectShip = ({ masterId, slots }: { masterId: number; slots: number[] }) => () => {
+  public selectShip = (shipData: ShipModel) => () => {
+    const { masterId, slots } = shipData
     const { location, history, createShip } = this.props
     if (!location.state) {
       return
     }
     const { fleetId, index } = location.state
     if (typeof fleetId === 'number' && typeof index === 'number') {
-      createShip({ masterId, slots, fleetId, index })
+      if (shipData.isAbysall) {
+        const equipments = shipData.master.equipments.map(
+          (equip, equipIndex) => equip && { masterId: equip.id, index: equipIndex }
+        )
+        createShip({ masterId, slots, fleetId, index, equipments })
+      } else {
+        createShip({ masterId, slots, fleetId, index })
+      }
       history.go(-1)
     }
   }
@@ -163,6 +172,7 @@ class ShipsPage extends React.Component<IShipsPageProps, IShipsPageState> {
     )
   }
 }
+
 export default connect(
   null,
   { createShip: actions.createShip }

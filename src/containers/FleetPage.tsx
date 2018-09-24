@@ -2,38 +2,30 @@ import { StyleRulesCallback, withStyles, WithStyles } from '@material-ui/core/st
 import React from 'react'
 import { connect } from 'react-redux'
 
+import Typography from '@material-ui/core/Typography'
+
 import ShipPlate from './ShipPlate'
 
+import { FleetModel } from '../calculator'
 import { fleetSelector } from '../redux/modules/orm/selectors'
 import { RootState } from '../types'
 
 const styles: StyleRulesCallback = theme => ({})
 
 interface IFleetPageProps extends WithStyles {
-  fleet: { id: number; ships: any[] }
+  fleet: FleetModel
 }
 
 const FleetPage: React.SFC<IFleetPageProps> = ({ fleet, classes }) => {
-  const fleetId = fleet.id
+  const fleetId = fleet.id ? fleet.id : 0
   return (
     <div>
-      {fleet.ships.map((ship, index) => (
+      <Typography>{`制空値 ${fleet.calculateFighterPower()}`}</Typography>
+      {fleet.getDisplayedShips().map((ship, index) => (
         <ShipPlate key={index} fleetId={fleetId} shipId={ship && ship.id} index={index} />
       ))}
     </div>
   )
 }
 
-interface IFleetPageConnectedProps {
-  fleetId: number
-}
-
-const mapStateToProps = (state: RootState, props: IFleetPageConnectedProps) => ({
-  fleet: fleetSelector(state, props)
-})
-
-const WithStyles = withStyles(styles)(FleetPage)
-export default connect(
-  mapStateToProps,
-  null
-)(WithStyles)
+export default withStyles(styles)(FleetPage)

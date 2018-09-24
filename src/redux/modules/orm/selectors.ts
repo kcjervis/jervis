@@ -1,83 +1,86 @@
 import { RouteComponentProps } from 'react-router'
-import { createSelector, QuerySet } from 'redux-orm'
-import { EquipmentModel, ShipModel } from '../../../calculator'
+import { createSelector as createOrmSelector, ModelWithFields, QuerySet } from 'redux-orm'
+import { createSelector } from 'reselect'
+import { EquipmentModel, FleetModel, LandBasedAirCorpsModel, OperationModel, ShipModel } from '../../../calculator'
 import { RootState } from '../../../types'
 import orm from './models'
 
 const ormStateSelector = (state: RootState) => state.orm
 
-const sessionSelector = createSelector(orm, ormStateSelector, session => session)
+const equipmentToModel = (equipment: ModelWithFields<any>) => new EquipmentModel(equipment.ref)
 
-const toRefArrayByIndex = <F extends { index: number }>(querySet: QuerySet<F>, length: number) => {
-  const array = Array.from({ length })
-  querySet.toRefArray().forEach(query => (array[query.index] = query))
-  return array
+const shipToModel = (ship: ModelWithFields<any>) => {
+  const equipments: EquipmentModel[] = ship.equipments.toModelArray().map(equipmentToModel)
+  return new ShipModel({ ...ship.ref, equipments })
 }
 
-export const operationsSelector = createSelector(orm, ormStateSelector, session =>
+const landBasedAirCorpsToModel = (lbac: ModelWithFields<any>) => {
+  const equipments: EquipmentModel[] = lbac.equipments.toModelArray().map(equipmentToModel)
+  return new LandBasedAirCorpsModel({ ...lbac.ref, equipments })
+}
+
+const fleetToModel = (fleet: ModelWithFields<any>) => {
+  const ships: ShipModel[] = fleet.ships.toModelArray().map(shipToModel)
+  return new FleetModel({ ...fleet.ref, ships })
+}
+
+const operationToModel = (operation: ModelWithFields<any>) => {
+  const fleets = operation.fleets.toModelArray().map(fleetToModel)
+  const landBase = operation.landBase.toModelArray().map(landBasedAirCorpsToModel)
+  return new OperationModel({ ...operation.ref, fleets, landBase })
+}
+
+export const equipmentModelArraySelector = createOrmSelector(orm, ormStateSelector, session =>
+  session.Equipment.all()
+    .toModelArray()
+    .map(equipmentToModel)
+)
+
+export const equipmentSelector = (state: RootState, props: { equipmentId?: number }) =>
+  equipmentModelArraySelector(state).find(({ id }) => id === props.equipmentId)
+
+export const shipModelArraySelector = createOrmSelector(orm, ormStateSelector, session =>
+  session.Ship.all()
+    .toModelArray()
+    .map(shipToModel)
+)
+
+export const shipSelector = (state: RootState, props: { shipId?: number }) =>
+  shipModelArraySelector(state).find(({ id }) => id === props.shipId)
+
+export const landBasedSelector = createOrmSelector(orm, ormStateSelector, session =>
+  session.LandBasedAirCorps.all()
+    .toModelArray()
+    .map(landBasedAirCorpsToModel)
+)
+
+export const landBasedAirCorpsSelector = (state: RootState, props: { landBasedAirCorpsId: number }) =>
+  landBasedSelector(state).find(({ id }) => id === props.landBasedAirCorpsId)
+
+export const fleetModelArraySelector = createOrmSelector(orm, ormStateSelector, session =>
+  session.Fleet.all()
+    .toModelArray()
+    .map(fleetToModel)
+)
+
+export const fleetSelector = (state: RootState, props: { fleetId: number }) =>
+  fleetModelArraySelector(state).find(({ id }) => id === props.fleetId)
+
+export const operationsSelector = createOrmSelector(orm, ormStateSelector, session =>
   session.Operation.all()
     .toModelArray()
-    .map(operation => {
-      const fleets = toRefArrayByIndex(operation.fleets, 4)
-      const landBasedAirCorpsList = toRefArrayByIndex(operation.landBasedAirCorpsList, 3)
-      return { ...operation.ref, fleets, landBasedAirCorpsList }
-    })
+    .map(operationToModel)
     .sort(({ index: i1 }, { index: i2 }) => i1 - i2)
 )
 
 export const operationSelector = (state: RootState, props: { operationId: number }) =>
   operationsSelector(state).find(({ id }) => id === props.operationId)
 
-export const landBasedAirCorpsListSelector = createSelector(orm, ormStateSelector, session =>
-  session.LandBasedAirCorps.all()
-    .toModelArray()
-    .map(airCorps => {
-      const equipments = toRefArrayByIndex(airCorps.equipments, 4)
-      return { ...airCorps.ref, equipments }
-    })
-)
-
-export const landBasedAirCorpsSelector = (state: RootState, props: { landBasedAirCorpsId: number }) =>
-  landBasedAirCorpsListSelector(state).find(({ id }) => id === props.landBasedAirCorpsId)
-
-export const fleetModelArraySelector = createSelector(orm, ormStateSelector, session =>
-  session.Fleet.all()
-    .toModelArray()
-    .map(fleet => {
-      const ships = toRefArrayByIndex(fleet.ships, 6)
-      return { ...fleet.ref, ships }
-    })
-)
-
-export const fleetSelector = (state: RootState, props: { fleetId: number }) =>
-  fleetModelArraySelector(state).find(({ id }) => id === props.fleetId)
-
-export const shipModelArraySelector = createSelector(orm, ormStateSelector, session =>
-  session.Ship.all()
-    .toModelArray()
-    .map(ship => {
-      const equipments = toRefArrayByIndex(ship.equipments, ship.slots.length + 1)
-      return { ...ship.ref, equipments }
-    })
-)
-
-export const shipSelector = (state: RootState, props: { shipId: number }) =>
-  shipModelArraySelector(state).find(({ id }) => id === props.shipId)
-
-export const equipmentModelArraySelector = createSelector(orm, ormStateSelector, session =>
-  session.Equipment.all()
-    .toModelArray()
-    .map(equip => new EquipmentModel(equip.ref))
-)
-
-export const equipmentSelector = (state: RootState, props: { equipmentId: number }) =>
-  equipmentModelArraySelector(state).find(({ id }) => id === props.equipmentId)
-
 export default {
   operationsSelector,
   operationSelector,
   landBasedAirCorpsSelector,
-  landBasedAirCorpsListSelector,
+  landBasedSelector,
   fleetSelector,
   shipSelector,
   equipmentSelector

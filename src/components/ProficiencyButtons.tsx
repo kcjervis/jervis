@@ -1,4 +1,4 @@
-import Button from '@material-ui/core/Button'
+import IconButton from '@material-ui/core/IconButton'
 import { StyleRulesCallback, withStyles, WithStyles } from '@material-ui/core/styles'
 import React from 'react'
 
@@ -10,8 +10,7 @@ const styles: StyleRulesCallback = theme => ({
     justifyContent: 'space-around'
   },
   proficiencyButton: {
-    minWidth: 0,
-    minHeight: 0,
+    padding: 0,
     '&:hover': {
       filter: 'brightness(150%)'
     }
@@ -31,9 +30,9 @@ const ProficiencyButtons: React.SFC<IProficiencyButtonsProps> = ({ equipmentId, 
   return (
     <div className={classes.root}>
       {proficiencies.map(value => (
-        <Button className={classes.root} onClick={handleUpdateInternalProficiency(value)} size="small">
+        <IconButton key={value} className={classes.proficiencyButton} onClick={handleUpdateInternalProficiency(value)}>
           <ProficiencyIcon internalProficiency={value} />
-        </Button>
+        </IconButton>
       ))}
     </div>
   )

@@ -12,6 +12,7 @@ import LandBasePage from './LandBasePage'
 
 import { selectors } from '../redux/modules/orm'
 
+import { OperationModel } from '../calculator'
 import { RootState } from '../types'
 
 const styles: StyleRulesCallback = theme => ({
@@ -22,10 +23,7 @@ const styles: StyleRulesCallback = theme => ({
 })
 
 interface IOperationPageProps extends WithStyles, RouteComponentProps<{}> {
-  operation: {
-    id: number
-    fleets: Array<{ id: number }>
-  }
+  operation?: OperationModel
 }
 
 const OperationPage: React.SFC<IOperationPageProps> = ({ operation, location, history, classes }) => {
@@ -34,7 +32,7 @@ const OperationPage: React.SFC<IOperationPageProps> = ({ operation, location, hi
     return null
   }
   const { activeTab = 0 } = location.state
-  const { fleets } = operation
+  const { fleets, landBase } = operation
   const activeFleet = fleets[activeTab]
   const handleChange = (e: unknown, value: number) => {
     const newState = { ...location.state, activeTab: value }
@@ -46,10 +44,10 @@ const OperationPage: React.SFC<IOperationPageProps> = ({ operation, location, hi
         {fleets.map((fleet, index) => (
           <Tab key={`fleetTab${index}`} label={index + 1} />
         ))}
-        <Tab label="基地航空隊" value="landBase" />
+        {landBase.length > 0 && <Tab label="基地航空隊" value="landBase" />}
       </Tabs>
-      {activeFleet && <FleetPage fleetId={activeFleet.id} />}
-      {activeTab === 'landBase' && <LandBasePage operationId={operation.id} />}
+      {activeFleet && <FleetPage fleet={activeFleet} />}
+      {activeTab === 'landBase' && <LandBasePage landBase={landBase} />}
     </div>
   )
 }

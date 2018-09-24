@@ -20,7 +20,7 @@ import { EquipmentModel } from '../calculator'
 const styles: StyleRulesCallback = theme => ({
   root: {
     position: 'relative',
-    background: 'rgba(0, 0, 0, 0.7)'
+    background: 'rgba(0, 0, 0, 0.9)'
   },
   title: {
     display: 'flex',
@@ -35,6 +35,10 @@ const styles: StyleRulesCallback = theme => ({
   details: {
     display: 'flex',
     justifyContent: 'space-around'
+  },
+  stats: {
+    display: 'flex',
+    flexDirection: 'column'
   },
   image: {
     margin: theme.spacing.unit,
@@ -61,6 +65,10 @@ const EquipmentCard: React.SFC<IEquipmentCardProps> = ({
   const { master, improvement, internalProficiency } = equipment
   const { id: masterId, sortNo, name, typeIds, ...stats } = master
 
+  const equipmentId = equipment.id
+
+  const { isAerialCombatAircraft } = equipment.type.aircraftType
+
   return (
     <Card className={classes.root} elevation={12}>
       <div className={classes.buttons}>
@@ -79,22 +87,22 @@ const EquipmentCard: React.SFC<IEquipmentCardProps> = ({
       </Typography>
 
       <div className={classes.details}>
-        <CardContent>
-          {/* ステータス一覧 */}
-          {Object.entries(stats).map(([key, value]) => {
-            if (value === 0) {
-              return null
-            }
-            return <StatLabel key={key} statName={key} value={value} />
-          })}
+        {/* ステータス一覧 */}
+        <CardContent className={classes.stats}>
+          {Object.entries(stats)
+            .filter(([key, value]) => value > 0)
+            .map(([key, value]) => (
+              <StatLabel key={key} statName={key} value={value} />
+            ))}
         </CardContent>
         <EquipmentImage className={classes.image} masterId={equipment.masterId} />
       </div>
-
-      {updateEquipment && <ImprovementButtons equipmentId={equipment.id} updateEquipment={updateEquipment} />}
+      {updateEquipment &&
+        equipmentId !== undefined && <ImprovementButtons equipmentId={equipmentId} updateEquipment={updateEquipment} />}
 
       {updateEquipment &&
-        internalProficiency >= 0 && <ProficiencyButtons equipmentId={equipment.id} updateEquipment={updateEquipment} />}
+        equipmentId !== undefined &&
+        isAerialCombatAircraft && <ProficiencyButtons equipmentId={equipmentId} updateEquipment={updateEquipment} />}
     </Card>
   )
 }

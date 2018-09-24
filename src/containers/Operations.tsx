@@ -7,12 +7,13 @@ import Add from '@material-ui/icons/Add'
 
 import OperationCard from './OperationCard'
 
+import { OperationModel } from '../calculator'
 import { actions, selectors } from '../redux/modules/orm'
 import { RootState } from '../types'
 
 interface IOperationsProps {
   createOperation: (payload: { id: number; index: number }) => void
-  operations: any[]
+  operations: OperationModel[]
   maxId: number
 }
 
@@ -29,7 +30,7 @@ const Operations: React.SFC<IOperationsProps> = props => {
     <div>
       {operations.map(({ id, index }) => (
         <div key={id}>
-          <OperationCard operationId={id} index={index} />
+          <OperationCard operationId={id || 0} index={index} />
         </div>
       ))}
       <Button onClick={handleClick}>

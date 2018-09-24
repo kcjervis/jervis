@@ -21,7 +21,6 @@ import withDragAndDrop from '../hocs/withDragAndDrop'
 import { actions, selectors } from '../redux/modules/orm'
 
 import { EquipmentModel } from '../calculator'
-import { updateEquipment } from '../redux/modules/orm/actions'
 import { RootState } from '../types'
 
 const styles: StyleRulesCallback = theme => ({
@@ -46,9 +45,9 @@ interface IEquipmentLabelProps extends WithStyles, RouteComponentProps<{}> {
   index: number | string
   shipId?: number
   landBasedAirCorpsId?: number
-  className: string
+  className?: string
   isReinforceExpansion?: boolean
-  onRemove: () => void
+  removeEquipment: (equipmentId: number) => void
   updateEquipment: (payload: { id: number; improvement?: number; internalProficiency?: number }) => void
 }
 
@@ -72,18 +71,24 @@ class EquipmentLabel extends React.Component<IEquipmentLabelProps, IEquipmentLab
 
   public handleReselect = () => {
     const { equipment, history } = this.props
-    if (!equipment) {
-      return
+    if (equipment) {
+      history.push('./equipments', { id: equipment.id })
     }
-    history.push('./equipments', { id: equipment.id })
+  }
+
+  public handleRemove = () => {
+    const { equipment } = this.props
+    if (equipment && typeof equipment.id === 'number') {
+      this.props.removeEquipment(equipment.id)
+    }
   }
 
   public render() {
     const { slotSize, equipment, classes, className, isReinforceExpansion } = this.props
     if (!equipment) {
       return (
-        <div>
-          <Button className={className} onClick={this.handleAddEquipment}>
+        <div className={className}>
+          <Button className={classes.card} onClick={this.handleAddEquipment}>
             <Add />
             {`装備(${isReinforceExpansion ? '補強増設' : slotSize})`}
           </Button>
@@ -92,7 +97,7 @@ class EquipmentLabel extends React.Component<IEquipmentLabelProps, IEquipmentLab
     }
 
     const { open, anchorEl } = this.state
-    const { improvement = 0, internalProficiency } = equipment
+    const { improvement, internalProficiency } = equipment
     return (
       <div className={className}>
         {/*装備ラベル*/}
@@ -100,7 +105,7 @@ class EquipmentLabel extends React.Component<IEquipmentLabelProps, IEquipmentLab
           <EquipmentIcon iconId={equipment.type.iconId} />
           <Typography className={classes.typography}>{equipment.name}</Typography>
           <div style={{ display: 'flex', marginLeft: 'auto' }}>
-            {internalProficiency >= 0 && <ProficiencyIcon internalProficiency={internalProficiency} />}
+            {internalProficiency > 0 && <ProficiencyIcon internalProficiency={internalProficiency} />}
             <div style={{ margin: 5 }}>
               <Typography className={classes.typography}>{'★' + improvement}</Typography>
               <Typography className={classes.typography}>{slotSize}</Typography>
@@ -116,8 +121,7 @@ class EquipmentLabel extends React.Component<IEquipmentLabelProps, IEquipmentLab
                 <div>
                   <EquipmentCard
                     equipment={equipment}
-                    slotSize={slotSize}
-                    onRemove={this.props.onRemove}
+                    onRemove={this.handleRemove}
                     onReselect={this.handleReselect}
                     onClose={this.handleClose}
                     updateEquipment={this.props.updateEquipment}
@@ -133,12 +137,12 @@ class EquipmentLabel extends React.Component<IEquipmentLabelProps, IEquipmentLab
 }
 
 interface IEquipmentLabelConnectedProps {
-  equipmentId: number
+  equipmentId?: number
   slotSize?: number
   index: number
   shipId?: number
   landBasedAirCorpsId?: number
-  className: string
+  className?: string
 }
 
 const mapStateToProps = (state: RootState, props: IEquipmentLabelConnectedProps) => ({
@@ -149,8 +153,8 @@ const mapDispatchToProps = (dispatch: Dispatch, props: IEquipmentLabelConnectedP
   updateEquipment(payload: { id: number; improvement?: number; internalProficiency?: number }) {
     dispatch(actions.updateEquipment(payload))
   },
-  onRemove() {
-    dispatch(actions.removeEquipment(props.equipmentId))
+  removeEquipment(equipmentId: number) {
+    dispatch(actions.removeEquipment(equipmentId))
   },
   onEndDrag({
     dragProps,
@@ -159,35 +163,14 @@ const mapDispatchToProps = (dispatch: Dispatch, props: IEquipmentLabelConnectedP
     dragProps: IEquipmentLabelConnectedProps
     dropProps: IEquipmentLabelConnectedProps
   }) {
-    const dragId = dragProps.equipmentId
-    const dropId = dropProps.equipmentId
-    if (dragId === dropId) {
-      return
-    }
-    dispatch(
-      actions.updateEquipment({
-        id: dragId,
-        shipId: dropProps.shipId,
-        landBasedAirCorpsId: dropProps.landBasedAirCorpsId,
-        index: dropProps.index
-      })
-    )
-    dispatch(
-      actions.updateEquipment({
-        id: dropId,
-        shipId: dragProps.shipId,
-        landBasedAirCorpsId: dragProps.landBasedAirCorpsId,
-        index: dragProps.index
-      })
-    )
+    dispatch(actions.swapEquipments([dragProps, dropProps]))
   }
 })
 
 const WithStyles = withStyles(styles)(EquipmentLabel)
 const WithRouter = withRouter(WithStyles)
 const WithDragAndDrop = withDragAndDrop('EquipmentLabel')(WithRouter)
-const Connected = connect(
+export default connect(
   mapStateToProps,
   mapDispatchToProps
 )(WithDragAndDrop)
-export default Connected

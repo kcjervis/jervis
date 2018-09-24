@@ -1,14 +1,20 @@
 import React from 'react'
 
+import Avatar from '@material-ui/core/Avatar'
+import Chip from '@material-ui/core/Chip'
 import { StyleRulesCallback, withStyles, WithStyles } from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography'
 
 import statKeys from '../data/statKeys'
 
 const styles: StyleRulesCallback = theme => ({
-  root: { display: 'flex', alignItems: 'center' },
+  root: {
+    margin: theme.spacing.unit * 0.5
+  },
+  avatar: {
+    backgroundColor: 'rgba(0, 0, 0, 0)'
+  },
   image: {
-    margin: 5,
     filter: 'brightness(150%)'
   }
 })
@@ -32,12 +38,12 @@ const StatLabel: React.SFC<IStatLabelProps> = ({ statName, value, classes }) => 
   }
 
   return (
-    <div className={classes.root}>
-      <img className={classes.image} src={image} />
-      <Typography>
-        {label} {value}
-      </Typography>
-    </div>
+    <Chip
+      className={classes.root}
+      avatar={<Avatar className={classes.avatar} imgProps={{ className: classes.image }} src={image} />}
+      label={`${label} ${value}`}
+      variant="outlined"
+    />
   )
 }
 

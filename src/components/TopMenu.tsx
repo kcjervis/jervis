@@ -21,7 +21,8 @@ const TopMenu: React.SFC<ITopMenuProps> = props => {
     { label: 'Home', path: '/home' },
     { label: '編成', path: '/operations' },
     { label: '艦娘', path: '/ships' },
-    { label: '装備', path: '/equipments' }
+    { label: '装備', path: '/equipments' },
+    { label: '海域', path: '/maps' }
   ]
   const isActive = paths.some(({ path }) => path === pathname)
   const handleChange = (_: React.ChangeEvent<{}>, path: string) => {

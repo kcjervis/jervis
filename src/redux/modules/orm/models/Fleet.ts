@@ -25,17 +25,6 @@ export default class Fleet extends Model<IFleetStateItem> {
 
   public static reducer(action: OrmAction, fleetTable: typeof Fleet) {
     switch (action.type) {
-      case getType(actions.createOperation): {
-        const operationId = action.payload.id
-        const fleets = Array.from({ length: 4 }, (_, index) => ({
-          operationId,
-          index
-        }))
-        fleets.forEach(fleet => {
-          fleetTable.create(fleet)
-        })
-        break
-      }
     }
   }
 }

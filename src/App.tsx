@@ -10,9 +10,11 @@ import createHistory from 'history/createBrowserHistory'
 import TopMenu from './components/TopMenu'
 import EquipmentsPage from './containers/EquipmentsPage'
 import Home from './containers/home'
+import MapsPage from './containers/MapsPage'
 import OperationPage from './containers/OperationPage'
 import Operations from './containers/Operations'
 import ShipsPage from './containers/ShipsPage'
+
 import configureStore from './redux/configureStore'
 
 const history = createHistory()
@@ -53,6 +55,7 @@ export default class App extends Component {
                 <Route path="/operation" component={OperationPage} />
                 <Route path="/ships" component={ShipsPage} />
                 <Route path="/equipments" component={EquipmentsPage} />
+                <Route path="/maps" component={MapsPage} />
               </div>
             </div>
           </ConnectedRouter>

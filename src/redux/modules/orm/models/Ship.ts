@@ -25,11 +25,23 @@ export default class Ship extends Model<IShipStateItem> {
     })
   }
 
-  public static reducer(action: OrmAction, shipTable: typeof Ship) {
+  public static reducer(action: OrmAction, shipTable: typeof Ship, session: any) {
     switch (action.type) {
-      case getType(actions.createShip):
-        shipTable.create(action.payload)
+      case getType(actions.createShip): {
+        const { equipments, id } = action.payload
+        if (equipments) {
+          const { maxId = -1 } = session.state.Ship.meta
+          const shipId = id ? id : maxId + 1
+          equipments.forEach(equipPayload => {
+            if (equipPayload) {
+              session.Equipment.create({ ...equipPayload, shipId, improvement: 0, internalProficiency: 0 })
+            }
+          })
+        }
+        shipTable.create({ ...action.payload, equipments: undefined })
         break
+      }
+
       case getType(actions.updateShip): {
         const ship = shipTable.withId(action.payload.id)
         if (ship) {
@@ -39,6 +51,7 @@ export default class Ship extends Model<IShipStateItem> {
       }
       case getType(actions.removeShip):
         shipTable.withId(action.payload).delete()
+        session.Equipment.filter((equip: any) => equip.shipId === null).delete()
         break
     }
   }

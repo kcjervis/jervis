@@ -1,6 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { RouteComponentProps } from 'react-router'
+import { Dispatch } from 'redux'
 
 import Button from '@material-ui/core/Button'
 import Checkbox from '@material-ui/core/Checkbox'
@@ -13,7 +14,7 @@ import Typography from '@material-ui/core/Typography'
 import EquipmentCard from '../components/EquipmentCard'
 import EquipmentIcon from '../components/EquipmentIcon'
 
-import EquipmentModel from '../calculator/Equipment'
+import EquipmentModel from '../calculator/EquipmentModel'
 import MasterData from '../data'
 
 import { actions } from '../redux/modules/orm'
@@ -61,6 +62,7 @@ const styles: StyleRulesCallback = theme => ({
 
 interface IEquipmentsPageProps extends WithStyles, RouteComponentProps<{}> {
   upsertEquipment: (payload: object) => void
+  updateLandBasedAirCorps: (payload: object) => void
 }
 
 interface IEquipmentsPageState {
@@ -71,34 +73,41 @@ interface IEquipmentsPageState {
 }
 
 class EquipmentsPage extends React.Component<IEquipmentsPageProps, IEquipmentsPageState> {
-  public state = { selectedIconId: 1, visibleAbysall: false, anchorEl: null, equipment: null }
+  public static readonly baseEquipments = MasterData.allEquipmentIds
+    .map(EquipmentModel.createEquipmentById)
+    .sort((equip1, equip2) => {
+      const iconIdDiff = equip1.type.iconId - equip2.type.iconId
+      if (iconIdDiff) {
+        return iconIdDiff
+      }
+      return equip1.masterId - equip2.masterId
+    })
 
-  public baseEquipments = MasterData.allEquipmentIds.map(EquipmentModel.createEquipmentById).sort((equip1, equip2) => {
-    const iconIdDiff = equip1.type.iconId - equip2.type.iconId
-    if (iconIdDiff) {
-      return iconIdDiff
-    }
-    return equip1.masterId - equip2.masterId
-  })
+  constructor(props: IEquipmentsPageProps) {
+    super(props)
+    this.state = { selectedIconId: 1, visibleAbysall: false, anchorEl: null, equipment: null }
+  }
 
   public selectIconId = (selectedIconId: number | string) => () => this.setState({ selectedIconId })
 
   public toggleAbysall = () => this.setState(({ visibleAbysall }) => ({ visibleAbysall: !visibleAbysall }))
 
   public selectEquipment = (equipment: EquipmentModel) => () => {
-    const { history, location, upsertEquipment } = this.props
+    const { history, location, upsertEquipment, updateLandBasedAirCorps } = this.props
     if (!location.state) {
       return
     }
 
-    const { masterId } = equipment
-    const payload = { ...location.state, masterId }
-    // if (equipment.isAerialCombatPlane) {
-    //   payload.internalProficiency = 120
-    // }
-    // if (equipment.isAttacker || equipment.isBomber) {
-    //   payload.internalProficiency = 100
-    // }
+    const { masterId, type } = equipment
+    const payload = { ...location.state, masterId, improvement: 0 }
+    if (!equipment.isAbysall) {
+      if (type.aircraftType.isFighter || type.aircraftType.isReconnaissanceAircraft) {
+        payload.internalProficiency = 120
+      }
+      if (type.aircraftType.isTorpedoBomber || type.aircraftType.isDiveBomber) {
+        payload.internalProficiency = 100
+      }
+    }
     upsertEquipment(payload)
     history.go(-1)
   }
@@ -116,7 +125,7 @@ class EquipmentsPage extends React.Component<IEquipmentsPageProps, IEquipmentsPa
     const { classes } = this.props
 
     const visibleType = buttonTypes.find(({ iconId }) => iconId === selectedIconId)
-    const visibleEquipments = this.baseEquipments.filter(equip => {
+    const visibleEquipments = EquipmentsPage.baseEquipments.filter(equip => {
       const { isAbysall } = equip
       const { categoryId } = equip.type
       if (visibleType) {

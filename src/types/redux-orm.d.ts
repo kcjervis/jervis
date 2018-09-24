@@ -226,9 +226,9 @@ declare module 'redux-orm' {
     ...args: any[]
   ) => Result
 
-  export function createSelector<Session, State extends ORMCommonState = ORMCommonState, RootState = { orm: State }>(
+  export function createSelector<S, State extends ORMCommonState = ORMCommonState, RootState = { orm: State }>(
     orm: ORM<State>,
     ormStateSelector: (rootState: RootState) => State,
-    sessionSelector: (session: SessionWithModels<State>) => Session
-  ): (state: RootState) => Session
+    sessionSelector: (session: SessionWithModels<State>) => S
+  ): (state: RootState) => S
 }

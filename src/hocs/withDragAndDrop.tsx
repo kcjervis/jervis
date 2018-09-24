@@ -8,7 +8,7 @@ const withDragAndDrop = (type: string) => <WrappedProps extends {}>(
     isDragging?: boolean
     connectDragSource?: ConnectDragSource
     connectDropTarget?: ConnectDropTarget
-    index: number | string
+    index: number
     onEndDrag: (object: { dragProps: THocProps; dropProps: THocProps }) => void
   }
 

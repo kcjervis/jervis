@@ -1,4 +1,5 @@
 import equipments from './equipments'
+import maps from './maps'
 import MasterEquipmentModel from './MasterEquipmentModel'
 import shipClasses from './shipClasses'
 import ships, { TShipData } from './ships'
@@ -11,6 +12,8 @@ export default class MasterData {
   public static readonly allEquipmentIds = equipments.map(({ id }) => id)
 
   public static readonly Equipments = equipments.map(equip => new MasterEquipmentModel(equip))
+
+  public static readonly Maps = maps
 
   public static getShipClassName(classId: number) {
     const shipClass = shipClasses.find(({ id }) => id === classId)

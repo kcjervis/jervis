@@ -12,8 +12,10 @@ import Add from '@material-ui/icons/Add'
 
 import { RemoveButton } from '../components/IconButtons'
 import ShipBanner from '../components/ShipBanner'
+import StatLabel from '../components/StatLabel'
 import EquipmentLabel from './EquipmentLabel'
 
+import { ShipModel } from '../calculator'
 import withDragAndDrop from '../hocs/withDragAndDrop'
 import { actions, selectors } from '../redux/modules/orm'
 import { RootState } from '../types'
@@ -56,26 +58,9 @@ const styles: StyleRulesCallback = theme => ({
     flexGrow: 0
   }
 })
-const displayedStatNames = [
-  'hp',
-  'firepower',
-  'torpedo',
-  'antiAir',
-  'armor',
-  'asw',
-  'evasion',
-  'los',
-  'luck',
-  'speed',
-  'range'
-]
 
 interface IShipPlateProps extends WithStyles, RouteComponentProps<{}> {
-  ship?: {
-    id: number
-    equipments: any[]
-    [index: string]: any
-  }
+  ship?: ShipModel
   fleetId: number
   index: number
   removeShip: (id: number) => void
@@ -103,9 +88,23 @@ const ShipPlate: React.SFC<IShipPlateProps> = ({ ship, fleetId, index, classes, 
     )
   }
   const { name, slots, equipments } = ship
+
   const handleRemove = () => {
-    removeShip(ship.id)
+    if (typeof ship.id === 'number') {
+      removeShip(ship.id)
+    }
   }
+
+  const displayedStats = {
+    firepower: ship.firepower,
+    torpedo: ship.torpedo,
+    antiAir: ship.antiAir,
+    armor: ship.armor,
+    asw: ship.asw,
+    los: ship.los,
+    evasion: ship.evasion
+  }
+
   return (
     <Card className={classes.card}>
       <CardContent className={classes.flexContainer}>
@@ -113,22 +112,21 @@ const ShipPlate: React.SFC<IShipPlateProps> = ({ ship, fleetId, index, classes, 
           <ShipBanner masterId={ship.masterId} />
         </div>
         <Typography>{name}</Typography>
-        {displayedStatNames.map(statName => (
-          <div key={statName} className={classes.stat}>
-            <img src={require(`../images/icons/${statName}.png`)} style={{ filter: 'brightness(150%)' }} />
-            <Typography>{15}</Typography>
-          </div>
+
+        {/* 艦娘ステータス */}
+        {Object.entries(displayedStats).map(([key, value]) => (
+          <StatLabel key={key} statName={key} value={value} />
         ))}
         <RemoveButton onClick={handleRemove} />
       </CardContent>
 
       <CardContent className={classes.flexContainer}>
-        {equipments.map((equipment, equipIndex) => (
+        {ship.getDisplayedEquipments().map((equipment, equipIndex) => (
           <EquipmentLabel
             key={equipIndex}
             className={classes.flexContent}
-            shipId={ship.id}
             equipmentId={equipment && equipment.id}
+            shipId={ship.id}
             index={equipIndex}
             slotSize={slots[equipIndex]}
             isReinforceExpansion={equipIndex + 1 > slots.length}
@@ -140,7 +138,7 @@ const ShipPlate: React.SFC<IShipPlateProps> = ({ ship, fleetId, index, classes, 
 }
 
 interface IShipPlateConnectedProps {
-  shipId: number
+  shipId?: number
   fleetId: number
   index: number
 }
@@ -157,20 +155,24 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
     if (dragId === dropId) {
       return
     }
-    dispatch(
-      actions.updateShip({
-        id: dragId,
-        fleetId: dropProps.fleetId,
-        index: dropProps.index
-      })
-    )
-    dispatch(
-      actions.updateShip({
-        id: dropId,
-        fleetId: dragProps.fleetId,
-        index: dragProps.index
-      })
-    )
+    if (typeof dragId === 'number') {
+      dispatch(
+        actions.updateShip({
+          id: dragId,
+          fleetId: dropProps.fleetId,
+          index: dropProps.index
+        })
+      )
+    }
+    if (typeof dropId === 'number') {
+      dispatch(
+        actions.updateShip({
+          id: dropId,
+          fleetId: dragProps.fleetId,
+          index: dragProps.index
+        })
+      )
+    }
   }
 })
 
