@@ -18,6 +18,7 @@ declare module '*/equipments' {
     los?: number
     luck?: number
     range?: number
+    radius?: number
   }>
   const equipments: TEquipmentData[]
   export default equipments

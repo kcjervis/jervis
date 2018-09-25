@@ -19,6 +19,7 @@ const equipmentPropMap = [
   { prop: 'los', mstProp: 'api_saku', type: 'number' },
   { prop: 'luck', mstProp: 'api_luck', type: 'number' },
   { prop: 'range', mstProp: 'api_leng', type: 'number' },
+  { prop: 'radius', mstProp: 'api_distance', type: 'number' },
 ]
 
 const newEquipmentsData = []
