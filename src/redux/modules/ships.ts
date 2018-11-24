@@ -1,6 +1,8 @@
 import { List, Record } from 'immutable'
 import { ActionType, createStandardAction, getType } from 'typesafe-actions'
 
+import actions, { KcDataBaseAction } from './actions'
+
 interface IShipState {
   id: string
   masterId: number
@@ -14,40 +16,23 @@ export class ShipRecord extends Record<IShipState>({ id: '', masterId: 0, level:
   }
 }
 
-const setShip = createStandardAction('SET_SHIP')<Partial<IShipState> & { id: string }>()
-const setEquipmentToShip = createStandardAction('SET_EQUIPMENT_TO_SHIP')<{
-  shipId: 'string'
-  index: number
-  equipmentId: 'string'
-}>()
-
-export const actions = { setShip, setEquipmentToShip }
-
-export type ShipsAction = ActionType<typeof actions>
-
 export type ShipsState = List<ShipRecord>
 
-export const reducer = (state: ShipsState = List<ShipRecord>(), action: ShipsAction) => {
+export const reducer = (state: ShipsState = List<ShipRecord>(), action: KcDataBaseAction) => {
   switch (action.type) {
-    case getType(actions.setShip): {
-      const { payload } = action
-      return state.map(shipRecord => {
-        if (shipRecord.id === payload.id) {
-          return shipRecord.merge(payload)
-        }
-        return shipRecord
-      })
+    case getType(actions.createShip): {
+      return state
     }
 
-    case getType(actions.setEquipmentToShip): {
-      const { shipId, index, equipmentId } = action.payload
-      return state.map(shipRecord => {
-        if (shipRecord.id === shipId) {
-          return shipRecord.setEquipment(index, equipmentId)
-        }
-        return shipRecord
-      })
-    }
+    // case getType(actions.setEquipmentToShip): {
+    //   const { shipId, index, equipmentId } = action.payload
+    //   return state.map(shipRecord => {
+    //     if (shipRecord.id === shipId) {
+    //       return shipRecord.setEquipment(index, equipmentId)
+    //     }
+    //     return shipRecord
+    //   })
+    // }
 
     default:
       return state
