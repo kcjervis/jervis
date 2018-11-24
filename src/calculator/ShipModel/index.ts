@@ -5,6 +5,8 @@ import Remodel from '../Remodel'
 
 type BaseStatName = 'firepower' | 'torpedo' | 'antiAir' | 'armor' | 'asw' | 'los' | 'evasion'
 
+const ABYSALL_BOUND = 1500
+
 export default class Ship {
   public static createShipById(masterId: number) {
     return new Ship({ masterId })
@@ -20,7 +22,7 @@ export default class Ship {
   public readonly shipTypeId: number
   public readonly classId: number
 
-  public readonly isAbysall: boolean
+  public readonly isAbyssal: boolean
 
   public slots: number[]
 
@@ -63,7 +65,7 @@ export default class Ship {
 
     this.remodel = new Remodel(this.masterId, this.master.remodel.nextId, this.master.remodel.nextLevel)
 
-    this.isAbysall = this.master.id > 1500
+    this.isAbyssal = this.masterId > ABYSALL_BOUND
   }
 
   /**

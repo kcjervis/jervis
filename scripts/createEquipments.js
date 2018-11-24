@@ -3,7 +3,7 @@ const { api_mst_slotitem } = require('@kancolle/data')
 
 const equipmentPropMap = [
   { prop: 'id', mstProp: 'api_id', type: 'number' },
-  { prop: 'sortNo', mstProp: 'api_sortno', type: 'number' },
+  // { prop: 'sortNo', mstProp: 'api_sortno', type: 'number' },
   { prop: 'name', mstProp: 'api_name', type: 'string' },
   { prop: 'typeIds', mstProp: 'api_type', type: 'Array' },
   { prop: 'hp', mstProp: 'api_taik', type: 'number' },

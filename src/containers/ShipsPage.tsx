@@ -89,7 +89,7 @@ class ShipsPage extends React.Component<IShipsPageProps, IShipsPageState> {
     }
     const { fleetId, index } = location.state
     if (typeof fleetId === 'number' && typeof index === 'number') {
-      if (shipData.isAbysall) {
+      if (shipData.isAbyssal) {
         const equipments = shipData.master.equipments.map(
           (equip, equipIndex) => equip && { masterId: equip.id, index: equipIndex }
         )
@@ -111,10 +111,10 @@ class ShipsPage extends React.Component<IShipsPageProps, IShipsPageState> {
       if (!visibleTypeIds.includes(ship.shipTypeId)) {
         return false
       }
-      if (visibleAlly && ship.isAbysall) {
+      if (visibleAlly && ship.isAbyssal) {
         return false
       }
-      if (visibleAbysall && !ship.isAbysall) {
+      if (visibleAbysall && !ship.isAbyssal) {
         return false
       }
       if (!visibleBasic) {

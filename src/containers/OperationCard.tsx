@@ -1,4 +1,4 @@
-import { StyleRulesCallback, withStyles, WithStyles } from '@material-ui/core/styles'
+import { createStyles, Theme, withStyles, WithStyles } from '@material-ui/core/styles'
 import React from 'react'
 import { connect } from 'react-redux'
 import { RouteComponentProps, withRouter } from 'react-router'
@@ -16,14 +16,15 @@ import { actions } from '../redux/modules/orm'
 
 const RemoveDialog = withAlertDialog(RemoveButton)
 
-const styles: StyleRulesCallback = theme => ({
-  root: {
-    display: 'flex',
-    margin: theme.spacing.unit * 0.5
-  }
-})
+const styles = (theme: Theme) =>
+  createStyles({
+    root: {
+      display: 'flex',
+      margin: theme.spacing.unit * 0.5
+    }
+  })
 
-interface IOperationCardProps extends WithStyles, RouteComponentProps<{}> {
+interface IOperationCardProps extends WithStyles<typeof styles>, RouteComponentProps {
   operationId: number
   index: number
   onRemove: () => void

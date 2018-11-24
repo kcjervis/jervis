@@ -27,6 +27,11 @@ const withDragAndDrop = (type: string) => <WrappedProps extends {}>(
     drop: props => props
   }
 
+  const aaa = DragSource(type, cardSource, (connect, monitor) => ({
+    connectDragSource: connect.dragSource(),
+    isDragging: monitor.isDragging()
+  }))
+
   @DragSource(type, cardSource, (connect, monitor) => ({
     connectDragSource: connect.dragSource(),
     isDragging: monitor.isDragging()
@@ -35,9 +40,7 @@ const withDragAndDrop = (type: string) => <WrappedProps extends {}>(
     connectDropTarget: connect.dropTarget()
   }))
   class DragAndDrop extends React.Component<THocProps> {
-    public static displayName = `withDragAndDrop(${WrappedComponent.name})`
-
-    public static readonly WrappedComponent = WrappedComponent
+    public static displayName? = `withDragAndDrop(${WrappedComponent.name})`
 
     public render() {
       const { isDragging, connectDragSource, connectDropTarget, ...restProps } = this.props as any

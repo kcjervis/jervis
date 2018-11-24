@@ -1,26 +1,29 @@
 import EquipmentModel, { Aircraft } from './EquipmentModel'
 import OprationModel from './OperationModel'
-type AirControlState = 'AS+' | 'AS' | 'AP' | 'AD' | 'AI'
-export type AaerialCombatType = 'JetAssault' | 'LandBaseAerialSupport' | 'CarrierBasedAerialCombat' | 'AirDefense'
+
+/** AirSupremacy */
+export type AirControlState = 'AirSupremacy' | 'AirSuperiority' | 'AirParity' | 'AirDenial' | 'AirIncapability'
+export type AaerialCombatType = 'JetAssault' | 'LandBaseAerialSupport' | 'CarrierBasedAerialCombat' | 'AirRaid'
+
 export default class AerialCombat {
   public isCombinedFleetCombat: boolean
   public aerialCombatType: AaerialCombatType = 'CarrierBasedAerialCombat'
-  public airControlState: AirControlState = 'AI'
+  public airControlState: AirControlState = 'AirIncapability'
   constructor(public operation: OprationModel, public enemyOperation: OprationModel) {
     this.isCombinedFleetCombat = false
   }
 
   public getAirControlStateConstant() {
     switch (this.airControlState) {
-      case 'AS+':
+      case 'AirSupremacy':
         return 1
-      case 'AS':
+      case 'AirSuperiority':
         return 3
-      case 'AP':
+      case 'AirParity':
         return 5
-      case 'AI':
+      case 'AirDenial':
         return 7
-      case 'AD':
+      case 'AirIncapability':
         return 10
     }
   }
@@ -33,15 +36,15 @@ export default class AerialCombat {
     const enemyFighterPower = enemyAircrafts.reduce((value, aircraft) => value + aircraft.calculateFighterPower(), 0)
 
     if (fighterPower >= 3 * enemyFighterPower) {
-      this.airControlState = 'AS+'
+      this.airControlState = 'AirSupremacy'
     } else if (fighterPower >= 1.5 * fighterPower) {
-      this.airControlState = 'AS'
+      this.airControlState = 'AirSuperiority'
     } else if (fighterPower >= (2 / 3) * fighterPower) {
-      this.airControlState = 'AP'
+      this.airControlState = 'AirParity'
     } else if (fighterPower >= (1 / 3) * fighterPower) {
-      this.airControlState = 'AD'
+      this.airControlState = 'AirIncapability'
     } else {
-      this.airControlState = 'AI'
+      this.airControlState = 'AirIncapability'
     }
 
     const airControlStateConstant = this.getAirControlStateConstant()
@@ -68,6 +71,13 @@ export default class AerialCombat {
 
   public stage1() {
     this.fighterCombat()
+  }
+
+  public antiAirCutIn() {
+    if (this.aerialCombatType !== 'CarrierBasedAerialCombat') {
+      return
+    }
+    console.log('antiAirCutIn')
   }
   public stage2() {
     console.log('stage2')
