@@ -1,7 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { RouteComponentProps } from 'react-router'
-import { Dispatch } from 'redux'
 
 import Button from '@material-ui/core/Button'
 import Checkbox from '@material-ui/core/Checkbox'
@@ -62,7 +61,6 @@ const styles: StyleRulesCallback = theme => ({
 
 interface IEquipmentsPageProps extends WithStyles, RouteComponentProps<{}> {
   upsertEquipment: (payload: object) => void
-  updateLandBasedAirCorps: (payload: object) => void
 }
 
 interface IEquipmentsPageState {
@@ -93,14 +91,14 @@ class EquipmentsPage extends React.Component<IEquipmentsPageProps, IEquipmentsPa
   public toggleAbysall = () => this.setState(({ visibleAbysall }) => ({ visibleAbysall: !visibleAbysall }))
 
   public selectEquipment = (equipment: EquipmentModel) => () => {
-    const { history, location, upsertEquipment, updateLandBasedAirCorps } = this.props
+    const { history, location, upsertEquipment } = this.props
     if (!location.state) {
       return
     }
 
     const { masterId, type } = equipment
     const payload = { ...location.state, masterId, improvement: 0 }
-    if (!equipment.isAbysall) {
+    if (!equipment.isAbyssal) {
       if (type.aircraftType.isFighter || type.aircraftType.isReconnaissanceAircraft) {
         payload.internalProficiency = 120
       }
@@ -126,7 +124,7 @@ class EquipmentsPage extends React.Component<IEquipmentsPageProps, IEquipmentsPa
 
     const visibleType = buttonTypes.find(({ iconId }) => iconId === selectedIconId)
     const visibleEquipments = EquipmentsPage.baseEquipments.filter(equip => {
-      const { isAbysall } = equip
+      const { isAbyssal } = equip
       const { categoryId } = equip.type
       if (visibleType) {
         if (!visibleType.categoryIds.includes(categoryId)) {
@@ -138,9 +136,9 @@ class EquipmentsPage extends React.Component<IEquipmentsPageProps, IEquipmentsPa
         }
       }
       if (visibleAbysall) {
-        return isAbysall
+        return isAbyssal
       } else {
-        return !isAbysall
+        return !isAbyssal
       }
     })
     return (

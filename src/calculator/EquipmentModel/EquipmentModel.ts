@@ -39,7 +39,7 @@ export default class EquipmentModel {
   public readonly improvement: number
   public readonly internalProficiency: number
 
-  public readonly isAbysall: boolean
+  public readonly isAbyssal: boolean
 
   public readonly type: EquipmentType
 
@@ -74,6 +74,6 @@ export default class EquipmentModel {
     this.improvement = equipmentObj.improvement
     this.internalProficiency = equipmentObj.internalProficiency
 
-    this.isAbysall = this.masterId > 500
+    this.isAbyssal = this.masterId > 500
   }
 }

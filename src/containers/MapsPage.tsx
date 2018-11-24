@@ -93,7 +93,7 @@ class MapsPage extends React.Component<IMapsPageProps, IMapsPageState> {
     }
     return (
       <Paper key={point}>
-        <Typography variant="display1" color="secondary">
+        <Typography variant="h4" color="secondary">
           {point}
         </Typography>
         {enemyFleets.map(this.renderFleet)}

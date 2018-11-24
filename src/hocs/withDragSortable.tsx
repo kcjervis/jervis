@@ -34,22 +34,19 @@ const withDragSortable = (type: string) => <WrappedProps extends {}>(
     connectDropTarget: connect.dropTarget()
   }))
   class DragSortable extends React.Component<IProps> {
-    public static displayName = `withDragSortable(${WrappedComponent.name})`
-
-    public static readonly WrappedComponent = WrappedComponent
+    public static displayName? = `withDragAndDrop(${WrappedComponent.name})`
 
     public render() {
-      const { isDragging, connectDragSource, connectDropTarget } = this.props
+      const { isDragging, connectDragSource, connectDropTarget } = this.props as any
       const opacity = isDragging ? 0 : 1
-      return (
-        connectDragSource &&
-        connectDropTarget &&
-        connectDragSource(
-          connectDropTarget(
-            <div style={{ opacity, display: 'inline-block' }}>
-              <WrappedComponent {...this.props} />
-            </div>
-          )
+      if (!connectDragSource || !connectDropTarget) {
+        return null
+      }
+      return connectDragSource(
+        connectDropTarget(
+          <div style={{ opacity, display: 'inline-block' }}>
+            <WrappedComponent {...this.props} />
+          </div>
         )
       )
     }

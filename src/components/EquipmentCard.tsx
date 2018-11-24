@@ -19,7 +19,6 @@ import { EquipmentModel } from '../calculator'
 
 const styles: StyleRulesCallback = theme => ({
   root: {
-    position: 'relative',
     background: 'rgba(0, 0, 0, 0.9)'
   },
   title: {
@@ -77,7 +76,7 @@ const EquipmentCard: React.SFC<IEquipmentCardProps> = ({
         {onClose && <CloseButton onClick={onClose} />}
       </div>
 
-      <Typography className={classes.title} variant="headline">
+      <Typography className={classes.title} variant="h5">
         <EquipmentIcon iconId={equipment.type.iconId} />
         {name}
       </Typography>
@@ -97,12 +96,13 @@ const EquipmentCard: React.SFC<IEquipmentCardProps> = ({
         </CardContent>
         <EquipmentImage className={classes.image} masterId={equipment.masterId} />
       </div>
-      {updateEquipment &&
-        equipmentId !== undefined && <ImprovementButtons equipmentId={equipmentId} updateEquipment={updateEquipment} />}
+      {updateEquipment && equipmentId !== undefined && (
+        <ImprovementButtons equipmentId={equipmentId} updateEquipment={updateEquipment} />
+      )}
 
-      {updateEquipment &&
-        equipmentId !== undefined &&
-        isAerialCombatAircraft && <ProficiencyButtons equipmentId={equipmentId} updateEquipment={updateEquipment} />}
+      {updateEquipment && equipmentId !== undefined && isAerialCombatAircraft && (
+        <ProficiencyButtons equipmentId={equipmentId} updateEquipment={updateEquipment} />
+      )}
     </Card>
   )
 }
