@@ -2,11 +2,10 @@ const path = require('path')
 
 module.exports = {
   entry: './src/index.tsx',
-  devtool: 'source-map',
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: '[name].js',
-    publicPath: '/jervis'
+    publicPath: '/jervis/'
   },
   resolve: {
     extensions: ['.js', '.jsx', '.ts', '.tsx', '.json']
