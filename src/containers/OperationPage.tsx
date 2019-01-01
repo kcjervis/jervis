@@ -1,69 +1,135 @@
-import { StyleRulesCallback, withStyles, WithStyles } from '@material-ui/core/styles'
+import { FleetType, Side } from 'kc-calculator'
+import { inject, observer } from 'mobx-react'
 import React from 'react'
-import { connect } from 'react-redux'
 import { RouteComponentProps } from 'react-router'
-import { compose } from 'redux'
+import { Redirect } from 'react-router-dom'
 
+import Checkbox from '@material-ui/core/Checkbox'
+import FormControlLabel from '@material-ui/core/FormControlLabel'
+import { createStyles, withStyles, WithStyles } from '@material-ui/core/styles'
 import Tab from '@material-ui/core/Tab'
 import Tabs from '@material-ui/core/Tabs'
+import Typography from '@material-ui/core/Typography'
 
-import FleetPage from './FleetPage'
-import LandBasePage from './LandBasePage'
+import FleetTypeSelect from '../components/FleetTypeSelect'
 
-import { selectors } from '../redux/modules/orm'
+import stores, { ObservableOperation, SettingStore } from '../stores'
+import ObservableFleet from '../stores/ObservableFleet'
+import FleetField from './FleetField'
+import LandBaseForm from './LandBaseForm'
 
-import { OperationModel } from '../calculator'
-import { RootState } from '../types'
-
-const styles: StyleRulesCallback = theme => ({
+const styles = createStyles({
+  tab: { display: 'flex', flexWrap: 'wrap' },
   menu: {
     display: 'flex',
     alignItems: 'center'
   }
 })
 
-interface IOperationPageProps extends WithStyles, RouteComponentProps<{}> {
-  operation?: OperationModel
+interface IOperationPageProps extends WithStyles<typeof styles>, RouteComponentProps<{}> {
+  operation?: ObservableOperation
+  settingStore?: SettingStore
 }
 
-const OperationPage: React.SFC<IOperationPageProps> = ({ operation, location, history, classes }) => {
+const OperationPage: React.SFC<IOperationPageProps> = ({ operation, history, classes, settingStore }) => {
   if (!operation) {
-    history.replace('operations')
-    return null
+    return <Redirect to="operations" />
   }
-  const { activeTab = 0 } = location.state
-  const { fleets, landBase } = operation
-  const activeFleet = fleets[activeTab]
+  const setting = settingStore!
+
+  const { activeTab = 0 } = history.location.state
+
   const handleChange = (e: unknown, value: number) => {
-    const newState = { ...location.state, activeTab: value }
-    history.replace('operation', newState)
+    history.replace('operation', { ...history.location.state, activeTab: value })
   }
+
+  const handleFleetTypeChange = (fleetType: FleetType) => {
+    operation.fleetType = fleetType
+  }
+
+  const handleSideChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { checked } = event.target
+    const side = checked ? Side.Enemy : Side.Player
+    operation.side = side
+  }
+
+  const handleVisibleShipStatsChange = () => {
+    const { operationPage } = setting
+    operationPage.visibleShipStats = !operationPage.visibleShipStats
+  }
+
+  let activeFleet: ObservableFleet | undefined
+  if (activeTab < 4) {
+    activeFleet = operation.fleets[activeTab]
+  }
+
+  const { mainFleet, escortFleet } = operation.asKcObject
+  let combinedFleetFighterPower = mainFleet.fighterPower
+  let combinedFleetFighterPowerLabel = ''
+  if (escortFleet) {
+    combinedFleetFighterPower += escortFleet.fighterPower
+    combinedFleetFighterPowerLabel = `連合戦制空: ${combinedFleetFighterPower}`
+  }
+
   return (
-    <div className={classes.root}>
-      <Tabs value={activeTab} onChange={handleChange}>
-        {fleets.map((fleet, index) => (
-          <Tab key={`fleetTab${index}`} label={index + 1} />
-        ))}
-        {landBase.length > 0 && <Tab label="基地航空隊" value="landBase" />}
-      </Tabs>
-      {activeFleet && <FleetPage fleet={activeFleet} />}
-      {activeTab === 'landBase' && <LandBasePage landBase={landBase} />}
+    <div style={{ margin: 8 }}>
+      <div className={classes.tab}>
+        <Tabs value={activeTab} onChange={handleChange}>
+          {operation.fleets.map((fleet, index) => {
+            if (operation.asKcObject.isCombinedFleetOperation && index < 2) {
+              return <Tab style={{ width: 50 }} key={`fleetTab${index}`} label={`連合第${index + 1}`} />
+            }
+            return <Tab style={{ width: 50 }} key={`fleetTab${index}`} label={`${index + 1}`} />
+          })}
+          <Tab style={{ width: 50 }} label="基地航空隊" />
+        </Tabs>
+        <div className={classes.menu}>
+          <FleetTypeSelect fleetType={operation.fleetType} onChange={handleFleetTypeChange} />
+          <FormControlLabel
+            control={<Checkbox checked={operation.side === Side.Enemy} onChange={handleSideChange} />}
+            label="敵艦隊"
+          />
+
+          <FormControlLabel
+            control={
+              <Checkbox checked={setting.operationPage.visibleShipStats} onChange={handleVisibleShipStatsChange} />
+            }
+            label="艦娘ステータス表示"
+          />
+        </div>
+      </div>
+
+      <Typography>
+        第一艦隊制空: {mainFleet.fighterPower} {combinedFleetFighterPowerLabel}
+      </Typography>
+
+      {activeFleet && <FleetField fleet={activeFleet} />}
+      {activeTab === 4 && <LandBaseForm operation={operation} />}
     </div>
   )
 }
 
-interface IOperationPageConnectedProps extends RouteComponentProps<{}> {}
-
-const mapStateToProps = (state: RootState, props: IOperationPageConnectedProps) => {
+const mapStateToProps = (s: never, props: RouteComponentProps) => {
   const locationState = props.location.state
-  const operationId = locationState && locationState.operationId
+  if (!locationState) {
+    return
+  }
+
+  const { operationId } = locationState
+  if (typeof operationId !== 'string') {
+    return
+  }
+  const operation = stores.operationStore.getOperation(operationId)
+  if (!operation) {
+    return
+  }
+
+  const { settingStore } = stores
+
   return {
-    operation: selectors.operationSelector(state, { operationId })
+    operation,
+    settingStore
   }
 }
 
-const WithStyles = withStyles(styles)(OperationPage)
-export default connect(
-  mapStateToProps,
-  null
-)(WithStyles)
+export default withStyles(styles)(inject(mapStateToProps)(observer(OperationPage)))

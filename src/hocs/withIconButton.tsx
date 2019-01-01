@@ -4,14 +4,16 @@ import React from 'react'
 
 interface IIconButtonProps {
   className?: string
-  onClick: React.MouseEventHandler<HTMLInputElement>
+  style?: React.CSSProperties
+  onClick?: React.MouseEventHandler<HTMLInputElement>
   label?: string
+  size?: 'inherit' | 'default' | 'small' | 'large'
 }
 
 const withIconButton = (WrappedIcon: typeof SvgIcon) => {
-  const WithIconButton: React.SFC<IIconButtonProps> = ({ className, onClick, label }) => (
-    <IconButton className={className} onClick={onClick}>
-      <WrappedIcon />
+  const WithIconButton: React.SFC<IIconButtonProps> = ({ className, style, onClick, label, size }) => (
+    <IconButton className={className} style={style} onClick={onClick}>
+      <WrappedIcon fontSize={size} />
       {label}
     </IconButton>
   )

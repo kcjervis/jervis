@@ -37,7 +37,7 @@ const withDragSortable = (type: string) => <WrappedProps extends {}>(
     public static displayName? = `withDragAndDrop(${WrappedComponent.name})`
 
     public render() {
-      const { isDragging, connectDragSource, connectDropTarget } = this.props as any
+      const { isDragging, connectDragSource, connectDropTarget, ...rest } = this.props as any
       const opacity = isDragging ? 0 : 1
       if (!connectDragSource || !connectDropTarget) {
         return null
@@ -45,7 +45,7 @@ const withDragSortable = (type: string) => <WrappedProps extends {}>(
       return connectDragSource(
         connectDropTarget(
           <div style={{ opacity, display: 'inline-block' }}>
-            <WrappedComponent {...this.props} />
+            <WrappedComponent {...rest} />
           </div>
         )
       )

@@ -1,33 +1,46 @@
+import { Proficiency } from 'kc-calculator/dist/objects/Equipment'
 import React from 'react'
 
-import { StyleRulesCallback, withStyles, WithStyles } from '@material-ui/core/styles'
+import { createStyles, Theme, withStyles, WithStyles } from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography'
 
-const styles: StyleRulesCallback = theme => ({
-  root: {
-    display: 'inline-block',
-    position: 'relative',
-    margin: 5
-  },
-  value: {
-    position: 'absolute',
-    fontSize: 10,
-    bottom: 0,
-    right: -5
-  }
-})
+const styles = (theme: Theme) =>
+  createStyles({
+    root: {
+      display: 'inline-block',
+      position: 'relative',
+      marginTop: 2
+    },
+    value: {
+      position: 'absolute',
+      fontSize: 10,
+      bottom: 0,
+      right: -2
+    }
+  })
 
-interface IProficiencyIconProps extends WithStyles {
-  internalProficiency: number
+interface IProficiencyIconProps extends WithStyles<typeof styles> {
+  type?: 'internal' | 'level'
+  value: number
+  className?: string
+  style?: React.CSSProperties
 }
 
-const ProficiencyIcon: React.SFC<IProficiencyIconProps> = ({ internalProficiency, classes }) => {
-  const borders = [10, 25, 40, 55, 70, 85, 100]
-  const level = borders.filter(border => internalProficiency >= border).length
+const ProficiencyIcon: React.SFC<IProficiencyIconProps> = ({ type = 'internal', value, classes, className, style }) => {
+  let level: number
+  let internal: number | undefined
+  if (type === 'level') {
+    level = value
+  } else {
+    internal = value
+    level = Proficiency.internalToLevel(internal)
+  }
   return (
-    <div className={classes.root}>
-      <img src={require(`../images/icons/proficiency${level}.png`)} />
-      <Typography className={classes.value}>{internalProficiency}</Typography>
+    <div className={className} style={style}>
+      <div className={classes.root}>
+        <img src={require(`../images/icons/proficiency${level}.png`)} />
+        {type === 'internal' && <Typography className={classes.value}>{internal}</Typography>}
+      </div>
     </div>
   )
 }

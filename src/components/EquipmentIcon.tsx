@@ -1,13 +1,14 @@
 import React from 'react'
 
 interface IEquipmentIconProps {
+  style?: React.CSSProperties
   className?: string
   iconId: number
 }
 
-const EquipmentIcon: React.SFC<IEquipmentIconProps> = ({ className, iconId }) => {
+const EquipmentIcon: React.SFC<IEquipmentIconProps> = ({ style, className, iconId }) => {
   try {
-    return <img className={className} src={require(`../images/equipmentIcons/${iconId}.png`)} />
+    return <img className={className} style={style} src={require(`../images/equipmentIcons/${iconId}.png`)} />
   } catch (error) {
     console.log(error)
     return null
