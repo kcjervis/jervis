@@ -1,108 +1,116 @@
-import Button from '@material-ui/core/Button'
-import Card from '@material-ui/core/Card'
-import CardContent from '@material-ui/core/CardContent'
-import CardMedia from '@material-ui/core/CardMedia'
-import { StyleRulesCallback, withStyles, WithStyles } from '@material-ui/core/styles'
 import React from 'react'
 
+import Card from '@material-ui/core/Card'
+import CardContent from '@material-ui/core/CardContent'
+import { createStyles, Theme, withStyles, WithStyles } from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography'
 
-import { CloseButton, RemoveButton, UpdateButton } from '../components/IconButtons'
 import EquipmentIcon from './EquipmentIcon'
 import EquipmentImage from './EquipmentImage'
-import ImprovementButtons from './ImprovementButtons'
-import ProficiencyButtons from './ProficiencyButtons'
-import ProficiencyIcon from './ProficiencyIcon'
-import StatLabel from './StatLabel'
+import StatChip from './StatChip'
 
-import { EquipmentModel } from '../calculator'
+import { IEquipment } from 'kc-calculator'
 
-const styles: StyleRulesCallback = theme => ({
-  root: {
-    background: 'rgba(0, 0, 0, 0.9)'
-  },
-  title: {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    margin: theme.spacing.unit
-  },
-  buttons: {
-    display: 'flex',
-    justifyContent: 'flex-end'
-  },
-  details: {
-    display: 'flex',
-    justifyContent: 'space-around'
-  },
-  stats: {
-    display: 'flex',
-    flexDirection: 'column'
-  },
-  image: {
-    margin: theme.spacing.unit,
-    alignSelf: 'center'
-  }
-})
+type EquipmentStat =
+  | 'hp'
+  | 'armor'
+  | 'firepower'
+  | 'torpedo'
+  | 'speed'
+  | 'bombing'
+  | 'antiAir'
+  | 'asw'
+  | 'accuracy'
+  | 'interception'
+  | 'evasion'
+  | 'antiBomber'
+  | 'los'
+  | 'luck'
+  | 'range'
+  | 'radius'
 
-interface IEquipmentCardProps extends WithStyles {
-  equipment: EquipmentModel
-  onRemove?: () => void
-  onClose?: React.MouseEventHandler<HTMLInputElement>
-  onReselect?: () => void
-  updateEquipment?: (payload: { id: number; improvement?: number; internalProficiency?: number }) => void
+const equipmentStats: EquipmentStat[] = [
+  'hp',
+  'armor',
+  'firepower',
+  'torpedo',
+  'speed',
+  'bombing',
+  'antiAir',
+  'asw',
+  'accuracy',
+  'interception',
+  'evasion',
+  'antiBomber',
+  'los',
+  'luck',
+  'range',
+  'radius'
+]
+
+const styles = (theme: Theme) =>
+  createStyles({
+    icon: {
+      width: 32,
+      height: 32
+    },
+    title: {
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      margin: theme.spacing.unit
+    },
+    buttons: {
+      display: 'flex',
+      justifyContent: 'flex-end'
+    },
+    details: {
+      display: 'flex',
+      justifyContent: 'space-around'
+    },
+    stats: {
+      display: 'flex',
+      flexDirection: 'column'
+    },
+    image: {
+      margin: theme.spacing.unit,
+      alignSelf: 'center'
+    }
+  })
+
+interface IEquipmentCardProps extends WithStyles<typeof styles> {
+  equipment: IEquipment
+  className?: string
+  style?: React.CSSProperties
 }
 
-const EquipmentCard: React.SFC<IEquipmentCardProps> = ({
-  equipment,
-  onRemove,
-  onReselect,
-  onClose,
-  updateEquipment,
-  classes
-}) => {
-  const { master, improvement, internalProficiency } = equipment
-  const { id: masterId, sortNo, name, typeIds, ...stats } = master
-
-  const equipmentId = equipment.id
-
-  const { isAerialCombatAircraft } = equipment.type.aircraftType
+const EquipmentCard: React.SFC<IEquipmentCardProps> = ({ equipment, classes, className, style }) => {
+  const { masterId, category, iconId, name } = equipment
 
   return (
-    <Card className={classes.root} elevation={12}>
-      <div className={classes.buttons}>
-        {onRemove && <RemoveButton onClick={onRemove} />}
-        {onReselect && <UpdateButton onClick={onReselect} />}
-        {onClose && <CloseButton onClick={onClose} />}
-      </div>
-
-      <Typography className={classes.title} variant="h5">
-        <EquipmentIcon iconId={equipment.type.iconId} />
-        {name}
+    <Card className={className} style={style} elevation={12}>
+      <Typography variant="caption" align="left">
+        ID:{masterId} {category.name}
       </Typography>
 
-      <Typography align="center">
-        ID {masterId} 種別 {typeIds.join(',')}
+      <Typography className={classes.title} variant="subtitle1">
+        <EquipmentIcon className={classes.icon} iconId={iconId} />
+        {name}
       </Typography>
 
       <div className={classes.details}>
         {/* ステータス一覧 */}
         <CardContent className={classes.stats}>
-          {Object.entries(stats)
-            .filter(([key, value]) => value > 0)
-            .map(([key, value]) => (
-              <StatLabel key={key} statName={key} value={value} />
-            ))}
+          {equipmentStats.map(statName => {
+            const value = equipment[statName]
+            if (value === 0) {
+              return null
+            }
+            return <StatChip key={statName} statName={statName} value={value} />
+          })}
         </CardContent>
-        <EquipmentImage className={classes.image} masterId={equipment.masterId} />
+        <EquipmentImage className={classes.image} masterId={masterId} />
       </div>
-      {updateEquipment && equipmentId !== undefined && (
-        <ImprovementButtons equipmentId={equipmentId} updateEquipment={updateEquipment} />
-      )}
-
-      {updateEquipment && equipmentId !== undefined && isAerialCombatAircraft && (
-        <ProficiencyButtons equipmentId={equipmentId} updateEquipment={updateEquipment} />
-      )}
     </Card>
   )
 }

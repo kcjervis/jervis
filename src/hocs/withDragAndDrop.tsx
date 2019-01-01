@@ -9,7 +9,7 @@ const withDragAndDrop = (type: string) => <WrappedProps extends {}>(
     connectDragSource?: ConnectDragSource
     connectDropTarget?: ConnectDropTarget
     index: number
-    onEndDrag: (object: { dragProps: THocProps; dropProps: THocProps }) => void
+    onEndDrag?: (dragProps: THocProps, dropProps: THocProps) => void
   }
 
   const cardSource: DragSourceSpec<THocProps, {}> = {
@@ -18,7 +18,7 @@ const withDragAndDrop = (type: string) => <WrappedProps extends {}>(
       const dragProps = props
       const dropProps = monitor.getDropResult()
       if (dropProps && props.onEndDrag) {
-        props.onEndDrag({ dragProps, dropProps })
+        props.onEndDrag(dragProps, dropProps)
       }
     }
   }
@@ -26,11 +26,6 @@ const withDragAndDrop = (type: string) => <WrappedProps extends {}>(
   const cardTarget: DropTargetSpec<THocProps> = {
     drop: props => props
   }
-
-  const aaa = DragSource(type, cardSource, (connect, monitor) => ({
-    connectDragSource: connect.dragSource(),
-    isDragging: monitor.isDragging()
-  }))
 
   @DragSource(type, cardSource, (connect, monitor) => ({
     connectDragSource: connect.dragSource(),

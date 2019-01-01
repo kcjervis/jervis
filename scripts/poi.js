@@ -1,5 +1,6 @@
 const axios = require('axios')
 const fs = require('fs')
+const maps = require('../src/data/maps.json')
 
 const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
 const getPoiEventEnemyFleets = async (mapId, difficulty, point) => {
@@ -22,7 +23,7 @@ const getPoiEventEnemyFleets = async (mapId, difficulty, point) => {
     return null
   }
 
-  console.log(`map: ${mapId}, point: ${point} is  success`)
+  console.log(`map: ${mapId}, point: ${point} is successful`)
 
   return Array.from(new Set(enemyStrings)).map(str => {
     ships = str.match(/\d+(?=\))/g).map(Number)
@@ -64,16 +65,14 @@ const getPoiEventMap = async (mapId) => {
   const points = Array.from({ length: 30 }, (_, index) => indexToChar(index))
   for (const point of points) {
     const cell = await getPoiEventCell(mapId, point)
-    if (cell === 404) {
-      return map
+    if (cell !== 404) {
+      map.cells.push(cell)
     }
-    map.cells.push(cell)
   }
   return map
 }
 
 const writeMaps = async mapIds => {
-  const maps = []
   for (const mapId of mapIds) {
     const map = await getPoiEventMap(mapId)
     maps.push(map)
@@ -83,6 +82,6 @@ const writeMaps = async mapIds => {
   })
   return null
 }
-writeMaps([421, 422, 423, 424, 425])
+writeMaps([431, 432, 433])
 
 

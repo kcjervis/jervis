@@ -5,7 +5,8 @@ module.exports = {
   devtool: 'source-map',
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: '[name].js'
+    filename: '[name].js',
+    publicPath: '/jervis'
   },
   resolve: {
     extensions: ['.js', '.jsx', '.ts', '.tsx', '.json']
@@ -47,7 +48,7 @@ module.exports = {
           {
             loader: 'url-loader',
             options: {
-              limit: 10000,
+              limit: 300,
               name: 'static/media/[path][name].[ext]'
             }
           }

@@ -14,7 +14,6 @@
     // "noImplicitThis": true,
     // "noUnusedLocals": true,
     // "noUnusedParameters": true,
-    "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "strict": true,
     "experimentalDecorators": true
