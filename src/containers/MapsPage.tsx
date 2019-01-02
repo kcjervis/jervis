@@ -18,7 +18,7 @@ interface IMapsPageState {
 /**
  * 海域ページ
  */
-class MapsPage extends React.Component<RouteComponentProps, IMapsPageState> {
+class MapsPage extends React.Component<RouteComponentProps<{ operationId?: string }>, IMapsPageState> {
   public readonly difficulties: TEventDifficulty[] = [1, 2, 3, 4]
 
   public state: IMapsPageState = { mapId: 0, point: 'A' }
@@ -34,14 +34,14 @@ class MapsPage extends React.Component<RouteComponentProps, IMapsPageState> {
   public handleEnemyClick = (enemy: TEnemyFleet) => () => {
     const { ships } = enemy
 
-    const locationState = this.props.location.state
-    if (!locationState) {
+    const { operationId } = this.props.match.params
+    if (!operationId) {
       return
     }
-    const operation = stores.operationStore.getOperation(locationState.operationId)
+    const operation = stores.operationStore.getOperation(operationId)
     if (operation) {
       operation.enemies.push(enemy)
-      this.props.history.go(-1)
+      this.props.history.replace('/operation')
     }
   }
 

@@ -87,7 +87,7 @@ const ShipField: React.SFC<IShipField> = props => {
   if (!ship) {
     return (
       <div className={classes.root}>
-        <Link to={{ pathname: 'ships', state: { fleetId, index } }}>
+        <Link to={`ships/${fleetId}/${index}`}>
           <Button className={classes.addShipButton} variant="outlined" fullWidth={true} size="large">
             <Add />
             艦娘{index + 1}

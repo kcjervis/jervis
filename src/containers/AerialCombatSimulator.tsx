@@ -32,7 +32,7 @@ interface IAerialCombatSimulatorProps {
 }
 
 interface IAerialCombatSimulatorState {
-  simulationResult: Array<{ name: string; count: Dictionary<number> }> | null
+  simulationResult: Array<{ name: string; count: Dictionary<number>; fighterPower: number }> | null
 }
 
 class AerialCombatSimulator extends React.Component<IAerialCombatSimulatorProps, IAerialCombatSimulatorState> {
@@ -91,7 +91,8 @@ class AerialCombatSimulator extends React.Component<IAerialCombatSimulatorProps,
     const battleResults = flatMap(Array.from(Array(1000), this.aerialBattle).filter(nonNullable))
     const simulationResult = Object.entries(groupBy(battleResults, 'name')).map(([name, battleResult]) => ({
       name,
-      count: countBy(battleResult, result => result.airControlState)
+      count: countBy(battleResult, result => result.airControlState),
+      fighterPower: battleResult.map(({ fighterPower }) => fighterPower).sort((fp1, fp2) => fp2 - fp1)[50]
     }))
     this.setState({ simulationResult })
   }
@@ -112,26 +113,30 @@ class AerialCombatSimulator extends React.Component<IAerialCombatSimulatorProps,
             <TableHead>
               <TableRow>
                 <TableCell>フェーズ</TableCell>
-                <TableCell align="right">制空権喪失</TableCell>
-                <TableCell align="right">航空劣勢</TableCell>
-                <TableCell align="right">制空均衡</TableCell>
-                <TableCell align="right">航空優勢</TableCell>
-                <TableCell align="right">制空権確保</TableCell>
+                <TableCell align="right">制空権喪失 (%)</TableCell>
+                <TableCell align="right">航空劣勢 (%)</TableCell>
+                <TableCell align="right">制空均衡 (%)</TableCell>
+                <TableCell align="right">航空優勢 (%)</TableCell>
+                <TableCell align="right">制空権確保 (%)</TableCell>
+                <TableCell align="right">航空戦後敵制空値(上位95%)</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {simulationResult.map(({ name, count }) => (
-                <TableRow key={name}>
-                  <TableCell component="th" scope="row">
-                    {name}
-                  </TableCell>
-                  <TableCell align="right">{count.制空権喪失}</TableCell>
-                  <TableCell align="right">{count.航空劣勢}</TableCell>
-                  <TableCell align="right">{count.制空均衡}</TableCell>
-                  <TableCell align="right">{count.航空優勢}</TableCell>
-                  <TableCell align="right">{count.制空権確保}</TableCell>
-                </TableRow>
-              ))}
+              {simulationResult.map(
+                ({ name, count: { 制空権喪失, 航空劣勢, 制空均衡, 航空優勢, 制空権確保 }, fighterPower }) => (
+                  <TableRow key={name}>
+                    <TableCell component="th" scope="row">
+                      {name}
+                    </TableCell>
+                    <TableCell align="right">{制空権喪失 && 制空権喪失 / 10}</TableCell>
+                    <TableCell align="right">{航空劣勢 && 航空劣勢 / 10}</TableCell>
+                    <TableCell align="right">{制空均衡 && 制空均衡 / 10}</TableCell>
+                    <TableCell align="right">{航空優勢 && 航空優勢 / 10}</TableCell>
+                    <TableCell align="right">{制空権確保 && 制空権確保 / 10}</TableCell>
+                    <TableCell align="right">{fighterPower}</TableCell>
+                  </TableRow>
+                )
+              )}
             </TableBody>
           </Table>
         )}

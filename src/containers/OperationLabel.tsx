@@ -1,17 +1,19 @@
 import React from 'react'
-import { RouteComponentProps, withRouter } from 'react-router'
 
 import Button from '@material-ui/core/Button'
 
 import { ObservableOperation } from '../stores'
 
-interface IOperationLabelProps extends RouteComponentProps {
+interface IOperationLabelProps {
+  moveOperationPage: (operation: ObservableOperation) => void
   operation: ObservableOperation
   index: number
 }
 
-const OperationLabel: React.SFC<IOperationLabelProps> = ({ operation, index, history }) => {
-  const handleClick = () => history.push('./operation', { operationId: operation.id })
+const OperationLabel: React.SFC<IOperationLabelProps> = ({ moveOperationPage, operation, index }) => {
+  const handleClick = () => {
+    moveOperationPage(operation)
+  }
   return (
     <div>
       <Button onClick={handleClick} size="large">
@@ -21,4 +23,4 @@ const OperationLabel: React.SFC<IOperationLabelProps> = ({ operation, index, his
   )
 }
 
-export default withRouter(OperationLabel)
+export default OperationLabel

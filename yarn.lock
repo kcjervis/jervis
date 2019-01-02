@@ -2738,10 +2738,10 @@ jss@^9.3.3:
     symbol-observable "^1.1.0"
     warning "^3.0.0"
 
-kc-calculator@^0.0.44:
-  version "0.0.44"
-  resolved "https://registry.yarnpkg.com/kc-calculator/-/kc-calculator-0.0.44.tgz#bb923392f099924c91c9812a04fbfc56bf066222"
-  integrity sha512-iuTsO8s84ylpiXoCesk2VfUFO0Zla7yiDYlUt5gYgn+guWzvHrl/l50wB1fo41PKiOWQj2Rq+BZFBZbxkcqU9g==
+kc-calculator@^0.0.49:
+  version "0.0.49"
+  resolved "https://registry.yarnpkg.com/kc-calculator/-/kc-calculator-0.0.49.tgz#89ddb0ab7b958d09885985bdafe0bc0e260e42d5"
+  integrity sha512-iCBSWdlSZ2HRPh8A3cB9xGDePiEsCEaiUwOJ7cBd+5OLEYdO2TOwEWP265WLu5txAxA4G94mCEauCO+TYtk9rA==
   dependencies:
     "@kancolle/data" "^2018.12.27"
     lodash "^4.17.11"

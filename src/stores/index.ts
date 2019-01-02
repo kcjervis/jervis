@@ -7,11 +7,13 @@ import ObservableOperation from './ObservableOperation'
 import ObservableShip from './ObservableShip'
 import OperationStore from './OperationStore'
 import SettingStore from './SettingStore'
+import ShipsPageStore from './ShipsPageStore'
 
 const hydrate = create()
 
 const operationStore = new OperationStore()
 const settingStore = new SettingStore()
+const shipsPageStore = new ShipsPageStore()
 
 hydrate('operationStore', operationStore)
 hydrate('settingStore', settingStore)
@@ -23,10 +25,12 @@ export {
   ObservableFleet,
   ObservableLandBasedAirCorps,
   ObservableOperation,
-  SettingStore
+  SettingStore,
+  ShipsPageStore
 }
 
 export default {
   operationStore,
-  settingStore
+  settingStore,
+  shipsPageStore
 }

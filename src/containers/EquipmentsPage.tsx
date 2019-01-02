@@ -207,25 +207,29 @@ class EquipmentsPage extends React.Component<IEquipmentsPageProps, IEquipmentsPa
   }
 }
 
-const mapStateToProps = (s: never, props: RouteComponentProps) => {
-  const locationState = props.location.state
-  if (!locationState) {
+interface IParams {
+  type?: 'ship' | 'landBase'
+  parentId?: string
+  index?: string
+}
+
+const mapStateToProps = (s: never, props: RouteComponentProps<IParams>) => {
+  const { type, parentId, index } = props.match.params
+  if (!type || !parentId || !index) {
     return
   }
-  const { type, parentId, index } = locationState
-  if (type !== 'ship' && type !== 'landBase' && typeof index !== 'number') {
-    return
-  }
+
   const { getShip, getLandBasedAirCorps } = stores.operationStore
   const parent = type === 'ship' ? getShip(parentId) : getLandBasedAirCorps(parentId)
   if (!parent) {
     return
   }
+
   return {
     parent,
     createEquipment(data: IEquipmentDataObject) {
-      parent.createEquipment(index, data)
-      props.history.go(-1)
+      parent.createEquipment(Number(index), data)
+      props.history.replace('/operation')
     }
   }
 }

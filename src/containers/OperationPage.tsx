@@ -35,12 +35,11 @@ const OperationPage: React.SFC<IOperationPageProps> = ({ operation, history, cla
   if (!operation) {
     return <Redirect to="operations" />
   }
+
   const setting = settingStore!
 
-  const { activeTab = 0 } = history.location.state
-
   const handleChange = (e: unknown, value: number) => {
-    history.replace('operation', { ...history.location.state, activeTab: value })
+    operation.activeFleetIndex = value
   }
 
   const handleFleetTypeChange = (fleetType: FleetType) => {
@@ -58,10 +57,8 @@ const OperationPage: React.SFC<IOperationPageProps> = ({ operation, history, cla
     operationPage.visibleShipStats = !operationPage.visibleShipStats
   }
 
-  let activeFleet: ObservableFleet | undefined
-  if (activeTab < 4) {
-    activeFleet = operation.fleets[activeTab]
-  }
+  const { activeFleetIndex } = operation
+  const activeFleet: ObservableFleet | undefined = operation.activeFleet
 
   const { mainFleet, escortFleet } = operation.asKcObject
   let combinedFleetFighterPower = mainFleet.fighterPower
@@ -74,7 +71,7 @@ const OperationPage: React.SFC<IOperationPageProps> = ({ operation, history, cla
   return (
     <div style={{ margin: 8 }}>
       <div className={classes.tab}>
-        <Tabs value={activeTab} onChange={handleChange}>
+        <Tabs value={activeFleetIndex} onChange={handleChange}>
           {operation.fleets.map((fleet, index) => {
             if (operation.asKcObject.isCombinedFleetOperation && index < 2) {
               return <Tab style={{ width: 50 }} key={`fleetTab${index}`} label={`連合第${index + 1}`} />
@@ -103,31 +100,20 @@ const OperationPage: React.SFC<IOperationPageProps> = ({ operation, history, cla
         第一艦隊制空: {mainFleet.fighterPower} {combinedFleetFighterPowerLabel}
       </Typography>
 
-      {activeFleet && <FleetField fleet={activeFleet} />}
-      {activeTab === 4 && <LandBaseForm operation={operation} />}
+      {activeFleet && <FleetField fleet={activeFleet} operation={operation} />}
+      {!activeFleet && <LandBaseForm operation={operation} />}
     </div>
   )
 }
 
-const mapStateToProps = (s: never, props: RouteComponentProps) => {
-  const locationState = props.location.state
-  if (!locationState) {
+const mapStateToProps = () => {
+  const { visibleOperation } = stores.operationStore
+  if (!visibleOperation) {
     return
   }
-
-  const { operationId } = locationState
-  if (typeof operationId !== 'string') {
-    return
-  }
-  const operation = stores.operationStore.getOperation(operationId)
-  if (!operation) {
-    return
-  }
-
   const { settingStore } = stores
-
   return {
-    operation,
+    operation: visibleOperation,
     settingStore
   }
 }

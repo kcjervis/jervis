@@ -1,3 +1,4 @@
+import { ArtillerySpotting, FleetRole, FleetType } from 'kc-calculator'
 import { inject, observer } from 'mobx-react'
 import React from 'react'
 import { RouteComponentProps, withRouter } from 'react-router'
@@ -10,8 +11,10 @@ import Typography from '@material-ui/core/Typography'
 import Add from '@material-ui/icons/Add'
 import Remove from '@material-ui/icons/Remove'
 
+import { ObservableOperation } from '../stores'
 import ObservableFleet from '../stores/ObservableFleet'
 import OperationStore from '../stores/OperationStore'
+import FleetDetail from './FleetDetail'
 import ShipField from './ShipField'
 
 const styles = createStyles({
@@ -27,10 +30,11 @@ const styles = createStyles({
 
 interface IFleetFieldProps extends WithStyles<typeof styles>, RouteComponentProps {
   fleet: ObservableFleet
+  operation: ObservableOperation
   operationStore?: OperationStore
 }
 
-const FleetField: React.SFC<IFleetFieldProps> = ({ fleet, operationStore, classes, history }) => {
+const FleetField: React.SFC<IFleetFieldProps> = ({ fleet, operationStore, classes, operation }) => {
   const { ships } = fleet
   const addShipField = () => {
     ships.push(undefined)
@@ -40,6 +44,14 @@ const FleetField: React.SFC<IFleetFieldProps> = ({ fleet, operationStore, classe
       ships.pop()
     }
   }
+
+  const fleetIndex = operation.fleets.indexOf(fleet)
+  const { fleetType } = operation
+  let fleetRole = FleetRole.MainFleet
+  if (fleetIndex === 1 && fleetType !== FleetType.Single) {
+    fleetRole = FleetRole.EscortFleet
+  }
+
   return (
     <div>
       <Typography>制空: {fleet.asKcObject.fighterPower}</Typography>
@@ -57,6 +69,8 @@ const FleetField: React.SFC<IFleetFieldProps> = ({ fleet, operationStore, classe
           <Remove />
         </Button>
       </div>
+
+      <FleetDetail fleet={fleet.asKcObject} fleetRole={fleetRole} />
     </div>
   )
 }

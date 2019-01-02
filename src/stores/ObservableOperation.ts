@@ -35,9 +35,16 @@ export default class ObservableOperation implements IOperationDataObject {
   @observable
   public isVisible = true
 
+  @observable
+  public activeFleetIndex: number = 0
+
   @action.bound
   public remove() {
     this.isVisible = false
+  }
+
+  get activeFleet() {
+    return this.fleets[this.activeFleetIndex]
   }
 
   get asKcObject() {
