@@ -1,6 +1,7 @@
 import { action, autorun, computed, observable } from 'mobx'
 import { persist } from 'mobx-persist'
 
+import fromNishikuma from './fromNishikuma'
 import ObservableEquipment from './ObservableEquipment'
 import ObservableLandBasedAirCorps from './ObservableLandBasedAirCorps'
 import ObservableOperation from './ObservableOperation'
@@ -24,28 +25,12 @@ interface IDraggableShipProps {
 }
 
 export default class OperationStore {
-  @computed
-  get fleets() {
-    return this.operations.map(({ fleets }) => fleets).flat()
-  }
-
-  @computed
-  get ships() {
-    return this.fleets
-      .flatMap(({ ships }) => ships)
-      .filter((ship): ship is ObservableShip => ship instanceof ObservableShip)
-  }
-
-  @computed
-  get equipments() {
-    return this.ships
-      .flatMap(({ equipments }) => equipments)
-      .filter((equip): equip is ObservableEquipment => equip instanceof ObservableEquipment)
-  }
-
   @persist('list', ObservableOperation)
   @observable
   public operations: ObservableOperation[] = []
+
+  @observable
+  public visibleOperation?: ObservableOperation
 
   constructor() {
     autorun(() => {
@@ -60,6 +45,14 @@ export default class OperationStore {
   @action.bound
   public createOperation() {
     this.operations.push(new ObservableOperation())
+  }
+
+  @action.bound
+  public fromNishikuma(json: string) {
+    const operation = fromNishikuma(JSON.parse(json))
+    if (operation) {
+      this.operations.push(operation)
+    }
   }
 
   @action.bound
@@ -81,6 +74,25 @@ export default class OperationStore {
       const { ships: ships2 } = dropFleet
       switchArrayItems(ships1, dragProps.index, ships2, dropProps.index)
     }
+  }
+
+  @computed
+  get fleets() {
+    return this.operations.map(({ fleets }) => fleets).flat()
+  }
+
+  @computed
+  get ships() {
+    return this.fleets
+      .flatMap(({ ships }) => ships)
+      .filter((ship): ship is ObservableShip => ship instanceof ObservableShip)
+  }
+
+  @computed
+  get equipments() {
+    return this.ships
+      .flatMap(({ equipments }) => equipments)
+      .filter((equip): equip is ObservableEquipment => equip instanceof ObservableEquipment)
   }
 
   public getOperation = (id: string) => {

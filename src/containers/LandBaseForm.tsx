@@ -32,7 +32,7 @@ const LandBaseForm: React.SFC<ILandBaseForm> = ({ operation }) => {
           <EnemyFleet key={index} enemy={enemy} />
         ))}
         {operation.enemies.length === 0 ? (
-          <Link to={{ pathname: 'maps', state: { operationId: operation.id } }}>
+          <Link to={`/maps/${operation.id}`}>
             <Button>敵編成を選択</Button>
           </Link>
         ) : (

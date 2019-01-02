@@ -21,7 +21,7 @@ const EquipmentField: React.SFC<IEquipmentFieldProps> = props => {
   const style = { width: 250, height: 50, margin: 2 }
 
   const type = parent instanceof ObservableShip ? 'ship' : 'landBase'
-  const toEquipmentsPage = () => props.history.push('equipments', { type, parentId: parent.id, index })
+  const toEquipmentsPage = () => props.history.push(`/equipments/${type}/${parent.id}/${index}`)
   if (!equipment) {
     return (
       <div style={style}>

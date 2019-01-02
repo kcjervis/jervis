@@ -18,13 +18,13 @@ import MasterShipCard from '../components/MasterShipCard'
 import ShipImage from '../components/ShipImage'
 
 import { inject } from 'mobx-react'
-import stores from '../stores'
+import stores, { ShipsPageStore } from '../stores'
 
 const masterData = new MasterData()
 const masterShips = masterData.ships
 
 interface IMasterShipsPageProps extends RouteComponentProps {
-  createShip: (data: IShipDataObject) => void
+  createShip?: (ship: IShipDataObject) => void
 }
 
 interface IMasterShipsPageState {
@@ -85,23 +85,37 @@ class MasterShipsPage extends React.Component<IMasterShipsPageProps, IMasterShip
   }
 
   public selectShip = (ship: MasterShip) => () => {
-    const { createShip } = this.props
-    if (createShip) {
+    const { createShip, history } = this.props
+    if (!createShip) {
+      return
+    }
+    const { slotCapacities: slots, id: masterId } = ship
+    if (!ship.isAbyssal) {
       createShip({
-        masterId: ship.id,
+        masterId,
         level: 99,
-        slots: ship.slotCapacities,
-        equipments: ship.equipments.map(equip => {
-          if (equip === undefined) {
-            return undefined
-          }
-          if (typeof equip === 'number') {
-            return { masterId: equip }
-          }
-          return { masterId: equip.id, improvement: equip.improvement }
-        })
+        slots,
+        equipments: []
+      })
+    } else {
+      const equipments = ship.equipments.map(equip => {
+        if (equip === undefined) {
+          return undefined
+        }
+        if (typeof equip === 'number') {
+          return { masterId: equip }
+        }
+        return { masterId: equip.id, improvement: equip.improvement }
+      })
+
+      createShip({
+        masterId,
+        level: 1,
+        slots,
+        equipments
       })
     }
+    history.replace('/operation')
   }
 
   /**
@@ -188,26 +202,21 @@ class MasterShipsPage extends React.Component<IMasterShipsPageProps, IMasterShip
   }
 }
 
-const mapStateToProps = (s: any, props: RouteComponentProps) => {
-  const locationState = props.location.state
-  if (!locationState) {
-    return {}
-  }
-  const { fleetId, index } = locationState
-  if (typeof fleetId !== 'string' || typeof index !== 'number') {
-    return {}
+interface IParams {
+  fleetId?: string
+  index?: string
+}
+
+const mapStateToProps = (s: any, props: RouteComponentProps<IParams>) => {
+  const { fleetId, index } = props.match.params
+  if (!fleetId || !index) {
+    return
   }
   const fleet = stores.operationStore.getFleet(fleetId)
   if (!fleet) {
-    return {}
+    return
   }
-
-  return {
-    createShip(data: IShipDataObject) {
-      fleet.createShip(index, data)
-      props.history.go(-1)
-    }
-  }
+  return { createShip: (ship: IShipDataObject) => fleet.createShip(Number(index), ship) }
 }
 
 export default inject(mapStateToProps)(MasterShipsPage)
