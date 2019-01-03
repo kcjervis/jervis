@@ -5,6 +5,7 @@ import { RouteComponentProps } from 'react-router'
 import Button from '@material-ui/core/Button'
 import Add from '@material-ui/icons/Add'
 
+import NishikumaForm from './NishikumaForm'
 import OperationLabel from './OperationLabel'
 
 import { ObservableOperation, OperationStore } from '../stores'
@@ -29,6 +30,7 @@ const OperationsPage: React.SFC<IOperationsPageProps> = props => {
         <Add />
         編成を追加
       </Button>
+      <NishikumaForm />
     </div>
   )
 }
