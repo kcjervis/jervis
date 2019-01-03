@@ -30,7 +30,6 @@ const OperationsPage: React.SFC<IOperationsPageProps> = props => {
         <Add />
         編成を追加
       </Button>
-      <NishikumaForm />
     </div>
   )
 }
