@@ -44,7 +44,11 @@ export default class ObservableOperation implements IOperationDataObject {
   }
 
   get activeFleet() {
-    return this.fleets[this.activeFleetIndex]
+    const { fleets, activeFleetIndex } = this
+    if (fleets.length > activeFleetIndex) {
+      return fleets[activeFleetIndex]
+    }
+    return undefined
   }
 
   get asKcObject() {

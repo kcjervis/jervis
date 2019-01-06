@@ -5,6 +5,7 @@ import { RouteComponentProps } from 'react-router'
 import { Redirect } from 'react-router-dom'
 
 import Checkbox from '@material-ui/core/Checkbox'
+import Divider from '@material-ui/core/Divider'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import { createStyles, withStyles, WithStyles } from '@material-ui/core/styles'
 import Tab from '@material-ui/core/Tab'
@@ -58,7 +59,7 @@ const OperationPage: React.SFC<IOperationPageProps> = ({ operation, history, cla
   }
 
   const { activeFleetIndex } = operation
-  const activeFleet: ObservableFleet | undefined = operation.activeFleet
+  const activeFleet = operation.activeFleet
 
   const { mainFleet, escortFleet } = operation.asKcObject
   let combinedFleetFighterPower = mainFleet.fighterPower
@@ -99,6 +100,8 @@ const OperationPage: React.SFC<IOperationPageProps> = ({ operation, history, cla
       <Typography>
         第一艦隊制空: {mainFleet.fighterPower} {combinedFleetFighterPowerLabel}
       </Typography>
+
+      <Divider />
 
       {activeFleet && <FleetField fleet={activeFleet} operation={operation} />}
       {!activeFleet && <LandBaseForm operation={operation} />}

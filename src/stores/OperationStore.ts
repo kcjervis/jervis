@@ -36,7 +36,7 @@ export default class OperationStore {
     autorun(() => {
       this.operations.forEach(({ isVisible }, index) => {
         if (!isVisible) {
-          delete this.operations[index]
+          this.operations.splice(index, 1)
         }
       })
     })

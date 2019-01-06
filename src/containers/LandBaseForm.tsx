@@ -1,5 +1,6 @@
+import { nonNullable } from 'kc-calculator'
+import flatMap from 'lodash/flatMap'
 import React from 'react'
-import { Link } from 'react-router-dom'
 
 import Button from '@material-ui/core/Button'
 import Paper from '@material-ui/core/Paper'
@@ -9,6 +10,7 @@ import LandBasedAirCorpsCard from './LandBasedAirCorpsCard'
 
 import { observer } from 'mobx-react'
 import EnemyFleet from '../components/EnemyFleet'
+import ProficiencyDialog from '../components/ProficiencyDialog'
 import { ObservableOperation } from '../stores'
 
 interface ILandBaseForm {
@@ -19,8 +21,18 @@ const LandBaseForm: React.SFC<ILandBaseForm> = ({ operation }) => {
   const removeEnemy = () => {
     operation.enemies = []
   }
+  const handleProficiencyChange = (inter: number) => {
+    const equipments = flatMap(operation.landBase, airCorps => airCorps.equipments.filter(nonNullable))
+    equipments.forEach(equip => {
+      if (!equip.asKcObject.category.is('LandBasedReconnaissanceAircraft')) {
+        equip.proficiency = inter
+      }
+    })
+  }
   return (
-    <div style={{ margin: 8 }}>
+    <Paper style={{ margin: 8 }}>
+      <ProficiencyDialog changeProficiency={handleProficiencyChange} />
+
       <div style={{ display: 'flex', justifyContent: 'center' }}>
         {operation.landBase.map((airCorps, index) => (
           <LandBasedAirCorpsCard key={airCorps.id} landBasedAirCorps={airCorps} index={index} />
@@ -32,15 +44,14 @@ const LandBaseForm: React.SFC<ILandBaseForm> = ({ operation }) => {
           <EnemyFleet key={index} enemy={enemy} />
         ))}
         {operation.enemies.length === 0 ? (
-          <Link to={`/maps/${operation.id}`}>
-            <Button>敵編成を選択</Button>
-          </Link>
+          <Button href={`#/maps/${operation.id}`}>敵編成を選択</Button>
         ) : (
           <Button onClick={removeEnemy}>敵編成を削除</Button>
         )}
-        <AerialCombatSimulator operation={operation} />
       </Paper>
-    </div>
+
+      <AerialCombatSimulator operation={operation} />
+    </Paper>
   )
 }
 

@@ -97,10 +97,7 @@ class EquipmentFieldContent extends React.Component<IEquipmentFieldContentProps,
         <PopperCard open={Boolean(this.state.anchorEl)} anchorEl={anchorEl} onClickAway={this.handleClose}>
           <div style={{ display: 'flex', position: 'relative' }}>
             <div>
-              <EquipmentCard
-                equipment={equipment.asKcObject}
-                style={{ background: 'rgba(255, 255, 255, 0)', width: 320 }}
-              />
+              <EquipmentCard equipment={equipment.asKcObject} style={{ background: 'rgba(255, 255, 255, 0)' }} />
 
               <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                 {isAerialCombatAircraft && (

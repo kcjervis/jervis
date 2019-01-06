@@ -5,7 +5,7 @@ import { RouteComponentProps } from 'react-router'
 import Button from '@material-ui/core/Button'
 import Add from '@material-ui/icons/Add'
 
-import NishikumaForm from './NishikumaForm'
+import NishikumaFormDialog from './NishikumaFormDialog'
 import OperationLabel from './OperationLabel'
 
 import { ObservableOperation, OperationStore } from '../stores'
@@ -26,10 +26,13 @@ const OperationsPage: React.SFC<IOperationsPageProps> = props => {
         <OperationLabel key={index} index={index} operation={operation} moveOperationPage={moveOperationPage} />
       ))}
 
-      <Button onClick={operationStore.createOperation}>
-        <Add />
-        編成を追加
-      </Button>
+      <div style={{ display: 'flex' }}>
+        <Button onClick={operationStore.createOperation} variant="outlined">
+          <Add />
+          編成を追加
+        </Button>
+        <NishikumaFormDialog operationStore={operationStore} />
+      </div>
     </div>
   )
 }
