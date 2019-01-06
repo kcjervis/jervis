@@ -195,9 +195,7 @@ class EquipmentsPage extends React.Component<IEquipmentsPageProps, IEquipmentsPa
           {({ TransitionProps }) => (
             <Fade {...TransitionProps} timeout={350}>
               <Paper>
-                {equipment && (
-                  <EquipmentCard style={{ background: 'rgba(0, 0, 0, 0.9)', width: 360 }} equipment={equipment} />
-                )}
+                {equipment && <EquipmentCard style={{ background: 'rgba(0, 0, 0, 0.9)' }} equipment={equipment} />}
               </Paper>
             </Fade>
           )}

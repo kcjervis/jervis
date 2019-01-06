@@ -78,12 +78,16 @@ class AerialCombatSimulator extends React.Component<IAerialCombatSimulatorProps,
         results.push(result2)
       }
     })
-    const resultMain = {
-      name: 'main',
-      airControlState: new CarrierBasedAerialCombat(combatInfo).main().airControlState.name,
-      fighterPower: combatInfo.enemy.mainFleet.fighterPower
+
+    if (combatInfo.player.allShips.length > 0) {
+      const resultMain = {
+        name: 'main',
+        airControlState: new CarrierBasedAerialCombat(combatInfo).main().airControlState.name,
+        fighterPower: combatInfo.enemy.mainFleet.fighterPower
+      }
+      results.push(resultMain)
     }
-    results.push(resultMain)
+
     return results
   }
 

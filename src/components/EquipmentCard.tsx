@@ -74,7 +74,8 @@ const styles = (theme: Theme) =>
     },
     image: {
       margin: theme.spacing.unit,
-      alignSelf: 'center'
+      alignSelf: 'center',
+      maxWidth: 200
     }
   })
 

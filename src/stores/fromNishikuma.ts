@@ -1,4 +1,6 @@
 import { IEquipmentDataObject, IShipDataObject } from 'kc-calculator'
+import { Proficiency } from 'kc-calculator/dist/objects/Equipment'
+
 import { masterData } from './kcObjectFactory'
 import ObservableOperation from './ObservableOperation'
 
@@ -12,15 +14,17 @@ const toEquipmentDataObject = (item: IDeckEquipmet | undefined): IEquipmentDataO
   if (!item || !item.id) {
     return undefined
   }
+
+  const proficiency = Proficiency.internalBounds[item.mas]
   return {
     masterId: item.id,
     improvement: item.rf,
-    proficiency: item.mas
+    proficiency
   }
 }
 
 interface IDeckShip {
-  id: number | null
+  id: string | number | null
   lv: number
   luck?: number
   hp?: number
@@ -36,11 +40,13 @@ interface IDeckShip {
 }
 
 const toShipDataObject = (deckShip: IDeckShip | undefined): IShipDataObject | undefined => {
+  console.log(deckShip)
   if (!deckShip || !deckShip.id) {
     return undefined
   }
-  const { items, lv, id } = deckShip
-  const masterShip = masterData.findMasterShip(id)
+  const { items, lv } = deckShip
+  const shipId = Number(deckShip.id)
+  const masterShip = masterData.findMasterShip(shipId)
   if (!masterShip) {
     return undefined
   }
@@ -59,7 +65,7 @@ const toShipDataObject = (deckShip: IDeckShip | undefined): IShipDataObject | un
   }
 
   return {
-    masterId: id,
+    masterId: shipId,
     level: lv,
     equipments,
     slots: masterShip.slotCapacities
