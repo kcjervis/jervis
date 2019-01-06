@@ -51,11 +51,11 @@ const toShipDataObject = (deckShip: IDeckShip | undefined): IShipDataObject | un
     return undefined
   }
 
-  const equipments = Array<IEquipmentDataObject | undefined>()
+  const equipments = Array<IEquipmentDataObject | undefined>(masterShip.slotCapacities.length)
   Object.entries(items).forEach(([key, item]) => {
     const index = Number(key.replace('i', ''))
     if (!isNaN(index)) {
-      equipments[index] = toEquipmentDataObject(item)
+      equipments[index - 1] = toEquipmentDataObject(item)
     }
   })
 
@@ -81,16 +81,6 @@ type DeckFleet = Partial<{
   s6: IDeckShip
   s7: IDeckShip
 }>
-
-const toFleetDataObject = (deckFleet: DeckFleet) => {
-  const ships = new Array<IShipDataObject | undefined>()
-  Object.entries(deckFleet).forEach(([key, deckShip]) => {
-    const index = Number(key.replace('s', ''))
-    if (!isNaN(index)) {
-      ships[index] = toShipDataObject(deckShip)
-    }
-  })
-}
 
 interface INishikuma {
   version: number
