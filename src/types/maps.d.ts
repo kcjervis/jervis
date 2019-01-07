@@ -3,11 +3,11 @@ declare module '*maps' {
   export type TEnemyFleet = Readonly<{
     ships: number[]
     formation: string
-    difficulty: TEventDifficulty
+    difficulty?: TEventDifficulty
   }>
   export type TCellData = Readonly<{
     point: string
-    enemies: TEnemyFleet[]
+    enemies?: TEnemyFleet[]
   }>
   export type TMapData = Readonly<{
     mapId: number

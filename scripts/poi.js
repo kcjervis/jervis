@@ -1,10 +1,12 @@
 const axios = require('axios')
 const fs = require('fs')
-const maps = require('../src/data/maps.json')
+const _ = require('lodash')
 
 const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
-const getPoiEventEnemyFleets = async (mapId, difficulty, point) => {
-  const res = await axios.get(`https://db.kcwiki.org/drop/map/${mapId}/${difficulty}/${point}-SAB.json`).catch(err => {
+const getPoiEnemyFleets = async (mapId, point, difficulty) => {
+  const pointInfo = difficulty ? `${mapId}/${difficulty}/${point}` : `${mapId}/${point}`
+  const url = `https://db.kcwiki.org/drop/map/${pointInfo}-SAB.json`
+  const res = await axios.get(url).catch(err => {
     if (err.response.status !== 404) {
       console.log(err)
     }
@@ -12,25 +14,44 @@ const getPoiEventEnemyFleets = async (mapId, difficulty, point) => {
   await sleep(100)
 
   if (!res) {
-    console.log(`map: ${mapId}, point: ${point} is not found`)
+    console.log(`${url} is not found`)
     return 404
   }
 
-  const enemyStrings = Object.values(res.data.data).map(({ enemy }) => Object.keys(enemy)).reduce((array, enemies) => array.concat(enemies), [])
+  // DropObject = { rankCount: number[], totalCount: number, hqLv: number[], rate: number, enemy: DropEnemyObject }
+  // DropEnemyObject = { [K in string]: CountObject }
+  // CountObject = { count: number[], rate: number }
+  const dropObjects = Object.values(res.data.data)
+  const dropEnemyObjects = dropObjects.map(({ enemy }) => enemy)
+  const enemyCountMap = new Map()
 
-  if (enemyStrings.length === 0) {
+  dropEnemyObjects.forEach(dropEnemyObject => {
+    Object.entries(dropEnemyObject).forEach(([enemyName, countObject]) => {
+      const totalCount = _.sum(countObject.count)
+      const enemyCount = enemyCountMap.get(enemyName)
+      if (enemyCount) {
+        enemyCountMap.set(enemyName, enemyCount + totalCount)
+      } else {
+        enemyCountMap.set(enemyName, totalCount)
+      }
+    })
+  })
+
+  if (enemyCountMap.size === 0) {
     console.log(`map: ${mapId}, point: ${point} is not enemy`)
     return null
   }
 
   console.log(`map: ${mapId}, point: ${point} is successful`)
 
-  return Array.from(new Set(enemyStrings)).map(str => {
-    ships = str.match(/\d+(?=\))/g).map(Number)
-    formation = str.match(/\((\D+)\)/)[1]
+  return Array.from(enemyCountMap).filter(([enemyName, count]) => count >= 3).map(([enemyName, count]) => {
+    ships = enemyName.match(/\d+(?=\))/g).map(Number)
+    formation = enemyName.match(/\((\D+)\)/)[1]
     return { ships, formation, difficulty }
   })
 }
+
+
 
 const getPoiEventCell = async (mapId, point) => {
   const cell = {
@@ -38,7 +59,7 @@ const getPoiEventCell = async (mapId, point) => {
     enemies: []
   }
   for (const difficulty of [1, 2, 3, 4]) {
-    const enemies = await getPoiEventEnemyFleets(mapId, difficulty, point)
+    const enemies = await getPoiEnemyFleets(mapId, point, difficulty)
     if (enemies === 404) {
       return 404
     }
@@ -49,12 +70,31 @@ const getPoiEventCell = async (mapId, point) => {
   }
   return cell
 }
+
 const indexToChar = index => {
   const initialCode = 'A'.charCodeAt(0)
   if (index <= 25) {
     return String.fromCharCode(initialCode + index)
   }
   return 'Z' + (index - 25 + 1)
+}
+
+const getPoiNormalMap = async (mapId) => {
+  const map = {
+    mapId,
+    cells: []
+  }
+  const points = Array.from({ length: 30 }, (_, index) => indexToChar(index))
+  for (const point of points) {
+    const enemies = await getPoiEnemyFleets(mapId, point)
+    if (enemies && enemies !== 404) {
+      map.cells.push({
+        point,
+        enemies
+      })
+    }
+  }
+  return map
 }
 
 const getPoiEventMap = async (mapId) => {
@@ -73,15 +113,36 @@ const getPoiEventMap = async (mapId) => {
 }
 
 const writeMaps = async mapIds => {
+  const maps = require('../src/data/maps')
   for (const mapId of mapIds) {
-    const map = await getPoiEventMap(mapId)
-    maps.push(map)
+    if (maps.some(map => map.mapId === mapId)) {
+      continue
+    }
+    if (mapId < 100) {
+      const map = await getPoiNormalMap(mapId)
+      maps.push(map)
+    } else {
+      const map = await getPoiEventMap(mapId)
+      maps.push(map)
+    }
   }
   fs.writeFile('maps.json', JSON.stringify(maps), err => {
     console.log(err)
   })
   return null
 }
-writeMaps([431, 432, 433])
+
+const createMapIds = ([worldId, length]) => _.range(worldId * 10 + 1, worldId * 10 + 1 + length)
+
+writeMaps([
+  [1, 6],
+  [2, 5],
+  [3, 5],
+  [4, 5],
+  [5, 5],
+  [6, 5],
+  [7, 2],
+  [43, 3]
+].flatMap(createMapIds))
 
 

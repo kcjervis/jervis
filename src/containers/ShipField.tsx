@@ -1,7 +1,5 @@
-import { IShip } from 'kc-calculator'
 import { inject, observer } from 'mobx-react'
 import React from 'react'
-import { Link } from 'react-router-dom'
 
 import Button from '@material-ui/core/Button'
 import Card from '@material-ui/core/Card'
@@ -87,12 +85,16 @@ const ShipField: React.SFC<IShipField> = props => {
   if (!ship) {
     return (
       <div className={classes.root}>
-        <Link to={`ships/${fleetId}/${index}`}>
-          <Button className={classes.addShipButton} variant="outlined" fullWidth={true} size="large">
-            <Add />
-            艦娘{index + 1}
-          </Button>
-        </Link>
+        <Button
+          className={classes.addShipButton}
+          href={`#/ships/${fleetId}/${index}`}
+          variant="outlined"
+          fullWidth={true}
+          size="large"
+        >
+          <Add />
+          艦娘{index + 1}
+        </Button>
       </div>
     )
   }
