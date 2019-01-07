@@ -32,6 +32,7 @@ class NishikumaFormDialog extends React.Component<INishikumaFormDialogProps> {
 
   public roadJson = () => {
     this.props.operationStore.fromNishikuma(this.state.json)
+    this.setState({ open: false })
   }
 
   public render() {
