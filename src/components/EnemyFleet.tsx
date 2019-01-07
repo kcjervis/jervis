@@ -91,7 +91,7 @@ const EnemyFleet: React.SFC<IEnemyFleetProps> = ({ enemy }) => {
   return (
     <div>
       <Typography align="left">
-        {difficultyToString(difficulty)} {formationName} 制空:{fighterPower} 基地戦:{lbasFighterPower}
+        {difficulty && difficultyToString(difficulty)} {formationName} 制空:{fighterPower} 基地戦:{lbasFighterPower}
       </Typography>
       <div>
         {battleFleet.mainFleet.nonNullableShips.map(({ masterId }, sIndex) => (

@@ -33,7 +33,10 @@ const ShipRow: React.SFC<IShipRowProps> = ({ ship, fleetLosModifier, airControlS
   const artillerySpottingMap = new Map<ArtillerySpotting, string>()
 
   const totalRate = artillerySpottings.reduce((prevRate, currentAp) => {
-    const currentRate = (1 - prevRate) * (baseValue / currentAp.typeFactor)
+    let currentRate = (1 - prevRate) * (baseValue / currentAp.typeFactor)
+    if (currentRate > 1) {
+      currentRate = 1
+    }
     artillerySpottingMap.set(currentAp, (currentRate * 100).toFixed(1))
     return prevRate + currentRate
   }, 0)

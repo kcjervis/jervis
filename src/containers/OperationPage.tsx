@@ -7,6 +7,7 @@ import { Redirect } from 'react-router-dom'
 import Checkbox from '@material-ui/core/Checkbox'
 import Divider from '@material-ui/core/Divider'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
+import Input from '@material-ui/core/Input'
 import { createStyles, withStyles, WithStyles } from '@material-ui/core/styles'
 import Tab from '@material-ui/core/Tab'
 import Tabs from '@material-ui/core/Tabs'
@@ -23,7 +24,8 @@ const styles = createStyles({
   tab: { display: 'flex', flexWrap: 'wrap' },
   menu: {
     display: 'flex',
-    alignItems: 'center'
+    alignItems: 'center',
+    marginLeft: 8
   }
 })
 
@@ -58,6 +60,10 @@ const OperationPage: React.SFC<IOperationPageProps> = ({ operation, history, cla
     operationPage.visibleShipStats = !operationPage.visibleShipStats
   }
 
+  const handleChangeName = (event: React.ChangeEvent<HTMLInputElement>) => {
+    operation.name = event.target.value
+  }
+
   const { activeFleetIndex } = operation
   const activeFleet = operation.activeFleet
 
@@ -71,6 +77,25 @@ const OperationPage: React.SFC<IOperationPageProps> = ({ operation, history, cla
 
   return (
     <div style={{ margin: 8 }}>
+      <div className={classes.menu}>
+        <Input value={operation.name} onChange={handleChangeName} />
+        <FleetTypeSelect fleetType={operation.fleetType} onChange={handleFleetTypeChange} />
+        <Typography style={{ margin: 8 }}>
+          第一艦隊制空: {mainFleet.fighterPower} {combinedFleetFighterPowerLabel}
+        </Typography>
+        <FormControlLabel
+          control={<Checkbox checked={operation.side === Side.Enemy} onChange={handleSideChange} />}
+          label="敵艦隊"
+        />
+
+        <FormControlLabel
+          control={
+            <Checkbox checked={setting.operationPage.visibleShipStats} onChange={handleVisibleShipStatsChange} />
+          }
+          label="艦娘ステータス表示"
+        />
+      </div>
+
       <div className={classes.tab}>
         <Tabs value={activeFleetIndex} onChange={handleChange}>
           {operation.fleets.map((fleet, index) => {
@@ -81,25 +106,7 @@ const OperationPage: React.SFC<IOperationPageProps> = ({ operation, history, cla
           })}
           <Tab style={{ width: 50 }} label="基地航空隊" />
         </Tabs>
-        <div className={classes.menu}>
-          <FleetTypeSelect fleetType={operation.fleetType} onChange={handleFleetTypeChange} />
-          <FormControlLabel
-            control={<Checkbox checked={operation.side === Side.Enemy} onChange={handleSideChange} />}
-            label="敵艦隊"
-          />
-
-          <FormControlLabel
-            control={
-              <Checkbox checked={setting.operationPage.visibleShipStats} onChange={handleVisibleShipStatsChange} />
-            }
-            label="艦娘ステータス表示"
-          />
-        </div>
       </div>
-
-      <Typography>
-        第一艦隊制空: {mainFleet.fighterPower} {combinedFleetFighterPowerLabel}
-      </Typography>
 
       <Divider />
 

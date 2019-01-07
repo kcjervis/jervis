@@ -14,6 +14,10 @@ export default class ObservableOperation implements IOperationDataObject {
 
   @persist
   @observable
+  public name = new Date().toLocaleString()
+
+  @persist
+  @observable
   public side = Side.Player
 
   @persist
