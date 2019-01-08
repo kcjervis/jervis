@@ -1,116 +1,58 @@
-import { AirControlState, ArtillerySpotting, FleetRole, IFleet, IShip } from 'kc-calculator'
+import { AirControlState, ArtillerySpotting, FleetRole, IFleet } from 'kc-calculator'
 import { observer } from 'mobx-react'
 import React from 'react'
 
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import Switch from '@material-ui/core/Switch'
-import Table from '@material-ui/core/Table'
-import TableBody from '@material-ui/core/TableBody'
-import TableCell from '@material-ui/core/TableCell'
-import TableHead from '@material-ui/core/TableHead'
-import TableRow from '@material-ui/core/TableRow'
+import Tab from '@material-ui/core/Tab'
+import Tabs from '@material-ui/core/Tabs'
 import Typography from '@material-ui/core/Typography'
-
-interface IShipRowProps {
-  ship?: IShip
-  fleetLosModifier: number
-  airControlState: AirControlState
-  isFlagship: boolean
-}
-
-let ShipRow: React.SFC<IShipRowProps> = ({ ship, fleetLosModifier, airControlState, isFlagship }) => {
-  if (!ship) {
-    return null
-  }
-  const baseValue = ArtillerySpotting.calculateArtillerySpottingBaseValue(
-    ship,
-    fleetLosModifier,
-    airControlState,
-    isFlagship
-  )
-
-  const artillerySpottings = ArtillerySpotting.getPossibleArtillerySpottings(ship)
-  const artillerySpottingMap = new Map<ArtillerySpotting, string>()
-
-  const totalRate = artillerySpottings.reduce((prevRate, currentAp) => {
-    let currentRate = (1 - prevRate) * (baseValue / currentAp.typeFactor)
-    if (currentRate > 1) {
-      currentRate = 1
-    }
-    artillerySpottingMap.set(currentAp, (currentRate * 100).toFixed(1))
-    return prevRate + currentRate
-  }, 0)
-
-  return (
-    <TableRow>
-      <TableCell component="th" scope="row">
-        {ship.name}
-      </TableCell>
-      <TableCell align="right">{baseValue}</TableCell>
-      <TableCell align="right">{(totalRate * 100).toFixed(1)}</TableCell>
-      <TableCell align="right">{artillerySpottingMap.get(ArtillerySpotting.DoubleAttack)}</TableCell>
-      <TableCell align="right">{artillerySpottingMap.get(ArtillerySpotting.MainMaim)}</TableCell>
-      <TableCell align="right">{artillerySpottingMap.get(ArtillerySpotting.MainAp)}</TableCell>
-      <TableCell align="right">{artillerySpottingMap.get(ArtillerySpotting.MainRader)}</TableCell>
-      <TableCell align="right">{artillerySpottingMap.get(ArtillerySpotting.MainSec)}</TableCell>
-    </TableRow>
-  )
-}
-
-ShipRow = observer(ShipRow)
+import FleetAircraftCarrierCutinTable from './FleetAircraftCarrierCutinTable'
+import FleetArtillerySpottingTable from './FleetArtillerySpottingTable'
 
 interface IFleetDetailProps {
   fleet: IFleet
   fleetRole: FleetRole
 }
 
-interface IFleetDetailState {
-  isAirSupremacy: boolean
-}
-
 @observer
-class FleetDetail extends React.Component<IFleetDetailProps, IFleetDetailState> {
-  public state = { isAirSupremacy: true }
+class FleetDetail extends React.Component<IFleetDetailProps> {
+  public state = { activeTab: 0, isAirSupremacy: true }
 
-  public changeAirState = () => this.setState(state => ({ isAirSupremacy: !state.isAirSupremacy }))
+  public handleChangeTab = (event: React.ChangeEvent<{}>, activeTab: number) => {
+    this.setState({ activeTab })
+  }
+
+  public handleChangeAirState = (event: React.ChangeEvent<HTMLInputElement>, isAirSupremacy: boolean) => {
+    this.setState({ isAirSupremacy })
+  }
 
   public render() {
     const { fleet, fleetRole } = this.props
+    const { activeTab } = this.state
+
     const fleetLosModifier = ArtillerySpotting.calculateFleetLosModifier(fleet)
     const airControlState = this.state.isAirSupremacy ? AirControlState.AirSupremacy : AirControlState.AirSuperiority
+
+    const dayCutinProps = { fleet, fleetRole, fleetLosModifier, airControlState }
+
     return (
       <div>
-        <Typography>艦隊索敵補正: {fleetLosModifier}</Typography>
-        <FormControlLabel
-          control={<Switch onChange={this.changeAirState} checked={this.state.isAirSupremacy} />}
-          label={airControlState.name}
-        />
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+          <Typography>艦隊索敵補正: {fleetLosModifier}</Typography>
+          <FormControlLabel
+            style={{ marginLeft: 8 }}
+            control={<Switch onChange={this.handleChangeAirState} checked={this.state.isAirSupremacy} />}
+            label={airControlState.name}
+          />
+          <Tabs value={this.state.activeTab} onChange={this.handleChangeTab}>
+            <Tab label="弾着発動率" />
+            <Tab label="戦爆連合発動率" />
+          </Tabs>
+        </div>
 
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell>艦娘</TableCell>
-              <TableCell align="right">観測項</TableCell>
-              <TableCell align="right">合計弾着率 (%)</TableCell>
-              <TableCell align="right">連撃 (%)</TableCell>
-              <TableCell align="right">主主 (%)</TableCell>
-              <TableCell align="right">主徹 (%)</TableCell>
-              <TableCell align="right">主電 (%)</TableCell>
-              <TableCell align="right">主副 (%)</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {fleet.ships.map((ship, index) => (
-              <ShipRow
-                key={index}
-                ship={ship}
-                fleetLosModifier={fleetLosModifier}
-                airControlState={airControlState}
-                isFlagship={fleetRole === FleetRole.MainFleet && index === 0}
-              />
-            ))}
-          </TableBody>
-        </Table>
+        {activeTab === 0 && <FleetArtillerySpottingTable {...dayCutinProps} />}
+        {activeTab === 1 && <FleetAircraftCarrierCutinTable {...dayCutinProps} />}
       </div>
     )
   }
