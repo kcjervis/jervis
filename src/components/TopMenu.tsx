@@ -6,7 +6,12 @@ import { createStyles, Theme, withStyles, WithStyles } from '@material-ui/core/s
 import Tab from '@material-ui/core/Tab'
 import Tabs from '@material-ui/core/Tabs'
 
-const styles = (theme: Theme) => createStyles({})
+const styles = (theme: Theme) =>
+  createStyles({
+    appBar: {
+      backgroundColor: theme.palette.primary.dark
+    }
+  })
 
 export interface ITopMenuProps extends WithStyles<typeof styles>, RouteComponentProps<{}> {}
 
@@ -29,7 +34,7 @@ const TopMenu: React.SFC<ITopMenuProps> = props => {
 
   return (
     <div>
-      <AppBar position="static">
+      <AppBar className={classes.appBar} position="static">
         <Tabs value={isActive && pathname} onChange={handleChange} fullWidth={true} indicatorColor="primary">
           {paths.map(({ label, path }) => (
             <Tab key={path} label={label} value={path} />

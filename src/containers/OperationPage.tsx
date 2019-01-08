@@ -16,7 +16,6 @@ import Typography from '@material-ui/core/Typography'
 import FleetTypeSelect from '../components/FleetTypeSelect'
 
 import stores, { ObservableOperation, SettingStore } from '../stores'
-import ObservableFleet from '../stores/ObservableFleet'
 import FleetField from './FleetField'
 import LandBaseForm from './LandBaseForm'
 
@@ -26,6 +25,12 @@ const styles = createStyles({
     display: 'flex',
     alignItems: 'center',
     marginLeft: 8
+  },
+  checkBoxForm: {
+    margin: 8
+  },
+  checkBox: {
+    padding: 0
   }
 })
 
@@ -83,16 +88,28 @@ const OperationPage: React.SFC<IOperationPageProps> = ({ operation, history, cla
         <Typography style={{ margin: 8 }}>
           第一艦隊制空: {mainFleet.fighterPower} {combinedFleetFighterPowerLabel}
         </Typography>
-        <FormControlLabel
-          control={<Checkbox checked={operation.side === Side.Enemy} onChange={handleSideChange} />}
-          label="敵艦隊"
-        />
 
         <FormControlLabel
+          className={classes.checkBoxForm}
           control={
-            <Checkbox checked={setting.operationPage.visibleShipStats} onChange={handleVisibleShipStatsChange} />
+            <Checkbox
+              className={classes.checkBox}
+              checked={setting.operationPage.visibleShipStats}
+              onChange={handleVisibleShipStatsChange}
+            />
           }
-          label="艦娘ステータス表示"
+          label={<Typography variant="caption">ステータス表示</Typography>}
+        />
+        <FormControlLabel
+          className={classes.checkBoxForm}
+          control={
+            <Checkbox
+              className={classes.checkBox}
+              checked={operation.side === Side.Enemy}
+              onChange={handleSideChange}
+            />
+          }
+          label={<Typography variant="caption">敵艦隊</Typography>}
         />
       </div>
 

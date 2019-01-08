@@ -4,6 +4,7 @@ import React from 'react'
 import Button from '@material-ui/core/Button'
 import Card from '@material-ui/core/Card'
 import CardContent from '@material-ui/core/CardContent'
+import Grid from '@material-ui/core/Grid'
 import Input from '@material-ui/core/Input'
 import InputAdornment from '@material-ui/core/InputAdornment'
 import { createStyles, withStyles, WithStyles } from '@material-ui/core/styles'
@@ -14,10 +15,10 @@ import { RemoveButton } from '../components/IconButtons'
 import ShipImage from '../components/ShipImage'
 import withDragAndDrop from '../hocs/withDragAndDrop'
 import EquipmentField from './EquipmentField'
-import ShipStatControl from './ShipStatControl'
 
 import stores from '../stores'
 import ObservableShip from '../stores/ObservableShip'
+import ShipStatDialog from './ShipStatDialog'
 
 type ShipStatName =
   | 'hp'
@@ -59,15 +60,14 @@ const styles = createStyles({
     justifyContent: 'space-between'
   },
   addShipButton: {
-    width: 280,
-    height: 360
+    width: 280
   },
   equipments: {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center'
   },
-  flexContainer: {
+  stats: {
     display: 'flex',
     justifyContent: 'center',
     flexWrap: 'wrap'
@@ -129,11 +129,13 @@ const ShipField: React.SFC<IShipField> = props => {
 
         {/* 艦娘ステータス */
         stores.settingStore.operationPage.visibleShipStats && (
-          <div className={classes.flexContainer}>
+          <Grid container={true}>
             {shipStatNames.map(statName => (
-              <ShipStatControl key={statName} statName={statName} ship={ship} />
+              <Grid item={true} xs={6} key={statName}>
+                <ShipStatDialog statName={statName} ship={ship} />
+              </Grid>
             ))}
-          </div>
+          </Grid>
         )}
 
         <div className={classes.equipments}>

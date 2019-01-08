@@ -14,7 +14,7 @@ export default class ObservableOperation implements IOperationDataObject {
 
   @persist
   @observable
-  public name = new Date().toLocaleString()
+  public name = new Date().toLocaleString() + 'の編成'
 
   @persist
   @observable

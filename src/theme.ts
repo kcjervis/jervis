@@ -1,3 +1,5 @@
+import blue from '@material-ui/core/colors/blue'
+import indigo from '@material-ui/core/colors/indigo'
 import { createMuiTheme } from '@material-ui/core/styles'
 
 const theme = createMuiTheme({
@@ -8,7 +10,8 @@ const theme = createMuiTheme({
     type: 'dark',
     background: {
       paper: 'rgba( 20, 20, 20, 0.1 )'
-    }
+    },
+    primary: blue
   },
   overrides: {
     MuiTab: {

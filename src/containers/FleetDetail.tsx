@@ -1,5 +1,5 @@
 import { AirControlState, ArtillerySpotting, FleetRole, IFleet, IShip } from 'kc-calculator'
-import sum from 'lodash/sum'
+import { observer } from 'mobx-react'
 import React from 'react'
 
 import FormControlLabel from '@material-ui/core/FormControlLabel'
@@ -18,7 +18,7 @@ interface IShipRowProps {
   isFlagship: boolean
 }
 
-const ShipRow: React.SFC<IShipRowProps> = ({ ship, fleetLosModifier, airControlState, isFlagship }) => {
+let ShipRow: React.SFC<IShipRowProps> = ({ ship, fleetLosModifier, airControlState, isFlagship }) => {
   if (!ship) {
     return null
   }
@@ -57,6 +57,8 @@ const ShipRow: React.SFC<IShipRowProps> = ({ ship, fleetLosModifier, airControlS
   )
 }
 
+ShipRow = observer(ShipRow)
+
 interface IFleetDetailProps {
   fleet: IFleet
   fleetRole: FleetRole
@@ -66,6 +68,7 @@ interface IFleetDetailState {
   isAirSupremacy: boolean
 }
 
+@observer
 class FleetDetail extends React.Component<IFleetDetailProps, IFleetDetailState> {
   public state = { isAirSupremacy: true }
 

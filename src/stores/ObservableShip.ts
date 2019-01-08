@@ -48,6 +48,10 @@ export default class ObservableShip implements IShipDataObject {
   @observable
   public slots: number[] = []
 
+  @persist('object')
+  @observable
+  public increased: NonNullable<IShipDataObject['increased']> = {}
+
   @observable
   public isVisible = true
 
