@@ -3,7 +3,7 @@ const path = require('path')
 module.exports = {
   entry: './src/index.tsx',
   output: {
-    path: path.resolve(__dirname, 'docs1'),
+    path: path.resolve(__dirname, 'docs'),
     filename: '[name].js',
     publicPath: '/jervis/'
   },
@@ -56,7 +56,9 @@ module.exports = {
     ]
   },
   devServer: {
-    contentBase: 'dist',
+    contentBase: 'docs',
+    open:true,
+    openPage:"jervis/",
     port: 3000,
     historyApiFallback: true,
     headers: {
