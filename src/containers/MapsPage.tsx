@@ -12,7 +12,7 @@ import EnemyFleet from '../components/EnemyFleet'
 import maps from '../data/maps'
 import stores from '../stores'
 
-const worldInformations = [
+const worlds = [
   { id: 1, name: '鎮守府海域' },
   { id: 2, name: '南西諸島海域' },
   { id: 3, name: '北方海域' },
@@ -81,7 +81,7 @@ class MapsPage extends React.Component<RouteComponentProps<{ operationId?: strin
       <div>
         <div>
           <Tabs value={this.state.worldId} onChange={this.handleChangeWorld}>
-            {worldInformations.map(({ id: worldId, name }) => (
+            {worlds.map(({ id: worldId, name }) => (
               <Tab key={worldId} value={worldId} label={name} />
             ))}
           </Tabs>

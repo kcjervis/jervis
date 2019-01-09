@@ -7,6 +7,7 @@ module.exports = {
     filename: '[name].js',
     publicPath: '/jervis/'
   },
+  cache: true,
   resolve: {
     extensions: ['.js', '.jsx', '.ts', '.tsx', '.json']
   },
@@ -56,8 +57,7 @@ module.exports = {
     ]
   },
   devServer: {
-    contentBase: 'docs',
-    open:true,
+    contentBase: path.resolve(__dirname, 'docs'),
     openPage:"jervis/",
     port: 3000,
     historyApiFallback: true,

@@ -14,6 +14,7 @@ import Remove from '@material-ui/icons/Remove'
 import { ObservableOperation } from '../stores'
 import ObservableFleet from '../stores/ObservableFleet'
 import OperationStore from '../stores/OperationStore'
+import ContactTable from './ContactTable'
 import FleetDetail from './FleetDetail'
 import ShipField from './ShipField'
 
@@ -52,6 +53,12 @@ const FleetField: React.SFC<IFleetFieldProps> = ({ fleet, operationStore, classe
     fleetRole = FleetRole.EscortFleet
   }
 
+  // あとで連合用ページを作る
+  const isCombinedFleet = operation.asKcObject.isCombinedFleetOperation && [0, 1].includes(fleetIndex)
+  const mainFleet = operation.fleets[0].asKcObject
+  const escortFleet = operation.fleets[1].asKcObject
+  const combinedFleetPlanes = mainFleet.planes.concat(escortFleet.planes)
+
   return (
     <div>
       <Typography>制空: {fleet.asKcObject.fighterPower}</Typography>
@@ -70,7 +77,12 @@ const FleetField: React.SFC<IFleetFieldProps> = ({ fleet, operationStore, classe
         </Button>
       </div>
 
-      <FleetDetail fleet={fleet.asKcObject} fleetRole={fleetRole} />
+      <FleetDetail
+        fleet={fleet.asKcObject}
+        fleetRole={fleetRole}
+        isCombinedFleet={isCombinedFleet}
+        combinedFleetPlanes={combinedFleetPlanes}
+      />
     </div>
   )
 }
