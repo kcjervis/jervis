@@ -8,6 +8,8 @@ import kcObjectFactory from './kcObjectFactory'
 import ObservableFleet from './ObservableFleet'
 import ObservableLandBasedAirCorps from './ObservableLandBasedAirCorps'
 
+console.log()
+
 export default class ObservableOperation implements IOperationDataObject {
   @persist
   public id = uuid()

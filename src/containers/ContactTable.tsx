@@ -8,6 +8,7 @@ import TableBody from '@material-ui/core/TableBody'
 import TableCell from '@material-ui/core/TableCell'
 import TableHead from '@material-ui/core/TableHead'
 import TableRow from '@material-ui/core/TableRow'
+import Typography from '@material-ui/core/Typography'
 
 interface IContactTableProps {
   planes: IPlane[]
@@ -60,6 +61,15 @@ export default class ContactTable extends React.Component<IContactTableProps> {
         selectionRateMap
       }
     })
+
+    if (contactChances[0].successRate === 0) {
+      return (
+        <Typography variant="h6" align="center">
+          触接不可
+        </Typography>
+      )
+    }
+
     return (
       <Table>
         <TableHead>

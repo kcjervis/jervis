@@ -16,7 +16,10 @@
     // "noUnusedParameters": true,
     "esModuleInterop": true,
     "strict": true,
-    "experimentalDecorators": true
+    "experimentalDecorators": true,
+
+    // fork-ts-checker-webpack-plugin用
+    "skipLibCheck": true,
     // "checkJs": true,                       /* Report errors in .js files. */
     // "declaration": true,                   /* Generates corresponding '.d.ts' file. */
     // "declarationMap": true,                /* Generates a sourcemap for each corresponding '.d.ts' file. */
@@ -62,7 +65,6 @@
   ],
   "exclude": [
     "node_modules",
-    "dist",
     "docs"
   ]
 }

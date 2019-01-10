@@ -15,10 +15,11 @@ import { RemoveButton } from '../components/IconButtons'
 import ShipImage from '../components/ShipImage'
 import withDragAndDrop from '../hocs/withDragAndDrop'
 import EquipmentField from './EquipmentField'
+import ShipStatDialog from './ShipStatDialog'
 
 import stores from '../stores'
 import ObservableShip from '../stores/ObservableShip'
-import ShipStatDialog from './ShipStatDialog'
+import EquipmentExpansionPanel from './EquipmentExpansionPanel'
 
 type ShipStatName =
   | 'hp'
@@ -62,6 +63,7 @@ const styles = createStyles({
   addShipButton: {
     width: 280
   },
+
   equipments: {
     display: 'flex',
     flexDirection: 'column',
@@ -139,9 +141,7 @@ const ShipField: React.SFC<IShipField> = props => {
         )}
 
         <div className={classes.equipments}>
-          {ship.equipments.map((equip, equipIndex) => (
-            <EquipmentField key={equipIndex} parent={ship} index={equipIndex} equipment={equip} />
-          ))}
+          <EquipmentExpansionPanel parent={ship} equipments={ship.equipments} />
         </div>
       </Card>
     </div>

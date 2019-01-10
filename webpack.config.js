@@ -1,4 +1,6 @@
+'use strict';
 const path = require('path')
+const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 
 module.exports = {
   entry: './src/index.tsx',
@@ -7,14 +9,13 @@ module.exports = {
     filename: '[name].js',
     publicPath: '/jervis/'
   },
-  cache: true,
   resolve: {
-    extensions: ['.js', '.jsx', '.ts', '.tsx', '.json']
+    extensions: ['.js', '.ts', '.tsx', '.json']
   },
   module: {
     rules: [
       {
-        test: /\.(js|jsx|ts|tsx)$/,
+        test: /\.tsx?$/,
         enforce: 'pre',
         use: [
           {
@@ -29,15 +30,18 @@ module.exports = {
         exclude: /node_modules/
       },
       {
-        test: /\.(js|jsx|ts|tsx)$/,
-        use: 'ts-loader',
+        test: /\.tsx?$/,
+        use: [
+          {
+            loader: 'ts-loader',
+            options: {
+              transpileOnly: true,
+              experimentalWatchApi: true,
+            }
+          }
+        ],
         exclude: /node_modules/
       },
-      // {
-      //   test: /\.(js|jsx)$/,
-      //   use: 'babel-loader',
-      //   exclude: /node_modules/,
-      // },
       {
         test: /\.css$/,
         use: ['style-loader', 'css-loader']
@@ -58,11 +62,14 @@ module.exports = {
   },
   devServer: {
     contentBase: path.resolve(__dirname, 'docs'),
-    openPage:"jervis/",
+    openPage: "jervis/",
     port: 3000,
     historyApiFallback: true,
     headers: {
       'Access-Control-Allow-Origin': '*'
     }
-  }
+  },
+  plugins: [
+    new ForkTsCheckerWebpackPlugin()
+  ]
 }

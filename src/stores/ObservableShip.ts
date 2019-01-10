@@ -55,6 +55,9 @@ export default class ObservableShip implements IShipDataObject {
   @observable
   public isVisible = true
 
+  @observable
+  public visibleEquipments = true
+
   constructor() {
     autorun(() =>
       this.equipments.forEach((equip, index) => {

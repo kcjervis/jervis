@@ -20,11 +20,15 @@ import FleetField from './FleetField'
 import LandBaseForm from './LandBaseForm'
 
 const styles = createStyles({
-  tab: { display: 'flex', flexWrap: 'wrap' },
+  name: { marginRight: 8 },
+  tabs: { display: 'flex', flexWrap: 'wrap' },
   menu: {
     display: 'flex',
     alignItems: 'center',
     marginLeft: 8
+  },
+  tab: {
+    width: 50
   },
   checkBoxForm: {
     margin: 8
@@ -83,7 +87,7 @@ const OperationPage: React.SFC<IOperationPageProps> = ({ operation, history, cla
   return (
     <div style={{ margin: 8 }}>
       <div className={classes.menu}>
-        <Input value={operation.name} onChange={handleChangeName} />
+        <Input className={classes.name} value={operation.name} onChange={handleChangeName} />
         <FleetTypeSelect fleetType={operation.fleetType} onChange={handleFleetTypeChange} />
         <Typography style={{ margin: 8 }}>
           第一艦隊制空: {mainFleet.fighterPower} {combinedFleetFighterPowerLabel}
@@ -113,15 +117,15 @@ const OperationPage: React.SFC<IOperationPageProps> = ({ operation, history, cla
         />
       </div>
 
-      <div className={classes.tab}>
+      <div className={classes.tabs}>
         <Tabs value={activeFleetIndex} onChange={handleChange}>
           {operation.fleets.map((fleet, index) => {
             if (operation.asKcObject.isCombinedFleetOperation && index < 2) {
-              return <Tab style={{ width: 50 }} key={`fleetTab${index}`} label={`連合第${index + 1}`} />
+              return <Tab className={classes.tab} key={`fleetTab${index}`} label={`連合第${index + 1}`} />
             }
-            return <Tab style={{ width: 50 }} key={`fleetTab${index}`} label={`${index + 1}`} />
+            return <Tab className={classes.tab} key={`fleetTab${index}`} label={`${index + 1}`} />
           })}
-          <Tab style={{ width: 50 }} label="基地航空隊" />
+          <Tab className={classes.tab} label="基地航空隊" />
         </Tabs>
       </div>
 
