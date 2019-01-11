@@ -4,7 +4,7 @@ import { Proficiency } from 'kc-calculator/dist/objects/Equipment'
 import { masterData } from './kcObjectFactory'
 import ObservableOperation from './ObservableOperation'
 
-interface IDeckEquipmet {
+export interface IDeckEquipmet {
   id: number | null
   rf: number
   mas: number
@@ -23,7 +23,7 @@ const toEquipmentDataObject = (item: IDeckEquipmet | undefined): IEquipmentDataO
   }
 }
 
-interface IDeckShip {
+export interface IDeckShip {
   id: string | number | null
   lv: number
   luck?: number
@@ -72,7 +72,7 @@ const toShipDataObject = (deckShip: IDeckShip | undefined): IShipDataObject | un
   }
 }
 
-type DeckFleet = Partial<{
+export type DeckFleet = Partial<{
   s1: IDeckShip
   s2: IDeckShip
   s3: IDeckShip
@@ -82,11 +82,11 @@ type DeckFleet = Partial<{
   s7: IDeckShip
 }>
 
-interface INishikuma {
+export interface INishikuma {
   version: number
   lang?: 'ja' | 'en' | 'ko' | 'scn' | 'tcn'
   theme?: 'dark'
-  hqlv: number
+  hqlv?: number
   f1?: DeckFleet
   f2?: DeckFleet
   f3?: DeckFleet

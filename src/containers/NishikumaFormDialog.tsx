@@ -8,6 +8,7 @@ import DialogContentText from '@material-ui/core/DialogContentText'
 import DialogTitle from '@material-ui/core/DialogTitle'
 import TextField from '@material-ui/core/TextField'
 import Typography from '@material-ui/core/Typography'
+import InputIcon from '@material-ui/icons/Input'
 
 import { OperationStore } from '../stores'
 
@@ -39,6 +40,7 @@ class NishikumaFormDialog extends React.Component<INishikumaFormDialogProps> {
     return (
       <div>
         <Button onClick={this.handleClickOpen} variant="outlined">
+          <InputIcon />
           デッキビルダー形式を読み込む
         </Button>
 

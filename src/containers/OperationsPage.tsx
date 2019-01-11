@@ -26,7 +26,7 @@ const OperationsPage: React.SFC<IOperationsPageProps> = props => {
         <OperationLabel key={index} index={index} operation={operation} moveOperationPage={moveOperationPage} />
       ))}
 
-      <div style={{ display: 'flex' }}>
+      <div style={{ display: 'flex', margin: 8 }}>
         <Button onClick={operationStore.createOperation} variant="outlined">
           <Add />
           編成を追加

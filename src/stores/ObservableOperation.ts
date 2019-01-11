@@ -7,6 +7,7 @@ import { TEnemyFleet } from '*maps'
 import kcObjectFactory from './kcObjectFactory'
 import ObservableFleet from './ObservableFleet'
 import ObservableLandBasedAirCorps from './ObservableLandBasedAirCorps'
+import toNishikuma from './toNishikuma'
 
 console.log()
 
@@ -60,5 +61,9 @@ export default class ObservableOperation implements IOperationDataObject {
   get asKcObject() {
     const obj = kcObjectFactory.createOperation(this)
     return obj
+  }
+
+  get toNishikumaJson() {
+    return JSON.stringify(toNishikuma(this.asKcObject))
   }
 }

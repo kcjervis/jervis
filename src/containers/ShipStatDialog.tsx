@@ -64,6 +64,14 @@ class ShipStatDialog extends React.Component<IShipStatDialog> {
     const stat = stats[statName]
     const nakedStat = nakedStats[statName]
     const increasedStat = ship.increased[statName]
+    const { statsBonus } = stats
+
+    let statBonusLabel = 0
+    if (statsBonus && statName in statsBonus) {
+      statBonusLabel = (statsBonus as any)[statName]
+    }
+
+    const totalEquipmentStat = ship.asKcObject.totalEquipmentStats(statName)
     return (
       <div>
         <Button className={classes.root} onClick={this.handleClickOpen}>
@@ -80,6 +88,9 @@ class ShipStatDialog extends React.Component<IShipStatDialog> {
             <Typography variant="subtitle1">{ship.asKcObject.name}</Typography>
             <ShipStat statName={statName} stat={stat} increasedStat={increasedStat} />
             <Typography>装備無しステータス: {nakedStat}</Typography>
+            <Typography>装備合計: {totalEquipmentStat}</Typography>
+            <Typography>装備フィット: {statBonusLabel}</Typography>
+            <Typography variant="caption">フィッは中途半端に実装しているので注意</Typography>
           </DialogContent>
 
           <DialogContent>

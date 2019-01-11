@@ -21,7 +21,7 @@ const OperationLabel: React.SFC<IOperationLabelProps> = ({ moveOperationPage, op
   }
   const flagship = operation.fleets[0].ships[0]
   return (
-    <div>
+    <div style={{ margin: 8 }}>
       <Button onClick={handleClick} size="large" variant="outlined">
         {flagship && <ShipImage imageType="banner" masterId={flagship.masterId} />}
         <Typography style={{ margin: 8 }}>{operation.name}</Typography>

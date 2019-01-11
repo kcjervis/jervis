@@ -4,6 +4,7 @@ import React from 'react'
 import { RouteComponentProps } from 'react-router'
 import { Redirect } from 'react-router-dom'
 
+import Button from '@material-ui/core/Button'
 import Checkbox from '@material-ui/core/Checkbox'
 import Divider from '@material-ui/core/Divider'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
@@ -13,11 +14,12 @@ import Tab from '@material-ui/core/Tab'
 import Tabs from '@material-ui/core/Tabs'
 import Typography from '@material-ui/core/Typography'
 
-import FleetTypeSelect from '../components/FleetTypeSelect'
+import FleetTypeSelect from '../../components/FleetTypeSelect'
 
-import stores, { ObservableOperation, SettingStore } from '../stores'
-import FleetField from './FleetField'
-import LandBaseForm from './LandBaseForm'
+import stores, { ObservableOperation, SettingStore } from '../../stores'
+import FleetField from '../FleetField'
+import LandBaseForm from '../LandBaseForm'
+import JsonDialog from './JsonDialog'
 
 const styles = createStyles({
   name: { marginRight: 8 },
@@ -115,6 +117,8 @@ const OperationPage: React.SFC<IOperationPageProps> = ({ operation, history, cla
           }
           label={<Typography variant="caption">敵艦隊</Typography>}
         />
+
+        <JsonDialog json={operation.toNishikumaJson} />
       </div>
 
       <div className={classes.tabs}>
