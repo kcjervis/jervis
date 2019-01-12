@@ -10,7 +10,13 @@ const EquipmentImage: React.SFC<IEquipmentImageProps> = ({ className, masterId }
     return null
   }
   try {
-    return <img className={className} src={require(`../images/equipments/itemOn/${masterId}.png`)} />
+    return (
+      <img
+        style={{ pointerEvents: 'none' }}
+        className={className}
+        src={require(`../images/equipments/itemOn/${masterId}.png`)}
+      />
+    )
   } catch (error) {
     console.log(`equipment ${masterId} image not found`)
     return null

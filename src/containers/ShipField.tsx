@@ -11,7 +11,7 @@ import { createStyles, withStyles, WithStyles } from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography'
 import Add from '@material-ui/icons/Add'
 
-import { RemoveButton } from '../components/IconButtons'
+import { RemoveButton, UpdateButton } from '../components/IconButtons'
 import ShipImage from '../components/ShipImage'
 import withDragAndDrop from '../hocs/withDragAndDrop'
 import EquipmentField from './EquipmentField'
@@ -112,6 +112,7 @@ const ShipField: React.SFC<IShipField> = props => {
             {index + 1} ID:{ship.masterId} {ship.asKcObject.name}
           </Typography>
           <div style={{ alignItems: 'right' }}>
+            <UpdateButton size="small" style={{ padding: 4 }} href={`#/ships/${fleetId}/${index}`} />
             <RemoveButton size="small" style={{ padding: 4 }} onClick={ship.remove} />
           </div>
         </div>

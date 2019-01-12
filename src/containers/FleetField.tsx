@@ -1,4 +1,4 @@
-import { ArtillerySpotting, FleetRole, FleetType } from 'kc-calculator'
+import { ArtillerySpotting, FleetRole, FleetType, nonNullable } from 'kc-calculator'
 import range from 'lodash/range'
 import { inject, observer } from 'mobx-react'
 import React from 'react'
@@ -17,6 +17,7 @@ import ContactTable from './ContactTable'
 import FleetDetail from './FleetDetail'
 import ShipField from './ShipField'
 
+import ProficiencyDialog from '../components/ProficiencyDialog'
 import { ObservableOperation } from '../stores'
 import ObservableFleet from '../stores/ObservableFleet'
 import OperationStore from '../stores/OperationStore'
@@ -40,13 +41,24 @@ interface IFleetFieldProps extends WithStyles<typeof styles>, RouteComponentProp
 
 const FleetField: React.SFC<IFleetFieldProps> = ({ fleet, operationStore, classes, operation }) => {
   const { ships } = fleet
+
   const addShipField = () => {
-    ships.push(undefined)
+    ships.push()
   }
+
   const removeShipField = () => {
     if (ships.length > 6) {
       ships.pop()
     }
+  }
+
+  const setProficiency = (value: number) => {
+    ships
+      .flatMap(ship => ship && ship.equipments)
+      .filter(nonNullable)
+      .forEach(equip => {
+        equip.proficiency = value
+      })
   }
 
   const fleetIndex = operation.fleets.indexOf(fleet)
@@ -75,6 +87,7 @@ const FleetField: React.SFC<IFleetFieldProps> = ({ fleet, operationStore, classe
     <div>
       <div style={{ display: 'flex', alignItems: 'center' }}>
         <Typography>制空: {fleet.asKcObject.fighterPower}</Typography>
+        <ProficiencyDialog changeProficiency={setProficiency} />
         {range(1, 6).map(nodeDivaricatedFactor => (
           <div key={nodeDivaricatedFactor} style={{ display: 'flex', alignItems: 'center', marginLeft: 8 }}>
             <StatIcon statName="los" label={`(${nodeDivaricatedFactor})`} />

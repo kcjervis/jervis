@@ -69,6 +69,7 @@ class EquipmentFieldContent extends React.Component<IEquipmentFieldContentProps,
 
   public handleProficiencyClick = (value: number) => () => {
     this.props.equipment.proficiency = value
+    this.handleClose()
   }
 
   public handleProficiencyInput = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -77,6 +78,7 @@ class EquipmentFieldContent extends React.Component<IEquipmentFieldContentProps,
 
   public handleImprovementClick = (value: number) => () => {
     this.props.equipment.improvement = value
+    this.handleClose()
   }
 
   public render() {
@@ -95,13 +97,13 @@ class EquipmentFieldContent extends React.Component<IEquipmentFieldContentProps,
         </div>
 
         <PopperCard open={Boolean(this.state.anchorEl)} anchorEl={anchorEl} onClickAway={this.handleClose}>
-          <div style={{ display: 'flex', position: 'relative' }}>
+          <div style={{ display: 'flex' }}>
             <div>
               <EquipmentCard equipment={equipment.asKcObject} style={{ background: 'rgba(255, 255, 255, 0)' }} />
 
               <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                 {isAerialCombatAircraft && (
-                  <div style={{ position: 'absolute', bottom: 0, left: 144, display: 'flex' }}>
+                  <div style={{ display: 'flex' }}>
                     <TextField
                       label="slot"
                       variant="outlined"
