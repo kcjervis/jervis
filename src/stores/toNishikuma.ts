@@ -48,7 +48,7 @@ const toDeckFleet = (fleet: IFleet): DeckFleet => {
   return deckFleet
 }
 
-const toNishikuma = (operation: IOperation): INishikuma => {
+const toNishikuma = (operation: IOperation, hqlv: number): INishikuma => {
   const nishikumaObject: { [K in string]: DeckFleet } = {}
   operation.fleets.forEach((fleet, index) => {
     const key = `f${index + 1}`
@@ -56,6 +56,7 @@ const toNishikuma = (operation: IOperation): INishikuma => {
   })
   return {
     version: 4,
+    hqlv,
     ...nishikumaObject
   }
 }

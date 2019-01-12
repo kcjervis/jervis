@@ -1,4 +1,5 @@
 import { ArtillerySpotting, FleetRole, FleetType } from 'kc-calculator'
+import range from 'lodash/range'
 import { inject, observer } from 'mobx-react'
 import React from 'react'
 import { RouteComponentProps, withRouter } from 'react-router'
@@ -11,12 +12,14 @@ import Typography from '@material-ui/core/Typography'
 import Add from '@material-ui/icons/Add'
 import Remove from '@material-ui/icons/Remove'
 
-import { ObservableOperation } from '../stores'
-import ObservableFleet from '../stores/ObservableFleet'
-import OperationStore from '../stores/OperationStore'
+import StatIcon from '../components/StatIcon'
 import ContactTable from './ContactTable'
 import FleetDetail from './FleetDetail'
 import ShipField from './ShipField'
+
+import { ObservableOperation } from '../stores'
+import ObservableFleet from '../stores/ObservableFleet'
+import OperationStore from '../stores/OperationStore'
 
 const styles = createStyles({
   ships: {
@@ -59,9 +62,27 @@ const FleetField: React.SFC<IFleetFieldProps> = ({ fleet, operationStore, classe
   const escortFleet = operation.fleets[1].asKcObject
   const combinedFleetPlanes = mainFleet.planes.concat(escortFleet.planes)
 
+  const { hqLevel } = operation
+
+  const getEffectiveLos = (factor: number) => {
+    if (isCombinedFleet) {
+      return mainFleet.effectiveLos(factor, hqLevel) + escortFleet.effectiveLos(factor, hqLevel)
+    }
+    return fleet.asKcObject.effectiveLos(factor, hqLevel)
+  }
+
   return (
     <div>
-      <Typography>制空: {fleet.asKcObject.fighterPower}</Typography>
+      <div style={{ display: 'flex', alignItems: 'center' }}>
+        <Typography>制空: {fleet.asKcObject.fighterPower}</Typography>
+        {range(1, 6).map(nodeDivaricatedFactor => (
+          <div key={nodeDivaricatedFactor} style={{ display: 'flex', alignItems: 'center', marginLeft: 8 }}>
+            <StatIcon statName="los" label={`(${nodeDivaricatedFactor})`} />
+            <Typography>{getEffectiveLos(nodeDivaricatedFactor).toFixed(2)}</Typography>
+          </div>
+        ))}
+      </div>
+
       <div className={classes.ships}>
         {ships.map((ship, index) => (
           <ShipField key={index} fleetId={fleet.id} index={index} ship={ship} onEndDrag={operationStore!.switchShip} />

@@ -93,8 +93,9 @@ export interface INishikuma {
   f4?: DeckFleet
 }
 
-const fromNishikuma = ({ f1, f2, f3, f4 }: INishikuma) => {
+const fromNishikuma = ({ hqlv = 120, f1, f2, f3, f4 }: INishikuma) => {
   const operation = new ObservableOperation()
+  operation.hqLevel = hqlv
   ;[f1, f2, f3, f4].forEach((deckFleet, fleetIndex) => {
     if (!deckFleet) {
       return

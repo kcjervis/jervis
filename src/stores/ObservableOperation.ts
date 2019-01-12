@@ -21,6 +21,10 @@ export default class ObservableOperation implements IOperationDataObject {
 
   @persist
   @observable
+  public hqLevel = 120
+
+  @persist
+  @observable
   public side = Side.Player
 
   @persist
@@ -64,6 +68,6 @@ export default class ObservableOperation implements IOperationDataObject {
   }
 
   get toNishikumaJson() {
-    return JSON.stringify(toNishikuma(this.asKcObject))
+    return JSON.stringify(toNishikuma(this.asKcObject, this.hqLevel))
   }
 }

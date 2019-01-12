@@ -38,6 +38,7 @@ const styles = createStyles({
 
 interface IShipIcon extends WithStyles<typeof styles> {
   statName: ShipStatName
+  label?: string | number
 }
 
 const ShipIcon: React.SFC<IShipIcon> = props => {
@@ -49,7 +50,12 @@ const ShipIcon: React.SFC<IShipIcon> = props => {
     console.log(error)
   }
   const stat = statKeys.find(({ key }) => key === statName)
-  const label = stat ? stat.name : statName
+  let label: string | number
+  if (props.label) {
+    label = props.label
+  } else {
+    label = stat ? stat.name : statName
+  }
   return (
     <div className={classes.root}>
       <img className={classes.icon} src={image} />

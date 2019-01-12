@@ -4,7 +4,6 @@ import React from 'react'
 import { RouteComponentProps } from 'react-router'
 import { Redirect } from 'react-router-dom'
 
-import Button from '@material-ui/core/Button'
 import Checkbox from '@material-ui/core/Checkbox'
 import Divider from '@material-ui/core/Divider'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
@@ -12,6 +11,7 @@ import Input from '@material-ui/core/Input'
 import { createStyles, withStyles, WithStyles } from '@material-ui/core/styles'
 import Tab from '@material-ui/core/Tab'
 import Tabs from '@material-ui/core/Tabs'
+import TextField from '@material-ui/core/TextField'
 import Typography from '@material-ui/core/Typography'
 
 import FleetTypeSelect from '../../components/FleetTypeSelect'
@@ -23,6 +23,7 @@ import JsonDialog from './JsonDialog'
 
 const styles = createStyles({
   name: { marginRight: 8 },
+  hqLevel: { marginLeft: 8, marginRight: 8, width: 50 },
   tabs: { display: 'flex', flexWrap: 'wrap' },
   menu: {
     display: 'flex',
@@ -75,6 +76,10 @@ const OperationPage: React.SFC<IOperationPageProps> = ({ operation, history, cla
     operation.name = event.target.value
   }
 
+  const handleHqLevelChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    operation.hqLevel = Number(event.target.value)
+  }
+
   const { activeFleetIndex } = operation
   const activeFleet = operation.activeFleet
 
@@ -91,6 +96,14 @@ const OperationPage: React.SFC<IOperationPageProps> = ({ operation, history, cla
       <div className={classes.menu}>
         <Input className={classes.name} value={operation.name} onChange={handleChangeName} />
         <FleetTypeSelect fleetType={operation.fleetType} onChange={handleFleetTypeChange} />
+        <Typography>司令部Lv</Typography>
+        <TextField
+          className={classes.hqLevel}
+          type="number"
+          inputProps={{ min: 1 }}
+          value={operation.hqLevel}
+          onChange={handleHqLevelChange}
+        />
         <Typography style={{ margin: 8 }}>
           第一艦隊制空: {mainFleet.fighterPower} {combinedFleetFighterPowerLabel}
         </Typography>
