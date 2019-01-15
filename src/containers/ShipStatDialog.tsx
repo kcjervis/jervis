@@ -90,7 +90,6 @@ class ShipStatDialog extends React.Component<IShipStatDialog> {
             <Typography>装備無しステータス: {nakedStat}</Typography>
             <Typography>装備合計: {totalEquipmentStat}</Typography>
             <Typography>装備フィット: {statBonusLabel}</Typography>
-            <Typography variant="caption">フィッは中途半端に実装しているので注意</Typography>
           </DialogContent>
 
           <DialogContent>
