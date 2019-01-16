@@ -72,6 +72,10 @@ class MasterShipsPage extends React.Component<IMasterShipsPageProps, IMasterShip
     this.setState(state => ({ visibleAbysall: !state.visibleAbysall }))
   }
 
+  public toggleRemodel = () => {
+    this.setState(state => ({ visiblePreRemodel: !state.visiblePreRemodel }))
+  }
+
   public setTypeIds = (visibleTypeIds: number[]) => () => {
     this.setState({ visibleTypeIds })
   }
@@ -156,7 +160,7 @@ class MasterShipsPage extends React.Component<IMasterShipsPageProps, IMasterShip
   public render() {
     const { anchorEl, masterShip } = this.state
     return (
-      <div>
+      <div style={{ margin: 8 }}>
         {/*表示する艦娘のカテゴリー選択ボタン*/}
         {this.categories.map(category => (
           <Button
@@ -168,7 +172,18 @@ class MasterShipsPage extends React.Component<IMasterShipsPageProps, IMasterShip
         ))}
 
         {/*深海棲艦表示切り替え*/}
-        <FormControlLabel label="深海棲艦" control={<Checkbox onClick={this.toggleAbysall} />} />
+        <FormControlLabel
+          label="深海棲艦"
+          style={{ margin: 4 }}
+          control={<Checkbox style={{ padding: 0 }} onClick={this.toggleAbysall} />}
+        />
+
+        {/*改造表示切り替え*/}
+        <FormControlLabel
+          label="未改造表示"
+          style={{ margin: 4 }}
+          control={<Checkbox style={{ padding: 0 }} onClick={this.toggleRemodel} />}
+        />
 
         {/*艦娘一覧を表示*/}
         {Array.from(this.visibleShipClasses().entries()).map(([shipClass, classedShips]) => (
@@ -182,7 +197,12 @@ class MasterShipsPage extends React.Component<IMasterShipsPageProps, IMasterShip
                 onMouseEnter={this.handleCardOpen(ship)}
                 onMouseLeave={this.handleCardClose}
               >
-                <ShipImage imageType="banner" masterId={ship.id} />
+                <div style={{ display: 'flex', flexDirection: 'column' }}>
+                  <Typography variant="caption" align="left">
+                    ID:{ship.id} {ship.name}
+                  </Typography>
+                  <ShipImage imageType="banner" masterId={ship.id} />
+                </div>
               </Button>
             ))}
             <Divider />
