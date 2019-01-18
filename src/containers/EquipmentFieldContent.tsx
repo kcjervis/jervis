@@ -34,8 +34,9 @@ const styles = createStyles({
     height: 400,
     marginLeft: 'auto'
   },
-
-  button: {}
+  button: {
+    height: 400 / 9
+  }
 })
 
 export interface IEquipmentFieldContentProps extends RouteComponentProps, WithStyles<typeof styles> {

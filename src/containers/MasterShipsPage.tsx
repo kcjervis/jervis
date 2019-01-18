@@ -128,21 +128,23 @@ class MasterShipsPage extends React.Component<IMasterShipsPageProps, IMasterShip
   public visibleShipClasses() {
     const { visibleTypeIds, visibleAbysall, visiblePreRemodel } = this.state
 
-    const visibleShips = masterShips.filter(ship => {
-      if (!visibleTypeIds.includes(ship.shipType.id)) {
-        return false
-      }
-      if (visibleAbysall !== ship.isAbyssal) {
-        return false
-      }
-      if (!visiblePreRemodel) {
-        if (!ship.canConvert && ship.canRemodel) {
+    const visibleShips = masterShips
+      .filter(ship => {
+        if (!visibleTypeIds.includes(ship.shipType.id)) {
           return false
         }
-      }
+        if (visibleAbysall !== ship.isAbyssal) {
+          return false
+        }
+        if (!visiblePreRemodel) {
+          if (!ship.canConvert && ship.canRemodel) {
+            return false
+          }
+        }
 
-      return true
-    })
+        return true
+      })
+      .sort((s1, s2) => s1.sortId - s2.sortId)
 
     const visibleShipClassMap = new Map<ShipClass, MasterShip[]>()
 
