@@ -14,6 +14,11 @@ const theme = createMuiTheme({
     primary: blue
   },
   overrides: {
+    MuiButton: {
+      root: {
+        textTransform: 'none'
+      }
+    },
     MuiTab: {
       textColorInherit: {
         color: 'rgba( 250, 250, 250, 0.7 )',
