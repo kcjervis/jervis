@@ -25,12 +25,21 @@ interface IDraggableShipProps {
 }
 
 export default class OperationStore {
+  get activeOperation() {
+    const { activeOperationId } = this
+    if (activeOperationId) {
+      return this.getOperation(activeOperationId)
+    }
+    return undefined
+  }
+
   @persist('list', ObservableOperation)
   @observable
   public operations: ObservableOperation[] = []
 
+  @persist
   @observable
-  public visibleOperation?: ObservableOperation
+  private activeOperationId = ''
 
   constructor() {
     autorun(() => {
@@ -42,8 +51,30 @@ export default class OperationStore {
     })
   }
 
-  @action.bound
-  public createOperation() {
+  @action public setActiveOperation = (operation: ObservableOperation) => {
+    this.activeOperationId = operation.id
+  }
+
+  @computed
+  get fleets() {
+    return this.operations.map(({ fleets }) => fleets).flat()
+  }
+
+  @computed
+  get ships() {
+    return this.fleets
+      .flatMap(({ ships }) => ships)
+      .filter((ship): ship is ObservableShip => ship instanceof ObservableShip)
+  }
+
+  @computed
+  get equipments() {
+    return this.ships
+      .flatMap(({ equipments }) => equipments)
+      .filter((equip): equip is ObservableEquipment => equip instanceof ObservableEquipment)
+  }
+
+  @action public createOperation = () => {
     this.operations.push(new ObservableOperation())
   }
 
@@ -74,25 +105,6 @@ export default class OperationStore {
       const { ships: ships2 } = dropFleet
       switchArrayItems(ships1, dragProps.index, ships2, dropProps.index)
     }
-  }
-
-  @computed
-  get fleets() {
-    return this.operations.map(({ fleets }) => fleets).flat()
-  }
-
-  @computed
-  get ships() {
-    return this.fleets
-      .flatMap(({ ships }) => ships)
-      .filter((ship): ship is ObservableShip => ship instanceof ObservableShip)
-  }
-
-  @computed
-  get equipments() {
-    return this.ships
-      .flatMap(({ equipments }) => equipments)
-      .filter((equip): equip is ObservableEquipment => equip instanceof ObservableEquipment)
   }
 
   public getOperation = (id: string) => {

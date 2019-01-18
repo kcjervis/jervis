@@ -17,7 +17,7 @@ interface IOperationsPageProps extends RouteComponentProps {
 const OperationsPage: React.SFC<IOperationsPageProps> = props => {
   const operationStore = props.operationStore!
   const moveOperationPage = (operation: ObservableOperation) => {
-    operationStore.visibleOperation = operation
+    operationStore.setActiveOperation(operation)
     props.history.push('operation')
   }
   return (

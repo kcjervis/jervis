@@ -155,13 +155,13 @@ const OperationPage: React.SFC<IOperationPageProps> = ({ operation, history, cla
 }
 
 const mapStateToProps = () => {
-  const { visibleOperation } = stores.operationStore
-  if (!visibleOperation) {
+  const { activeOperation } = stores.operationStore
+  if (!activeOperation) {
     return
   }
   const { settingStore } = stores
   return {
-    operation: visibleOperation,
+    operation: activeOperation,
     settingStore
   }
 }

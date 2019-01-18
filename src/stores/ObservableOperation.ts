@@ -9,8 +9,6 @@ import ObservableFleet from './ObservableFleet'
 import ObservableLandBasedAirCorps from './ObservableLandBasedAirCorps'
 import toNishikuma from './toNishikuma'
 
-console.log()
-
 export default class ObservableOperation implements IOperationDataObject {
   @persist
   public id = uuid()

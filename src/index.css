@@ -1,5 +1,5 @@
 body {
-  background: linear-gradient(
+  /* background: linear-gradient(
       180deg,
       rgba(0, 52, 119, 0.8),
       rgba(139, 49, 67, 0.9)
@@ -8,10 +8,10 @@ body {
   background-position: right;
   background-size: contain;
   background-attachment: fixed;
-  background-repeat: no-repeat;
+  background-repeat: no-repeat; */
   margin: 0;
 }
-body::before {
+/* body::before {
   content: '';
   display: block;
   position: fixed;
@@ -22,7 +22,7 @@ body::before {
   bottom: -4px;
   left: -4px;
   z-index: -1;
-}
+} */
 
 .loader:empty {
   position: absolute;

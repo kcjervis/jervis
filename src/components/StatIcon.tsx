@@ -4,18 +4,23 @@ import { createStyles, withStyles, WithStyles } from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography'
 import statKeys from '../data/statKeys'
 
-type ShipStatName =
+type StatIconName =
   | 'hp'
   | 'armor'
   | 'firepower'
   | 'torpedo'
+  | 'bombing'
   | 'speed'
   | 'antiAir'
   | 'asw'
+  | 'accuracy'
   | 'evasion'
+  | 'interception'
+  | 'antiBomber'
   | 'los'
   | 'luck'
   | 'range'
+  | 'radius'
 
 const styles = createStyles({
   root: {
@@ -37,7 +42,7 @@ const styles = createStyles({
 })
 
 interface IShipIcon extends WithStyles<typeof styles> {
-  statName: ShipStatName
+  statName: StatIconName
   label?: string | number
 }
 

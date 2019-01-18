@@ -35,7 +35,7 @@ const TopMenu: React.SFC<ITopMenuProps> = props => {
   return (
     <div>
       <AppBar className={classes.appBar} position="static">
-        <Tabs value={isActive && pathname} onChange={handleChange} fullWidth={true} indicatorColor="primary">
+        <Tabs value={isActive && pathname} onChange={handleChange} variant="fullWidth" indicatorColor="primary">
           {paths.map(({ label, path }) => (
             <Tab key={path} label={label} value={path} />
           ))}

@@ -15,8 +15,10 @@ const operationStore = new OperationStore()
 const settingStore = new SettingStore()
 const shipsPageStore = new ShipsPageStore()
 
-hydrate('operationStore', operationStore)
-hydrate('settingStore', settingStore)
+export const loadStores = async () => {
+  await hydrate('operationStore', operationStore)
+  await hydrate('settingStore', settingStore)
+}
 
 export {
   OperationStore,

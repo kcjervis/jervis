@@ -15,7 +15,6 @@ interface IOperationLabelProps {
 }
 
 const OperationLabel: React.SFC<IOperationLabelProps> = ({ moveOperationPage, operation, index }) => {
-  console.log(operation)
   const handleClick = () => {
     moveOperationPage(operation)
   }
