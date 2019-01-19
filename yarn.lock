@@ -3157,14 +3157,6 @@ jss@^9.8.7:
     symbol-observable "^1.1.0"
     warning "^3.0.0"
 
-kc-calculator@^0.1.12:
-  version "0.1.12"
-  resolved "https://registry.yarnpkg.com/kc-calculator/-/kc-calculator-0.1.12.tgz#00cc86ae274b38d0cc22cd778fd1e0e3fddab781"
-  integrity sha512-yunotd7xGbBntVJu1x4E9tlTxvkF4cUV0IbbCLt/BK3RhsyDXr3j8TYiyX5eBJSx9zVToA0QhWpcSfp1tBrUrQ==
-  dependencies:
-    "@kancolle/data" "^2018.12.27"
-    lodash "^4.17.11"
-
 keycode@^2.1.9:
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/keycode/-/keycode-2.2.0.tgz#3d0af56dc7b8b8e5cba8d0a97f107204eec22b04"
