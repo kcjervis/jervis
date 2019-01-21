@@ -195,16 +195,16 @@ class MasterShipsPage extends React.Component<IMasterShipsPageProps, IMasterShip
             {classedShips.map(ship => (
               <Button
                 key={ship.id}
+                style={{ display: 'inline' }}
                 onClick={this.selectShip(ship)}
                 onMouseEnter={this.handleCardOpen(ship)}
                 onMouseLeave={this.handleCardClose}
               >
-                <div style={{ display: 'flex', flexDirection: 'column' }}>
-                  <Typography variant="caption" align="left">
-                    ID:{ship.id} {ship.name}
-                  </Typography>
-                  <ShipImage imageType="banner" masterId={ship.id} />
-                </div>
+                <Typography variant="caption" align="left">
+                  ID:{ship.id} {ship.name}
+                </Typography>
+
+                <ShipImage imageType="banner" masterId={ship.id} />
               </Button>
             ))}
             <Divider />
