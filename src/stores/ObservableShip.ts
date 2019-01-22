@@ -73,13 +73,24 @@ export default class ObservableShip implements IShipDataObject {
     this.isVisible = false
   }
 
-  @action.bound
-  public createEquipment(index: number, data: IEquipmentDataObject) {
-    this.equipments[index] = new ObservableEquipment(data)
+  @action public setEquipment = (index: number, equipment?: ObservableEquipment) => {
+    this.equipments[index] = equipment
+    if (!equipment) {
+      return
+    }
+    if (!this.asKcObject.shipClass.is('NisshinClass') || !equipment.asKcObject.category.is('LargeFlyingBoat')) {
+      return
+    }
+    if (this.slots[index] > 0) {
+      this.setSlotSize(index, 1)
+    }
   }
 
-  @action.bound
-  public setSlotSize(index: number, value: number) {
+  @action public createEquipment = (index: number, data: IEquipmentDataObject) => {
+    this.setEquipment(index, new ObservableEquipment(data))
+  }
+
+  @action public setSlotSize = (index: number, value: number) => {
     if (typeof this.slots[index] === 'number') {
       this.slots[index] = value
     }

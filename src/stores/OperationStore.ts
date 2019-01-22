@@ -90,7 +90,10 @@ export default class OperationStore {
   public switchEquipment(dragProps: IDraggableEquipmentProps, dropProps: IDraggableEquipmentProps) {
     const dragParent = dragProps.parent
     const dropParent = dropProps.parent
-    switchArrayItems(dragParent.equipments, dragProps.index, dropParent.equipments, dropProps.index)
+    const equip1 = dragParent.equipments[dragProps.index]
+    const equip2 = dropParent.equipments[dropProps.index]
+    dragParent.setEquipment(dragProps.index, equip2)
+    dropParent.setEquipment(dropProps.index, equip1)
     if (dragParent instanceof ObservableLandBasedAirCorps) {
       switchArrayItems(dragParent.slots, dragProps.index, dropParent.slots, dropProps.index)
     }

@@ -43,10 +43,13 @@ export default class ObservableLandBasedAirCorps implements ILandBasedAirCorpsDa
     )
   }
 
-  @action.bound
-  public createEquipment(index: number, data: IEquipmentDataObject) {
+  @action public setEquipment = (index: number, equipment?: ObservableEquipment) => {
+    this.equipments[index] = equipment
+  }
+
+  @action public createEquipment = (index: number, data: IEquipmentDataObject) => {
     const equip = new ObservableEquipment(data)
-    this.equipments[index] = equip
+    this.setEquipment(index, equip)
     if (equip.asKcObject.category.isReconnaissanceAircraft) {
       this.slots[index] = 4
     } else {
