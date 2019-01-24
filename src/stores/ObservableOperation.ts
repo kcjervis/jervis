@@ -10,6 +10,18 @@ import ObservableLandBasedAirCorps from './ObservableLandBasedAirCorps'
 import toNishikuma from './toNishikuma'
 
 export default class ObservableOperation implements IOperationDataObject {
+  public static create = (operationData: IOperationDataObject) => {
+    const observableOperation = new ObservableOperation()
+    observableOperation.side = operationData.side
+    observableOperation.fleetType = operationData.fleetType
+    observableOperation.fleets = operationData.fleets.map(fleetData => ObservableFleet.create(fleetData))
+    observableOperation.landBase = operationData.landBase.map(airCorpsData =>
+      ObservableLandBasedAirCorps.create(airCorpsData)
+    )
+
+    return observableOperation
+  }
+
   @persist
   public id = uuid()
 
@@ -60,7 +72,7 @@ export default class ObservableOperation implements IOperationDataObject {
     return undefined
   }
 
-  get asKcObject() {
+  @computed get asKcObject() {
     const obj = kcObjectFactory.createOperation(this)
     return obj
   }

@@ -21,16 +21,13 @@ import theme from './theme'
 
 const AppSuspense: React.SFC = ({ children }) => {
   const [isReady, setIsReady] = useState(false)
-  useEffect(
-    () => {
-      const load = async () => {
-        await loadStores()
-        setIsReady(true)
-      }
-      load()
-    },
-    [setIsReady]
-  )
+  useEffect(() => {
+    const load = async () => {
+      await loadStores()
+      setIsReady(true)
+    }
+    load()
+  }, [setIsReady])
   if (!isReady) {
     return <div>loading</div>
   }

@@ -7,6 +7,12 @@ import kcObjectFactory from './kcObjectFactory'
 import ObservableShip from './ObservableShip'
 
 export default class ObservableFleet implements IFleetDataObject {
+  public static create = (fleetData: IFleetDataObject) => {
+    const observableFleet = new ObservableFleet()
+    fleetData.ships.forEach((shipData, index) => shipData && observableFleet.createShip(index, shipData))
+    return observableFleet
+  }
+
   @computed
   get asKcObject() {
     return kcObjectFactory.createFleet(this)

@@ -24,7 +24,10 @@ export default class ObservableShip implements IShipDataObject {
     ship.slots = slots
     ship.equipments = Array.from(Array(slots.length + 1), (_, index) => {
       const equip = equipments[index]
-      return equip && new ObservableEquipment(equip)
+      if (!equip || equip.masterId <= 0) {
+        return undefined
+      }
+      return ObservableEquipment.create(equip)
     })
     return ship
   }
@@ -87,7 +90,7 @@ export default class ObservableShip implements IShipDataObject {
   }
 
   @action public createEquipment = (index: number, data: IEquipmentDataObject) => {
-    this.setEquipment(index, new ObservableEquipment(data))
+    this.setEquipment(index, ObservableEquipment.create(data))
   }
 
   @action public setSlotSize = (index: number, value: number) => {

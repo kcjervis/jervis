@@ -22,7 +22,8 @@ const EquipmentField: React.SFC<IEquipmentFieldProps> = props => {
 
   const type = parent instanceof ObservableShip ? 'ship' : 'landBase'
   const toEquipmentsPage = () => props.history.push(`/equipments/${type}/${parent.id}/${index}`)
-  if (!equipment) {
+
+  if (!equipment || !equipment.isValid()) {
     return (
       <div style={style}>
         <Button style={{ width: '100%', height: '100%' }} variant="outlined" onClick={toEquipmentsPage}>

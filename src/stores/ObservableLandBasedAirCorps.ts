@@ -1,5 +1,5 @@
 import { IEquipmentDataObject, ILandBasedAirCorpsDataObject } from 'kc-calculator'
-import { action, autorun, computed, observable, reaction } from 'mobx'
+import { action, autorun, computed, observable } from 'mobx'
 import { persist } from 'mobx-persist'
 import uuid from 'uuid'
 
@@ -13,7 +13,16 @@ export enum LandBasedAirCorpsMode {
 }
 
 export default class ObservableLandBasedAirCorps implements ILandBasedAirCorpsDataObject {
-  get asKcObject() {
+  public static create = (airCorpsData: ILandBasedAirCorpsDataObject) => {
+    const observableLandBasedAirCorps = new ObservableLandBasedAirCorps()
+    airCorpsData.equipments.forEach(
+      (equipData, index) => equipData && observableLandBasedAirCorps.createEquipment(index, equipData)
+    )
+
+    return observableLandBasedAirCorps
+  }
+
+  @computed get asKcObject() {
     const airCorps = kcObjectFactory.createLandBasedAirCorps(this)
     return airCorps
   }
@@ -48,7 +57,7 @@ export default class ObservableLandBasedAirCorps implements ILandBasedAirCorpsDa
   }
 
   @action public createEquipment = (index: number, data: IEquipmentDataObject) => {
-    const equip = new ObservableEquipment(data)
+    const equip = ObservableEquipment.create(data)
     this.setEquipment(index, equip)
     if (equip.asKcObject.category.isReconnaissanceAircraft) {
       this.slots[index] = 4

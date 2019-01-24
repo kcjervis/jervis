@@ -10,9 +10,16 @@ export default class ObservableEquipment implements IEquipmentDataObject {
   get asKcObject() {
     const equip = kcObjectFactory.createEquipment(this)
     if (!equip) {
-      this.isVisible = false
-      throw console.error(`masterId: ${this.masterId} equipment is undefined`)
+      throw new Error(`masterId: ${this.masterId} equipment is undefined`)
     }
+    return equip
+  }
+  public static create(data: IEquipmentDataObject) {
+    const equip = new ObservableEquipment()
+    const { masterId, improvement = 0, proficiency = 0 } = data
+    equip.masterId = masterId
+    equip.improvement = improvement
+    equip.proficiency = proficiency
     return equip
   }
 
@@ -34,15 +41,13 @@ export default class ObservableEquipment implements IEquipmentDataObject {
   @observable
   public isVisible = true
 
-  constructor(data: IEquipmentDataObject) {
-    if (!data) {
-      const non = data as ObservableEquipment
-      return non
+  public isValid() {
+    const equip = kcObjectFactory.createEquipment(this)
+    if (!equip) {
+      this.remove()
+      return false
     }
-    const { masterId = 1, improvement = 0, proficiency = 0 } = data
-    this.masterId = masterId
-    this.improvement = improvement
-    this.proficiency = proficiency
+    return true
   }
 
   @action.bound
