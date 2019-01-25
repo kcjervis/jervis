@@ -12,6 +12,7 @@ import TopMenu from './components/TopMenu'
 
 import EquipmentsPage from './containers/EquipmentsPage'
 import MapsPage from './containers/MapsPage'
+import UrlShortener from './containers/UrlShortener'
 
 import MasterShipsPage from './containers/MasterShipsPage'
 import OperationPage from './containers/OperationPage'
@@ -53,6 +54,7 @@ export default class App extends Component {
               <Route exact={true} path="/equipments" component={EquipmentsPage} />
               <Route path="/maps/:operationId" component={MapsPage} />
               <Route exact={true} path="/maps" component={MapsPage} />
+              <Route exact={true} path="/url-shortener" component={UrlShortener} />
             </AppSuspense>
           </HashRouter>
         </MuiThemeProvider>

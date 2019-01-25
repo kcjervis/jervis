@@ -43,7 +43,7 @@ const FleetField: React.SFC<IFleetFieldProps> = ({ fleet, operationStore, classe
   const { ships } = fleet
 
   const addShipField = () => {
-    ships.push()
+    ships.push(undefined)
   }
 
   const removeShipField = () => {
