@@ -19,6 +19,7 @@ import CombatInformation from 'kc-calculator/dist/combats/CombatInformation'
 
 import { createEnemyBattleFleet } from '../components/EnemyFleet'
 import { ObservableOperation } from '../stores'
+import kcObjectFactory from '../stores/kcObjectFactory'
 import { LandBasedAirCorpsMode } from '../stores/ObservableLandBasedAirCorps'
 
 type AerialBattleResult = Array<{
@@ -39,10 +40,10 @@ class AerialCombatSimulator extends React.Component<IAerialCombatSimulatorProps,
   public state: IAerialCombatSimulatorState = { simulationResult: null }
 
   public aerialBattle = () => {
-    const { operation } = this.props
-    const { side, fleetType, mainFleet, escortFleet, landBase } = operation.asKcObject
+    const observableOperation = this.props.operation
+    const { side, fleetType, mainFleet, escortFleet, landBase } = kcObjectFactory.createOperation(observableOperation)
     const playerFleet = new BattleFleet(side, fleetType, landBase, mainFleet, escortFleet)
-    const enemyFleet = createEnemyBattleFleet(operation.enemies[0])
+    const enemyFleet = createEnemyBattleFleet(observableOperation.enemies[0])
     if (!enemyFleet) {
       return
     }
@@ -50,29 +51,29 @@ class AerialCombatSimulator extends React.Component<IAerialCombatSimulatorProps,
 
     const results: AerialBattleResult = []
 
-    operation.landBase.forEach((airCorps, index) => {
-      const { mode } = airCorps
-      const kcAirCorps = airCorps.asKcObject
-      const hasPlane = kcAirCorps.planes.length > 0
+    landBase.forEach((airCorps, index) => {
+      const { mode } = observableOperation.landBase[index]
+      const hasPlane = airCorps.planes.length > 0
       if (mode === LandBasedAirCorpsMode.Standby || !hasPlane) {
         return
       }
 
-      const initialSlots = kcAirCorps.slots.concat()
+      const initialSlots = airCorps.slots.concat()
       const result1 = {
         name: index + 1 + '-1',
-        airControlState: new LandBaseAerialSupport(combatInfo, kcAirCorps).main().airControlState.name,
+        airControlState: new LandBaseAerialSupport(combatInfo, airCorps).main().airControlState.name,
         fighterPower: combatInfo.enemy.mainFleet.fighterPower
       }
+
       results.push(result1)
 
       if (mode === LandBasedAirCorpsMode.Sortie2) {
-        kcAirCorps.slots.forEach((_, slotIndex) => {
-          kcAirCorps.slots[slotIndex] = initialSlots[slotIndex]
+        airCorps.slots.forEach((_, slotIndex) => {
+          airCorps.slots[slotIndex] = initialSlots[slotIndex]
         })
         const result2 = {
           name: index + 1 + '-2',
-          airControlState: new LandBaseAerialSupport(combatInfo, kcAirCorps).main().airControlState.name,
+          airControlState: new LandBaseAerialSupport(combatInfo, airCorps).main().airControlState.name,
           fighterPower: combatInfo.enemy.mainFleet.fighterPower
         }
         results.push(result2)
