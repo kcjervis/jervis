@@ -46,7 +46,7 @@ interface IShipIcon extends WithStyles<typeof styles> {
   label?: string | number
 }
 
-const ShipIcon: React.SFC<IShipIcon> = props => {
+const ShipIcon: React.FC<IShipIcon> = props => {
   const { statName, classes } = props
   let image
   try {

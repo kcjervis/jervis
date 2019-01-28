@@ -8,7 +8,7 @@ interface IWithIconButtonProps extends IconButtonProps {
 }
 
 const withIconButton = (WrappedIcon: typeof SvgIcon) => {
-  const WithIconButton: React.SFC<IWithIconButtonProps> = ({ size, label, ...iconButonProps }) => (
+  const WithIconButton: React.FC<IWithIconButtonProps> = ({ size, label, ...iconButonProps }) => (
     <IconButton {...iconButonProps}>
       <WrappedIcon fontSize={size} />
       {label}

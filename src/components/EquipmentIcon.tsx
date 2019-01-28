@@ -6,7 +6,7 @@ interface IEquipmentIconProps {
   iconId: number
 }
 
-const EquipmentIcon: React.SFC<IEquipmentIconProps> = ({ style, className, iconId }) => {
+const EquipmentIcon: React.FC<IEquipmentIconProps> = ({ style, className, iconId }) => {
   try {
     return (
       <img

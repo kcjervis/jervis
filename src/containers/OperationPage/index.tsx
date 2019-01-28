@@ -35,9 +35,6 @@ const styles = createStyles({
   },
   checkBoxForm: {
     margin: 8
-  },
-  checkBox: {
-    padding: 0
   }
 })
 
@@ -46,7 +43,7 @@ interface IOperationPageProps extends WithStyles<typeof styles>, RouteComponentP
   settingStore?: SettingStore
 }
 
-const OperationPage: React.SFC<IOperationPageProps> = ({ operation, history, classes, settingStore }) => {
+const OperationPage: React.FC<IOperationPageProps> = ({ operation, history, classes, settingStore }) => {
   if (!operation) {
     return <Redirect to="operations" />
   }
@@ -111,23 +108,13 @@ const OperationPage: React.SFC<IOperationPageProps> = ({ operation, history, cla
         <FormControlLabel
           className={classes.checkBoxForm}
           control={
-            <Checkbox
-              className={classes.checkBox}
-              checked={setting.operationPage.visibleShipStats}
-              onChange={handleVisibleShipStatsChange}
-            />
+            <Checkbox checked={setting.operationPage.visibleShipStats} onChange={handleVisibleShipStatsChange} />
           }
           label={<Typography variant="caption">ステータス表示</Typography>}
         />
         <FormControlLabel
           className={classes.checkBoxForm}
-          control={
-            <Checkbox
-              className={classes.checkBox}
-              checked={operation.side === Side.Enemy}
-              onChange={handleSideChange}
-            />
-          }
+          control={<Checkbox checked={operation.side === Side.Enemy} onChange={handleSideChange} />}
           label={<Typography variant="caption">敵艦隊</Typography>}
         />
 

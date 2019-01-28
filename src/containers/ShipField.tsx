@@ -82,7 +82,7 @@ interface IShipField extends WithStyles<typeof styles> {
   index: number
   onEndDrag: (drag: any, drop: any) => void
 }
-const ShipField: React.SFC<IShipField> = props => {
+const ShipField: React.FC<IShipField> = props => {
   const { ship, classes, fleetId, index } = props
   if (!ship) {
     return (

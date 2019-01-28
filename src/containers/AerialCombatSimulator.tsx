@@ -11,7 +11,6 @@ import TableBody from '@material-ui/core/TableBody'
 import TableCell from '@material-ui/core/TableCell'
 import TableHead from '@material-ui/core/TableHead'
 import TableRow from '@material-ui/core/TableRow'
-import Typography from '@material-ui/core/Typography'
 
 import { CarrierBasedAerialCombat, LandBaseAerialSupport } from 'kc-calculator/dist/combats/AerialCombat'
 import BattleFleet from 'kc-calculator/dist/combats/BattleFleet'

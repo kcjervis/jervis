@@ -5,7 +5,7 @@ interface IEquipmentImageProps {
   masterId: number
 }
 
-const EquipmentImage: React.SFC<IEquipmentImageProps> = ({ className, masterId }) => {
+const EquipmentImage: React.FC<IEquipmentImageProps> = ({ className, masterId }) => {
   if (masterId > 500) {
     return null
   }

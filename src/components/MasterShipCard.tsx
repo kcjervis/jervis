@@ -62,7 +62,7 @@ interface IMasterShipCardProps extends WithStyles<typeof styles> {
   ship: MasterShip
 }
 
-const MasterShipCard: React.SFC<IMasterShipCardProps> = ({ ship, classes }) => {
+const MasterShipCard: React.FC<IMasterShipCardProps> = ({ ship, classes }) => {
   const { id, name, shipType } = ship
   return (
     <Card className={classes.root} elevation={12}>

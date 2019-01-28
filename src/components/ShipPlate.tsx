@@ -62,7 +62,7 @@ interface IShipPlateProps extends WithStyles<typeof styles> {
   ship?: IShip
 }
 
-const ShipPlate: React.SFC<IShipPlateProps> = ({ ship, classes, children }) => {
+const ShipPlate: React.FC<IShipPlateProps> = ({ ship, classes, children }) => {
   if (!ship) {
     return null
   }

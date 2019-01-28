@@ -14,7 +14,7 @@ interface IPopperCardProps {
   style?: React.CSSProperties
 }
 
-const PopperCard: React.SFC<IPopperCardProps> = ({ open, anchorEl, onClickAway, children, className, style }) => (
+const PopperCard: React.FC<IPopperCardProps> = ({ open, anchorEl, onClickAway, children, className, style }) => (
   <Popper className={className} style={style} open={open} anchorEl={anchorEl} transition={true}>
     {({ TransitionProps }) => (
       <ClickAwayListener onClickAway={onClickAway}>

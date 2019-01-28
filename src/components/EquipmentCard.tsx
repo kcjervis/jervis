@@ -85,7 +85,7 @@ interface IEquipmentCardProps extends WithStyles<typeof styles> {
   style?: React.CSSProperties
 }
 
-const EquipmentCard: React.SFC<IEquipmentCardProps> = ({ equipment, classes, className, style }) => {
+const EquipmentCard: React.FC<IEquipmentCardProps> = ({ equipment, classes, className, style }) => {
   const { masterId, category, iconId, name } = equipment
 
   return (

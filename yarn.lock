@@ -3743,6 +3743,11 @@ mobx-persist@^0.4.1:
   dependencies:
     serializr "^1.1.11"
 
+mobx-react-lite@^0.3.6:
+  version "0.3.6"
+  resolved "https://registry.yarnpkg.com/mobx-react-lite/-/mobx-react-lite-0.3.6.tgz#f00d00598d8bdc0cba0f779372df7a7f1c980468"
+  integrity sha512-oZcJlD8XlehrK+De6IRjH3hZ6ILzfR7bZZR4w5xbQG6j0W+c3zzW6/5Ydz0lJ7NbqlWicVDakwqS4dsw/WR8Rw==
+
 mobx-react@^5.4.3:
   version "5.4.3"
   resolved "https://registry.yarnpkg.com/mobx-react/-/mobx-react-5.4.3.tgz#6709b7dd89670c40e9815914ac2ca49cc02bfb47"

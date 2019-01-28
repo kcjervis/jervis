@@ -13,7 +13,7 @@ interface IFleetPageProps extends WithStyles<typeof styles> {
   fleet: IFleet
 }
 
-const FleetPage: React.SFC<IFleetPageProps> = ({ fleet, classes, children }) => {
+const FleetPage: React.FC<IFleetPageProps> = ({ fleet, classes, children }) => {
   return <div>{children}</div>
 }
 

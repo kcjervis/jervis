@@ -1,5 +1,4 @@
-import { AirControlState } from 'kc-calculator'
-import { IPlane } from 'kc-calculator/dist/objects'
+import { AirControlState, IPlane } from 'kc-calculator'
 import sumBy from 'lodash/sumBy'
 import React from 'react'
 

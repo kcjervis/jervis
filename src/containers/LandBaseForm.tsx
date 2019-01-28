@@ -17,7 +17,7 @@ interface ILandBaseForm {
   operation: ObservableOperation
 }
 
-const LandBaseForm: React.SFC<ILandBaseForm> = ({ operation }) => {
+const LandBaseForm: React.FC<ILandBaseForm> = ({ operation }) => {
   const removeEnemy = () => {
     operation.enemies = []
   }

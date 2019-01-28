@@ -48,7 +48,7 @@ const getRandomShipId = () => {
   return ship.id
 }
 
-const Background: React.SFC<WithStyles<typeof styles>> = ({ classes }) => {
+const Background: React.FC<WithStyles<typeof styles>> = ({ classes }) => {
   return (
     <div className={classes.background}>
       <ShipImage className={classes.image} imageType="full" masterId={getRandomShipId()} />

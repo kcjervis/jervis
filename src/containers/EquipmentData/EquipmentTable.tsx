@@ -53,7 +53,7 @@ const equipmentStatKeys: Array<keyof IEquipmentStats> = [
   'radius'
 ]
 
-const EquipmentTable: React.SFC<IEquipmentTableProps> = props => {
+const EquipmentTable: React.FC<IEquipmentTableProps> = props => {
   const { equipments } = props
   const visibleStatKeys = equipmentStatKeys
   return (

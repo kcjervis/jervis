@@ -34,9 +34,8 @@ const UrlShortener = () => {
   }, [])
   return (
     <Paper style={{ margin: 16 }}>
-      <TextField label="URL" inputRef={inputRef} fullWidth={true} />
-
       <CardContent>
+        <TextField label="URL" inputRef={inputRef} fullWidth={true} />
         <Typography color="primary">{status}</Typography>
         <Button variant="outlined" onClick={handleClick}>
           Shorten

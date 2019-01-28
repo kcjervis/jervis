@@ -50,7 +50,7 @@ const rangeValueToName = (range: number) => {
   return '不明'
 }
 
-const ShipStat: React.SFC<IShipStatProps> = props => {
+const ShipStat: React.FC<IShipStatProps> = props => {
   const { statName, stat, increasedStat, classes } = props
   let increasedStatLabel: string | null = null
   if (increasedStat) {

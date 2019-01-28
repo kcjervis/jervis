@@ -26,7 +26,7 @@ interface IProficiencyIconProps extends WithStyles<typeof styles> {
   style?: React.CSSProperties
 }
 
-const ProficiencyIcon: React.SFC<IProficiencyIconProps> = ({ type = 'internal', value, classes, className, style }) => {
+const ProficiencyIcon: React.FC<IProficiencyIconProps> = ({ type = 'internal', value, classes, className, style }) => {
   let level: number
   let internal: number | undefined
   if (type === 'level') {

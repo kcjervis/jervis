@@ -10,7 +10,7 @@ interface IShipImageProps {
   style?: React.CSSProperties
 }
 
-const ShipImage: React.SFC<IShipImageProps> = ({ className, masterId, imageType, style }) => {
+const ShipImage: React.FC<IShipImageProps> = ({ className, masterId, imageType, style }) => {
   try {
     return <img className={className} style={style} src={require(`../images/ships/${imageType}/${masterId}.png`)} />
   } catch (error) {

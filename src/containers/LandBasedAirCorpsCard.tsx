@@ -27,7 +27,7 @@ interface ILandBasedAirCorpsCard extends WithStyles<typeof styles> {
   index: number
 }
 
-const LandBasedAirCorpsCard: React.SFC<ILandBasedAirCorpsCard> = ({ landBasedAirCorps, index, classes }) => {
+const LandBasedAirCorpsCard: React.FC<ILandBasedAirCorpsCard> = ({ landBasedAirCorps, index, classes }) => {
   const { asKcObject: kcAirCorps } = landBasedAirCorps
   const { combatRadius, minCombatRadius, fighterPower, interceptionPower } = kcAirCorps
   const addedRadius = combatRadius - minCombatRadius

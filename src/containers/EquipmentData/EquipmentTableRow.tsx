@@ -15,7 +15,7 @@ interface IEquipmentTableRowProps extends WithStyles<typeof styles> {
   visibleStats: Array<keyof IEquipment>
 }
 
-const EquipmentTableRow: React.SFC<IEquipmentTableRowProps> = ({ equipment, visibleStats, classes }) => {
+const EquipmentTableRow: React.FC<IEquipmentTableRowProps> = ({ equipment, visibleStats, classes }) => {
   return (
     <TableRow>
       <TableCell component="th" scope="row">

@@ -40,7 +40,7 @@ interface IEquipmentLabelProps extends WithStyles<typeof styles> {
   slotSize?: number
 }
 
-const EquipmentLabel: React.SFC<IEquipmentLabelProps> = ({ equipment, slotSize, classes }) => {
+const EquipmentLabel: React.FC<IEquipmentLabelProps> = ({ equipment, slotSize, classes }) => {
   const { proficiency, improvement } = equipment
   return (
     <Paper className={classes.card} elevation={1}>

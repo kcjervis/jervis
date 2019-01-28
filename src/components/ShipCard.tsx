@@ -16,7 +16,7 @@ interface IShipCardProps extends WithStyles<typeof styles> {
   ship: IShip
 }
 
-const ShipCard: React.SFC<IShipCardProps> = ({ ship, classes }) => {
+const ShipCard: React.FC<IShipCardProps> = ({ ship, classes }) => {
   return (
     <Card>
       <Typography>{ship.name}</Typography>

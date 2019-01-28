@@ -1,5 +1,5 @@
 import blue from '@material-ui/core/colors/blue'
-import indigo from '@material-ui/core/colors/indigo'
+
 import { createMuiTheme } from '@material-ui/core/styles'
 
 const theme = createMuiTheme({
@@ -31,6 +31,16 @@ const theme = createMuiTheme({
     MuiDrawer: {
       paper: {
         background: 'rgba(0, 0, 0, 0.9)'
+      }
+    },
+    MuiFormControlLabel: {
+      root: {
+        marginLeft: 8
+      }
+    },
+    MuiCheckbox: {
+      root: {
+        padding: 4
       }
     }
   }

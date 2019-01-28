@@ -1,26 +1,23 @@
-import { ArtillerySpotting, FleetRole, FleetType, nonNullable } from 'kc-calculator'
+import { FleetRole, FleetType, nonNullable } from 'kc-calculator'
 import range from 'lodash/range'
-import { inject, observer } from 'mobx-react'
+import { inject } from 'mobx-react'
 import React from 'react'
 import { RouteComponentProps, withRouter } from 'react-router'
 
 import Button from '@material-ui/core/Button'
-import Card from '@material-ui/core/Card'
-import CardContent from '@material-ui/core/CardContent'
 import { createStyles, withStyles, WithStyles } from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography'
 import Add from '@material-ui/icons/Add'
 import Remove from '@material-ui/icons/Remove'
 
-import StatIcon from '../components/StatIcon'
-import ContactTable from './ContactTable'
+import StatIcon from '../../components/StatIcon'
+import ShipField from '../ShipField'
 import FleetDetail from './FleetDetail'
-import ShipField from './ShipField'
 
-import ProficiencyDialog from '../components/ProficiencyDialog'
-import { ObservableOperation } from '../stores'
-import ObservableFleet from '../stores/ObservableFleet'
-import OperationStore from '../stores/OperationStore'
+import ProficiencyDialog from '../../components/ProficiencyDialog'
+import { ObservableOperation } from '../../stores'
+import ObservableFleet from '../../stores/ObservableFleet'
+import OperationStore from '../../stores/OperationStore'
 
 const styles = createStyles({
   ships: {
@@ -39,7 +36,7 @@ interface IFleetFieldProps extends WithStyles<typeof styles>, RouteComponentProp
   operationStore?: OperationStore
 }
 
-const FleetField: React.SFC<IFleetFieldProps> = ({ fleet, operationStore, classes, operation }) => {
+const FleetField: React.FC<IFleetFieldProps> = ({ fleet, operationStore, classes, operation }) => {
   const { ships } = fleet
 
   const addShipField = () => {

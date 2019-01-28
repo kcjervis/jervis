@@ -6,7 +6,7 @@ import Typography from '@material-ui/core/Typography'
 import { TEnemyFleet, TEventDifficulty } from '*maps'
 import ShipImage from './ShipImage'
 
-import { FleetType, Formation, IFleet, Side } from 'kc-calculator'
+import { FleetType, Formation, Side } from 'kc-calculator'
 import BattleFleet from 'kc-calculator/dist/combats/BattleFleet'
 import kcObjectFactory, { masterData } from '../stores/kcObjectFactory'
 
@@ -73,7 +73,7 @@ interface IEnemyFleetProps extends WithStyles<typeof styles> {
   enemy: TEnemyFleet
 }
 
-const EnemyFleet: React.SFC<IEnemyFleetProps> = ({ enemy }) => {
+const EnemyFleet: React.FC<IEnemyFleetProps> = ({ enemy }) => {
   const battleFleet = createEnemyBattleFleet(enemy)
   if (!battleFleet) {
     return <Typography align="left">編成を生成できませんでした</Typography>

@@ -12,7 +12,7 @@ interface IFleetTypeSelectProps {
   onChange: (fleetType: FleetType) => void
 }
 
-const FleetTypeSelect: React.SFC<IFleetTypeSelectProps> = ({ fleetType, onChange }) => {
+const FleetTypeSelect: React.FC<IFleetTypeSelectProps> = ({ fleetType, onChange }) => {
   const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     onChange(event.target.value as FleetType)
   }

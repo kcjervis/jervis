@@ -12,15 +12,17 @@ import TopMenu from './components/TopMenu'
 
 import EquipmentsPage from './containers/EquipmentsPage'
 import MapsPage from './containers/MapsPage'
-import UrlShortener from './containers/UrlShortener'
 
 import MasterShipsPage from './containers/MasterShipsPage'
 import OperationPage from './containers/OperationPage'
 import OperationsPage from './containers/OperationsPage'
 
+import AppsPage from './containers/AppsPage'
+import UrlShortener from './containers/UrlShortener'
+
 import theme from './theme'
 
-const AppSuspense: React.SFC = ({ children }) => {
+const AppSuspense: React.FC = ({ children }) => {
   const [isReady, setIsReady] = useState(false)
   useEffect(() => {
     const load = async () => {
@@ -55,6 +57,7 @@ export default class App extends Component {
               <Route path="/maps/:operationId" component={MapsPage} />
               <Route exact={true} path="/maps" component={MapsPage} />
               <Route exact={true} path="/url-shortener" component={UrlShortener} />
+              <Route exact={true} path="/apps" component={AppsPage} />
             </AppSuspense>
           </HashRouter>
         </MuiThemeProvider>

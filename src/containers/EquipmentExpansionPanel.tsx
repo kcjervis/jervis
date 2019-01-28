@@ -16,7 +16,7 @@ interface IEquipmentExpansionPanelProps {
   equipments: Array<ObservableEquipment | undefined>
 }
 
-const EquipmentExpansionPanel: React.SFC<IEquipmentExpansionPanelProps> = props => {
+const EquipmentExpansionPanel: React.FC<IEquipmentExpansionPanelProps> = props => {
   const { equipments, parent } = props
   return (
     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>

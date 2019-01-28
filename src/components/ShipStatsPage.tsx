@@ -14,7 +14,7 @@ interface IShipStatsPageProps extends WithStyles<typeof styles> {
   ship: IShip
 }
 
-const ShipStatsPage: React.SFC<IShipStatsPageProps> = ({ ship, classes }) => {
+const ShipStatsPage: React.FC<IShipStatsPageProps> = ({ ship, classes }) => {
   const battleType = BattleType.AerialBattle
   return <Card />
 }

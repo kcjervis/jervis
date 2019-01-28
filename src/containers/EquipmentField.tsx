@@ -15,7 +15,7 @@ export interface IEquipmentFieldProps extends RouteComponentProps {
   equipment?: ObservableEquipment
 }
 
-const EquipmentField: React.SFC<IEquipmentFieldProps> = props => {
+const EquipmentField: React.FC<IEquipmentFieldProps> = props => {
   const { equipment, parent, index } = props
   const slotSize = parent.slots.concat()[index]
   const style = { width: 250, height: 50, margin: 2 }
