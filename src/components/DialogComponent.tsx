@@ -1,51 +1,38 @@
-import React from 'react'
+import React, { useCallback, useState } from 'react'
 
 import Button, { ButtonProps } from '@material-ui/core/Button'
 import Dialog from '@material-ui/core/Dialog'
-import DialogContent from '@material-ui/core/DialogContent'
-import Paper from '@material-ui/core/Paper'
-import { createStyles, withStyles, WithStyles } from '@material-ui/core/styles'
+
+import { makeStyles } from '@material-ui/styles'
 
 import { CloseButton } from './IconButtons'
 
-const styles = createStyles({
+const useStyles = makeStyles({
   close: { position: 'fixed', top: '10%', right: '10%' }
 })
 
-interface IDialogComponent extends WithStyles<typeof styles> {
-  buttonProps: ButtonProps & { children: React.ReactNode }
+interface IDialogComponent {
+  buttonLabel: React.ReactNode
+  buttonProps?: ButtonProps
 }
 
-class DialogComponent extends React.Component<IDialogComponent> {
-  public state = {
-    open: false
-  }
+const DialogComponent: React.FC<IDialogComponent> = ({ buttonLabel, buttonProps = {}, children }) => {
+  const [open, setOpen] = useState(false)
+  const handleClose = useCallback(() => setOpen(false), [])
+  const handleClickOpen = useCallback(() => setOpen(true), [])
 
-  public handleClickOpen = () => {
-    this.setState({ open: true })
-  }
+  const classes = useStyles()
+  return (
+    <>
+      <Button {...buttonProps} onClick={handleClickOpen}>
+        {buttonLabel}
+      </Button>
 
-  public handleClose = () => {
-    this.setState({ open: false })
-  }
-
-  public render() {
-    const { buttonProps, children, classes } = this.props
-    return (
-      <div>
-        <Button {...buttonProps} onClick={this.handleClickOpen} />
-
-        <Dialog
-          open={this.state.open}
-          onClose={this.handleClose}
-          PaperProps={{ style: { background: 'rgba(0, 0, 0, 0.8)' } }}
-        >
-          {children}
-          <CloseButton className={classes.close} size="large" onClick={this.handleClose} />
-        </Dialog>
-      </div>
-    )
-  }
+      <Dialog open={open} onClose={handleClose} PaperProps={{ style: { background: 'rgba(0, 0, 0, 0.8)' } }}>
+        {children}
+        <CloseButton className={classes.close} size="large" onClick={handleClose} />
+      </Dialog>
+    </>
+  )
 }
-
-export default withStyles(styles)(DialogComponent)
+export default DialogComponent

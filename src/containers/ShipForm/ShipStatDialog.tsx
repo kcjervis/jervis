@@ -10,9 +10,9 @@ import { createStyles, withStyles, WithStyles } from '@material-ui/core/styles'
 import TextField from '@material-ui/core/TextField'
 import Typography from '@material-ui/core/Typography'
 
-import ShipStat from '../components/ShipStat'
+import ShipStat from '../../components/ShipStat'
 
-import { ObservableShip } from '../stores'
+import { ObservableShip } from '../../stores'
 
 type ShipStatName =
   | 'hp'
@@ -54,6 +54,9 @@ class ShipStatDialog extends React.Component<IShipStatDialog> {
       ship.increased[statName] = value
     } else {
       delete ship.increased[statName]
+    }
+    if (statName === 'hp') {
+      ship.nowHp = ship.asKcObject.health.maxHp
     }
   }
 

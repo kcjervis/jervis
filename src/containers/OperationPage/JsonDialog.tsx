@@ -40,7 +40,7 @@ class JsonDialog extends React.Component<IJsonDialogProps> {
     const { json, classes } = this.props
     const isFirefox = window.navigator.userAgent.includes('Firefox')
     return (
-      <DialogComponent buttonProps={{ children: 'デッキビルダー出力' }}>
+      <DialogComponent buttonLabel="デッキビルダー出力">
         <DialogContent>
           <Typography>{json}</Typography>
         </DialogContent>

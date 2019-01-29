@@ -1,25 +1,22 @@
 import { FleetRole, FleetType, nonNullable } from 'kc-calculator'
 import range from 'lodash/range'
-import { inject } from 'mobx-react'
 import React from 'react'
-import { RouteComponentProps, withRouter } from 'react-router'
 
 import Button from '@material-ui/core/Button'
-import { createStyles, withStyles, WithStyles } from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography'
 import Add from '@material-ui/icons/Add'
 import Remove from '@material-ui/icons/Remove'
 
+import { makeStyles } from '@material-ui/styles'
+
 import StatIcon from '../../components/StatIcon'
-import ShipField from '../ShipField'
+import ShipForm from '../ShipForm'
 import FleetDetail from './FleetDetail'
 
 import ProficiencyDialog from '../../components/ProficiencyDialog'
-import { ObservableOperation } from '../../stores'
-import ObservableFleet from '../../stores/ObservableFleet'
-import OperationStore from '../../stores/OperationStore'
+import { ObservableFleet, ObservableOperation, useOperationStore } from '../../stores'
 
-const styles = createStyles({
+const useStyles = makeStyles({
   ships: {
     display: 'flex',
     flexWrap: 'wrap'
@@ -30,20 +27,21 @@ const styles = createStyles({
   }
 })
 
-interface IFleetFieldProps extends WithStyles<typeof styles>, RouteComponentProps {
+interface IFleetFieldProps {
   fleet: ObservableFleet
   operation: ObservableOperation
-  operationStore?: OperationStore
 }
 
-const FleetField: React.FC<IFleetFieldProps> = ({ fleet, operationStore, classes, operation }) => {
+const FleetField: React.FC<IFleetFieldProps> = ({ fleet, operation }) => {
   const { ships } = fleet
+  const operationStore = useOperationStore()
+  const classes = useStyles()
 
-  const addShipField = () => {
+  const addShipForm = () => {
     ships.push(undefined)
   }
 
-  const removeShipField = () => {
+  const removeShipForm = () => {
     if (ships.length > 6) {
       ships.pop()
     }
@@ -95,15 +93,15 @@ const FleetField: React.FC<IFleetFieldProps> = ({ fleet, operationStore, classes
 
       <div className={classes.ships}>
         {ships.map((ship, index) => (
-          <ShipField key={index} fleetId={fleet.id} index={index} ship={ship} onEndDrag={operationStore!.switchShip} />
+          <ShipForm key={index} fleetId={fleet.id} index={index} ship={ship} onEndDrag={operationStore.switchShip} />
         ))}
       </div>
 
       <div className={classes.bottomControl}>
-        <Button onClick={addShipField}>
+        <Button onClick={addShipForm}>
           <Add />
         </Button>
-        <Button onClick={removeShipField}>
+        <Button onClick={removeShipForm}>
           <Remove />
         </Button>
       </div>
@@ -118,6 +116,4 @@ const FleetField: React.FC<IFleetFieldProps> = ({ fleet, operationStore, classes
   )
 }
 
-const Injected = inject('operationStore')(FleetField)
-
-export default withRouter(withStyles(styles)(Injected))
+export default FleetField

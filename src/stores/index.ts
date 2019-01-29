@@ -1,4 +1,5 @@
 import { create } from 'mobx-persist'
+import { createContext, useContext } from 'react'
 
 import ObservableEquipment from './ObservableEquipment'
 import ObservableFleet from './ObservableFleet'
@@ -20,6 +21,10 @@ export const loadStores = async () => {
   await hydrate('settingStore', settingStore)
 }
 
+const OperationStoreContext = createContext(operationStore)
+
+const useOperationStore = () => useContext(OperationStoreContext)
+
 export {
   OperationStore,
   ObservableEquipment,
@@ -28,7 +33,8 @@ export {
   ObservableLandBasedAirCorps,
   ObservableOperation,
   SettingStore,
-  ShipsPageStore
+  ShipsPageStore,
+  useOperationStore
 }
 
 export default {

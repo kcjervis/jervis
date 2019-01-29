@@ -1,25 +1,24 @@
-import { inject, observer } from 'mobx-react'
+import { observer } from 'mobx-react-lite'
 import React from 'react'
 
 import Button from '@material-ui/core/Button'
 import Card from '@material-ui/core/Card'
-import CardContent from '@material-ui/core/CardContent'
 import Grid from '@material-ui/core/Grid'
 import Input from '@material-ui/core/Input'
 import InputAdornment from '@material-ui/core/InputAdornment'
-import { createStyles, withStyles, WithStyles } from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography'
 import Add from '@material-ui/icons/Add'
 
-import { RemoveButton, UpdateButton } from '../components/IconButtons'
-import ShipImage from '../components/ShipImage'
-import withDragAndDrop from '../hocs/withDragAndDrop'
-import EquipmentField from './EquipmentField'
+import { makeStyles } from '@material-ui/styles'
+
+import { RemoveButton, UpdateButton } from '../../components/IconButtons'
+import ShipImage from '../../components/ShipImage'
+import withDragAndDrop from '../../hocs/withDragAndDrop'
+import EquipmentExpansionPanel from '../EquipmentExpansionPanel'
 import ShipStatDialog from './ShipStatDialog'
 
-import stores from '../stores'
-import ObservableShip from '../stores/ObservableShip'
-import EquipmentExpansionPanel from './EquipmentExpansionPanel'
+import stores, { ObservableShip } from '../../stores'
+import HealthBarDialog from './HealthBarDialog'
 
 type ShipStatName =
   | 'hp'
@@ -49,7 +48,7 @@ const shipStatNames: ShipStatName[] = [
   'luck'
 ]
 
-const styles = createStyles({
+const useStyles = makeStyles({
   root: {
     margin: 4
   },
@@ -59,6 +58,10 @@ const styles = createStyles({
   top: {
     display: 'flex',
     justifyContent: 'space-between'
+  },
+  shipImage: {
+    display: 'flex',
+    justifyContent: 'space-around'
   },
   addShipButton: {
     width: 280
@@ -76,14 +79,16 @@ const styles = createStyles({
   }
 })
 
-interface IShipField extends WithStyles<typeof styles> {
+interface IShipForm {
   ship?: ObservableShip
   fleetId: string
   index: number
   onEndDrag: (drag: any, drop: any) => void
 }
-const ShipField: React.FC<IShipField> = props => {
-  const { ship, classes, fleetId, index } = props
+
+const ShipForm: React.FC<IShipForm> = props => {
+  const { ship, fleetId, index } = props
+  const classes = useStyles()
   if (!ship) {
     return (
       <div className={classes.root}>
@@ -102,6 +107,7 @@ const ShipField: React.FC<IShipField> = props => {
   }
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     ship.level = Number(event.target.value)
+    ship.nowHp = ship.asKcObject.health.maxHp
   }
 
   return (
@@ -117,7 +123,7 @@ const ShipField: React.FC<IShipField> = props => {
           </div>
         </div>
 
-        <CardContent>
+        <div className={classes.shipImage}>
           <ShipImage masterId={ship.masterId} imageType="banner" />
           <Input
             style={{ width: 70 }}
@@ -128,17 +134,21 @@ const ShipField: React.FC<IShipField> = props => {
             onChange={handleChange}
             inputProps={{ min: 1 }}
           />
-        </CardContent>
+        </div>
 
         {/* 艦娘ステータス */
         stores.settingStore.operationPage.visibleShipStats && (
-          <Grid container={true}>
-            {shipStatNames.map(statName => (
-              <Grid item={true} xs={6} key={statName}>
-                <ShipStatDialog statName={statName} ship={ship} />
-              </Grid>
-            ))}
-          </Grid>
+          <>
+            <HealthBarDialog ship={ship} />
+
+            <Grid container={true}>
+              {shipStatNames.map(statName => (
+                <Grid item={true} xs={6} key={statName}>
+                  <ShipStatDialog statName={statName} ship={ship} />
+                </Grid>
+              ))}
+            </Grid>
+          </>
         )}
 
         <div className={classes.equipments}>
@@ -149,8 +159,4 @@ const ShipField: React.FC<IShipField> = props => {
   )
 }
 
-const mapStateToProps = () => ({
-  onEndDrag: stores.operationStore.switchShip
-})
-const Injected = inject(mapStateToProps)(observer(ShipField))
-export default withDragAndDrop('ShipField')(withStyles(styles)(Injected))
+export default withDragAndDrop('ShipForm')(observer(ShipForm))

@@ -17,19 +17,26 @@ export default class ObservableShip implements IShipDataObject {
     return ship
   }
 
-  public static create({ masterId, level, slots, equipments }: IShipDataObject) {
-    const ship = new ObservableShip()
-    ship.masterId = masterId
-    ship.level = level
-    ship.slots = slots
-    ship.equipments = Array.from(Array(slots.length + 1), (_, index) => {
+  public static create({ masterId, level, slots, equipments, nowHp }: IShipDataObject) {
+    const observableShip = new ObservableShip()
+    observableShip.masterId = masterId
+    observableShip.level = level
+    observableShip.slots = slots
+    observableShip.equipments = Array.from(Array(slots.length + 1), (_, index) => {
       const equip = equipments[index]
       if (!equip || equip.masterId <= 0) {
         return undefined
       }
       return ObservableEquipment.create(equip)
     })
-    return ship
+
+    if (typeof nowHp === 'number') {
+      observableShip.nowHp = nowHp
+    } else {
+      observableShip.nowHp = observableShip.asKcObject.health.maxHp
+    }
+
+    return observableShip
   }
 
   @persist
@@ -51,6 +58,10 @@ export default class ObservableShip implements IShipDataObject {
   @observable
   public slots: number[] = []
 
+  @persist
+  @observable
+  public nowHp: number = -1
+
   @persist('object')
   @observable
   public increased: NonNullable<IShipDataObject['increased']> = {}
@@ -62,13 +73,16 @@ export default class ObservableShip implements IShipDataObject {
   public visibleEquipments = true
 
   constructor() {
-    autorun(() =>
+    autorun(() => {
+      if (this.nowHp < 0) {
+        this.nowHp = this.asKcObject.health.maxHp
+      }
       this.equipments.forEach((equip, index) => {
         if (equip && !equip.isVisible) {
           this.equipments[index] = undefined
         }
       })
-    )
+    })
   }
 
   @action.bound
