@@ -3,9 +3,8 @@ import React, { useCallback, useRef } from 'react'
 import Button from '@material-ui/core/Button'
 import DialogActions from '@material-ui/core/DialogActions'
 import DialogContent from '@material-ui/core/DialogContent'
+import DialogTitle from '@material-ui/core/DialogTitle'
 import TextField from '@material-ui/core/TextField'
-
-import { makeStyles } from '@material-ui/styles'
 
 import DialogComponent from '../../components/DialogComponent'
 import HealthBar, { useBackgroundColorStyles } from '../../components/HealthBar'
@@ -17,9 +16,12 @@ const HealthBarDialog: React.FC<{ ship: ObservableShip }> = ({ ship }) => {
   const inputRef = useRef({ value: ship.nowHp.toString() })
   const { health } = ship.asKcObject
   const { nowHp, maxHp } = health
-  const setNowHp = useCallback((value: number) => {
-    ship.nowHp = value
-  }, [])
+  const setNowHp = useCallback(
+    (value: number) => {
+      ship.nowHp = value
+    },
+    [ship]
+  )
 
   const handleChange = useCallback(() => setNowHp(Number(inputRef.current.value)), [])
   const handleClickMax = useCallback(() => setNowHp(maxHp), [maxHp])
@@ -32,6 +34,7 @@ const HealthBarDialog: React.FC<{ ship: ObservableShip }> = ({ ship }) => {
       buttonProps={{ fullWidth: true, style: { display: 'block' } }}
       buttonLabel={<HealthBar health={health} />}
     >
+      <DialogTitle>{ship.asKcObject.name}</DialogTitle>
       <DialogContent>
         <HealthBar health={health} />
         <TextField
