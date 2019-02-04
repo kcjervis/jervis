@@ -1,5 +1,6 @@
 import { IEquipmentDataObject, IShipDataObject } from 'kc-calculator'
 import { Proficiency } from 'kc-calculator/dist/objects/Equipment'
+import { calcHpAtLevel, calcStatAtLevel } from 'kc-calculator/dist/objects/Ship/ShipNakedStats'
 
 import { masterData } from './kcObjectFactory'
 import ObservableOperation from './ObservableOperation'
@@ -44,7 +45,7 @@ const toShipDataObject = (deckShip: IDeckShip | undefined): IShipDataObject | un
   if (!deckShip || !deckShip.id) {
     return undefined
   }
-  const { items, lv } = deckShip
+  const { items, lv, hp, luck, asw } = deckShip
   const shipId = Number(deckShip.id)
   const masterShip = masterData.findMasterShip(shipId)
   if (!masterShip) {
@@ -63,12 +64,24 @@ const toShipDataObject = (deckShip: IDeckShip | undefined): IShipDataObject | un
     const { ix } = items
     equipments.push(toEquipmentDataObject(ix))
   }
+  console.log(hp)
+  const increased: { hp?: number; luck?: number; asw?: number } = {}
+  if (hp) {
+    increased.hp = hp - calcHpAtLevel(masterShip.hp, lv)
+  }
+  if (luck) {
+    increased.luck = luck - masterShip.luck[0]
+  }
+  if (asw) {
+    increased.asw = asw - calcStatAtLevel(masterShip.asw, lv)
+  }
 
   return {
     masterId: shipId,
     level: lv,
     equipments,
-    slots: masterShip.slotCapacities
+    slots: masterShip.slotCapacities,
+    increased
   }
 }
 

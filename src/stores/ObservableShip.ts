@@ -17,7 +17,7 @@ export default class ObservableShip implements IShipDataObject {
     return ship
   }
 
-  public static create({ masterId, level, slots, equipments, nowHp }: IShipDataObject) {
+  public static create({ masterId, level, slots, equipments, nowHp, increased }: IShipDataObject) {
     const observableShip = new ObservableShip()
     observableShip.masterId = masterId
     observableShip.level = level
@@ -29,6 +29,9 @@ export default class ObservableShip implements IShipDataObject {
       }
       return ObservableEquipment.create(equip)
     })
+    if (increased) {
+      observableShip.increased = increased
+    }
 
     if (typeof nowHp === 'number') {
       observableShip.nowHp = nowHp
