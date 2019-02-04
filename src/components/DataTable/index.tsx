@@ -1,5 +1,7 @@
+import lodashSortBy from 'lodash/sortBy'
+import React, { Dispatch, SetStateAction, useEffect, useMemo, useState } from 'react'
+
 import { makeStyles } from '@material-ui/styles'
-import React from 'react'
 
 import Paper from '@material-ui/core/Paper'
 import TableCell from '@material-ui/core/TableCell'
@@ -8,91 +10,122 @@ import TableSortLabel from '@material-ui/core/TableSortLabel'
 import {
   AutoSizer,
   Column,
+  ColumnProps,
   Index,
   SortDirection,
+  SortDirectionType,
   Table,
   TableCellRenderer,
-  TableHeaderRenderer
+  TableHeaderRenderer,
+  TableProps
 } from 'react-virtualized'
 
 const useStyles = makeStyles({
   flexContainer: {
     display: 'flex',
-    alignItems: 'center',
+    alignItems: 'flex-end',
     boxSizing: 'border-box'
-  },
-  tableRow: {
-    cursor: 'pointer'
   },
   tableCell: {
     flex: 1
   },
-  noClick: {
-    cursor: 'initial'
+  icon: {
+    margin: 0
   }
 })
 
-interface ITableProps {
-  columns: any[]
-  onRowClick: any
-  rowHeight: number
+export const DataTableCell: React.FC = props => (
+  <TableCell component="div" variant="body" style={{ display: 'flex', flex: '1 1', alignItems: 'center', padding: 0 }}>
+    {props.children}
+  </TableCell>
+)
+
+interface IDataTableHeaderProps {
+  sortDirection?: SortDirectionType
+  isSortEnabled?: boolean
 }
 
-const DataTableHeaderRenderer: TableHeaderRenderer = props => {
+const headerRenderer: TableHeaderRenderer = props => {
+  const { sortDirection, sortBy, dataKey, label } = props
+
+  let direction: 'desc' | 'asc' | undefined
+  if (sortDirection === SortDirection.ASC) {
+    direction = 'asc'
+  } else if (sortDirection === SortDirection.DESC) {
+    direction = 'desc'
+  }
+
+  const inner = label ? label : dataKey
+
   return (
-    <TableCell component="div" variant="body" style={{ height: 30, display: 'flex' }}>
-      {props.dataKey}
-    </TableCell>
+    <DataTableCell>
+      <TableSortLabel active={sortBy === dataKey} direction={direction}>
+        {inner}
+      </TableSortLabel>
+    </DataTableCell>
   )
 }
 
-const DataTableCellRenderer: TableCellRenderer = props => {
-  return (
-    <TableCell component="div" variant="body" style={{ height: 30, display: 'flex' }}>
-      {props.cellData}
-    </TableCell>
-  )
+const cellRenderer: TableCellRenderer = props => {
+  return <DataTableCell>{props.cellData}</DataTableCell>
 }
 
-const rows = [
-  { id: 1, name: 'aaaa' },
-  { id: 2, name: 'bbb' },
-  { id: 3, name: 'ccc' },
-  { id: 4, name: 'ddd' },
-  { id: 5, name: 'eeee' }
-]
+const useSortDirection = () => {
+  const [sortBy, setSortBy] = useState('')
+  const [sortDirection, setSortDirection] = useState<SortDirectionType>(SortDirection.ASC)
 
-const DataTable: React.FC = props => {
+  const sort: TableProps['sort'] = newSort => {
+    setSortBy(newSort.sortBy)
+    setSortDirection(newSort.sortDirection)
+  }
+  return { sortBy, sortDirection, sort }
+}
+
+interface IDataTableProps {
+  columns: ColumnProps[]
+  data: any[]
+}
+
+const DataTable: React.FC<IDataTableProps> = props => {
+  const { columns } = props
   const classes = useStyles()
-  const columns = [
-    {
-      dataKey: 'id'
-    },
-    {
-      dataKey: 'name'
+  const { sort, sortBy, sortDirection } = useSortDirection()
+
+  const data = useMemo(() => {
+    const newData = lodashSortBy(props.data, sortBy)
+    if (sortDirection === SortDirection.DESC) {
+      newData.reverse()
     }
-  ]
-  const rowGetter = ({ index }: Index) => rows[index]
+    return newData
+  }, [props.data, sortBy, sortDirection])
+
+  const rowCount = data.length
+  const rowGetter = ({ index }: Index) => data[index]
+
   return (
     <AutoSizer>
       {({ height, width }) => (
         <Table
-          headerHeight={100}
-          rowHeight={100}
-          rowCount={rows.length}
+          headerHeight={50}
+          rowHeight={50}
+          rowCount={rowCount}
           rowGetter={rowGetter}
           height={height}
           width={width}
+          headerClassName={classes.flexContainer}
           rowClassName={classes.flexContainer}
+          sort={sort}
+          sortBy={sortBy}
+          sortDirection={sortDirection}
         >
-          {columns.map(({ dataKey }, index) => (
+          {columns.map((column, index) => (
             <Column
-              key={dataKey}
-              headerRenderer={DataTableHeaderRenderer}
-              cellRenderer={DataTableCellRenderer}
-              dataKey={dataKey}
-              width={100}
+              key={column.dataKey}
               flexGrow={1}
+              headerRenderer={headerRenderer}
+              cellRenderer={cellRenderer}
+              defaultSortDirection={SortDirection.DESC}
+              {...column}
             />
           ))}
         </Table>

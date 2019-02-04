@@ -17,7 +17,6 @@ import EquipmentIcon from '../components/EquipmentIcon'
 import { inject } from 'mobx-react'
 import stores, { ObservableLandBasedAirCorps, ObservableShip } from '../stores'
 import kcObjectFactory, { masterData } from '../stores/kcObjectFactory'
-import EquipmentTable from './EquipmentData/EquipmentTable'
 
 const masterEquipments = masterData.equipments.sort((equip1, equip2) => {
   const iconIdDiff = equip1.iconId - equip2.iconId

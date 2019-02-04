@@ -29,7 +29,7 @@ const StatChip: React.FC<IStatChipProps> = ({ statName, value, classes }) => {
   const label = stat ? stat.name : statName
 
   let image
-  if (!['typeIds', 'radius'].includes(statName)) {
+  if (!['typeIds'].includes(statName)) {
     try {
       image = require(`../images/icons/${statName}.png`)
     } catch (error) {

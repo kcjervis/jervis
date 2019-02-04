@@ -1,10 +1,10 @@
 import { IEquipment } from 'kc-calculator'
 import React from 'react'
 
-import { createStyles, withStyles, WithStyles } from '@material-ui/styles'
 import TableCell from '@material-ui/core/TableCell'
 import TableRow from '@material-ui/core/TableRow'
 import Typography from '@material-ui/core/Typography'
+import { createStyles, withStyles, WithStyles } from '@material-ui/styles'
 
 import EquipmentIcon from '../../components/EquipmentIcon'
 

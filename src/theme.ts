@@ -1,6 +1,8 @@
 import blue from '@material-ui/core/colors/blue'
-
 import { createMuiTheme } from '@material-ui/core/styles'
+import { install } from '@material-ui/styles'
+
+install()
 
 const theme = createMuiTheme({
   typography: {
