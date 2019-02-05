@@ -55,14 +55,12 @@ export default class App extends Component {
                 <Route exact={true} path="/operation" component={OperationPage} />
                 <Route path="/ships/:fleetId/:index" component={MasterShipsPage} />
                 <Route exact={true} path="/ships" component={MasterShipsPage} />
-                <Route path="/equipments/:type/:parentId/:index" component={EquipmentsPage} />
-                <Route exact={true} path="/equipments" component={EquipmentsPage} />
+                <Route exact={true} path="/equipments" component={EquipmentsDataTable} />
                 <Route path="/maps/:operationId" component={MapsPage} />
                 <Route exact={true} path="/maps" component={MapsPage} />
 
                 <Route exact={true} path="/apps" component={AppsPage} />
                 <Route exact={true} path="/url-shortener" component={UrlShortener} />
-                <Route exact={true} path="/equipments-data" component={EquipmentsDataTable} />
               </AppSuspense>
             </HashRouter>
           </ThemeProvider>

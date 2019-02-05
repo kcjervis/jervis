@@ -24,6 +24,7 @@ const theme = createMuiTheme({
     MuiTab: {
       textColorInherit: {
         color: 'rgba( 250, 250, 250, 0.7 )',
+        minWidth: 20,
         '&$selected': {
           color: 'rgba( 255, 255, 255, 1 )',
           textShadow: '0 0 10px #fff,0 0 15px #fff'

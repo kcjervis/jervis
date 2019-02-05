@@ -1,40 +1,14 @@
 import React from 'react'
 
+import { IShip, shipStatKeys } from 'kc-calculator'
+
 import Card from '@material-ui/core/Card'
 import CardContent from '@material-ui/core/CardContent'
 import { createStyles, Theme, withStyles, WithStyles } from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography'
 
-import { IShip } from 'kc-calculator'
 import ShipImage from './ShipImage'
 import StatChip from './StatChip'
-
-type ShipStatName =
-  | 'hp'
-  | 'armor'
-  | 'firepower'
-  | 'torpedo'
-  | 'speed'
-  | 'antiAir'
-  | 'asw'
-  | 'evasion'
-  | 'los'
-  | 'luck'
-  | 'range'
-
-const shipStatNames: ShipStatName[] = [
-  'hp',
-  'armor',
-  'firepower',
-  'torpedo',
-  'speed',
-  'antiAir',
-  'asw',
-  'evasion',
-  'los',
-  'luck',
-  'range'
-]
 
 const styles = (theme: Theme) =>
   createStyles({
@@ -77,8 +51,8 @@ const ShipPlate: React.FC<IShipPlateProps> = ({ ship, classes, children }) => {
       </CardContent>
       <CardContent>
         {/* 艦娘ステータス */}
-        {shipStatNames.map(statName => (
-          <StatChip key={statName} statName={statName} value={ship.stats[statName]} />
+        {shipStatKeys.map(statKey => (
+          <StatChip key={statKey} statKey={statKey} value={ship.stats[statKey]} />
         ))}
       </CardContent>
       {children}

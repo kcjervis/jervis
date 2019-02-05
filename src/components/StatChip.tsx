@@ -20,18 +20,18 @@ const styles = (theme: Theme) =>
   })
 
 interface IStatChipProps extends WithStyles<typeof styles> {
-  statName: string
+  statKey: string
   value: number | string | [number, number]
 }
 
-const StatChip: React.FC<IStatChipProps> = ({ statName, value, classes }) => {
-  const stat = statKeys.find(({ key }) => key === statName)
-  const label = stat ? stat.name : statName
+const StatChip: React.FC<IStatChipProps> = ({ statKey, value, classes }) => {
+  const stat = statKeys.find(({ key }) => key === statKey)
+  const label = stat ? stat.name : statKey
 
   let image
-  if (!['typeIds'].includes(statName)) {
+  if (!['typeIds'].includes(statKey)) {
     try {
-      image = require(`../images/icons/${statName}.png`)
+      image = require(`../images/icons/${statKey}.png`)
     } catch (error) {
       console.log(error)
     }

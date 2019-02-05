@@ -85,7 +85,7 @@ const FleetField: React.FC<IFleetFieldProps> = ({ fleet, operation }) => {
         <ProficiencyDialog changeProficiency={setProficiency} />
         {range(1, 6).map(nodeDivaricatedFactor => (
           <div key={nodeDivaricatedFactor} style={{ display: 'flex', alignItems: 'center', marginLeft: 8 }}>
-            <StatIcon statName="los" label={`(${nodeDivaricatedFactor})`} />
+            <StatIcon statKey="los" label={`(${nodeDivaricatedFactor})`} />
             <Typography>{getEffectiveLos(nodeDivaricatedFactor).toFixed(2)}</Typography>
           </div>
         ))}

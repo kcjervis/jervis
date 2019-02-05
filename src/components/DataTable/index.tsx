@@ -1,10 +1,8 @@
-import lodashSortBy from 'lodash/sortBy'
-import React, { Dispatch, SetStateAction, useEffect, useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 
 import { makeStyles } from '@material-ui/styles'
 
-import Paper from '@material-ui/core/Paper'
-import TableCell from '@material-ui/core/TableCell'
+import TableCell, { TableCellProps } from '@material-ui/core/TableCell'
 import TableSortLabel from '@material-ui/core/TableSortLabel'
 
 import {
@@ -13,12 +11,11 @@ import {
   ColumnProps,
   Index,
   SortDirection,
-  SortDirectionType,
   Table,
   TableCellRenderer,
-  TableHeaderRenderer,
-  TableProps
+  TableHeaderRenderer
 } from 'react-virtualized'
+import useSort, { Sort } from './useSort'
 
 const useStyles = makeStyles({
   flexContainer: {
@@ -34,16 +31,16 @@ const useStyles = makeStyles({
   }
 })
 
-export const DataTableCell: React.FC = props => (
-  <TableCell component="div" variant="body" style={{ display: 'flex', flex: '1 1', alignItems: 'center', padding: 0 }}>
+export const DataTableCell: React.FC<TableCellProps> = props => (
+  <TableCell
+    component="div"
+    variant="body"
+    style={{ display: 'flex', flex: '1 1', alignItems: 'center', padding: 0 }}
+    {...props}
+  >
     {props.children}
   </TableCell>
 )
-
-interface IDataTableHeaderProps {
-  sortDirection?: SortDirectionType
-  isSortEnabled?: boolean
-}
 
 const headerRenderer: TableHeaderRenderer = props => {
   const { sortDirection, sortBy, dataKey, label } = props
@@ -70,29 +67,20 @@ const cellRenderer: TableCellRenderer = props => {
   return <DataTableCell>{props.cellData}</DataTableCell>
 }
 
-const useSortDirection = () => {
-  const [sortBy, setSortBy] = useState('')
-  const [sortDirection, setSortDirection] = useState<SortDirectionType>(SortDirection.ASC)
-
-  const sort: TableProps['sort'] = newSort => {
-    setSortBy(newSort.sortBy)
-    setSortDirection(newSort.sortDirection)
-  }
-  return { sortBy, sortDirection, sort }
-}
-
-interface IDataTableProps {
+interface IDataTableProps<T = any> {
   columns: ColumnProps[]
-  data: any[]
+  data: T[]
+  sort?: Sort<T>
 }
 
 const DataTable: React.FC<IDataTableProps> = props => {
-  const { columns } = props
+  const { setSortState, sortBy, sortDirection, defaultSort } = useSort()
+  const { columns, sort = defaultSort } = props
   const classes = useStyles()
-  const { sort, sortBy, sortDirection } = useSortDirection()
 
   const data = useMemo(() => {
-    const newData = lodashSortBy(props.data, sortBy)
+    const newData = sort({ data: props.data, sortBy, defaultSort })
+
     if (sortDirection === SortDirection.DESC) {
       newData.reverse()
     }
@@ -114,7 +102,7 @@ const DataTable: React.FC<IDataTableProps> = props => {
           width={width}
           headerClassName={classes.flexContainer}
           rowClassName={classes.flexContainer}
-          sort={sort}
+          sort={setSortState}
           sortBy={sortBy}
           sortDirection={sortDirection}
         >
@@ -134,4 +122,5 @@ const DataTable: React.FC<IDataTableProps> = props => {
   )
 }
 
+export { Sort }
 export default DataTable

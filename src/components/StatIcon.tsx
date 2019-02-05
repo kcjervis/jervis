@@ -1,26 +1,10 @@
 import React from 'react'
 
+import { EquipmentStatKey, ShipStatKey } from 'kc-calculator'
+
 import { createStyles, withStyles, WithStyles } from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography'
 import statKeys from '../data/statKeys'
-
-type StatIconName =
-  | 'hp'
-  | 'armor'
-  | 'firepower'
-  | 'torpedo'
-  | 'bombing'
-  | 'speed'
-  | 'antiAir'
-  | 'asw'
-  | 'accuracy'
-  | 'evasion'
-  | 'interception'
-  | 'antiBomber'
-  | 'los'
-  | 'luck'
-  | 'range'
-  | 'radius'
 
 const styles = createStyles({
   root: {
@@ -33,7 +17,7 @@ const styles = createStyles({
     height: 18,
     filter: 'contrast(150%) opacity(0.6)'
   },
-  statName: {
+  statKey: {
     fontSize: 10,
     position: 'absolute',
     right: -3,
@@ -42,29 +26,29 @@ const styles = createStyles({
 })
 
 interface IShipIcon extends WithStyles<typeof styles> {
-  statName: StatIconName
+  statKey: ShipStatKey | EquipmentStatKey
   label?: string | number
 }
 
 const ShipIcon: React.FC<IShipIcon> = props => {
-  const { statName, classes } = props
+  const { statKey, classes } = props
   let image
   try {
-    image = require(`../images/icons/${statName}.png`)
+    image = require(`../images/icons/${statKey}.png`)
   } catch (error) {
     console.log(error)
   }
-  const stat = statKeys.find(({ key }) => key === statName)
+  const stat = statKeys.find(({ key }) => key === statKey)
   let label: string | number
   if (props.label) {
     label = props.label
   } else {
-    label = stat ? stat.name : statName
+    label = stat ? stat.name : statKey
   }
   return (
     <div className={classes.root}>
       <img className={classes.icon} src={image} />
-      <Typography className={classes.statName}>{label}</Typography>
+      <Typography className={classes.statKey}>{label}</Typography>
     </div>
   )
 }

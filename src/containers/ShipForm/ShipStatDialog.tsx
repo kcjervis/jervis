@@ -1,6 +1,8 @@
 import { observer } from 'mobx-react'
 import React from 'react'
 
+import { ShipStatKey } from 'kc-calculator'
+
 import Button from '@material-ui/core/Button'
 import Dialog from '@material-ui/core/Dialog'
 import DialogActions from '@material-ui/core/DialogActions'
@@ -10,22 +12,9 @@ import { createStyles, withStyles, WithStyles } from '@material-ui/core/styles'
 import TextField from '@material-ui/core/TextField'
 import Typography from '@material-ui/core/Typography'
 
-import ShipStat from '../../components/ShipStat'
+import StatLabel from '../../components/StatLabel'
 
 import { ObservableShip } from '../../stores'
-
-type ShipStatName =
-  | 'hp'
-  | 'armor'
-  | 'firepower'
-  | 'torpedo'
-  | 'speed'
-  | 'antiAir'
-  | 'asw'
-  | 'evasion'
-  | 'los'
-  | 'luck'
-  | 'range'
 
 const styles = createStyles({
   root: {
@@ -36,7 +25,7 @@ const styles = createStyles({
 
 interface IShipStatDialog extends WithStyles<typeof styles> {
   ship: ObservableShip
-  statName: ShipStatName
+  statKey: ShipStatKey
 }
 
 @observer
@@ -48,37 +37,37 @@ class ShipStatDialog extends React.Component<IShipStatDialog> {
   public handleClose = () => this.setState({ open: false })
 
   public handleStatChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { ship, statName } = this.props
+    const { ship, statKey } = this.props
     const value = Number(event.target.value)
     if (value) {
-      ship.increased[statName] = value
+      ship.increased[statKey] = value
     } else {
-      delete ship.increased[statName]
+      delete ship.increased[statKey]
     }
-    if (statName === 'hp') {
+    if (statKey === 'hp') {
       ship.nowHp = ship.asKcObject.health.maxHp
     }
   }
 
   public render() {
-    const { statName, ship, classes } = this.props
+    const { statKey, ship, classes } = this.props
     const { stats, nakedStats } = ship.asKcObject
 
-    const stat = stats[statName]
-    const nakedStat = nakedStats[statName]
-    const increasedStat = ship.increased[statName]
+    const stat = stats[statKey]
+    const nakedStat = nakedStats[statKey]
+    const increasedStat = ship.increased[statKey]
     const { statsBonus } = stats
 
     let statBonusLabel = 0
-    if (statsBonus && statName in statsBonus) {
-      statBonusLabel = (statsBonus as any)[statName]
+    if (statsBonus && statKey in statsBonus) {
+      statBonusLabel = (statsBonus as any)[statKey]
     }
 
-    const totalEquipmentStat = ship.asKcObject.totalEquipmentStats(statName)
+    const totalEquipmentStat = ship.asKcObject.totalEquipmentStats(statKey)
     return (
       <div>
         <Button className={classes.root} onClick={this.handleClickOpen}>
-          <ShipStat statName={statName} stat={stat} increasedStat={increasedStat} />
+          <StatLabel statKey={statKey} stat={stat} increasedStat={increasedStat} />
         </Button>
 
         <Dialog
@@ -89,7 +78,7 @@ class ShipStatDialog extends React.Component<IShipStatDialog> {
         >
           <DialogContent>
             <Typography variant="subtitle1">{ship.asKcObject.name}</Typography>
-            <ShipStat statName={statName} stat={stat} increasedStat={increasedStat} />
+            <StatLabel statKey={statKey} stat={stat} increasedStat={increasedStat} />
             <Typography>装備無しステータス: {nakedStat}</Typography>
             <Typography>装備合計: {totalEquipmentStat}</Typography>
             <Typography>装備フィット: {statBonusLabel}</Typography>

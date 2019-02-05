@@ -1,64 +1,25 @@
-import { Theme } from '@material-ui/core/styles'
-import { makeStyles, useTheme } from '@material-ui/styles'
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { makeStyles } from '@material-ui/styles'
+import lodashSortBy from 'lodash/sortBy'
+import React, { useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react'
 
-import { ColumnProps } from 'react-virtualized'
+import { IEquipment } from 'kc-calculator'
 
 import Button from '@material-ui/core/Button'
 import Checkbox from '@material-ui/core/Checkbox'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import Paper from '@material-ui/core/Paper'
-import TableCell from '@material-ui/core/TableCell'
+import Tab from '@material-ui/core/Tab'
+import Tabs from '@material-ui/core/Tabs'
 import TextField from '@material-ui/core/TextField'
 import Typography from '@material-ui/core/Typography'
 
-import { EquipmentCategory, MasterEquipment } from 'kc-calculator'
-import DataTable, { DataTableCell } from '../../components/DataTable'
-import EquipmentIcon from '../../components/EquipmentIcon'
-import StatIcon from '../../components/StatIcon'
-import { masterData } from '../../stores/kcObjectFactory'
-import { equipmentStatKeys } from './EquipmentTable'
+import DataTable, { Sort } from '../../components/DataTable'
 
-const masterEquipments = masterData.equipments.sort((equip1, equip2) => {
-  const iconIdDiff = equip1.iconId - equip2.iconId
-  if (iconIdDiff !== 0) {
-    return iconIdDiff
-  }
-  return equip1.id - equip2.id
-})
+import { observer } from 'mobx-react-lite'
+import { EquipmentsDataStoreContext } from '../../stores'
+import { defaultModeColumns, sortModeColumns } from './columns'
 
-const statColumns: ColumnProps[] = equipmentStatKeys.map(dataKey => ({
-  dataKey,
-  label: <StatIcon statName={dataKey} />,
-  width: 40
-}))
-
-const columns: ColumnProps[] = [
-  {
-    dataKey: 'iconId',
-    label: 'Icon',
-    cellRenderer: props => (
-      <TableCell
-        component="div"
-        variant="body"
-        align="center"
-        style={{ display: 'flex', flex: '1 1', alignItems: 'center', padding: 0 }}
-      >
-        <EquipmentIcon style={{ width: 32, height: 32 }} iconId={props.rowData.iconId} />
-      </TableCell>
-    ),
-    width: 32
-  },
-  {
-    dataKey: 'name',
-    label: '装備名',
-    cellRenderer: props => <DataTableCell>{props.cellData}</DataTableCell>,
-    width: 100
-  },
-  ...statColumns
-]
-
-type EquipmentFilter = (equip: MasterEquipment) => boolean
+type EquipmentFilter = (equip: IEquipment) => boolean
 
 const filterButtons: Array<{ name: string; filter: EquipmentFilter }> = [
   {
@@ -98,56 +59,95 @@ const useEquipmentFilter = () => {
 }
 
 const EquipmentsDataTable: React.FC = props => {
-  const [data, setData] = useState(masterEquipments)
-  const [visibleAbysall, setVisibleAbysall] = useState(false)
-  const [categoryFilterName, setCategoryFilterName] = useState('')
-  const toggleAbysall = useCallback(() => {
-    setVisibleAbysall(value => !value)
+  const equipmentsDataStore = useContext(EquipmentsDataStoreContext)
+  const {
+    equipmentsData,
+    visibleEquipments,
+    mode,
+    setMode,
+    visibleAlly,
+    visibleAbysall,
+    toggleVisibleAlly,
+    toggleVisibleAbysall,
+    filterName
+  } = equipmentsDataStore
+
+  const handleModeChange = useCallback(() => {
+    setMode(curMode => (curMode ? undefined : 'sort'))
   }, [])
-  const handleFilterClick = (name: string) => () => {
-    setCategoryFilterName(name)
-  }
+
+  const columns = useMemo(() => {
+    if (mode === 'sort') {
+      return sortModeColumns
+    }
+    return defaultModeColumns
+  }, [mode])
+
+  const [data, setData] = useState(visibleEquipments)
+
+  const handleChangeFilter = useCallback((event: React.ChangeEvent<{}>, nextFilter: string) => {
+    equipmentsDataStore.filterName = nextFilter
+  }, [])
 
   useEffect(() => {
-    const abysallFilter: EquipmentFilter = equip => (visibleAbysall ? equip.id > 500 : equip.id <= 500)
-    const found = filterButtons.find(({ name }) => name === categoryFilterName)
+    const found = filterButtons.find(({ name }) => name === filterName)
     let categoryFilter: EquipmentFilter = equip => true
     if (found) {
       categoryFilter = found.filter
-    } else if (categoryFilterName === 'other') {
+    } else if (filterName === 'other') {
       const filters = filterButtons.map(({ filter }) => filter)
       categoryFilter = equip => !filters.some(filter => filter(equip))
     }
-    setData(masterEquipments.filter(abysallFilter).filter(categoryFilter))
-  }, [visibleAbysall, categoryFilterName])
+    const filtered = visibleEquipments.filter(categoryFilter)
+    setData(filtered)
+  }, [filterName, visibleEquipments])
 
   const searchRef = useRef({ value: '' })
   const handleSearch = () => {
-    const newData = masterEquipments.filter(equip => equip.name.includes(searchRef.current.value))
+    const newData = equipmentsData.filter(equip => equip.name.includes(searchRef.current.value))
     setData(newData)
+  }
+
+  const customSort: Sort<IEquipment> = params => {
+    const { sortBy, defaultSort, data: currentData } = params
+    if (sortBy === 'name') {
+      return lodashSortBy(currentData, 'iconId', 'masterId')
+    } else {
+      return defaultSort(params)
+    }
   }
 
   return (
     <Paper style={{ width: 'auto', margin: 8, padding: 8 }}>
       <div>
-        {filterButtons.map(({ name }) => (
-          <Button key={name} onClick={handleFilterClick(name)}>
-            <img src={require(`../../images/equipmentFilterIcons/${name}.png`)} />
-          </Button>
-        ))}
-        <Button onClick={handleFilterClick('other')}>
-          <img src={require(`../../images/equipmentFilterIcons/other.png`)} />
-        </Button>
-        <FormControlLabel label="深海装備" control={<Checkbox onClick={toggleAbysall} />} />
+        <FormControlLabel
+          label="ソートモード"
+          control={<Checkbox checked={mode === 'sort'} onClick={handleModeChange} />}
+        />
+        <FormControlLabel label="味方装備" control={<Checkbox checked={visibleAlly} onClick={toggleVisibleAlly} />} />
+        <FormControlLabel
+          label="深海装備"
+          control={<Checkbox checked={visibleAbysall} onClick={toggleVisibleAbysall} />}
+        />
       </div>
+
+      <Tabs value={filterName} onChange={handleChangeFilter} style={{ width: 'auto' }}>
+        <Tab value="all" label={<img src={require(`../../images/equipmentFilterIcons/all.png`)} />} />
+        {filterButtons.map(({ name }) => (
+          <Tab key={name} value={name} label={<img src={require(`../../images/equipmentFilterIcons/${name}.png`)} />} />
+        ))}
+        <Tab value="other" label={<img src={require(`../../images/equipmentFilterIcons/other.png`)} />} />
+      </Tabs>
 
       <TextField label="Search" inputRef={searchRef} onChange={handleSearch} />
 
       <div style={{ height: '70vh' }}>
-        <DataTable columns={columns} data={data} />
+        <DataTable columns={columns} data={data} sort={customSort} />
       </div>
     </Paper>
   )
 }
 
-export default EquipmentsDataTable
+const Wrapped = observer(EquipmentsDataTable)
+
+export default () => <Wrapped />

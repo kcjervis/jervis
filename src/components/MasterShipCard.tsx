@@ -1,5 +1,7 @@
 import React from 'react'
 
+import { MasterShip, shipStatKeys } from 'kc-calculator'
+
 import Card from '@material-ui/core/Card'
 import CardContent from '@material-ui/core/CardContent'
 import { createStyles, Theme, withStyles, WithStyles } from '@material-ui/core/styles'
@@ -7,35 +9,6 @@ import Typography from '@material-ui/core/Typography'
 
 import ShipImage from './ShipImage'
 import StatChip from './StatChip'
-
-import { MasterShip } from 'kc-calculator'
-
-type ShipStatName =
-  | 'hp'
-  | 'armor'
-  | 'firepower'
-  | 'torpedo'
-  | 'speed'
-  | 'antiAir'
-  | 'asw'
-  | 'evasion'
-  | 'los'
-  | 'luck'
-  | 'range'
-
-const shipStatNames: ShipStatName[] = [
-  'hp',
-  'armor',
-  'firepower',
-  'torpedo',
-  'speed',
-  'antiAir',
-  'asw',
-  'evasion',
-  'los',
-  'luck',
-  'range'
-]
 
 const styles = (theme: Theme) =>
   createStyles({
@@ -76,9 +49,9 @@ const MasterShipCard: React.FC<IMasterShipCardProps> = ({ ship, classes }) => {
       <div className={classes.details}>
         {/* ステータス一覧 */}
         <CardContent className={classes.stats}>
-          {shipStatNames.map(statName => {
-            const value = ship[statName]
-            return <StatChip key={statName} statName={statName} value={value} />
+          {shipStatKeys.map(statKey => {
+            const value = ship[statKey]
+            return <StatChip key={statKey} statKey={statKey} value={value} />
           })}
         </CardContent>
 

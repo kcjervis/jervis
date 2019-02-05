@@ -1,20 +1,12 @@
 import React from 'react'
 
-interface IEquipmentIconProps {
-  style?: React.CSSProperties
-  className?: string
+interface IEquipmentIconProps extends React.ImgHTMLAttributes<HTMLImageElement> {
   iconId: number
 }
 
-const EquipmentIcon: React.FC<IEquipmentIconProps> = ({ style, className, iconId }) => {
+const EquipmentIcon: React.FC<IEquipmentIconProps> = ({ iconId, ...rest }) => {
   try {
-    return (
-      <img
-        className={className}
-        style={{ pointerEvents: 'none', ...style }}
-        src={require(`../images/equipmentIcons/${iconId}.png`)}
-      />
-    )
+    return <img style={{ pointerEvents: 'none' }} src={require(`../images/equipmentIcons/${iconId}.png`)} {...rest} />
   } catch (error) {
     console.log(error)
     return null

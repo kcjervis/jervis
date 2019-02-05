@@ -1,34 +1,21 @@
-import { Speed } from 'kc-calculator'
+import { EquipmentStatKey, ShipStatKey, Speed } from 'kc-calculator'
 import React from 'react'
 
-import { createStyles, Theme, withStyles, WithStyles } from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography'
+
+import { makeStyles } from '@material-ui/styles'
 
 import StatIcon from './StatIcon'
 
-const styles = (theme: Theme) =>
-  createStyles({
-    root: {
-      display: 'flex',
-      alignItems: 'center'
-    }
-  })
+const useStyles = makeStyles({
+  root: {
+    display: 'flex',
+    alignItems: 'center'
+  }
+})
 
-type ShipStatName =
-  | 'hp'
-  | 'armor'
-  | 'firepower'
-  | 'torpedo'
-  | 'speed'
-  | 'antiAir'
-  | 'asw'
-  | 'evasion'
-  | 'los'
-  | 'luck'
-  | 'range'
-
-interface IShipStatProps extends WithStyles<typeof styles> {
-  statName: ShipStatName
+interface IShipStatProps extends React.HTMLAttributes<HTMLDivElement> {
+  statKey: ShipStatKey | EquipmentStatKey
   stat: number
   increasedStat?: number
 }
@@ -51,7 +38,8 @@ const rangeValueToName = (range: number) => {
 }
 
 const ShipStat: React.FC<IShipStatProps> = props => {
-  const { statName, stat, increasedStat, classes } = props
+  const classes = useStyles()
+  const { statKey, stat, increasedStat, ...rest } = props
   let increasedStatLabel: string | null = null
   if (increasedStat) {
     if (increasedStat > 0) {
@@ -61,15 +49,15 @@ const ShipStat: React.FC<IShipStatProps> = props => {
     }
   }
   let displayValue: number | string = stat
-  if (statName === 'speed') {
+  if (statKey === 'speed') {
     const speed = Speed.fromNumber(stat)
     displayValue = `${speed.name}(${stat})`
-  } else if (statName === 'range') {
+  } else if (statKey === 'range') {
     displayValue = `${rangeValueToName(stat)}(${stat})`
   }
   return (
-    <div className={classes.root}>
-      <StatIcon statName={statName} />
+    <div className={classes.root} {...rest}>
+      <StatIcon statKey={statKey} />
       <Typography variant="subtitle2">{displayValue}</Typography>
       <Typography variant="subtitle2" color="primary">
         {increasedStatLabel}
@@ -78,4 +66,4 @@ const ShipStat: React.FC<IShipStatProps> = props => {
   )
 }
 
-export default withStyles(styles)(ShipStat)
+export default ShipStat

@@ -25,11 +25,6 @@ const AppsPage: React.FC<WithStyles<typeof styles>> = props => {
         <Transform />
         Url Shortener
       </Button>
-
-      <Button className={classes.button} size="large" variant="outlined" href={`#/equipments-data`}>
-        <Transform />
-        装備データ
-      </Button>
     </>
   )
 }

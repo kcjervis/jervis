@@ -8,7 +8,7 @@ import Typography from '@material-ui/core/Typography'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 
 import EquipmentIcon from '../components/EquipmentIcon'
-import { ObservableEquipment, ObservableLandBasedAirCorps, ObservableShip } from '../stores'
+import stores, { ObservableEquipment, ObservableLandBasedAirCorps, ObservableShip } from '../stores'
 import EquipmentField from './EquipmentField'
 
 interface IEquipmentExpansionPanelProps {
@@ -18,10 +18,11 @@ interface IEquipmentExpansionPanelProps {
 
 const EquipmentExpansionPanel: React.FC<IEquipmentExpansionPanelProps> = props => {
   const { equipments, parent } = props
+  const handleEndDrag = stores.operationStore.switchEquipment
   return (
     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
       {equipments.map((equip, index) => (
-        <EquipmentField key={index} parent={parent} index={index} equipment={equip} />
+        <EquipmentField key={index} onEndDrag={handleEndDrag} parent={parent} index={index} equipment={equip} />
       ))}
     </div>
   )

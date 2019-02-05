@@ -1,5 +1,7 @@
 import React from 'react'
 
+import { equipmentStatKeys, IEquipment } from 'kc-calculator'
+
 import Card from '@material-ui/core/Card'
 import CardContent from '@material-ui/core/CardContent'
 import { createStyles, Theme, withStyles, WithStyles } from '@material-ui/core/styles'
@@ -8,45 +10,6 @@ import Typography from '@material-ui/core/Typography'
 import EquipmentIcon from './EquipmentIcon'
 import EquipmentImage from './EquipmentImage'
 import StatChip from './StatChip'
-
-import { IEquipment } from 'kc-calculator'
-
-type EquipmentStat =
-  | 'hp'
-  | 'armor'
-  | 'firepower'
-  | 'torpedo'
-  | 'speed'
-  | 'bombing'
-  | 'antiAir'
-  | 'asw'
-  | 'accuracy'
-  | 'interception'
-  | 'evasion'
-  | 'antiBomber'
-  | 'los'
-  | 'luck'
-  | 'range'
-  | 'radius'
-
-const equipmentStats: EquipmentStat[] = [
-  'hp',
-  'armor',
-  'firepower',
-  'torpedo',
-  'speed',
-  'bombing',
-  'antiAir',
-  'asw',
-  'accuracy',
-  'interception',
-  'evasion',
-  'antiBomber',
-  'los',
-  'luck',
-  'range',
-  'radius'
-]
 
 const styles = (theme: Theme) =>
   createStyles({
@@ -102,12 +65,12 @@ const EquipmentCard: React.FC<IEquipmentCardProps> = ({ equipment, classes, clas
       <div className={classes.details}>
         {/* ステータス一覧 */}
         <CardContent className={classes.stats}>
-          {equipmentStats.map(statName => {
-            const value = equipment[statName]
+          {equipmentStatKeys.map(statKey => {
+            const value = equipment[statKey]
             if (value === 0) {
               return null
             }
-            return <StatChip key={statName} statName={statName} value={value} />
+            return <StatChip key={statKey} statKey={statKey} value={value} />
           })}
         </CardContent>
         <EquipmentImage className={classes.image} masterId={masterId} />

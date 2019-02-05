@@ -1,6 +1,8 @@
 import { observer } from 'mobx-react-lite'
 import React from 'react'
 
+import { shipStatKeys } from 'kc-calculator'
+
 import Button from '@material-ui/core/Button'
 import Card from '@material-ui/core/Card'
 import Grid from '@material-ui/core/Grid'
@@ -19,34 +21,6 @@ import ShipStatDialog from './ShipStatDialog'
 
 import stores, { ObservableShip } from '../../stores'
 import HealthBarDialog from './HealthBarDialog'
-
-type ShipStatName =
-  | 'hp'
-  | 'firepower'
-  | 'armor'
-  | 'torpedo'
-  | 'evasion'
-  | 'antiAir'
-  | 'asw'
-  | 'speed'
-  | 'los'
-  | 'range'
-  | 'luck'
-
-const shipStatNames: ShipStatName[] = [
-  'hp',
-  'firepower',
-  'armor',
-  'torpedo',
-  'evasion',
-  'antiAir',
-  'asw',
-  'speed',
-
-  'los',
-  'range',
-  'luck'
-]
 
 const useStyles = makeStyles({
   root: {
@@ -142,9 +116,9 @@ const ShipForm: React.FC<IShipForm> = props => {
             <HealthBarDialog ship={ship} />
 
             <Grid container={true}>
-              {shipStatNames.map(statName => (
-                <Grid item={true} xs={6} key={statName}>
-                  <ShipStatDialog statName={statName} ship={ship} />
+              {shipStatKeys.map(statKey => (
+                <Grid item={true} xs={6} key={statKey}>
+                  <ShipStatDialog statKey={statKey} ship={ship} />
                 </Grid>
               ))}
             </Grid>
