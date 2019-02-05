@@ -30,9 +30,6 @@ const styles = createStyles({
     alignItems: 'center',
     marginLeft: 8
   },
-  tab: {
-    width: 50
-  },
   checkBoxForm: {
     margin: 8
   }
@@ -125,11 +122,11 @@ const OperationPage: React.FC<IOperationPageProps> = ({ operation, history, clas
         <Tabs value={activeFleetIndex} onChange={handleChange}>
           {operation.fleets.map((fleet, index) => {
             if (operation.asKcObject.isCombinedFleetOperation && index < 2) {
-              return <Tab className={classes.tab} key={`fleetTab${index}`} label={`連合第${index + 1}`} />
+              return <Tab key={`fleetTab${index}`} label={`連合第${index + 1}`} />
             }
-            return <Tab className={classes.tab} key={`fleetTab${index}`} label={`${index + 1}`} />
+            return <Tab key={`fleetTab${index}`} label={`${index + 1}`} />
           })}
-          <Tab className={classes.tab} label="基地航空隊" />
+          <Tab label="基地航空隊" />
         </Tabs>
       </div>
 

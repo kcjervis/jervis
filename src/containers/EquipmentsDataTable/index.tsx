@@ -119,7 +119,7 @@ const EquipmentsDataTable: React.FC = props => {
 
   return (
     <Paper style={{ width: 'auto', margin: 8, padding: 8 }}>
-      <div>
+      <div style={{ display: 'flex', alignItems: 'center' }}>
         <FormControlLabel
           label="ソートモード"
           control={<Checkbox checked={mode === 'sort'} onClick={handleModeChange} />}
@@ -129,9 +129,10 @@ const EquipmentsDataTable: React.FC = props => {
           label="深海装備"
           control={<Checkbox checked={visibleAbysall} onClick={toggleVisibleAbysall} />}
         />
+        <Typography color="secondary">{equipmentsDataStore.label}</Typography>
       </div>
 
-      <Tabs value={filterName} onChange={handleChangeFilter} style={{ width: 'auto' }}>
+      <Tabs value={filterName} onChange={handleChangeFilter}>
         <Tab value="all" label={<img src={require(`../../images/equipmentFilterIcons/all.png`)} />} />
         {filterButtons.map(({ name }) => (
           <Tab key={name} value={name} label={<img src={require(`../../images/equipmentFilterIcons/${name}.png`)} />} />

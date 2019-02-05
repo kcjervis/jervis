@@ -20,6 +20,16 @@ export default class EquipmentsDataStore {
 
   @observable public filterName = 'all'
 
+  get label() {
+    const { parent } = this
+    if (parent instanceof ObservableShip) {
+      return `${parent.asKcObject.name} 選択中`
+    } else if (parent instanceof ObservableLandBasedAirCorps) {
+      return '基地航空隊 選択中'
+    }
+    return ''
+  }
+
   @computed get equipmentsData() {
     return masterData.equipments
       .map(equip => kcObjectFactory.createEquipment({ masterId: equip.id }))
