@@ -21,7 +21,7 @@ const EquipmentCell: React.FC<IEquipmentCell> = ({ equipment, history }) => {
       equipmentsDataStore.parent = undefined
       equipmentsDataStore.index = undefined
     }
-  }, [])
+  }, [equipment])
   return (
     <DataTableCell>
       <Button
