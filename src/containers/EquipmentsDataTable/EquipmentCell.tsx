@@ -14,10 +14,12 @@ interface IEquipmentCell extends RouteComponentProps {
 }
 
 const EquipmentCell: React.FC<IEquipmentCell> = ({ equipment, history }) => {
-  const { setEquipment } = useContext(EquipmentsDataStoreContext)
+  const equipmentsDataStore = useContext(EquipmentsDataStoreContext)
   const handleClick = useCallback(() => {
-    if (setEquipment(equipment)) {
+    if (equipmentsDataStore.setEquipment(equipment)) {
       history.push(`/operation`)
+      equipmentsDataStore.parent = undefined
+      equipmentsDataStore.index = undefined
     }
   }, [])
   return (
