@@ -1,3 +1,4 @@
+import classNames from 'classnames'
 import React, { useEffect, useMemo, useState } from 'react'
 
 import { makeStyles } from '@material-ui/styles'
@@ -23,6 +24,11 @@ const useStyles = makeStyles({
     alignItems: 'flex-end',
     boxSizing: 'border-box'
   },
+  hover: {
+    '&:hover': {
+      background: 'rgba(200, 200, 200, 0.08)'
+    }
+  },
   tableCell: {
     flex: 1
   },
@@ -32,12 +38,7 @@ const useStyles = makeStyles({
 })
 
 export const DataTableCell: React.FC<TableCellProps> = props => (
-  <TableCell
-    component="div"
-    variant="body"
-    style={{ display: 'flex', flex: '1 1', alignItems: 'center', padding: 0 }}
-    {...props}
-  >
+  <TableCell component="div" variant="body" style={{ display: 'flex', alignItems: 'center', padding: 0 }} {...props}>
     {props.children}
   </TableCell>
 )
@@ -90,6 +91,9 @@ const DataTable: React.FC<IDataTableProps> = props => {
   const rowCount = data.length
   const rowGetter = ({ index }: Index) => data[index]
 
+  const rowClassName = ({ index }: Index) =>
+    index === -1 ? classes.flexContainer : classNames(classes.flexContainer, classes.hover)
+
   return (
     <AutoSizer>
       {({ height, width }) => (
@@ -100,8 +104,7 @@ const DataTable: React.FC<IDataTableProps> = props => {
           rowGetter={rowGetter}
           height={height}
           width={width}
-          headerClassName={classes.flexContainer}
-          rowClassName={classes.flexContainer}
+          rowClassName={rowClassName}
           sort={setSortState}
           sortBy={sortBy}
           sortDirection={sortDirection}
@@ -109,10 +112,10 @@ const DataTable: React.FC<IDataTableProps> = props => {
           {columns.map((column, index) => (
             <Column
               key={column.dataKey}
-              flexGrow={1}
               headerRenderer={headerRenderer}
               cellRenderer={cellRenderer}
               defaultSortDirection={SortDirection.DESC}
+              flexGrow={1}
               {...column}
             />
           ))}

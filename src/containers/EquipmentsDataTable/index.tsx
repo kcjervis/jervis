@@ -7,17 +7,20 @@ import { IEquipment } from 'kc-calculator'
 import Button from '@material-ui/core/Button'
 import Checkbox from '@material-ui/core/Checkbox'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
+import Input from '@material-ui/core/Input'
 import Paper from '@material-ui/core/Paper'
 import Tab from '@material-ui/core/Tab'
 import Tabs from '@material-ui/core/Tabs'
 import TextField from '@material-ui/core/TextField'
 import Typography from '@material-ui/core/Typography'
+import SearchIcon from '@material-ui/icons/Search'
 
 import DataTable, { Sort } from '../../components/DataTable'
 
 import { observer } from 'mobx-react-lite'
+import DialogComponent from '../../components/DialogComponent'
 import { EquipmentsDataStoreContext } from '../../stores'
-import { defaultModeColumns, sortModeColumns } from './columns'
+import { defaultModeColumns, settingModeColumns, sortModeColumns } from './columns'
 
 type EquipmentFilter = (equip: IEquipment) => boolean
 
@@ -79,6 +82,8 @@ const EquipmentsDataTable: React.FC = props => {
   const columns = useMemo(() => {
     if (mode === 'sort') {
       return sortModeColumns
+    } else if (mode === 'setting') {
+      return settingModeColumns
     }
     return defaultModeColumns
   }, [mode])
@@ -112,6 +117,8 @@ const EquipmentsDataTable: React.FC = props => {
     const { sortBy, defaultSort, data: currentData } = params
     if (sortBy === 'name') {
       return lodashSortBy(currentData, 'iconId', 'masterId')
+    } else if (sortBy === 'visibility') {
+      return lodashSortBy(currentData, ({ masterId }) => equipmentsDataStore.blackList.includes(masterId))
     } else {
       return defaultSort(params)
     }
@@ -120,6 +127,7 @@ const EquipmentsDataTable: React.FC = props => {
   return (
     <Paper style={{ width: 'auto', margin: 8, padding: 8 }}>
       <div style={{ display: 'flex', alignItems: 'center' }}>
+        <Input endAdornment={<SearchIcon />} inputRef={searchRef} onChange={handleSearch} />
         <FormControlLabel
           label="ソートモード"
           control={<Checkbox checked={mode === 'sort'} onClick={handleModeChange} />}
@@ -129,6 +137,7 @@ const EquipmentsDataTable: React.FC = props => {
           label="深海装備"
           control={<Checkbox checked={visibleAbysall} onClick={toggleVisibleAbysall} />}
         />
+
         <Typography color="secondary">{equipmentsDataStore.label}</Typography>
       </div>
 
@@ -139,8 +148,6 @@ const EquipmentsDataTable: React.FC = props => {
         ))}
         <Tab value="other" label={<img src={require(`../../images/equipmentFilterIcons/other.png`)} />} />
       </Tabs>
-
-      <TextField label="Search" inputRef={searchRef} onChange={handleSearch} />
 
       <div style={{ height: '70vh' }}>
         <DataTable columns={columns} data={data} sort={customSort} />

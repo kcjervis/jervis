@@ -7,13 +7,15 @@ import Typography from '@material-ui/core/Typography'
 
 import { DataTableCell } from '../../components/DataTable'
 import EquipmentIcon from '../../components/EquipmentIcon'
+import EquipmentLabel from '../../components/EquipmentLabel'
+
 import { EquipmentsDataStoreContext } from '../../stores'
 
-interface IEquipmentCell extends RouteComponentProps {
+interface IEquipmentLabelCell extends RouteComponentProps {
   equipment: IEquipment
 }
 
-const EquipmentCell: React.FC<IEquipmentCell> = ({ equipment, history }) => {
+const EquipmentLabelCell: React.FC<IEquipmentLabelCell> = ({ equipment, history }) => {
   const equipmentsDataStore = useContext(EquipmentsDataStoreContext)
   const handleClick = useCallback(() => {
     if (equipmentsDataStore.setEquipment(equipment)) {
@@ -36,4 +38,4 @@ const EquipmentCell: React.FC<IEquipmentCell> = ({ equipment, history }) => {
   )
 }
 
-export default withRouter(EquipmentCell)
+export default withRouter(EquipmentLabelCell)

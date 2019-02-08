@@ -1,11 +1,12 @@
 import { IEquipment, nonNullable } from 'kc-calculator'
 import { action, computed, observable } from 'mobx'
 
+import EquipmentList from './EquipmentList'
 import kcObjectFactory, { masterData } from './kcObjectFactory'
 import ObservableLandBasedAirCorps from './ObservableLandBasedAirCorps'
 import ObservableShip from './ObservableShip'
 
-type Mode = undefined | 'sort'
+type Mode = undefined | 'sort' | 'setting'
 
 export default class EquipmentsDataStore {
   @observable public parent?: ObservableShip | ObservableLandBasedAirCorps
@@ -19,6 +20,10 @@ export default class EquipmentsDataStore {
   @observable public visibleAbysall = false
 
   @observable public filterName = 'all'
+
+  @observable public blackList: number[] = []
+
+  @observable public equipmentLists: EquipmentList[] = []
 
   get label() {
     const { parent } = this
@@ -37,12 +42,15 @@ export default class EquipmentsDataStore {
   }
 
   @computed get visibleEquipments() {
-    const { parent, index = 0, equipmentsData, visibleAlly, visibleAbysall } = this
-    const equipments = equipmentsData.filter(equip => {
-      if (!visibleAlly && equip.masterId <= 500) {
+    const { parent, index = 0, equipmentsData, visibleAlly, visibleAbysall, mode } = this
+    const equipments = equipmentsData.filter(({ masterId }) => {
+      if (mode !== 'setting' && this.blackList.includes(masterId)) {
         return false
       }
-      if (!visibleAbysall && equip.masterId > 500) {
+      if (!visibleAlly && masterId <= 500) {
+        return false
+      }
+      if (!visibleAbysall && masterId > 500) {
         return false
       }
 
@@ -77,6 +85,12 @@ export default class EquipmentsDataStore {
 
   @action public toggleVisibleAbysall = () => {
     this.visibleAbysall = !this.visibleAbysall
+  }
+
+  @action public createEquipmentList = (name: string) => {
+    const newList = new EquipmentList()
+    newList.name = name
+    this.equipmentLists.push(newList)
   }
 
   @action public setEquipment = (equipment: IEquipment) => {

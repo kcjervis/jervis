@@ -74,11 +74,11 @@ export default class ContactTable extends React.Component<IContactTableProps> {
         <TableHead>
           <TableRow>
             <TableCell>制空</TableCell>
-            <TableCell align="right">触接開始率 (%)</TableCell>
-            <TableCell align="right">合計触接率 (%)</TableCell>
-            <TableCell align="right">補正1.2触接率 (%)</TableCell>
-            <TableCell align="right">補正1.17触接率 (%)</TableCell>
-            <TableCell align="right">補正1.12触接率 (%)</TableCell>
+            <TableCell align="right">触接開始率</TableCell>
+            <TableCell align="right">合計触接率</TableCell>
+            <TableCell align="right">補正1.2選択率</TableCell>
+            <TableCell align="right">補正1.17選択率</TableCell>
+            <TableCell align="right">補正1.12選択率</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
