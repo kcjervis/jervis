@@ -71,9 +71,6 @@ module.exports = {
     }
   },
   plugins: [
-    new ForkTsCheckerWebpackPlugin(),
-    new BundleAnalyzerPlugin({
-      analyzerMode: 'static'
-    })
+    new ForkTsCheckerWebpackPlugin()
   ]
 }
