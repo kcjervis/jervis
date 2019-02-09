@@ -18,16 +18,7 @@ const FleetTypeSelect: React.FC<IFleetTypeSelectProps> = ({ fleetType, onChange 
   }
   return (
     <FormControl>
-      <Select
-        variant="outlined"
-        value={fleetType}
-        onChange={handleChange}
-        MenuProps={{
-          MenuListProps: {
-            style: { background: 'rgba(0, 0, 0, 0.9)' }
-          }
-        }}
-      >
+      <Select variant="outlined" value={fleetType} onChange={handleChange}>
         <MenuItem value={FleetType.Single}>通常艦隊</MenuItem>
         <MenuItem value={FleetType.CarrierTaskForce}>空母機動部隊</MenuItem>
         <MenuItem value={FleetType.SurfaceTaskForce}>水上打撃部隊</MenuItem>

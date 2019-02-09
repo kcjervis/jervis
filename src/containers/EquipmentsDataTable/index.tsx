@@ -1,5 +1,6 @@
 import { makeStyles } from '@material-ui/styles'
 import lodashSortBy from 'lodash/sortBy'
+import { observer } from 'mobx-react-lite'
 import React, { useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react'
 
 import { IEquipment } from 'kc-calculator'
@@ -8,19 +9,21 @@ import Button from '@material-ui/core/Button'
 import Checkbox from '@material-ui/core/Checkbox'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import Input from '@material-ui/core/Input'
+import MenuItem from '@material-ui/core/MenuItem'
 import Paper from '@material-ui/core/Paper'
+import Select from '@material-ui/core/Select'
 import Tab from '@material-ui/core/Tab'
 import Tabs from '@material-ui/core/Tabs'
-import TextField from '@material-ui/core/TextField'
+
 import Typography from '@material-ui/core/Typography'
 import SearchIcon from '@material-ui/icons/Search'
 
 import DataTable, { Sort } from '../../components/DataTable'
 
-import { observer } from 'mobx-react-lite'
 import DialogComponent from '../../components/DialogComponent'
 import { EquipmentsDataStoreContext } from '../../stores'
 import { defaultModeColumns, settingModeColumns, sortModeColumns } from './columns'
+import EquipmentListTabs from './EquipmentListTabs'
 
 type EquipmentFilter = (equip: IEquipment) => boolean
 
@@ -67,7 +70,6 @@ const EquipmentsDataTable: React.FC = props => {
     equipmentsData,
     visibleEquipments,
     mode,
-    setMode,
     visibleAlly,
     visibleAbysall,
     toggleVisibleAlly,
@@ -75,8 +77,8 @@ const EquipmentsDataTable: React.FC = props => {
     filterName
   } = equipmentsDataStore
 
-  const handleModeChange = useCallback(() => {
-    setMode(curMode => (curMode ? undefined : 'sort'))
+  const handleModeChange = useCallback((event: React.ChangeEvent<HTMLSelectElement>) => {
+    equipmentsDataStore.mode = event.target.value as typeof mode
   }, [])
 
   const columns = useMemo(() => {
@@ -128,15 +130,18 @@ const EquipmentsDataTable: React.FC = props => {
     <Paper style={{ width: 'auto', margin: 8, padding: 8 }}>
       <div style={{ display: 'flex', alignItems: 'center' }}>
         <Input endAdornment={<SearchIcon />} inputRef={searchRef} onChange={handleSearch} />
-        <FormControlLabel
-          label="ソートモード"
-          control={<Checkbox checked={mode === 'sort'} onClick={handleModeChange} />}
-        />
+
         <FormControlLabel label="味方装備" control={<Checkbox checked={visibleAlly} onClick={toggleVisibleAlly} />} />
         <FormControlLabel
           label="深海装備"
           control={<Checkbox checked={visibleAbysall} onClick={toggleVisibleAbysall} />}
         />
+
+        <Select value={mode} onChange={handleModeChange}>
+          <MenuItem value="default">通常</MenuItem>
+          <MenuItem value="sort">ステータスソート</MenuItem>
+          <MenuItem value="setting">表示設定</MenuItem>
+        </Select>
 
         <Typography color="secondary">{equipmentsDataStore.label}</Typography>
       </div>
@@ -148,6 +153,8 @@ const EquipmentsDataTable: React.FC = props => {
         ))}
         <Tab value="other" label={<img src={require(`../../images/equipmentFilterIcons/other.png`)} />} />
       </Tabs>
+
+      {/* <EquipmentListTabs store={equipmentsDataStore} /> */}
 
       <div style={{ height: '70vh' }}>
         <DataTable columns={columns} data={data} sort={customSort} />

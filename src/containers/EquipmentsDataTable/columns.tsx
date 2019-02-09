@@ -34,19 +34,19 @@ export const defaultModeColumns: ColumnProps[] = [
     width: 500,
     disableSort: true
   }
+  // {
+  //   dataKey: 'action',
+  //   label: 'リストに追加',
+  //   cellRenderer: props => <EquipmentActionCell equipment={props.rowData} />,
+  //   width: 100,
+  //   disableSort: true
+  // }
 ]
 
 export const sortModeColumns: ColumnProps[] = [...baseColumns, ...statColumns]
 
 export const settingModeColumns: ColumnProps[] = [
-  ...baseColumns,
-  {
-    dataKey: 'setting',
-    label: '設定',
-    cellRenderer: props => <EquipmentSettingCell equipment={props.rowData} />,
-    width: 500,
-    disableSort: true
-  },
+  ...defaultModeColumns,
   {
     dataKey: 'visibility',
     label: '表示',

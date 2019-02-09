@@ -15,7 +15,7 @@ export default class EquipmentList {
     this.equipments.push(equip)
   }
 
-  @computed get asKcObject() {
+  @computed get asKcEquipments() {
     return this.equipments.map(equip => equip.asKcObject)
   }
 }

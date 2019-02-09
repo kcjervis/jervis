@@ -16,6 +16,11 @@ const theme = createMuiTheme({
     primary: blue
   },
   overrides: {
+    MuiMenu: {
+      paper: {
+        background: 'rgba(0, 0, 0, 0.9)'
+      }
+    },
     MuiButton: {
       root: {
         textTransform: 'none'

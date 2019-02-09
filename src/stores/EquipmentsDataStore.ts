@@ -6,14 +6,14 @@ import kcObjectFactory, { masterData } from './kcObjectFactory'
 import ObservableLandBasedAirCorps from './ObservableLandBasedAirCorps'
 import ObservableShip from './ObservableShip'
 
-type Mode = undefined | 'sort' | 'setting'
+type Mode = 'default' | 'sort' | 'setting'
 
 export default class EquipmentsDataStore {
   @observable public parent?: ObservableShip | ObservableLandBasedAirCorps
 
   @observable public index?: number
 
-  @observable public mode?: Mode
+  @observable public mode: Mode = 'default'
 
   @observable public visibleAlly = true
 
@@ -24,6 +24,8 @@ export default class EquipmentsDataStore {
   @observable public blackList: number[] = []
 
   @observable public equipmentLists: EquipmentList[] = []
+
+  @observable public activeEquipmentList: EquipmentList | null = null
 
   get label() {
     const { parent } = this
@@ -42,8 +44,9 @@ export default class EquipmentsDataStore {
   }
 
   @computed get visibleEquipments() {
-    const { parent, index = 0, equipmentsData, visibleAlly, visibleAbysall, mode } = this
-    const equipments = equipmentsData.filter(({ masterId }) => {
+    const { parent, index = 0, equipmentsData, visibleAlly, visibleAbysall, mode, activeEquipmentList } = this
+    const listEquipments = activeEquipmentList ? activeEquipmentList.asKcEquipments : equipmentsData
+    const equipments = listEquipments.filter(({ masterId }) => {
       if (mode !== 'setting' && this.blackList.includes(masterId)) {
         return false
       }
@@ -69,14 +72,6 @@ export default class EquipmentsDataStore {
       )
     }
     return equipments
-  }
-
-  @action public setMode = (arg: Mode | ((mode: Mode) => Mode)) => {
-    if (typeof arg === 'function') {
-      this.mode = arg(this.mode)
-    } else {
-      this.mode = arg
-    }
   }
 
   @action public toggleVisibleAlly = () => {
