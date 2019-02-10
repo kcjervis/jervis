@@ -1,5 +1,6 @@
 import { IEquipment, nonNullable } from 'kc-calculator'
 import { action, computed, observable } from 'mobx'
+import { persist } from 'mobx-persist'
 
 import EquipmentList from './EquipmentList'
 import kcObjectFactory, { masterData } from './kcObjectFactory'
@@ -21,11 +22,21 @@ export default class EquipmentsDataStore {
 
   @observable public filterName = 'all'
 
-  @observable public blackList: number[] = []
+  @persist('list')
+  @observable
+  public blackList: number[] = []
 
-  @observable public equipmentLists: EquipmentList[] = []
+  @persist('list', EquipmentList)
+  @observable
+  public equipmentLists: EquipmentList[] = []
 
-  @observable public activeEquipmentList: EquipmentList | null = null
+  @persist
+  @observable
+  public activeEquipmentListId?: string
+
+  get activeEquipmentList() {
+    return this.equipmentLists.find(list => list.id === this.activeEquipmentListId)
+  }
 
   get label() {
     const { parent } = this
@@ -86,6 +97,11 @@ export default class EquipmentsDataStore {
     const newList = new EquipmentList()
     newList.name = name
     this.equipmentLists.push(newList)
+  }
+
+  @action public removeEquipmentList = (list: EquipmentList) => {
+    const { equipmentLists } = this
+    equipmentLists.splice(equipmentLists.indexOf(list), 1)
   }
 
   @action public setEquipment = (equipment: IEquipment) => {

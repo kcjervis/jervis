@@ -22,6 +22,7 @@ const equipmentsDataStore = new EquipmentsDataStore()
 export const loadStores = async () => {
   await hydrate('operationStore', operationStore)
   await hydrate('settingStore', settingStore)
+  await hydrate('equipmentsDataStore', equipmentsDataStore)
 }
 
 const OperationStoreContext = createContext(operationStore)

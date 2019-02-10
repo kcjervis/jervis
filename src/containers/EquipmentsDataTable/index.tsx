@@ -81,6 +81,10 @@ const EquipmentsDataTable: React.FC = props => {
     equipmentsDataStore.mode = event.target.value as typeof mode
   }, [])
 
+  const handleChangeFilter = useCallback((event: React.ChangeEvent<HTMLSelectElement>) => {
+    equipmentsDataStore.filterName = event.target.value
+  }, [])
+
   const columns = useMemo(() => {
     if (mode === 'sort') {
       return sortModeColumns
@@ -91,10 +95,6 @@ const EquipmentsDataTable: React.FC = props => {
   }, [mode])
 
   const [data, setData] = useState(visibleEquipments)
-
-  const handleChangeFilter = useCallback((event: React.ChangeEvent<{}>, nextFilter: string) => {
-    equipmentsDataStore.filterName = nextFilter
-  }, [])
 
   useEffect(() => {
     const found = filterButtons.find(({ name }) => name === filterName)
@@ -143,18 +143,24 @@ const EquipmentsDataTable: React.FC = props => {
           <MenuItem value="setting">表示設定</MenuItem>
         </Select>
 
+        <Select value={filterName} onChange={handleChangeFilter} style={{ height: 32 }}>
+          <MenuItem value="all">
+            <img src={require(`../../images/equipmentFilterIcons/all.png`)} />
+          </MenuItem>
+          {filterButtons.map(({ name }) => (
+            <MenuItem key={name} value={name}>
+              <img src={require(`../../images/equipmentFilterIcons/${name}.png`)} />
+            </MenuItem>
+          ))}
+          <MenuItem value="other">
+            <img src={require(`../../images/equipmentFilterIcons/other.png`)} />
+          </MenuItem>
+        </Select>
+
         <Typography color="secondary">{equipmentsDataStore.label}</Typography>
       </div>
 
-      <Tabs value={filterName} onChange={handleChangeFilter}>
-        <Tab value="all" label={<img src={require(`../../images/equipmentFilterIcons/all.png`)} />} />
-        {filterButtons.map(({ name }) => (
-          <Tab key={name} value={name} label={<img src={require(`../../images/equipmentFilterIcons/${name}.png`)} />} />
-        ))}
-        <Tab value="other" label={<img src={require(`../../images/equipmentFilterIcons/other.png`)} />} />
-      </Tabs>
-
-      {/* <EquipmentListTabs store={equipmentsDataStore} /> */}
+      <EquipmentListTabs store={equipmentsDataStore} />
 
       <div style={{ height: '70vh' }}>
         <DataTable columns={columns} data={data} sort={customSort} />

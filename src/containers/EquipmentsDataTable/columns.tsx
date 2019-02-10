@@ -6,7 +6,6 @@ import { ColumnProps } from 'react-virtualized'
 import StatIcon from '../../components/StatIcon'
 import EquipmentActionCell from './EquipmentActionCell'
 import EquipmentLabelCell from './EquipmentLabelCell'
-import EquipmentSettingCell from './EquipmentSettingCell'
 import EquipmentStatsCell from './EquipmentStatsCell'
 import EquipmentVisibilityCell from './EquipmentVisibilityCell'
 
@@ -33,14 +32,14 @@ export const defaultModeColumns: ColumnProps[] = [
     cellRenderer: props => <EquipmentStatsCell equipment={props.rowData} />,
     width: 500,
     disableSort: true
+  },
+  {
+    dataKey: 'action',
+    label: ' ',
+    cellRenderer: props => <EquipmentActionCell equipment={props.rowData} />,
+    width: 100,
+    disableSort: true
   }
-  // {
-  //   dataKey: 'action',
-  //   label: 'リストに追加',
-  //   cellRenderer: props => <EquipmentActionCell equipment={props.rowData} />,
-  //   width: 100,
-  //   disableSort: true
-  // }
 ]
 
 export const sortModeColumns: ColumnProps[] = [...baseColumns, ...statColumns]
