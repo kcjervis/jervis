@@ -9,6 +9,7 @@ import { DataTableCell } from '../../components/DataTable'
 import EquipmentIcon from '../../components/EquipmentIcon'
 import EquipmentLabel from '../../components/EquipmentLabel'
 
+import { ImprovementSelect } from '../../components'
 import { EquipmentsDataStoreContext } from '../../stores'
 
 interface IEquipmentLabelCell extends RouteComponentProps {
@@ -24,6 +25,14 @@ const EquipmentLabelCell: React.FC<IEquipmentLabelCell> = ({ equipment, history 
       equipmentsDataStore.index = undefined
     }
   }, [equipment])
+
+  const { activeEquipmentList } = equipmentsDataStore
+  const state = activeEquipmentList && activeEquipmentList.getEquipmentState(equipment)
+  const handleImprovementChange = (value: number) => {
+    if (state) {
+      state.improvement = value
+    }
+  }
   return (
     <DataTableCell>
       <Button
@@ -34,6 +43,7 @@ const EquipmentLabelCell: React.FC<IEquipmentLabelCell> = ({ equipment, history 
         <EquipmentIcon width={24} height={24} iconId={equipment.iconId} />
         <Typography variant="caption">{equipment.name}</Typography>
       </Button>
+      {state && <ImprovementSelect value={equipment.improvement.value} onChange={handleImprovementChange} />}
     </DataTableCell>
   )
 }

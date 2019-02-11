@@ -27,8 +27,8 @@ export default class EquipmentList {
     this.equipments.splice(this.asKcEquipments.indexOf(equip), 1)
   }
 
-  @action public setEquipment = (equip: ObservableEquipment) => {
-    this.equipments.push(equip)
+  public getEquipmentState = (equip: IEquipment) => {
+    return this.equipments.find(equipState => equipState.asKcObject === equip)
   }
 
   @computed get asKcEquipments() {

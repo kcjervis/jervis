@@ -5,11 +5,11 @@ import React, { useCallback, useContext, useEffect, useMemo, useRef, useState } 
 import Button from '@material-ui/core/Button'
 import Dialog from '@material-ui/core/Dialog'
 import DialogContent from '@material-ui/core/DialogContent'
+import Input from '@material-ui/core/Input'
 import Tab from '@material-ui/core/Tab'
 import Tabs from '@material-ui/core/Tabs'
-import TextField from '@material-ui/core/TextField'
 
-import { RemoveButton } from '../../components/IconButtons'
+import { AddButton, RemoveButton } from '../../components/IconButtons'
 import EquipmentsDataStore from '../../stores/EquipmentsDataStore'
 
 const useDialog = () => {
@@ -53,20 +53,18 @@ const EquipmentListTabs: React.FC<{ store: EquipmentsDataStore }> = ({ store }) 
           ))}
         </Tabs>
 
-        <Button
+        <AddButton
           onClick={useCallback(() => {
             store.createEquipmentList(`リスト${store.equipmentLists.length + 1}`)
           }, [])}
-        >
-          装備リスト作成
-        </Button>
+        />
       </div>
 
       {activeEquipmentList && (
-        <>
-          <TextField label="リスト名" value={activeEquipmentList.name} onChange={handleNameChange} />
+        <div>
+          <Input value={activeEquipmentList.name} onChange={handleNameChange} />
           <RemoveButton onClick={handleRemove} />
-        </>
+        </div>
       )}
     </>
   )

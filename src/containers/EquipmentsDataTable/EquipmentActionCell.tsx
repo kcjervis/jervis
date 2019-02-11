@@ -19,6 +19,7 @@ import StatLabel from '../../components/StatLabel'
 
 import { EquipmentsDataStoreContext } from '../../stores'
 import EquipmentList from '../../stores/EquipmentList'
+import EquipmentFieldContent from '../EquipmentFieldContent'
 
 const EquipmentActionCell: React.FC<{ equipment: IEquipment }> = ({ equipment }) => {
   const equipmentsDataStore = useContext(EquipmentsDataStoreContext)
@@ -28,33 +29,37 @@ const EquipmentActionCell: React.FC<{ equipment: IEquipment }> = ({ equipment })
     list.createEquipment(equipment)
   }
 
-  if (activeEquipmentList) {
-    const handleRemove = () => {
-      activeEquipmentList.removeEquipment(equipment)
-    }
+  if (!activeEquipmentList) {
     return (
       <DataTableCell>
-        <RemoveButton onClick={handleRemove} />
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+          <DialogComponent buttonLabel={<MenuIcon />}>
+            <DialogContent>
+              <DialogContentText>{equipment.name}</DialogContentText>
+            </DialogContent>
+
+            <DialogActions>
+              {equipmentsDataStore.equipmentLists.map(list => (
+                <Button key={list.id} onClick={handleCreate(list)}>
+                  {list.name}に追加({list.countEquipment(equipment.masterId)})
+                </Button>
+              ))}
+            </DialogActions>
+          </DialogComponent>
+        </div>
       </DataTableCell>
     )
   }
+
+  const state = activeEquipmentList.getEquipmentState(equipment)
+
+  const handleRemove = () => {
+    activeEquipmentList.removeEquipment(equipment)
+  }
+
   return (
     <DataTableCell>
-      <div style={{ display: 'flex', alignItems: 'center' }}>
-        <DialogComponent buttonLabel={<MenuIcon />}>
-          <DialogContent>
-            <DialogContentText>{equipment.name}</DialogContentText>
-          </DialogContent>
-
-          <DialogActions>
-            {equipmentsDataStore.equipmentLists.map(list => (
-              <Button key={list.id} onClick={handleCreate(list)}>
-                {list.name}に追加({list.countEquipment(equipment.masterId)})
-              </Button>
-            ))}
-          </DialogActions>
-        </DialogComponent>
-      </div>
+      <RemoveButton onClick={handleRemove} />
     </DataTableCell>
   )
 }

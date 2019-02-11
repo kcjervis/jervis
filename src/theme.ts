@@ -23,10 +23,14 @@ const theme = createMuiTheme({
     },
     MuiButton: {
       root: {
-        textTransform: 'none'
+        textTransform: 'none',
+        minWidth: 0
       }
     },
     MuiTab: {
+      root: {
+        textTransform: 'none'
+      },
       textColorInherit: {
         color: 'rgba( 250, 250, 250, 0.7 )',
         minWidth: 20,
