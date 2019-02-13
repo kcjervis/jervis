@@ -4,10 +4,10 @@ import { equipmentStatKeys } from 'kc-calculator'
 import { ColumnProps } from 'react-virtualized'
 
 import StatIcon from '../../components/StatIcon'
-import EquipmentActionCell from './EquipmentActionCell'
 import EquipmentLabelCell from './EquipmentLabelCell'
 import EquipmentStatsCell from './EquipmentStatsCell'
 import EquipmentVisibilityCell from './EquipmentVisibilityCell'
+import ListEquipmentDialog from './ListEquipmentDialog'
 
 const baseColumns: ColumnProps[] = [
   {
@@ -36,7 +36,7 @@ export const defaultModeColumns: ColumnProps[] = [
   {
     dataKey: 'action',
     label: ' ',
-    cellRenderer: props => <EquipmentActionCell equipment={props.rowData} />,
+    cellRenderer: props => <ListEquipmentDialog equipment={props.rowData} />,
     width: 100,
     disableSort: true
   }

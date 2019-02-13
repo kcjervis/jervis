@@ -4,6 +4,10 @@ import { install } from '@material-ui/styles'
 
 install()
 
+const clearBackground = 'rgba( 20, 20, 20, 0.1 )'
+const darkBackground = 'rgba(0, 0, 0, 0.9)'
+const darkPaper = { paper: { background: darkBackground } }
+
 const theme = createMuiTheme({
   typography: {
     useNextVariants: true
@@ -11,16 +15,14 @@ const theme = createMuiTheme({
   palette: {
     type: 'dark',
     background: {
-      paper: 'rgba( 20, 20, 20, 0.1 )'
+      paper: clearBackground
     },
     primary: blue
   },
   overrides: {
-    MuiMenu: {
-      paper: {
-        background: 'rgba(0, 0, 0, 0.9)'
-      }
-    },
+    MuiMenu: darkPaper,
+    MuiDialog: darkPaper,
+    MuiDrawer: darkPaper,
     MuiButton: {
       root: {
         textTransform: 'none',
@@ -40,11 +42,7 @@ const theme = createMuiTheme({
         }
       }
     },
-    MuiDrawer: {
-      paper: {
-        background: 'rgba(0, 0, 0, 0.9)'
-      }
-    },
+
     MuiFormControlLabel: {
       root: {
         marginLeft: 8

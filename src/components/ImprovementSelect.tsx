@@ -54,7 +54,12 @@ const ImprovementSelect: React.FC<IImprovementSelectProps> = ({ value, onChange 
 
       <Menu open={Boolean(anchorEl)} anchorEl={anchorEl} onClose={handleClose}>
         {range(11).map(improveValue => (
-          <MenuItem key={improveValue} className={classes.improvementColor} onClick={handleMenuItemClick(improveValue)}>
+          <MenuItem
+            key={improveValue}
+            className={classes.improvementColor}
+            selected={improveValue === value}
+            onClick={handleMenuItemClick(improveValue)}
+          >
             ★{improveValue}
           </MenuItem>
         ))}

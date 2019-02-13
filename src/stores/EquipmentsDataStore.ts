@@ -99,6 +99,19 @@ export default class EquipmentsDataStore {
     this.equipmentLists.push(newList)
   }
 
+  @action public setEquipmentVisibility = (masterId: number, next: boolean) => {
+    const { blackList } = this
+    const current = !blackList.includes(masterId)
+    if (next === current) {
+      return
+    }
+    if (current) {
+      blackList.push(masterId)
+    } else {
+      blackList.splice(blackList.indexOf(masterId), 1)
+    }
+  }
+
   @action public removeEquipmentList = (list: EquipmentList) => {
     const { equipmentLists } = this
     equipmentLists.splice(equipmentLists.indexOf(list), 1)

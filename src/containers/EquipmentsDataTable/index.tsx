@@ -140,7 +140,7 @@ const EquipmentsDataTable: React.FC = props => {
         <Select value={mode} onChange={handleModeChange}>
           <MenuItem value="default">通常</MenuItem>
           <MenuItem value="sort">ステータスソート</MenuItem>
-          <MenuItem value="setting">表示設定</MenuItem>
+          <MenuItem value="setting">非表示装備を表示</MenuItem>
         </Select>
 
         <Select value={filterName} onChange={handleChangeFilter} style={{ height: 32 }}>
