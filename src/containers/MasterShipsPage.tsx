@@ -3,22 +3,22 @@ import React from 'react'
 import { RouteComponentProps } from 'react-router'
 
 import Button from '@material-ui/core/Button'
-import Card from '@material-ui/core/Card'
-import CardContent from '@material-ui/core/CardContent'
 import Checkbox from '@material-ui/core/Checkbox'
 import Divider from '@material-ui/core/Divider'
 import Fade from '@material-ui/core/Fade'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
+import Input from '@material-ui/core/Input'
 import Paper from '@material-ui/core/Paper'
 import Popper from '@material-ui/core/Popper'
 import { createStyles, Theme, withStyles, WithStyles } from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography'
+import SearchIcon from '@material-ui/icons/Search'
 
 import MasterShipCard from '../components/MasterShipCard'
 import ShipImage from '../components/ShipImage'
 
 import { inject } from 'mobx-react'
-import stores, { ShipsPageStore } from '../stores'
+import stores from '../stores'
 
 const masterData = new MasterData()
 const masterShips = masterData.ships
@@ -43,6 +43,8 @@ interface IMasterShipsPageState {
    * 表示艦種
    */
   visibleTypeIds: number[]
+
+  searchText: string
 }
 
 class MasterShipsPage extends React.Component<IMasterShipsPageProps, IMasterShipsPageState> {
@@ -64,7 +66,8 @@ class MasterShipsPage extends React.Component<IMasterShipsPageProps, IMasterShip
       anchorEl: null,
       visibleAbysall: false,
       visiblePreRemodel: false,
-      visibleTypeIds: [7, 11, 18]
+      visibleTypeIds: [7, 11, 18],
+      searchText: ''
     }
   }
 
@@ -86,6 +89,10 @@ class MasterShipsPage extends React.Component<IMasterShipsPageProps, IMasterShip
 
   public handleCardClose = () => {
     this.setState({ anchorEl: null, masterShip: null })
+  }
+
+  public handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    this.setState({ searchText: event.currentTarget.value })
   }
 
   public selectShip = (ship: MasterShip) => () => {
@@ -126,10 +133,13 @@ class MasterShipsPage extends React.Component<IMasterShipsPageProps, IMasterShip
    * 艦型ごとに艦娘を分類した配列を取得
    */
   public visibleShipClasses() {
-    const { visibleTypeIds, visibleAbysall, visiblePreRemodel } = this.state
+    const { visibleTypeIds, visibleAbysall, visiblePreRemodel, searchText } = this.state
 
-    const visibleShips = masterShips
-      .filter(ship => {
+    let visibleShips = masterShips.sort((s1, s2) => s1.sortId - s2.sortId)
+    if (searchText) {
+      visibleShips = visibleShips.filter(ship => ship.name.includes(searchText))
+    } else {
+      visibleShips = visibleShips.filter(ship => {
         if (!visibleTypeIds.includes(ship.shipType.id)) {
           return false
         }
@@ -144,7 +154,7 @@ class MasterShipsPage extends React.Component<IMasterShipsPageProps, IMasterShip
 
         return true
       })
-      .sort((s1, s2) => s1.sortId - s2.sortId)
+    }
 
     const visibleShipClassMap = new Map<ShipClass, MasterShip[]>()
 
@@ -163,6 +173,7 @@ class MasterShipsPage extends React.Component<IMasterShipsPageProps, IMasterShip
     const { anchorEl, masterShip } = this.state
     return (
       <div style={{ margin: 8 }}>
+        <Input endAdornment={<SearchIcon />} onChange={this.handleSearchChange} />
         {/*表示する艦娘のカテゴリー選択ボタン*/}
         {this.categories.map(category => (
           <Button

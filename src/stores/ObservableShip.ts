@@ -1,4 +1,4 @@
-import { IEquipmentDataObject, IShipDataObject } from 'kc-calculator'
+import { IEquipment, IEquipmentDataObject, IShipDataObject } from 'kc-calculator'
 import { action, autorun, computed, isObservableArray, observable } from 'mobx'
 import { persist } from 'mobx-persist'
 import uuid from 'uuid'
@@ -86,6 +86,10 @@ export default class ObservableShip implements IShipDataObject {
         }
       })
     })
+  }
+
+  public canEquip(equipment: IEquipment, slotIndex: number) {
+    return this.asKcObject.canEquip(equipment, slotIndex)
   }
 
   @action.bound

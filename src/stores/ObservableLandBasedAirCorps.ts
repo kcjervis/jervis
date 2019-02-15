@@ -1,4 +1,4 @@
-import { IEquipmentDataObject, ILandBasedAirCorpsDataObject } from 'kc-calculator'
+import { IEquipment, IEquipmentDataObject, ILandBasedAirCorpsDataObject } from 'kc-calculator'
 import { action, autorun, computed, observable } from 'mobx'
 import { persist } from 'mobx-persist'
 import uuid from 'uuid'
@@ -49,6 +49,15 @@ export default class ObservableLandBasedAirCorps implements ILandBasedAirCorpsDa
           this.equipments[index] = undefined
         }
       })
+    )
+  }
+
+  public canEquip({ category }: IEquipment, slotIndex: number) {
+    return (
+      category.isCarrierBasedAircraft ||
+      category.isSeaplane ||
+      category.isLandBasedAircraft ||
+      category.isJetPoweredAircraft
     )
   }
 

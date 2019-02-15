@@ -71,18 +71,11 @@ export default class EquipmentsDataStore {
       return true
     })
 
-    if (parent instanceof ObservableShip) {
-      return equipments.filter(equip => parent.asKcObject.canEquip(equip, index))
-    } else if (parent instanceof ObservableLandBasedAirCorps) {
-      return equipments.filter(
-        ({ category }) =>
-          category.isCarrierBasedAircraft ||
-          category.isSeaplane ||
-          category.isLandBasedAircraft ||
-          category.isJetPoweredAircraft
-      )
+    if (!parent) {
+      return equipments
     }
-    return equipments
+
+    return equipments.filter(equip => parent.canEquip(equip, index))
   }
 
   @action public toggleVisibleAlly = () => {
