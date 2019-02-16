@@ -3,14 +3,18 @@ import { Dictionary } from 'lodash'
 import countBy from 'lodash/countBy'
 import flatMap from 'lodash/flatMap'
 import groupBy from 'lodash/groupBy'
+import mapValues from 'lodash/mapValues'
+import lodashTimes from 'lodash/times'
 import React from 'react'
 
 import Button from '@material-ui/core/Button'
+import Paper from '@material-ui/core/Paper'
 import Table from '@material-ui/core/Table'
 import TableBody from '@material-ui/core/TableBody'
 import TableCell from '@material-ui/core/TableCell'
 import TableHead from '@material-ui/core/TableHead'
 import TableRow from '@material-ui/core/TableRow'
+import TextField from '@material-ui/core/TextField'
 
 import { CarrierBasedAerialCombat, LandBaseAerialSupport } from 'kc-calculator/dist/combats/AerialCombat'
 import BattleFleet from 'kc-calculator/dist/combats/BattleFleet'
@@ -20,6 +24,7 @@ import { createEnemyBattleFleet } from '../components/EnemyFleet'
 import { ObservableOperation } from '../stores'
 import kcObjectFactory from '../stores/kcObjectFactory'
 import { LandBasedAirCorpsMode } from '../stores/ObservableLandBasedAirCorps'
+import { toPercent } from './FleetField/ContactTable'
 
 type AerialBattleResult = Array<{
   name: string
@@ -32,11 +37,16 @@ interface IAerialCombatSimulatorProps {
 }
 
 interface IAerialCombatSimulatorState {
-  simulationResult: Array<{ name: string; count: Dictionary<number>; fighterPower: number }> | null
+  times: number
+  simulationResult: Array<{ name: string; count: Dictionary<string>; fighterPower: number }> | null
 }
 
 class AerialCombatSimulator extends React.Component<IAerialCombatSimulatorProps, IAerialCombatSimulatorState> {
-  public state: IAerialCombatSimulatorState = { simulationResult: null }
+  public state: IAerialCombatSimulatorState = { simulationResult: null, times: 1000 }
+
+  public handleTimesChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    this.setState({ times: Number(event.currentTarget.value) })
+  }
 
   public aerialBattle = () => {
     const observableOperation = this.props.operation
@@ -92,12 +102,18 @@ class AerialCombatSimulator extends React.Component<IAerialCombatSimulatorProps,
   }
 
   public simulate = () => {
-    const battleResults = flatMap(Array.from(Array(1000), this.aerialBattle).filter(nonNullable))
-    const simulationResult = Object.entries(groupBy(battleResults, 'name')).map(([name, battleResult]) => ({
-      name,
-      count: countBy(battleResult, result => result.airControlState),
-      fighterPower: battleResult.map(({ fighterPower }) => fighterPower).sort((fp1, fp2) => fp2 - fp1)[50]
-    }))
+    const { times } = this.state
+    const battleResults = flatMap(lodashTimes(times, this.aerialBattle).filter(nonNullable))
+    const mapper = ([name, battleResult]: [string, typeof battleResults]) => {
+      const count = mapValues(countBy(battleResult, result => result.airControlState), result =>
+        toPercent(result / times)
+      )
+      const fighterPower95 = battleResult.map(({ fighterPower }) => fighterPower).sort((fp1, fp2) => fp2 - fp1)[
+        Math.floor(times * 0.05)
+      ]
+      return { name, count, fighterPower: fighterPower95 }
+    }
+    const simulationResult = Object.entries(groupBy(battleResults, 'name')).map(mapper)
     this.setState({ simulationResult })
   }
 
@@ -110,18 +126,27 @@ class AerialCombatSimulator extends React.Component<IAerialCombatSimulatorProps,
     const { simulationResult } = this.state
 
     return (
-      <div>
-        <Button onClick={this.simulate}>シミュレート</Button>
+      <div style={{ margin: 8 }}>
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+          <TextField
+            label="試行回数"
+            type="number"
+            value={this.state.times}
+            inputProps={{ min: 1 }}
+            onChange={this.handleTimesChange}
+          />
+          <Button onClick={this.simulate}>シミュレート</Button>
+        </div>
         {simulationResult && (
           <Table>
             <TableHead>
               <TableRow>
                 <TableCell>フェーズ</TableCell>
-                <TableCell align="right">制空権喪失 (%)</TableCell>
-                <TableCell align="right">航空劣勢 (%)</TableCell>
-                <TableCell align="right">制空均衡 (%)</TableCell>
-                <TableCell align="right">航空優勢 (%)</TableCell>
-                <TableCell align="right">制空権確保 (%)</TableCell>
+                <TableCell align="right">制空権喪失</TableCell>
+                <TableCell align="right">航空劣勢</TableCell>
+                <TableCell align="right">制空均衡</TableCell>
+                <TableCell align="right">航空優勢</TableCell>
+                <TableCell align="right">制空権確保</TableCell>
                 <TableCell align="right">航空戦後敵制空値(上位95%)</TableCell>
               </TableRow>
             </TableHead>
@@ -132,11 +157,11 @@ class AerialCombatSimulator extends React.Component<IAerialCombatSimulatorProps,
                     <TableCell component="th" scope="row">
                       {name}
                     </TableCell>
-                    <TableCell align="right">{制空権喪失 && 制空権喪失 / 10}</TableCell>
-                    <TableCell align="right">{航空劣勢 && 航空劣勢 / 10}</TableCell>
-                    <TableCell align="right">{制空均衡 && 制空均衡 / 10}</TableCell>
-                    <TableCell align="right">{航空優勢 && 航空優勢 / 10}</TableCell>
-                    <TableCell align="right">{制空権確保 && 制空権確保 / 10}</TableCell>
+                    <TableCell align="right">{制空権喪失}</TableCell>
+                    <TableCell align="right">{航空劣勢}</TableCell>
+                    <TableCell align="right">{制空均衡}</TableCell>
+                    <TableCell align="right">{航空優勢}</TableCell>
+                    <TableCell align="right">{制空権確保}</TableCell>
                     <TableCell align="right">{fighterPower}</TableCell>
                   </TableRow>
                 )

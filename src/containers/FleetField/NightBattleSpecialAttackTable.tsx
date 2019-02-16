@@ -41,26 +41,17 @@ interface IShipRowProps {
 const ShipRow: React.FC<IShipRowProps> = ({ ship, isFlagship }) => {
   const { playerSearchlight, playerStarshell } = useContext(NightBattleStoreContext)
   const preModifierValue = NightBattleSpecialAttack.calcPreModifierValue(ship)
-  const baseValue = NightBattleSpecialAttack.calcBaseValue(
-    ship,
-    isFlagship,
+  const baseValue = NightBattleSpecialAttack.calcBaseValue(ship, isFlagship, {
     playerSearchlight,
-    false,
+    enemySearchlight: false,
     playerStarshell,
-    false
-  )
+    enemyStarshell: false
+  })
 
   const cis = NightBattleSpecialAttack.getPossibleSpecialAttacks(ship)
   const cutinRates = new Array<{ ci: NightBattleSpecialAttack; rate: number }>()
   const totalRate = cis.reduce((acc, curCutin) => {
-    const { typeFactor } = curCutin
-    let rate = 0
-    if (!typeFactor) {
-      rate = 109 / 110
-    } else {
-      rate = baseValue / typeFactor
-    }
-    let currentRate = (1 - acc) * rate
+    let currentRate = (1 - acc) * curCutin.calcRate(baseValue)
     if (currentRate > 1) {
       currentRate = 1
     }

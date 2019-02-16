@@ -30,16 +30,18 @@ const LandBaseForm: React.FC<ILandBaseForm> = ({ operation }) => {
     })
   }
   return (
-    <Paper style={{ margin: 8 }}>
-      <ProficiencyDialog changeProficiency={handleProficiencyChange} />
+    <>
+      <Paper style={{ margin: 8, padding: 8 }}>
+        <ProficiencyDialog changeProficiency={handleProficiencyChange} />
 
-      <div style={{ display: 'flex', justifyContent: 'center' }}>
-        {operation.landBase.map((airCorps, index) => (
-          <LandBasedAirCorpsCard key={airCorps.id} landBasedAirCorps={airCorps} index={index} />
-        ))}
-      </div>
+        <div style={{ display: 'flex', justifyContent: 'center' }}>
+          {operation.landBase.map((airCorps, index) => (
+            <LandBasedAirCorpsCard key={airCorps.id} landBasedAirCorps={airCorps} index={index} />
+          ))}
+        </div>
+      </Paper>
 
-      <Paper>
+      <Paper style={{ margin: 8, padding: 8 }}>
         {operation.enemies.map((enemy, index) => (
           <EnemyFleet key={index} enemy={enemy} />
         ))}
@@ -48,10 +50,9 @@ const LandBaseForm: React.FC<ILandBaseForm> = ({ operation }) => {
         ) : (
           <Button onClick={removeEnemy}>敵編成を削除</Button>
         )}
+        <AerialCombatSimulator operation={operation} />
       </Paper>
-
-      <AerialCombatSimulator operation={operation} />
-    </Paper>
+    </>
   )
 }
 
