@@ -1,3 +1,4 @@
+import flatMap from 'lodash/flatMap'
 import { action, autorun, computed, observable } from 'mobx'
 import { persist } from 'mobx-persist'
 
@@ -57,7 +58,7 @@ export default class OperationStore {
 
   @computed
   get fleets() {
-    return this.operations.map(({ fleets }) => fleets).flat()
+    return flatMap(this.operations, operation => operation.fleets)
   }
 
   @computed
