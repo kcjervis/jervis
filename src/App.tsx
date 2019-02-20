@@ -11,7 +11,6 @@ import stores, { loadStores } from './stores'
 import Background from './Background'
 import TopMenu from './components/TopMenu'
 
-import EquipmentsPage from './containers/EquipmentsPage'
 import MapsPage from './containers/MapsPage'
 
 import MasterShipsPage from './containers/MasterShipsPage'

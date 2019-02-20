@@ -18,23 +18,31 @@ import { toPercent } from './ContactTable'
 
 type DayCombatCutin = ArtillerySpotting | AircraftCarrierCutin
 
-const CutinTableCell: React.FC<{ cutin: DayCombatCutin; rate?: number }> = ({ cutin, rate }) => (
-  <TableCell align="right">{rate && toPercent(rate)}</TableCell>
-)
+const dayCutins = new Array<DayCombatCutin>().concat(ArtillerySpotting.all, AircraftCarrierCutin.all)
+
+const CutinRate: React.FC<{ cutin: DayCombatCutin; rate?: number }> = ({ cutin, rate }) => {
+  if (!rate) {
+    return null
+  }
+  return (
+    <Typography>
+      {`${cutin.name}(×${cutin.powerModifier})`}: {toPercent(rate)}
+    </Typography>
+  )
+}
 
 interface IShipRowProps {
   ship?: IShip
   fleetLosModifier: number
-  airControlState: AirControlState
   isFlagship: boolean
-
-  visibleCutins: DayCombatCutin[]
 }
 
-let ShipRow: React.FC<IShipRowProps> = ({ ship, fleetLosModifier, airControlState, isFlagship, visibleCutins }) => {
-  if (!ship) {
-    return null
-  }
+const useCutinState = (
+  ship: IShip,
+  fleetLosModifier: number,
+  isFlagship: boolean,
+  airControlState: AirControlState
+) => {
   const baseValue = ArtillerySpotting.calculateArtillerySpottingBaseValue(
     ship,
     fleetLosModifier,
@@ -42,11 +50,10 @@ let ShipRow: React.FC<IShipRowProps> = ({ ship, fleetLosModifier, airControlStat
     isFlagship
   )
 
-  const dayCombatCutins = new Array<DayCombatCutin>()
-  dayCombatCutins.push(
+  const dayCombatCutins = [
     ...ArtillerySpotting.getPossibleArtillerySpottings(ship),
     ...AircraftCarrierCutin.getPossibleAircraftCarrierCutins(ship)
-  )
+  ]
 
   const dayCombatCutinMap = new Map<DayCombatCutin, number>()
 
@@ -59,16 +66,39 @@ let ShipRow: React.FC<IShipRowProps> = ({ ship, fleetLosModifier, airControlStat
     return acc + currentRate
   }, 0)
 
+  return {
+    baseValue,
+    dayCombatCutinMap,
+    cutinRate
+  }
+}
+
+let ShipRow: React.FC<IShipRowProps> = ({ ship, fleetLosModifier, isFlagship }) => {
+  if (!ship) {
+    return null
+  }
+  const airSupremacyCutinState = useCutinState(ship, fleetLosModifier, isFlagship, AirControlState.AirSupremacy)
+  const airSuperiorityCutinState = useCutinState(ship, fleetLosModifier, isFlagship, AirControlState.AirSuperiority)
+
   return (
     <TableRow>
       <TableCell component="th" scope="row">
         {ship.name}
       </TableCell>
-      <TableCell align="right">{baseValue}</TableCell>
-      <TableCell align="right">{toPercent(cutinRate)}</TableCell>
-      {visibleCutins.map(cutin => (
-        <CutinTableCell key={cutin.name} cutin={cutin} rate={dayCombatCutinMap.get(cutin)} />
-      ))}
+      <TableCell>{airSupremacyCutinState.baseValue}</TableCell>
+      <TableCell>{toPercent(airSupremacyCutinState.cutinRate)}</TableCell>
+      <TableCell>
+        {dayCutins.map(cutin => (
+          <CutinRate key={cutin.name} cutin={cutin} rate={airSupremacyCutinState.dayCombatCutinMap.get(cutin)} />
+        ))}
+      </TableCell>
+      <TableCell>{airSuperiorityCutinState.baseValue}</TableCell>
+      <TableCell>{toPercent(airSuperiorityCutinState.cutinRate)}</TableCell>
+      <TableCell>
+        {dayCutins.map(cutin => (
+          <CutinRate key={cutin.name} cutin={cutin} rate={airSuperiorityCutinState.dayCombatCutinMap.get(cutin)} />
+        ))}
+      </TableCell>
     </TableRow>
   )
 }
@@ -89,8 +119,6 @@ interface IDayCombatCutinTableProps extends WithStyles<typeof styles> {
   fleetRole: FleetRole
 }
 
-const dayCutins = new Array<DayCombatCutin>().concat(ArtillerySpotting.all, AircraftCarrierCutin.all)
-
 class AirControlStateStore {
   @observable
   public airControlState: AirControlState = AirControlState.AirSupremacy
@@ -101,81 +129,27 @@ class AirControlStateStore {
   }
 }
 
-const AirControlStateContext = createContext(new AirControlStateStore())
-
 const DayCombatCutinTable: React.FC<IDayCombatCutinTableProps> = props => {
   const { fleet, fleetRole, classes } = props
 
-  const { airControlState, setAirControlState } = useContext(AirControlStateContext)
-  const isAirSupremacy = airControlState === AirControlState.AirSupremacy
-  const handleToggleAirState = useCallback(() => {
-    if (isAirSupremacy) {
-      setAirControlState(AirControlState.AirSuperiority)
-    } else {
-      setAirControlState(AirControlState.AirSupremacy)
-    }
-  }, [isAirSupremacy])
-
   const fleetLosModifier = ArtillerySpotting.calculateFleetLosModifier(fleet)
-  const [visibleCutinSet, setVisibleCutinSet] = useState(
-    new Set([
-      ArtillerySpotting.DoubleAttack,
-      ArtillerySpotting.MainMain,
-      AircraftCarrierCutin.FighterBomberAttacker,
-      AircraftCarrierCutin.BomberBomberAttacker,
-      AircraftCarrierCutin.BomberAttacker
-    ])
-  )
-
-  const handleToggleCutin = (cutin: DayCombatCutin) => () => {
-    if (visibleCutinSet.has(cutin)) {
-      visibleCutinSet.delete(cutin)
-    } else {
-      visibleCutinSet.add(cutin)
-    }
-    setVisibleCutinSet(visibleCutinSet)
-  }
-
-  const visibleCutins = dayCutins.filter(cutin => visibleCutinSet.has(cutin))
 
   return (
     <div>
       <div style={{ display: 'flex', alignItems: 'center' }}>
         <Typography>艦隊索敵補正: {fleetLosModifier}</Typography>
-        <FormControlLabel
-          style={{ marginLeft: 8 }}
-          control={<Switch onChange={handleToggleAirState} checked={isAirSupremacy} color="primary" />}
-          label={airControlState.name}
-        />
-        {dayCutins.map(cutin => (
-          <FormControlLabel
-            key={cutin.name}
-            className={classes.checkBoxForm}
-            label={<Typography variant="caption">{cutin.name}</Typography>}
-            control={
-              <Checkbox
-                className={classes.checkBox}
-                checked={visibleCutinSet.has(cutin)}
-                onChange={handleToggleCutin(cutin)}
-                color="primary"
-              />
-            }
-          />
-        ))}
       </div>
 
       <Table>
         <TableHead>
           <TableRow>
             <TableCell>艦娘</TableCell>
-            <TableCell align="right">観測項</TableCell>
-            <TableCell align="right">合計発動率</TableCell>
-            {visibleCutins.map(({ name, powerModifier }) => (
-              <TableCell key={name} align="right">
-                {name}
-                {`(×${powerModifier})`}
-              </TableCell>
-            ))}
+            <TableCell>観測項(確保)</TableCell>
+            <TableCell>合計発動率(確保)</TableCell>
+            <TableCell>発動率(確保)</TableCell>
+            <TableCell>観測項(優勢)</TableCell>
+            <TableCell>合計発動率(優勢)</TableCell>
+            <TableCell>発動率(優勢)</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -184,9 +158,7 @@ const DayCombatCutinTable: React.FC<IDayCombatCutinTableProps> = props => {
               key={index}
               ship={ship}
               fleetLosModifier={fleetLosModifier}
-              airControlState={airControlState}
               isFlagship={fleetRole === FleetRole.MainFleet && index === 0}
-              visibleCutins={visibleCutins}
             />
           ))}
         </TableBody>

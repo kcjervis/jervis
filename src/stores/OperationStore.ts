@@ -63,16 +63,16 @@ export default class OperationStore {
 
   @computed
   get ships() {
-    return this.fleets
-      .flatMap(({ ships }) => ships)
-      .filter((ship): ship is ObservableShip => ship instanceof ObservableShip)
+    return flatMap(this.fleets, ({ ships }) => ships).filter(
+      (ship): ship is ObservableShip => ship instanceof ObservableShip
+    )
   }
 
   @computed
   get equipments() {
-    return this.ships
-      .flatMap(({ equipments }) => equipments)
-      .filter((equip): equip is ObservableEquipment => equip instanceof ObservableEquipment)
+    return flatMap(this.ships, ({ equipments }) => equipments).filter(
+      (equip): equip is ObservableEquipment => equip instanceof ObservableEquipment
+    )
   }
 
   @action public createOperation = () => {

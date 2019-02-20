@@ -1,4 +1,4 @@
-import { IFleet, IShip, NightBattleSpecialAttack } from 'kc-calculator'
+import { Formation, IFleet, IShip, NightBattleSpecialAttack, Side } from 'kc-calculator'
 import { observable } from 'mobx'
 import { observer } from 'mobx-react-lite'
 import React, { createContext, useContext } from 'react'
@@ -16,22 +16,27 @@ import Typography from '@material-ui/core/Typography'
 import { toPercent } from './ContactTable'
 
 class NightBattleStore {
-  @observable
-  public playerSearchlight = false
+  public side = Side.Player
+  public formation = Formation.LineAhead
 
   @observable
-  public playerStarshell = false
+  public searchlight = false
+
+  @observable
+  public starshell = false
 
   public togglePlayerSearchlight = () => {
-    this.playerSearchlight = !this.playerSearchlight
+    this.searchlight = !this.searchlight
   }
 
   public togglePlayerStarshell = () => {
-    this.playerStarshell = !this.playerStarshell
+    this.starshell = !this.starshell
   }
 }
 
 const NightBattleStoreContext = createContext(new NightBattleStore())
+
+const enemyBattleState = { side: Side.Enemy, formation: Formation.LineAhead, starshell: false, searchlight: false }
 
 interface IShipRowProps {
   ship: IShip
@@ -39,14 +44,9 @@ interface IShipRowProps {
 }
 
 const ShipRow: React.FC<IShipRowProps> = ({ ship, isFlagship }) => {
-  const { playerSearchlight, playerStarshell } = useContext(NightBattleStoreContext)
+  const battleState = useContext(NightBattleStoreContext)
   const preModifierValue = NightBattleSpecialAttack.calcPreModifierValue(ship)
-  const baseValue = NightBattleSpecialAttack.calcBaseValue(ship, isFlagship, {
-    playerSearchlight,
-    enemySearchlight: false,
-    playerStarshell,
-    enemyStarshell: false
-  })
+  const baseValue = NightBattleSpecialAttack.calcBaseValue(ship, isFlagship, battleState, enemyBattleState)
 
   const cis = NightBattleSpecialAttack.getPossibleSpecialAttacks(ship)
   const cutinRates = new Array<{ ci: NightBattleSpecialAttack; rate: number }>()
@@ -85,7 +85,7 @@ const NightBattleSpecialAttackTable: React.FC<INightBattleSpecialAttackTable> = 
         control={
           <Checkbox
             onClick={nightBattleStore.togglePlayerSearchlight}
-            checked={nightBattleStore.playerSearchlight}
+            checked={nightBattleStore.searchlight}
             color="primary"
           />
         }
@@ -95,7 +95,7 @@ const NightBattleSpecialAttackTable: React.FC<INightBattleSpecialAttackTable> = 
         control={
           <Checkbox
             onClick={nightBattleStore.togglePlayerStarshell}
-            checked={nightBattleStore.playerStarshell}
+            checked={nightBattleStore.starshell}
             color="primary"
           />
         }

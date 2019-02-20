@@ -1,4 +1,5 @@
 import { FleetRole, FleetType, nonNullable } from 'kc-calculator'
+import flatMap from 'lodash/flatMap'
 import range from 'lodash/range'
 import React from 'react'
 
@@ -48,8 +49,7 @@ const FleetField: React.FC<IFleetFieldProps> = ({ fleet, operation }) => {
   }
 
   const setProficiency = (value: number) => {
-    ships
-      .flatMap(ship => ship && ship.equipments)
+    flatMap(ships, ship => ship && ship.equipments)
       .filter(nonNullable)
       .forEach(equip => {
         equip.proficiency = value

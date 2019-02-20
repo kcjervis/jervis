@@ -1,3 +1,6 @@
+import { FleetType, Formation, Side } from 'kc-calculator'
+import BattleFleet from 'kc-calculator/dist/combats/BattleFleet'
+import flatMap from 'lodash/flatMap'
 import React from 'react'
 
 import { createStyles, withStyles, WithStyles } from '@material-ui/core/styles'
@@ -6,8 +9,6 @@ import Typography from '@material-ui/core/Typography'
 import { TEnemyFleet, TEventDifficulty } from '*maps'
 import ShipImage from './ShipImage'
 
-import { FleetType, Formation, Side } from 'kc-calculator'
-import BattleFleet from 'kc-calculator/dist/combats/BattleFleet'
 import kcObjectFactory, { masterData } from '../stores/kcObjectFactory'
 
 const difficultyToString = (difficulty: TEventDifficulty) => {
@@ -81,7 +82,7 @@ const EnemyFleet: React.FC<IEnemyFleetProps> = ({ enemy }) => {
   const { ships, difficulty, formation: formationName } = enemy
   const escortFleet = masterIdsToFleet(ships.slice(6, 12))
 
-  const allPlanes = battleFleet.allShips.flatMap(({ planes }) => planes)
+  const allPlanes = flatMap(battleFleet.allShips, ({ planes }) => planes)
   const fighterPower = allPlanes
     .filter(({ category }) => !category.isReconnaissanceAircraft)
     .reduce((value, plane) => value + plane.fighterPower, 0)
