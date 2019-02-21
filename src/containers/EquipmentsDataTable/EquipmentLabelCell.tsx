@@ -1,22 +1,22 @@
 import { IEquipment } from 'kc-calculator'
 import React, { useCallback, useContext } from 'react'
-import { RouteComponentProps, withRouter } from 'react-router'
+import useReactRouter from 'use-react-router'
 
 import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
 
 import { DataTableCell } from '../../components/DataTable'
 import EquipmentIcon from '../../components/EquipmentIcon'
-import EquipmentLabel from '../../components/EquipmentLabel'
 
 import { ImprovementSelect } from '../../components'
 import { EquipmentsDataStoreContext } from '../../stores'
 
-interface IEquipmentLabelCell extends RouteComponentProps {
+interface IEquipmentLabelCell {
   equipment: IEquipment
 }
 
-const EquipmentLabelCell: React.FC<IEquipmentLabelCell> = ({ equipment, history }) => {
+const EquipmentLabelCell: React.FC<IEquipmentLabelCell> = ({ equipment }) => {
+  const { history } = useReactRouter()
   const equipmentsDataStore = useContext(EquipmentsDataStoreContext)
   const handleClick = useCallback(() => {
     if (equipmentsDataStore.setEquipment(equipment)) {
@@ -48,4 +48,4 @@ const EquipmentLabelCell: React.FC<IEquipmentLabelCell> = ({ equipment, history 
   )
 }
 
-export default withRouter(EquipmentLabelCell)
+export default EquipmentLabelCell

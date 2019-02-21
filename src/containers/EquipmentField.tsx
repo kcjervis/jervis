@@ -1,6 +1,6 @@
 import { observer } from 'mobx-react-lite'
 import React, { useContext } from 'react'
-import { RouteComponentProps, withRouter } from 'react-router'
+import useReactRouter from 'use-react-router'
 
 import Button from '@material-ui/core/Button'
 
@@ -9,14 +9,14 @@ import { EquipmentsDataStoreContext, ObservableLandBasedAirCorps, ObservableShip
 import ObservableEquipment from '../stores/ObservableEquipment'
 import EquipmentFieldContent from './EquipmentFieldContent'
 
-export interface IEquipmentFieldProps extends RouteComponentProps {
+export interface IEquipmentFieldProps {
   parent: ObservableShip | ObservableLandBasedAirCorps
   index: number
   equipment?: ObservableEquipment
 }
 
-const EquipmentField: React.FC<IEquipmentFieldProps> = props => {
-  const { equipment, parent, index } = props
+const EquipmentField: React.FC<IEquipmentFieldProps> = ({ equipment, parent, index }) => {
+  const { history } = useReactRouter()
   const equipmentsDataStore = useContext(EquipmentsDataStoreContext)
 
   const slotSize = parent.slots.concat()[index]
@@ -25,7 +25,7 @@ const EquipmentField: React.FC<IEquipmentFieldProps> = props => {
   const toEquipmentsPage = () => {
     equipmentsDataStore.parent = parent
     equipmentsDataStore.index = index
-    props.history.push(`/equipments`)
+    history.push(`/equipments`)
   }
 
   if (!equipment || !equipment.isValid()) {
@@ -53,5 +53,4 @@ const EquipmentField: React.FC<IEquipmentFieldProps> = props => {
   )
 }
 
-const Draggable = withDragAndDrop('EquipmentField')(observer(EquipmentField))
-export default withRouter(Draggable)
+export default withDragAndDrop('EquipmentField')(observer(EquipmentField))

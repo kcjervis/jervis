@@ -1,5 +1,5 @@
-import React, { useCallback, useRef } from 'react'
-import { RouteComponentProps, withRouter } from 'react-router'
+import React from 'react'
+import useReactRouter from 'use-react-router'
 
 import AppBar from '@material-ui/core/AppBar'
 import { createStyles, Theme, withStyles, WithStyles } from '@material-ui/core/styles'
@@ -13,13 +13,12 @@ const styles = (theme: Theme) =>
     }
   })
 
-export interface ITopMenuProps extends WithStyles<typeof styles>, RouteComponentProps<{}> {}
+export interface ITopMenuProps extends WithStyles<typeof styles> {}
 
-const TopMenu: React.FC<ITopMenuProps> = props => {
+const TopMenu: React.FC<ITopMenuProps> = ({ classes }) => {
   const {
-    location: { pathname },
-    classes
-  } = props
+    location: { pathname }
+  } = useReactRouter()
   const paths = [
     { label: '編成', path: '/operations' },
     { label: '艦娘', path: '/ships' },
@@ -40,4 +39,4 @@ const TopMenu: React.FC<ITopMenuProps> = props => {
     </div>
   )
 }
-export default withStyles(styles)(withRouter(TopMenu))
+export default withStyles(styles)(TopMenu)

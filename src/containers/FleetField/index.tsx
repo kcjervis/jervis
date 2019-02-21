@@ -1,7 +1,7 @@
 import { FleetRole, FleetType, nonNullable } from 'kc-calculator'
 import flatMap from 'lodash/flatMap'
 import range from 'lodash/range'
-import React from 'react'
+import React, { useContext } from 'react'
 
 import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
@@ -15,7 +15,7 @@ import ShipForm from '../ShipForm'
 import FleetDetail from './FleetDetail'
 
 import ProficiencyDialog from '../../components/ProficiencyDialog'
-import { ObservableFleet, ObservableOperation, useOperationStore } from '../../stores'
+import { ObservableFleet, ObservableOperation, OperationStoreContext } from '../../stores'
 
 const useStyles = makeStyles({
   ships: {
@@ -35,7 +35,7 @@ interface IFleetFieldProps {
 
 const FleetField: React.FC<IFleetFieldProps> = ({ fleet, operation }) => {
   const { ships } = fleet
-  const operationStore = useOperationStore()
+  const operationStore = useContext(OperationStoreContext)
   const classes = useStyles()
 
   const addShipForm = () => {

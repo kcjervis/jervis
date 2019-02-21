@@ -1,4 +1,5 @@
-import React from 'react'
+import React, { useCallback, useRef, useState } from 'react'
+import useReactRouter from 'use-react-router'
 
 import Button from '@material-ui/core/Button'
 import Dialog from '@material-ui/core/Dialog'
@@ -16,57 +17,48 @@ interface INishikumaFormDialogProps {
   operationStore: OperationStore
 }
 
-class NishikumaFormDialog extends React.Component<INishikumaFormDialogProps> {
-  public state = {
-    open: false,
-    json: ''
+const NishikumaFormDialog: React.FC<INishikumaFormDialogProps> = ({ operationStore }) => {
+  const [open, setOpen] = useState(false)
+  const inputRef = useRef({ value: '' })
+  const handleClickOpen = useCallback(() => setOpen(true), [])
+  const handleClose = useCallback(() => setOpen(false), [])
+  const { history } = useReactRouter()
+  const handleLoadClick = () => {
+    const operation = operationStore.fromNishikuma(inputRef.current.value)
+    if (operation) {
+      operationStore.setActiveOperation(operation)
+      history.push('operation')
+    }
   }
+  return (
+    <>
+      <Button onClick={handleClickOpen} variant="outlined">
+        <InputIcon />
+        デッキビルダー形式を読み込む
+      </Button>
 
-  public handleClickOpen = () => this.setState({ open: true })
-
-  public handleClose = () => this.setState({ open: false })
-
-  public handleTextChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState({ json: event.target.value })
-    console.log(this.state.json)
-  }
-
-  public roadJson = () => {
-    this.props.operationStore.fromNishikuma(this.state.json)
-    this.setState({ open: false })
-  }
-
-  public render() {
-    return (
-      <div>
-        <Button onClick={this.handleClickOpen} variant="outlined">
-          <InputIcon />
-          デッキビルダー形式を読み込む
-        </Button>
-
-        <Dialog open={this.state.open} onClose={this.handleClose} aria-labelledby="form-dialog-title">
-          <DialogContent>
-            <TextField
-              label="デッキビルダー形式"
-              style={{ margin: 8 }}
-              placeholder="Placeholder"
-              margin="normal"
-              variant="outlined"
-              onChange={this.handleTextChange}
-            />
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={this.handleClose} color="primary">
-              Cancel
-            </Button>
-            <Button onClick={this.roadJson} color="secondary">
-              Load
-            </Button>
-          </DialogActions>
-        </Dialog>
-      </div>
-    )
-  }
+      <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
+        <DialogContent>
+          <TextField
+            label="デッキビルダー形式"
+            margin="dense"
+            fullWidth={true}
+            placeholder="Placeholder"
+            variant="outlined"
+            inputRef={inputRef}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose} color="primary">
+            Cancel
+          </Button>
+          <Button onClick={handleLoadClick} color="secondary">
+            Load
+          </Button>
+        </DialogActions>
+      </Dialog>
+    </>
+  )
 }
 
 export default NishikumaFormDialog

@@ -41,7 +41,6 @@ export interface IDeckShip {
 }
 
 const toShipDataObject = (deckShip: IDeckShip | undefined): IShipDataObject | undefined => {
-  console.log(deckShip)
   if (!deckShip || !deckShip.id) {
     return undefined
   }

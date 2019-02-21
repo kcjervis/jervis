@@ -1,5 +1,5 @@
 import { create } from 'mobx-persist'
-import { createContext, useContext } from 'react'
+import { createContext } from 'react'
 
 import EquipmentsDataStore from './EquipmentsDataStore'
 import ObservableEquipment from './ObservableEquipment'
@@ -26,8 +26,6 @@ export const loadStores = async () => {
 }
 
 const OperationStoreContext = createContext(operationStore)
-const useOperationStore = () => useContext(OperationStoreContext)
-
 const EquipmentsDataStoreContext = createContext(equipmentsDataStore)
 
 export {
@@ -39,7 +37,7 @@ export {
   ObservableOperation,
   SettingStore,
   ShipsPageStore,
-  useOperationStore,
+  OperationStoreContext,
   EquipmentsDataStoreContext
 }
 

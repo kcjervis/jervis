@@ -1,33 +1,34 @@
-import { inject, observer } from 'mobx-react'
-import React from 'react'
+import { observer } from 'mobx-react-lite'
+import React, { useContext } from 'react'
 import { RouteComponentProps } from 'react-router'
 
 import Button from '@material-ui/core/Button'
 import Add from '@material-ui/icons/Add'
 
 import NishikumaFormDialog from './NishikumaFormDialog'
-import OperationLabel from './OperationLabel'
+import OperationLabel, { IOperationLabelProps } from './OperationLabel'
 
-import { ObservableOperation, OperationStore } from '../stores'
+import { OperationStoreContext } from '../stores'
 
-interface IOperationsPageProps extends RouteComponentProps {
-  operationStore?: OperationStore
-}
-
-const OperationsPage: React.FC<IOperationsPageProps> = props => {
-  const operationStore = props.operationStore!
-  const moveOperationPage = (operation: ObservableOperation) => {
-    operationStore.setActiveOperation(operation)
-    props.history.push('operation')
+const OperationsPage: React.FC<RouteComponentProps> = ({ history }) => {
+  const operationStore = useContext(OperationStoreContext)
+  const handleDrag = (props1: IOperationLabelProps, props2: IOperationLabelProps) => {
+    operationStore.operations[props2.index] = props1.operation
+    operationStore.operations[props1.index] = props2.operation
+  }
+  const handleCreate = () => {
+    const newOperation = operationStore.createOperation()
+    operationStore.setActiveOperation(newOperation)
+    history.push('operation')
   }
   return (
     <div style={{ margin: 8 }}>
       {operationStore.operations.map((operation, index) => (
-        <OperationLabel key={index} index={index} operation={operation} moveOperationPage={moveOperationPage} />
+        <OperationLabel key={index} index={index} operation={operation} onEndDrag={handleDrag} />
       ))}
 
       <div style={{ display: 'flex', margin: 8 }}>
-        <Button onClick={operationStore.createOperation} variant="outlined">
+        <Button onClick={handleCreate} variant="outlined">
           <Add />
           編成を追加
         </Button>
@@ -37,4 +38,4 @@ const OperationsPage: React.FC<IOperationsPageProps> = props => {
   )
 }
 
-export default inject('operationStore')(observer(OperationsPage))
+export default observer(OperationsPage)

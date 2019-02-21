@@ -1,4 +1,5 @@
-import React from 'react'
+import React, { useContext } from 'react'
+import useReactRouter from 'use-react-router'
 
 import Button from '@material-ui/core/Button'
 import Card from '@material-ui/core/Card'
@@ -7,30 +8,31 @@ import Typography from '@material-ui/core/Typography'
 
 import { RemoveButton } from '../components/IconButtons'
 import ShipImage from '../components/ShipImage'
-import { ObservableOperation } from '../stores'
+import withDragAndDrop from '../hocs/withDragAndDrop'
+import { ObservableOperation, OperationStoreContext } from '../stores'
 
-interface IOperationLabelProps {
-  moveOperationPage: (operation: ObservableOperation) => void
+export interface IOperationLabelProps {
   operation: ObservableOperation
   index: number
 }
 
-const OperationLabel: React.FC<IOperationLabelProps> = ({ moveOperationPage, operation, index }) => {
+const OperationLabel: React.FC<IOperationLabelProps> = ({ operation }) => {
+  const store = useContext(OperationStoreContext)
+  const { history } = useReactRouter()
   const handleClick = () => {
-    moveOperationPage(operation)
+    store.setActiveOperation(operation)
+    history.push('operation')
   }
   const flagship = operation.fleets[0].ships[0]
   return (
     <Card style={{ margin: 8 }}>
-      <CardContent>
-        <Button onClick={handleClick} size="large" variant="outlined">
-          {flagship && <ShipImage imageType="banner" masterId={flagship.masterId} />}
-          <Typography style={{ margin: 8 }}>{operation.name}</Typography>
-        </Button>
-        <RemoveButton onClick={operation.remove} />
-      </CardContent>
+      <Typography variant="caption">{operation.name}</Typography>
+      <Button onClick={handleClick} size="large" variant="outlined">
+        {flagship ? <ShipImage imageType="banner" masterId={flagship.masterId} /> : '編成を開く'}
+      </Button>
+      <RemoveButton onClick={operation.remove} />
     </Card>
   )
 }
 
-export default OperationLabel
+export default withDragAndDrop('OperationLabel')(OperationLabel)

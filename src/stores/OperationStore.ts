@@ -76,7 +76,9 @@ export default class OperationStore {
   }
 
   @action public createOperation = () => {
-    this.operations.push(new ObservableOperation())
+    const newOperation = new ObservableOperation()
+    this.operations.push(newOperation)
+    return newOperation
   }
 
   @action.bound
@@ -84,7 +86,9 @@ export default class OperationStore {
     const operation = fromNishikuma(JSON.parse(json))
     if (operation) {
       this.operations.push(operation)
+      return operation
     }
+    return undefined
   }
 
   @action.bound
