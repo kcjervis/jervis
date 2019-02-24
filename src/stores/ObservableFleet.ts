@@ -7,16 +7,16 @@ import kcObjectFactory from './kcObjectFactory'
 import ObservableShip from './ObservableShip'
 
 export default class ObservableFleet implements IFleetDataObject {
+  @computed
+  get asKcObject() {
+    return kcObjectFactory.createFleet(this)
+  }
   public static create = (fleetData: IFleetDataObject) => {
     const observableFleet = new ObservableFleet()
     fleetData.ships.forEach((shipData, index) => shipData && observableFleet.createShip(index, shipData))
     return observableFleet
   }
 
-  @computed
-  get asKcObject() {
-    return kcObjectFactory.createFleet(this)
-  }
   @persist
   public id = uuid()
 
@@ -43,5 +43,9 @@ export default class ObservableFleet implements IFleetDataObject {
   @action.bound
   public removeShip(index: number) {
     this.ships[index] = undefined
+  }
+
+  private toJSON(): IFleetDataObject {
+    return { ships: this.ships }
   }
 }

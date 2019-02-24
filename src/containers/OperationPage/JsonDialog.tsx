@@ -1,18 +1,18 @@
-import React from 'react'
-import CopyToClipboard from 'react-copy-to-clipboard'
+import React, { useRef, useState } from 'react'
 
 import Button from '@material-ui/core/Button'
 import green from '@material-ui/core/colors/green'
 import DialogActions from '@material-ui/core/DialogActions'
 import DialogContent from '@material-ui/core/DialogContent'
 import Snackbar from '@material-ui/core/Snackbar'
-import { createStyles, withStyles, WithStyles } from '@material-ui/core/styles'
+import TextField from '@material-ui/core/TextField'
 import Typography from '@material-ui/core/Typography'
 import CheckCircleIcon from '@material-ui/icons/CheckCircle'
+import { makeStyles } from '@material-ui/styles'
 
 import DialogComponent from '../../components/DialogComponent'
 
-const styles = createStyles({
+const useStyles = makeStyles({
   snackbar: {
     backgroundColor: green[500]
   },
@@ -25,76 +25,77 @@ const styles = createStyles({
   }
 })
 
-interface IJsonDialogProps extends WithStyles<typeof styles> {
+interface IJsonDialogProps {
   json: string
 }
 
-class JsonDialog extends React.Component<IJsonDialogProps> {
-  public state = { openSnackbar: false }
+const JsonDialog: React.FC<IJsonDialogProps> = ({ json }) => {
+  const classes = useStyles()
+  const textRef = useRef<HTMLInputElement>(null)
+  const [snackbarOpen, setSnackbarOpen] = useState(false)
+  const handleSnackbarOpen = () => setSnackbarOpen(true)
+  const handleSnackbarClose = () => setSnackbarOpen(false)
 
-  public handleSnackbarOpen = () => this.setState({ openSnackbar: true })
-
-  public handleSnackbarClose = () => this.setState({ openSnackbar: false })
-
-  public render() {
-    const { json, classes } = this.props
-    const isFirefox = window.navigator.userAgent.includes('Firefox')
-    return (
-      <DialogComponent buttonLabel="デッキビルダー出力">
-        <DialogContent>
-          <Typography>{json}</Typography>
-        </DialogContent>
-
-        <DialogActions>
-          <Button
-            variant="outlined"
-            href={`https://www.nishikuma.net/ImgKCbuilder?predeck=${json}`}
-            target="_blank"
-            color="primary"
-          >
-            編成画像出力で開く
-          </Button>
-
-          <Button
-            variant="outlined"
-            href={`http://kancolle-calc.net/deckbuilder.html?predeck=${json}`}
-            target="_blank"
-            color="primary"
-          >
-            デッキビルダーで開く
-          </Button>
-
-          {!isFirefox && (
-            <Button variant="outlined" color="primary">
-              <CopyToClipboard text={json} onCopy={this.handleSnackbarOpen}>
-                <Typography color="primary">クリップボードにコピー</Typography>
-              </CopyToClipboard>
-            </Button>
-          )}
-
-          <Snackbar
-            anchorOrigin={{
-              vertical: 'bottom',
-              horizontal: 'left'
-            }}
-            open={this.state.openSnackbar}
-            onClose={this.handleSnackbarClose}
-            autoHideDuration={2000}
-            ContentProps={{
-              'aria-describedby': 'message-id',
-              className: classes.snackbar
-            }}
-            message={
-              <Typography className={classes.message} id="message-id" variant="subtitle1">
-                <CheckCircleIcon className={classes.messageIcon} />
-                success
-              </Typography>
-            }
-          />
-        </DialogActions>
-      </DialogComponent>
-    )
+  const handleCopy = (event: React.MouseEvent<HTMLElement>) => {
+    if (textRef.current) {
+      textRef.current.select()
+      document.execCommand('copy')
+      event.currentTarget.focus()
+      handleSnackbarOpen()
+    }
   }
+
+  return (
+    <DialogComponent buttonLabel="デッキビルダー出力">
+      <DialogContent>
+        <TextField fullWidth={true} multiline={true} value={json} inputRef={textRef} />
+      </DialogContent>
+
+      <DialogActions>
+        <Button
+          variant="outlined"
+          href={`https://www.nishikuma.net/ImgKCbuilder?predeck=${json}`}
+          target="_blank"
+          color="primary"
+        >
+          編成画像出力で開く
+        </Button>
+
+        <Button
+          variant="outlined"
+          href={`http://kancolle-calc.net/deckbuilder.html?predeck=${json}`}
+          target="_blank"
+          color="primary"
+        >
+          デッキビルダーで開く
+        </Button>
+
+        <Button variant="outlined" color="primary" onClick={handleCopy}>
+          クリップボードにコピー
+        </Button>
+
+        <Snackbar
+          anchorOrigin={{
+            vertical: 'bottom',
+            horizontal: 'left'
+          }}
+          open={snackbarOpen}
+          onClose={handleSnackbarClose}
+          autoHideDuration={2000}
+          ContentProps={{
+            'aria-describedby': 'message-id',
+            className: classes.snackbar
+          }}
+          message={
+            <Typography className={classes.message} id="message-id" variant="subtitle1">
+              <CheckCircleIcon className={classes.messageIcon} />
+              success
+            </Typography>
+          }
+        />
+      </DialogActions>
+    </DialogComponent>
+  )
 }
 
-export default withStyles(styles)(JsonDialog)
+export default JsonDialog

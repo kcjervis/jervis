@@ -4,6 +4,7 @@ import { persist } from 'mobx-persist'
 
 import fromNishikuma from './fromNishikuma'
 import ObservableEquipment from './ObservableEquipment'
+import ObservableFleet from './ObservableFleet'
 import ObservableLandBasedAirCorps from './ObservableLandBasedAirCorps'
 import ObservableOperation from './ObservableOperation'
 import ObservableShip from './ObservableShip'
@@ -21,18 +22,23 @@ interface IDraggableEquipmentProps {
 }
 
 interface IDraggableShipProps {
-  fleetId: string
+  fleet: ObservableFleet
   index: number
 }
 
 export default class OperationStore {
   get activeOperation() {
-    const { activeOperationId } = this
+    const { activeOperationId, temporaryOperation } = this
+    if (temporaryOperation) {
+      return temporaryOperation
+    }
     if (activeOperationId) {
       return this.getOperation(activeOperationId)
     }
     return undefined
   }
+
+  @observable public temporaryOperation?: ObservableOperation
 
   @persist('list', ObservableOperation)
   @observable
@@ -53,12 +59,21 @@ export default class OperationStore {
   }
 
   @action public setActiveOperation = (operation: ObservableOperation) => {
+    this.temporaryOperation = undefined
     this.activeOperationId = operation.id
+  }
+
+  @computed get allOperations() {
+    const operations = Array.from(this.operations)
+    if (this.temporaryOperation) {
+      operations.push(this.temporaryOperation)
+    }
+    return operations
   }
 
   @computed
   get fleets() {
-    return flatMap(this.operations, operation => operation.fleets)
+    return flatMap(this.allOperations, operation => operation.fleets)
   }
 
   @computed
@@ -77,6 +92,13 @@ export default class OperationStore {
 
   @action public createOperation = () => {
     const newOperation = new ObservableOperation()
+    this.operations.push(newOperation)
+    return newOperation
+  }
+
+  @action public copyOperation = (operation: ObservableOperation) => {
+    const newOperation = ObservableOperation.create(operation)
+    newOperation.name = `${operation.name}のコピー`
     this.operations.push(newOperation)
     return newOperation
   }
@@ -106,8 +128,8 @@ export default class OperationStore {
 
   @action.bound
   public switchShip(dragProps: IDraggableShipProps, dropProps: IDraggableShipProps) {
-    const dragFleet = this.getFleet(dragProps.fleetId)
-    const dropFleet = this.getFleet(dropProps.fleetId)
+    const dragFleet = dragProps.fleet
+    const dropFleet = dropProps.fleet
     if (dragFleet && dropFleet) {
       const { ships: ships1 } = dragFleet
       const { ships: ships2 } = dropFleet
@@ -116,7 +138,7 @@ export default class OperationStore {
   }
 
   public getOperation = (id: string) => {
-    return this.operations.find(operation => operation.id === id)
+    return this.allOperations.find(operation => operation.id === id)
   }
 
   public getLandBasedAirCorps = (id: string) => {

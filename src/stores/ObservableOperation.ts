@@ -10,8 +10,13 @@ import ObservableLandBasedAirCorps from './ObservableLandBasedAirCorps'
 import toNishikuma from './toNishikuma'
 
 export default class ObservableOperation implements IOperationDataObject {
-  public static create = (operationData: IOperationDataObject) => {
+  public static create = (operationData: IOperationDataObject & { name?: string }) => {
     const observableOperation = new ObservableOperation()
+
+    const { name } = operationData
+    if (name) {
+      observableOperation.name = name
+    }
     observableOperation.side = operationData.side
     observableOperation.fleetType = operationData.fleetType
     observableOperation.fleets = operationData.fleets.map(fleetData => ObservableFleet.create(fleetData))
@@ -79,5 +84,13 @@ export default class ObservableOperation implements IOperationDataObject {
 
   get toNishikumaJson() {
     return JSON.stringify(toNishikuma(this.asKcObject, this.hqLevel))
+  }
+
+  private toJSON() {
+    const dataObject = { ...this, version: 1 }
+    delete dataObject.isVisible
+    delete dataObject.enemies
+    delete dataObject.activeFleetIndex
+    return dataObject
   }
 }

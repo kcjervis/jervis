@@ -14,6 +14,7 @@ export default class ObservableEquipment implements IEquipmentDataObject {
     }
     return equip
   }
+
   public static create(data: IEquipmentDataObject) {
     const equip = new ObservableEquipment()
     const { masterId, improvement = 0, proficiency = 0 } = data
@@ -53,5 +54,21 @@ export default class ObservableEquipment implements IEquipmentDataObject {
   @action.bound
   public remove() {
     this.isVisible = false
+  }
+
+  private toJSON(): IEquipmentDataObject {
+    const { masterId, improvement, proficiency } = this
+    const dataObject: IEquipmentDataObject = { masterId }
+    if (improvement) {
+      dataObject.improvement = improvement
+    }
+    if (proficiency) {
+      dataObject.proficiency = proficiency
+    }
+    return {
+      masterId,
+      improvement: improvement ? improvement : undefined,
+      proficiency: proficiency ? proficiency : undefined
+    }
   }
 }

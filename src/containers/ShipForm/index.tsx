@@ -19,7 +19,7 @@ import withDragAndDrop from '../../hocs/withDragAndDrop'
 import EquipmentExpansionPanel from '../EquipmentExpansionPanel'
 import ShipStatDialog from './ShipStatDialog'
 
-import stores, { ObservableShip } from '../../stores'
+import stores, { ObservableFleet, ObservableShip } from '../../stores'
 import HealthBarDialog from './HealthBarDialog'
 
 const useStyles = makeStyles({
@@ -55,20 +55,20 @@ const useStyles = makeStyles({
 
 interface IShipForm {
   ship?: ObservableShip
-  fleetId: string
+  fleet: ObservableFleet
   index: number
   onEndDrag: (drag: any, drop: any) => void
 }
 
 const ShipForm: React.FC<IShipForm> = props => {
-  const { ship, fleetId, index } = props
+  const { ship, fleet, index } = props
   const classes = useStyles()
   if (!ship) {
     return (
       <div className={classes.root}>
         <Button
           className={classes.addShipButton}
-          href={`#/ships/${fleetId}/${index}`}
+          href={`#/ships/${fleet.id}/${index}`}
           variant="outlined"
           fullWidth={true}
           size="large"
@@ -92,7 +92,7 @@ const ShipForm: React.FC<IShipForm> = props => {
             {index + 1} ID:{ship.masterId} {ship.asKcObject.name}
           </Typography>
           <div style={{ alignItems: 'right' }}>
-            <UpdateButton size="small" style={{ padding: 4 }} href={`#/ships/${fleetId}/${index}`} />
+            <UpdateButton size="small" style={{ padding: 4 }} href={`#/ships/${fleet.id}/${index}`} />
             <RemoveButton size="small" style={{ padding: 4 }} onClick={ship.remove} />
           </div>
         </div>

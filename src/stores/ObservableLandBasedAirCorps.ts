@@ -13,6 +13,10 @@ export enum LandBasedAirCorpsMode {
 }
 
 export default class ObservableLandBasedAirCorps implements ILandBasedAirCorpsDataObject {
+  @computed get asKcObject() {
+    const airCorps = kcObjectFactory.createLandBasedAirCorps(this)
+    return airCorps
+  }
   public static create = (airCorpsData: ILandBasedAirCorpsDataObject) => {
     const observableLandBasedAirCorps = new ObservableLandBasedAirCorps()
     airCorpsData.equipments.forEach(
@@ -20,11 +24,6 @@ export default class ObservableLandBasedAirCorps implements ILandBasedAirCorpsDa
     )
 
     return observableLandBasedAirCorps
-  }
-
-  @computed get asKcObject() {
-    const airCorps = kcObjectFactory.createLandBasedAirCorps(this)
-    return airCorps
   }
 
   @persist
@@ -80,5 +79,10 @@ export default class ObservableLandBasedAirCorps implements ILandBasedAirCorpsDa
     if (typeof this.slots[index] === 'number') {
       this.slots[index] = value
     }
+  }
+
+  private toJSON(): ILandBasedAirCorpsDataObject {
+    const { slots, equipments } = this
+    return { slots, equipments }
   }
 }

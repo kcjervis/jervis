@@ -1,5 +1,5 @@
-import { IEquipment, IEquipmentDataObject, IShipDataObject } from 'kc-calculator'
-import { action, autorun, computed, isObservableArray, observable } from 'mobx'
+import { IEquipment, IEquipmentDataObject, IShipDataObject, shipStatKeys } from 'kc-calculator'
+import { action, autorun, computed, observable } from 'mobx'
 import { persist } from 'mobx-persist'
 import uuid from 'uuid'
 
@@ -118,5 +118,23 @@ export default class ObservableShip implements IShipDataObject {
     if (typeof this.slots[index] === 'number') {
       this.slots[index] = value
     }
+  }
+
+  private toJSON(): IShipDataObject {
+    const { masterId, level, slots, equipments, nowHp, increased } = this
+    const dataObject: IShipDataObject = { masterId, level, slots, equipments }
+    if (nowHp !== this.asKcObject.health.maxHp) {
+      dataObject.nowHp = nowHp
+    }
+
+    shipStatKeys.forEach(statKey => {
+      if (increased[statKey] === 0) {
+        delete increased[statKey]
+      }
+    })
+    if (Object.keys(increased).length > 0) {
+      dataObject.increased = increased
+    }
+    return dataObject
   }
 }

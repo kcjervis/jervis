@@ -1,6 +1,6 @@
 import { FleetType, Side } from 'kc-calculator'
-import { inject, observer } from 'mobx-react'
-import React from 'react'
+import { observer } from 'mobx-react-lite'
+import React, { useEffect, useMemo, useState } from 'react'
 import { RouteComponentProps } from 'react-router'
 import { Redirect } from 'react-router-dom'
 
@@ -8,20 +8,21 @@ import Checkbox from '@material-ui/core/Checkbox'
 import Divider from '@material-ui/core/Divider'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import Input from '@material-ui/core/Input'
-import { createStyles, withStyles, WithStyles } from '@material-ui/core/styles'
 import Tab from '@material-ui/core/Tab'
 import Tabs from '@material-ui/core/Tabs'
 import TextField from '@material-ui/core/TextField'
 import Typography from '@material-ui/core/Typography'
+import { makeStyles } from '@material-ui/styles'
 
 import FleetTypeSelect from '../../components/FleetTypeSelect'
 
-import stores, { ObservableOperation, SettingStore } from '../../stores'
+import { SaveButton } from '../../components/IconButtons'
+import stores, { ObservableOperation } from '../../stores'
 import FleetField from '../FleetField'
 import LandBaseForm from '../LandBaseForm'
-import JsonDialog from './JsonDialog'
+import OperationShareDialog from '../OperationShareDialog'
 
-const styles = createStyles({
+const useStyles = makeStyles({
   name: { marginRight: 8 },
   hqLevel: { marginLeft: 8, marginRight: 8, width: 50 },
   tabs: { display: 'flex', flexWrap: 'wrap' },
@@ -35,17 +36,20 @@ const styles = createStyles({
   }
 })
 
-interface IOperationPageProps extends WithStyles<typeof styles>, RouteComponentProps<{}> {
-  operation?: ObservableOperation
-  settingStore?: SettingStore
-}
-
-const OperationPage: React.FC<IOperationPageProps> = ({ operation, history, classes, settingStore }) => {
+const OperationPage: React.FC<RouteComponentProps> = props => {
+  const classes = useStyles()
+  const { operationStore, settingStore } = stores
+  const operation = operationStore.activeOperation
   if (!operation) {
     return <Redirect to="operations" />
   }
 
-  const setting = settingStore!
+  const isTemporaryOperation = !operationStore.operations.includes(operation)
+
+  const handleSave = () => {
+    operationStore.operations.push(operation)
+    operationStore.setActiveOperation(operation)
+  }
 
   const handleChange = (e: unknown, value: number) => {
     operation.activeFleetIndex = value
@@ -62,7 +66,7 @@ const OperationPage: React.FC<IOperationPageProps> = ({ operation, history, clas
   }
 
   const handleVisibleShipStatsChange = () => {
-    const { operationPage } = setting
+    const { operationPage } = settingStore
     operationPage.visibleShipStats = !operationPage.visibleShipStats
   }
 
@@ -105,7 +109,7 @@ const OperationPage: React.FC<IOperationPageProps> = ({ operation, history, clas
         <FormControlLabel
           className={classes.checkBoxForm}
           control={
-            <Checkbox checked={setting.operationPage.visibleShipStats} onChange={handleVisibleShipStatsChange} />
+            <Checkbox checked={settingStore.operationPage.visibleShipStats} onChange={handleVisibleShipStatsChange} />
           }
           label={<Typography variant="caption">ステータス表示</Typography>}
         />
@@ -115,7 +119,8 @@ const OperationPage: React.FC<IOperationPageProps> = ({ operation, history, clas
           label={<Typography variant="caption">敵艦隊</Typography>}
         />
 
-        <JsonDialog json={operation.toNishikumaJson} />
+        <OperationShareDialog operation={operation} />
+        {isTemporaryOperation && <SaveButton title="編成をローカルに保存" onClick={handleSave} />}
       </div>
 
       <div className={classes.tabs}>
@@ -138,16 +143,4 @@ const OperationPage: React.FC<IOperationPageProps> = ({ operation, history, clas
   )
 }
 
-const mapStateToProps = () => {
-  const { activeOperation } = stores.operationStore
-  if (!activeOperation) {
-    return
-  }
-  const { settingStore } = stores
-  return {
-    operation: activeOperation,
-    settingStore
-  }
-}
-
-export default withStyles(styles)(inject(mapStateToProps)(observer(OperationPage)))
+export default observer(OperationPage)

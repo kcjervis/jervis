@@ -36,7 +36,7 @@ interface IMapsPageState {
 class MapsPage extends React.Component<RouteComponentProps<{ operationId?: string }>, IMapsPageState> {
   public readonly difficulties: TEventDifficulty[] = [1, 2, 3, 4]
 
-  public state: IMapsPageState = { worldId: 43, mapId: 0, point: 'A', difficulty: 4 }
+  public state: IMapsPageState = { worldId: 6, mapId: 0, point: 'A', difficulty: 4 }
 
   public handleChangeWorld = (event: React.ChangeEvent<{}>, worldId: number) => {
     this.setState({ worldId, mapId: 0 })

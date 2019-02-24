@@ -1,19 +1,28 @@
-import { SvgIcon } from '@material-ui/core'
-import IconButton, { IconButtonProps } from '@material-ui/core/IconButton'
 import React from 'react'
 
-interface IWithIconButtonProps extends IconButtonProps {
+import { SvgIcon } from '@material-ui/core'
+import IconButton, { IconButtonProps } from '@material-ui/core/IconButton'
+import Tooltip from '@material-ui/core/Tooltip'
+
+export interface IWithIconButtonProps extends IconButtonProps {
+  title?: string
   label?: string
   size?: 'inherit' | 'default' | 'small' | 'large'
 }
 
 const withIconButton = (WrappedIcon: typeof SvgIcon) => {
-  const WithIconButton: React.FC<IWithIconButtonProps> = ({ size, label, ...iconButonProps }) => (
-    <IconButton {...iconButonProps}>
-      <WrappedIcon fontSize={size} />
-      {label}
-    </IconButton>
-  )
+  const WithIconButton: React.FC<IWithIconButtonProps> = ({ title, size, label, ...iconButonProps }) => {
+    const WrappedButton = (
+      <IconButton {...iconButonProps}>
+        <WrappedIcon fontSize={size} />
+        {label}
+      </IconButton>
+    )
+    if (!title) {
+      return WrappedButton
+    }
+    return <Tooltip title={title}>{WrappedButton}</Tooltip>
+  }
 
   WithIconButton.displayName = `withIconButton(${WrappedIcon.name})`
 

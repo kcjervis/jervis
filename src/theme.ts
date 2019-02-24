@@ -1,8 +1,5 @@
 import blue from '@material-ui/core/colors/blue'
 import { createMuiTheme } from '@material-ui/core/styles'
-import { install } from '@material-ui/styles'
-
-install()
 
 const clearBackground = 'rgba( 20, 20, 20, 0.1 )'
 const darkBackground = 'rgba(0, 0, 0, 0.9)'
@@ -23,6 +20,11 @@ const theme = createMuiTheme({
     MuiMenu: darkPaper,
     MuiDialog: darkPaper,
     MuiDrawer: darkPaper,
+    MuiTooltip: {
+      tooltip: {
+        backgroundColor: darkBackground
+      }
+    },
     MuiButton: {
       root: {
         textTransform: 'none',

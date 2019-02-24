@@ -25,7 +25,7 @@ const CutinRate: React.FC<{ cutin: DayCombatCutin; rate?: number }> = ({ cutin, 
     return null
   }
   return (
-    <Typography>
+    <Typography noWrap={true}>
       {`${cutin.name}(×${cutin.powerModifier})`}: {toPercent(rate)}
     </Typography>
   )

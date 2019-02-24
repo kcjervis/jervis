@@ -17,7 +17,7 @@
     "@material-ui/icons": "^3.0.2",
     "@material-ui/styles": "^3.0.0-alpha.10",
     "classnames": "^2.2.6",
-    "firebase": "^5.8.0",
+    "firebase": "^5.8.4",
     "history": "^4.7.2",
     "lodash": "^4.17.11",
     "mobx": "^5.9.0",
