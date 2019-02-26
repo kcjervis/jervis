@@ -68,7 +68,7 @@ const toShipDataObject = (deckShip: IDeckShip | undefined): IShipDataObject | un
   if (hp) {
     increased.hp = hp - calcHpAtLevel(masterShip.hp, lv)
   }
-  if (luck) {
+  if (luck && luck > 0) {
     increased.luck = luck - masterShip.luck[0]
   }
   if (asw) {
