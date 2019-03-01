@@ -63,7 +63,6 @@ const toShipDataObject = (deckShip: IDeckShip | undefined): IShipDataObject | un
     const { ix } = items
     equipments.push(toEquipmentDataObject(ix))
   }
-  console.log(hp)
   const increased: { hp?: number; luck?: number; asw?: number } = {}
   if (hp) {
     increased.hp = hp - calcHpAtLevel(masterShip.hp, lv)

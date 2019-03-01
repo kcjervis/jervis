@@ -3,7 +3,6 @@ import useReactRouter from 'use-react-router'
 
 import Button from '@material-ui/core/Button'
 import Card from '@material-ui/core/Card'
-import Tooltip from '@material-ui/core/Tooltip'
 import Typography from '@material-ui/core/Typography'
 
 import { CopyButton, RemoveButton } from '../components/IconButtons'
@@ -39,7 +38,6 @@ const OperationLabel: React.FC<IOperationLabelProps> = ({ operation }) => {
       </Button>
       <RemoveButton onClick={operation.remove} />
       <CopyButton title="編成をコピー" onClick={handleCopy} />
-
       <OperationShareDialog operation={operation} />
     </Card>
   )

@@ -105,7 +105,9 @@ export default class OperationStore {
 
   @action.bound
   public fromNishikuma(json: string) {
-    const operation = fromNishikuma(JSON.parse(json))
+    const operation = fromNishikuma(
+      JSON.parse(json.replace(/^http:\/\/kancolle-calc\.net\/deckbuilder\.html\?predeck\=/, ''))
+    )
     if (operation) {
       this.operations.push(operation)
       return operation
