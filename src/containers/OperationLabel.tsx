@@ -11,7 +11,6 @@ import OperationShareDialog from './OperationShareDialog'
 
 import withDragAndDrop from '../hocs/withDragAndDrop'
 import { ObservableOperation, OperationStoreContext } from '../stores'
-import { setOperation } from '../stores/firebase'
 
 export interface IOperationLabelProps {
   operation: ObservableOperation

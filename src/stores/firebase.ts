@@ -49,40 +49,43 @@ export const getOperation = async (filePath: string) => {
   return ObservableOperation.create(json)
 }
 
-// interface ICredential {
-//   accessToken: string
-//   secret: string
-// }
-// let credential: undefined | ICredential
-// const twitterProvider = new firebase.auth.TwitterAuthProvider()
-// firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL)
-// const login = async () => {
-//   const result = await firebase.auth().getRedirectResult()
+let credential: undefined | firebase.auth.AuthCredential
+const twitterProvider = new firebase.auth.TwitterAuthProvider()
+firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL)
+const login = async () => {
+  const result = await firebase.auth().getRedirectResult()
 
-//   if (result.credential) {
-//     credential = result.credential as typeof result.credential & ICredential
-//   } else {
-//     const res = await firebase.auth().signInWithPopup(twitterProvider)
-//     if (res.credential) {
-//       credential = res.credential as any
-//     }
-//     console.log(res)
-//   }
-// }
-// login()
+  if (result.credential) {
+    credential = result.credential
+  } else {
+    const res = await firebase.auth().signInWithPopup(twitterProvider)
+    if (res.credential) {
+      credential = res.credential
+    }
+    console.log(res)
+  }
+}
 
-// export const testTwitter = () => {
-//   if (!credential) {
-//     console.warn('credential not found')
-//     return
-//   }
-//   return
-//   fetch('https://jervis-server.glitch.me/api', {
-//     method: 'POST',
-//     mode: 'cors',
-//     headers: {
-//       'Content-Type': 'application/json; charset=utf-8'
-//     },
-//     body: JSON.stringify(credential)
-//   }).then(res => res.text().then(console.log))
-// }
+export const testTwitter = async () => {
+  if (!credential) {
+    console.warn('credential not found')
+    return
+  }
+  const url = await import('../images/ships/banner/394.png')
+  const image = new Image()
+  image.src = url.default
+  const blob = await fetch(url.default).then(res => res.blob())
+  const reader = new FileReader()
+  reader.onload = () => {
+    const base64 = (reader.result as string).replace(/^data:image\/png;.+base64,/, '')
+    fetch('https://jervis-server.glitch.me/api/media', {
+      method: 'POST',
+      mode: 'cors',
+      headers: {
+        'Content-Type': 'application/json; charset=utf-8'
+      },
+      body: JSON.stringify({ ...credential, base64 })
+    }).then(res => res.text().then(console.log))
+  }
+  reader.readAsDataURL(blob)
+}
