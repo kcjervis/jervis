@@ -23,7 +23,7 @@ const worlds = [
   { id: 43, name: '邀撃！ブイン防衛作戦' }
 ]
 
-interface IMapsPageState {
+interface MapsPageState {
   worldId: number
   mapId: number
   point: string
@@ -33,10 +33,10 @@ interface IMapsPageState {
 /**
  * 海域ページ
  */
-class MapsPage extends React.Component<RouteComponentProps<{ operationId?: string }>, IMapsPageState> {
+class MapsPage extends React.Component<RouteComponentProps<{ operationId?: string }>, MapsPageState> {
   public readonly difficulties: TEventDifficulty[] = [1, 2, 3, 4]
 
-  public state: IMapsPageState = { worldId: 6, mapId: 0, point: 'A', difficulty: 4 }
+  public state: MapsPageState = { worldId: 6, mapId: 0, point: 'A', difficulty: 4 }
 
   public handleChangeWorld = (event: React.ChangeEvent<{}>, worldId: number) => {
     this.setState({ worldId, mapId: 0 })

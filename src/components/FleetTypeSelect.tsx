@@ -7,12 +7,12 @@ import MenuItem from '@material-ui/core/MenuItem'
 import OutlinedInput from '@material-ui/core/OutlinedInput'
 import Select from '@material-ui/core/Select'
 
-interface IFleetTypeSelectProps {
+interface FleetTypeSelectProps {
   fleetType: FleetType
   onChange: (fleetType: FleetType) => void
 }
 
-const FleetTypeSelect: React.FC<IFleetTypeSelectProps> = ({ fleetType, onChange }) => {
+const FleetTypeSelect: React.FC<FleetTypeSelectProps> = ({ fleetType, onChange }) => {
   const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     onChange(event.target.value as FleetType)
   }

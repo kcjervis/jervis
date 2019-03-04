@@ -8,7 +8,7 @@ import ObservableShip from './ObservableShip'
 
 export default class ObservableFleet implements IFleetDataObject {
   @computed
-  get asKcObject() {
+  public get asKcObject() {
     return kcObjectFactory.createFleet(this)
   }
   public static create = (fleetData: IFleetDataObject) => {
@@ -24,7 +24,7 @@ export default class ObservableFleet implements IFleetDataObject {
   @observable
   public ships: Array<ObservableShip | undefined> = new Array(6)
 
-  constructor() {
+  public constructor() {
     autorun(() =>
       this.ships.forEach((ship, index) => {
         if (ship && !ship.isVisible) {

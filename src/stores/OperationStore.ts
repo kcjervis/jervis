@@ -16,18 +16,18 @@ const switchArrayItems = <T>(array1: T[], index1: number, array2: T[], index2: n
   array2[index2] = item1
 }
 
-interface IDraggableEquipmentProps {
+interface DraggableEquipmentProps {
   parent: ObservableShip | ObservableLandBasedAirCorps
   index: number
 }
 
-interface IDraggableShipProps {
+interface DraggableShipProps {
   fleet: ObservableFleet
   index: number
 }
 
 export default class OperationStore {
-  get activeOperation() {
+  public get activeOperation() {
     const { activeOperationId, temporaryOperation } = this
     if (temporaryOperation) {
       return temporaryOperation
@@ -48,7 +48,7 @@ export default class OperationStore {
   @observable
   private activeOperationId = ''
 
-  constructor() {
+  public constructor() {
     autorun(() => {
       this.operations.forEach(({ isVisible }, index) => {
         if (!isVisible) {
@@ -63,7 +63,7 @@ export default class OperationStore {
     this.activeOperationId = operation.id
   }
 
-  @computed get allOperations() {
+  @computed public get allOperations() {
     const operations = Array.from(this.operations)
     if (this.temporaryOperation) {
       operations.push(this.temporaryOperation)
@@ -72,19 +72,19 @@ export default class OperationStore {
   }
 
   @computed
-  get fleets() {
+  public get fleets() {
     return flatMap(this.allOperations, operation => operation.fleets)
   }
 
   @computed
-  get ships() {
+  public get ships() {
     return flatMap(this.fleets, ({ ships }) => ships).filter(
       (ship): ship is ObservableShip => ship instanceof ObservableShip
     )
   }
 
   @computed
-  get equipments() {
+  public get equipments() {
     return flatMap(this.ships, ({ equipments }) => equipments).filter(
       (equip): equip is ObservableEquipment => equip instanceof ObservableEquipment
     )
@@ -106,7 +106,7 @@ export default class OperationStore {
   @action.bound
   public fromNishikuma(json: string) {
     const operation = fromNishikuma(
-      JSON.parse(json.replace(/^http:\/\/kancolle-calc\.net\/deckbuilder\.html\?predeck\=/, ''))
+      JSON.parse(json.replace(/^http:\/\/kancolle-calc\.net\/deckbuilder\.html\?predeck=/, ''))
     )
     if (operation) {
       this.operations.push(operation)
@@ -116,7 +116,7 @@ export default class OperationStore {
   }
 
   @action.bound
-  public switchEquipment(dragProps: IDraggableEquipmentProps, dropProps: IDraggableEquipmentProps) {
+  public switchEquipment(dragProps: DraggableEquipmentProps, dropProps: DraggableEquipmentProps) {
     const dragParent = dragProps.parent
     const dropParent = dropProps.parent
     const equip1 = dragParent.equipments[dragProps.index]
@@ -129,7 +129,7 @@ export default class OperationStore {
   }
 
   @action.bound
-  public switchShip(dragProps: IDraggableShipProps, dropProps: IDraggableShipProps) {
+  public switchShip(dragProps: DraggableShipProps, dropProps: DraggableShipProps) {
     const dragFleet = dragProps.fleet
     const dropFleet = dropProps.fleet
     if (dragFleet && dropFleet) {

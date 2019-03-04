@@ -3,12 +3,12 @@ import React from 'react'
 import Card from '@material-ui/core/Card'
 import Typography from '@material-ui/core/Typography'
 
-interface IShipImageProps extends React.ImgHTMLAttributes<HTMLImageElement> {
+interface ShipImageProps extends React.ImgHTMLAttributes<HTMLImageElement> {
   masterId: number
   imageType: 'full' | 'banner'
 }
 
-const ShipImage: React.FC<IShipImageProps> = ({ masterId, imageType, ...rest }) => {
+const ShipImage: React.FC<ShipImageProps> = ({ masterId, imageType, ...rest }) => {
   try {
     return <img src={require(`../images/ships/${imageType}/${masterId}.png`)} {...rest} />
   } catch (error) {

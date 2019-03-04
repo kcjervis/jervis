@@ -32,17 +32,17 @@ type AerialBattleResult = Array<{
   fighterPower: number
 }>
 
-interface IAerialCombatSimulatorProps {
+interface AerialCombatSimulatorProps {
   operation: ObservableOperation
 }
 
-interface IAerialCombatSimulatorState {
+interface AerialCombatSimulatorState {
   times: number
   simulationResult: Array<{ name: string; count: Dictionary<string>; fighterPower: number }> | null
 }
 
-class AerialCombatSimulator extends React.Component<IAerialCombatSimulatorProps, IAerialCombatSimulatorState> {
-  public state: IAerialCombatSimulatorState = { simulationResult: null, times: 1000 }
+class AerialCombatSimulator extends React.Component<AerialCombatSimulatorProps, AerialCombatSimulatorState> {
+  public state: AerialCombatSimulatorState = { simulationResult: null, times: 1000 }
 
   public handleTimesChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     this.setState({ times: Number(event.currentTarget.value) })

@@ -9,13 +9,13 @@ import TableHead from '@material-ui/core/TableHead'
 import TableRow from '@material-ui/core/TableRow'
 import Typography from '@material-ui/core/Typography'
 
-interface IContactTableProps {
+interface ContactTableProps {
   planes: IPlane[]
 }
 
 export const toPercent = (value: number) => (value * 100).toFixed(1) + '%'
 
-export default class ContactTable extends React.Component<IContactTableProps> {
+export default class ContactTable extends React.Component<ContactTableProps> {
   public render() {
     const { planes } = this.props
     const { AirSupremacy, AirSuperiority, AirDenial } = AirControlState

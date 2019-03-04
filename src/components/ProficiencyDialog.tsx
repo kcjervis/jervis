@@ -9,11 +9,11 @@ import DialogContentText from '@material-ui/core/DialogContentText'
 import DialogTitle from '@material-ui/core/DialogTitle'
 import ProficiencyIcon from './ProficiencyIcon'
 
-interface IProficiencyDialogProps {
+interface ProficiencyDialogProps {
   changeProficiency: (inter: number) => void
 }
 
-class ProficiencyDialog extends React.Component<IProficiencyDialogProps> {
+class ProficiencyDialog extends React.Component<ProficiencyDialogProps> {
   public state = {
     open: false
   }

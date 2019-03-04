@@ -12,11 +12,11 @@ import StatChip from './StatChip'
 
 const styles = (theme: Theme) => createStyles({})
 
-interface IShipCardProps extends WithStyles<typeof styles> {
+interface ShipCardProps extends WithStyles<typeof styles> {
   ship: IShip
 }
 
-const ShipCard: React.FC<IShipCardProps> = ({ ship, classes }) => {
+const ShipCard: React.FC<ShipCardProps> = ({ ship, classes }) => {
   return (
     <Card>
       <Typography>{ship.name}</Typography>

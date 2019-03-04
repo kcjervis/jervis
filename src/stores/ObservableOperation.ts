@@ -69,7 +69,7 @@ export default class ObservableOperation implements IOperationDataObject {
     this.isVisible = false
   }
 
-  get activeFleet() {
+  public get activeFleet() {
     const { fleets, activeFleetIndex } = this
     if (fleets.length > activeFleetIndex) {
       return fleets[activeFleetIndex]
@@ -77,12 +77,12 @@ export default class ObservableOperation implements IOperationDataObject {
     return undefined
   }
 
-  @computed get asKcObject() {
+  @computed public get asKcObject() {
     const obj = kcObjectFactory.createOperation(this)
     return obj
   }
 
-  get toNishikumaJson() {
+  public get toNishikumaJson() {
     return JSON.stringify(toNishikuma(this.asKcObject, this.hqLevel))
   }
 

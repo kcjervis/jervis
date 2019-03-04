@@ -19,14 +19,14 @@ const styles = (theme: Theme) =>
     }
   })
 
-interface IProficiencyIconProps extends WithStyles<typeof styles> {
+interface ProficiencyIconProps extends WithStyles<typeof styles> {
   type?: 'internal' | 'level'
   value: number
   className?: string
   style?: React.CSSProperties
 }
 
-const ProficiencyIcon: React.FC<IProficiencyIconProps> = ({ type = 'internal', value, classes, className, style }) => {
+const ProficiencyIcon: React.FC<ProficiencyIconProps> = ({ type = 'internal', value, classes, className, style }) => {
   let level: number
   let internal: number | undefined
   if (type === 'level') {

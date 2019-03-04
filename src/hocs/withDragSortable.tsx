@@ -4,21 +4,21 @@ import { ConnectDragSource, ConnectDropTarget, DragSource, DragSourceSpec, DropT
 const withDragSortable = (type: string) => <WrappedProps extends {}>(
   WrappedComponent: React.ComponentType<WrappedProps>
 ) => {
-  interface IProps {
+  interface Props {
     index: number
-    onSortEnd: (object: { dragProps: IProps; hoverProps: IProps }) => void
+    onSortEnd: (object: { dragProps: Props; hoverProps: Props }) => void
     isDragging?: boolean
     connectDragSource?: ConnectDragSource
     connectDropTarget?: ConnectDropTarget
   }
 
-  const cardSource: DragSourceSpec<IProps, {}> = {
+  const cardSource: DragSourceSpec<Props, {}> = {
     beginDrag(props, monitor, component) {
       return { component }
     }
   }
 
-  const cardTarget: DropTargetSpec<IProps> = {
+  const cardTarget: DropTargetSpec<Props> = {
     hover(props, monitor) {
       const dragProps = monitor.getItem().component.props
       const hoverProps = props
@@ -33,7 +33,7 @@ const withDragSortable = (type: string) => <WrappedProps extends {}>(
   @DropTarget(type, cardTarget, connect => ({
     connectDropTarget: connect.dropTarget()
   }))
-  class DragSortable extends React.Component<IProps> {
+  class DragSortable extends React.Component<Props> {
     public static displayName? = `withDragAndDrop(${WrappedComponent.name})`
 
     public render() {

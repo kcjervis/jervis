@@ -38,12 +38,12 @@ const NightBattleStoreContext = createContext(new NightBattleStore())
 
 const enemyBattleState = { side: Side.Enemy, formation: Formation.LineAhead, starshell: false, searchlight: false }
 
-interface IShipRowProps {
+interface ShipRowProps {
   ship: IShip
   isFlagship: boolean
 }
 
-const ShipRow: React.FC<IShipRowProps> = ({ ship, isFlagship }) => {
+const ShipRow: React.FC<ShipRowProps> = ({ ship, isFlagship }) => {
   const battleState = useContext(NightBattleStoreContext)
   const preModifierValue = NightBattleSpecialAttack.calcPreModifierValue(ship)
   const baseValue = NightBattleSpecialAttack.calcBaseValue(ship, isFlagship, battleState, enemyBattleState)
@@ -72,11 +72,11 @@ const ShipRow: React.FC<IShipRowProps> = ({ ship, isFlagship }) => {
   )
 }
 
-interface INightBattleSpecialAttackTable {
+interface NightBattleSpecialAttackTable {
   fleet: IFleet
 }
 
-const NightBattleSpecialAttackTable: React.FC<INightBattleSpecialAttackTable> = props => {
+const NightBattleSpecialAttackTable: React.FC<NightBattleSpecialAttackTable> = props => {
   const { fleet } = props
   const nightBattleStore = useContext(NightBattleStoreContext)
   return (

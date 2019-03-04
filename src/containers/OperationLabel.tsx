@@ -12,12 +12,12 @@ import OperationShareDialog from './OperationShareDialog'
 import withDragAndDrop from '../hocs/withDragAndDrop'
 import { ObservableOperation, OperationStoreContext } from '../stores'
 
-export interface IOperationLabelProps {
+export interface OperationLabelProps {
   operation: ObservableOperation
   index: number
 }
 
-const OperationLabel: React.FC<IOperationLabelProps> = ({ operation }) => {
+const OperationLabel: React.FC<OperationLabelProps> = ({ operation }) => {
   const store = useContext(OperationStoreContext)
   const { history } = useReactRouter()
   const handleOpen = () => {

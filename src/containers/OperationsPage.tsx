@@ -6,13 +6,13 @@ import Button from '@material-ui/core/Button'
 import Add from '@material-ui/icons/Add'
 
 import NishikumaFormDialog from './NishikumaFormDialog'
-import OperationLabel, { IOperationLabelProps } from './OperationLabel'
+import OperationLabel, { OperationLabelProps } from './OperationLabel'
 
 import { ObservableOperation, OperationStoreContext } from '../stores'
 
 const OperationsPage: React.FC<RouteComponentProps> = ({ history, location }) => {
   const operationStore = useContext(OperationStoreContext)
-  const handleDrag = (props1: IOperationLabelProps, props2: IOperationLabelProps) => {
+  const handleDrag = (props1: OperationLabelProps, props2: OperationLabelProps) => {
     operationStore.operations[props2.index] = props1.operation
     operationStore.operations[props1.index] = props2.operation
   }

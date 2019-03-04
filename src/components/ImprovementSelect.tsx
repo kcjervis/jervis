@@ -33,12 +33,12 @@ const useAnchorEl = () => {
   }
 }
 
-interface IImprovementSelectProps {
+interface ImprovementSelectProps {
   value: number
   onChange: (value: number) => void
 }
 
-const ImprovementSelect: React.FC<IImprovementSelectProps> = ({ value, onChange }) => {
+const ImprovementSelect: React.FC<ImprovementSelectProps> = ({ value, onChange }) => {
   const { anchorEl, handleClick, handleClose } = useAnchorEl()
   const classes = useStyles()
 

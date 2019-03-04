@@ -25,12 +25,12 @@ const styles = createStyles({
   }
 })
 
-interface IShipIcon extends WithStyles<typeof styles> {
+interface ShipIcon extends WithStyles<typeof styles> {
   statKey: ShipStatKey | EquipmentStatKey
   label?: string | number
 }
 
-const ShipIcon: React.FC<IShipIcon> = props => {
+const ShipIcon: React.FC<ShipIcon> = props => {
   const { statKey, classes } = props
   let image
   try {

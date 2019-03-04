@@ -5,13 +5,13 @@ import { calcHpAtLevel, calcStatAtLevel } from 'kc-calculator/dist/objects/Ship/
 import { masterData } from './kcObjectFactory'
 import ObservableOperation from './ObservableOperation'
 
-export interface IDeckEquipmet {
+export interface DeckEquipmet {
   id: number | null
   rf: number
   mas: number
 }
 
-const toEquipmentDataObject = (item: IDeckEquipmet | undefined): IEquipmentDataObject | undefined => {
+const toEquipmentDataObject = (item: DeckEquipmet | undefined): IEquipmentDataObject | undefined => {
   if (!item || !item.id) {
     return undefined
   }
@@ -24,23 +24,23 @@ const toEquipmentDataObject = (item: IDeckEquipmet | undefined): IEquipmentDataO
   }
 }
 
-export interface IDeckShip {
+export interface DeckShip {
   id: string | number | null
   lv: number
   luck?: number
   hp?: number
   asw?: number
   items: Partial<{
-    i1: IDeckEquipmet
-    i2: IDeckEquipmet
-    i3: IDeckEquipmet
-    i4: IDeckEquipmet
-    i5: IDeckEquipmet
-    ix: IDeckEquipmet
+    i1: DeckEquipmet
+    i2: DeckEquipmet
+    i3: DeckEquipmet
+    i4: DeckEquipmet
+    i5: DeckEquipmet
+    ix: DeckEquipmet
   }>
 }
 
-const toShipDataObject = (deckShip: IDeckShip | undefined): IShipDataObject | undefined => {
+const toShipDataObject = (deckShip: DeckShip | undefined): IShipDataObject | undefined => {
   if (!deckShip || !deckShip.id) {
     return undefined
   }
@@ -84,16 +84,16 @@ const toShipDataObject = (deckShip: IDeckShip | undefined): IShipDataObject | un
 }
 
 export type DeckFleet = Partial<{
-  s1: IDeckShip
-  s2: IDeckShip
-  s3: IDeckShip
-  s4: IDeckShip
-  s5: IDeckShip
-  s6: IDeckShip
-  s7: IDeckShip
+  s1: DeckShip
+  s2: DeckShip
+  s3: DeckShip
+  s4: DeckShip
+  s5: DeckShip
+  s6: DeckShip
+  s7: DeckShip
 }>
 
-export interface INishikuma {
+export interface Nishikuma {
   version: number
   lang?: 'ja' | 'en' | 'ko' | 'scn' | 'tcn'
   theme?: 'dark'
@@ -104,7 +104,7 @@ export interface INishikuma {
   f4?: DeckFleet
 }
 
-const fromNishikuma = ({ hqlv = 120, f1, f2, f3, f4 }: INishikuma) => {
+const fromNishikuma = ({ hqlv = 120, f1, f2, f3, f4 }: Nishikuma) => {
   const operation = new ObservableOperation()
   operation.hqLevel = hqlv
   ;[f1, f2, f3, f4].forEach((deckFleet, fleetIndex) => {

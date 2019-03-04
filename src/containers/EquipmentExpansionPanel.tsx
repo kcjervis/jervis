@@ -11,12 +11,12 @@ import EquipmentIcon from '../components/EquipmentIcon'
 import stores, { ObservableEquipment, ObservableLandBasedAirCorps, ObservableShip } from '../stores'
 import EquipmentField from './EquipmentField'
 
-interface IEquipmentExpansionPanelProps {
+interface EquipmentExpansionPanelProps {
   parent: ObservableShip | ObservableLandBasedAirCorps
   equipments: Array<ObservableEquipment | undefined>
 }
 
-const EquipmentExpansionPanel: React.FC<IEquipmentExpansionPanelProps> = props => {
+const EquipmentExpansionPanel: React.FC<EquipmentExpansionPanelProps> = props => {
   const { equipments, parent } = props
   const handleEndDrag = stores.operationStore.switchEquipment
   return (

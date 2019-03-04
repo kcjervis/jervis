@@ -9,13 +9,13 @@ import { EquipmentsDataStoreContext, ObservableLandBasedAirCorps, ObservableShip
 import ObservableEquipment from '../stores/ObservableEquipment'
 import EquipmentFieldContent from './EquipmentFieldContent'
 
-export interface IEquipmentFieldProps {
+export interface EquipmentFieldProps {
   parent: ObservableShip | ObservableLandBasedAirCorps
   index: number
   equipment?: ObservableEquipment
 }
 
-const EquipmentField: React.FC<IEquipmentFieldProps> = ({ equipment, parent, index }) => {
+const EquipmentField: React.FC<EquipmentFieldProps> = ({ equipment, parent, index }) => {
   const { history } = useReactRouter()
   const equipmentsDataStore = useContext(EquipmentsDataStoreContext)
 

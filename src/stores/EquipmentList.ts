@@ -31,7 +31,7 @@ export default class EquipmentList {
     return this.equipments.find(equipState => equipState.asKcObject === equip)
   }
 
-  @computed get asKcEquipments() {
+  @computed public get asKcEquipments() {
     return this.equipments.map(equip => equip.asKcObject)
   }
 

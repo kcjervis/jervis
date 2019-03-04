@@ -28,12 +28,12 @@ const useStyles = makeStyles({
   }
 })
 
-interface IFleetFieldProps {
+interface FleetFieldProps {
   fleet: ObservableFleet
   operation: ObservableOperation
 }
 
-const FleetField: React.FC<IFleetFieldProps> = ({ fleet, operation }) => {
+const FleetField: React.FC<FleetFieldProps> = ({ fleet, operation }) => {
   const { ships } = fleet
   const operationStore = useContext(OperationStoreContext)
   const classes = useStyles()

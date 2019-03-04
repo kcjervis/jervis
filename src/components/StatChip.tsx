@@ -19,12 +19,12 @@ const styles = (theme: Theme) =>
     }
   })
 
-interface IStatChipProps extends WithStyles<typeof styles> {
+interface StatChipProps extends WithStyles<typeof styles> {
   statKey: string
   value: number | string | [number, number]
 }
 
-const StatChip: React.FC<IStatChipProps> = ({ statKey, value, classes }) => {
+const StatChip: React.FC<StatChipProps> = ({ statKey, value, classes }) => {
   const stat = statKeys.find(({ key }) => key === statKey)
   const label = stat ? stat.name : statKey
 

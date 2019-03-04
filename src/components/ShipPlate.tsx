@@ -32,11 +32,11 @@ const styles = (theme: Theme) =>
     }
   })
 
-interface IShipPlateProps extends WithStyles<typeof styles> {
+interface ShipPlateProps extends WithStyles<typeof styles> {
   ship?: IShip
 }
 
-const ShipPlate: React.FC<IShipPlateProps> = ({ ship, classes, children }) => {
+const ShipPlate: React.FC<ShipPlateProps> = ({ ship, classes, children }) => {
   if (!ship) {
     return null
   }

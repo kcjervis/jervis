@@ -13,11 +13,11 @@ import EnemyFleet from '../components/EnemyFleet'
 import ProficiencyDialog from '../components/ProficiencyDialog'
 import { ObservableOperation } from '../stores'
 
-interface ILandBaseForm {
+interface LandBaseForm {
   operation: ObservableOperation
 }
 
-const LandBaseForm: React.FC<ILandBaseForm> = ({ operation }) => {
+const LandBaseForm: React.FC<LandBaseForm> = ({ operation }) => {
   const removeEnemy = () => {
     operation.enemies = []
   }

@@ -35,12 +35,12 @@ const styles = createStyles({
   }
 })
 
-interface IEquipmentLabelProps extends WithStyles<typeof styles> {
+interface EquipmentLabelProps extends WithStyles<typeof styles> {
   equipment: IEquipment
   slotSize?: number
 }
 
-const EquipmentLabel: React.FC<IEquipmentLabelProps> = ({ equipment, slotSize, classes }) => {
+const EquipmentLabel: React.FC<EquipmentLabelProps> = ({ equipment, slotSize, classes }) => {
   const { proficiency, improvement } = equipment
   return (
     <Paper className={classes.card} elevation={1}>

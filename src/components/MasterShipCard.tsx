@@ -31,11 +31,11 @@ const styles = (theme: Theme) =>
     }
   })
 
-interface IMasterShipCardProps extends WithStyles<typeof styles> {
+interface MasterShipCardProps extends WithStyles<typeof styles> {
   ship: MasterShip
 }
 
-const MasterShipCard: React.FC<IMasterShipCardProps> = ({ ship, classes }) => {
+const MasterShipCard: React.FC<MasterShipCardProps> = ({ ship, classes }) => {
   const { id, name, shipType } = ship
   return (
     <Card className={classes.root} elevation={12}>

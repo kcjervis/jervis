@@ -13,7 +13,7 @@ export enum LandBasedAirCorpsMode {
 }
 
 export default class ObservableLandBasedAirCorps implements ILandBasedAirCorpsDataObject {
-  @computed get asKcObject() {
+  @computed public get asKcObject() {
     const airCorps = kcObjectFactory.createLandBasedAirCorps(this)
     return airCorps
   }
@@ -41,7 +41,7 @@ export default class ObservableLandBasedAirCorps implements ILandBasedAirCorpsDa
   @observable
   public slots = [18, 18, 18, 18]
 
-  constructor() {
+  public constructor() {
     autorun(() =>
       this.equipments.forEach((equip, index) => {
         if (equip && !equip.isVisible) {

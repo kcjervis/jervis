@@ -14,7 +14,7 @@ const useStyles = makeStyles({
   }
 })
 
-interface IShipStatProps extends React.HTMLAttributes<HTMLDivElement> {
+interface ShipStatProps extends React.HTMLAttributes<HTMLDivElement> {
   statKey: ShipStatKey | EquipmentStatKey
   stat: number
   increasedStat?: number
@@ -37,7 +37,7 @@ const rangeValueToName = (range: number) => {
   return '不明'
 }
 
-const ShipStat: React.FC<IShipStatProps> = props => {
+const ShipStat: React.FC<ShipStatProps> = props => {
   const classes = useStyles()
   const { statKey, stat, increasedStat, ...rest } = props
   let increasedStatLabel: string | null = null

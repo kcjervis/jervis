@@ -23,13 +23,13 @@ const styles = createStyles({
   }
 })
 
-interface IShipStatDialog extends WithStyles<typeof styles> {
+interface ShipStatDialogProps extends WithStyles<typeof styles> {
   ship: ObservableShip
   statKey: ShipStatKey
 }
 
 @observer
-class ShipStatDialog extends React.Component<IShipStatDialog> {
+class ShipStatDialog extends React.Component<ShipStatDialogProps> {
   public state = { open: false }
 
   public handleClickOpen = () => this.setState({ open: true })

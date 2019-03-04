@@ -39,7 +39,7 @@ const styles = createStyles({
   }
 })
 
-export interface IEquipmentFieldContentProps extends RouteComponentProps, WithStyles<typeof styles> {
+export interface EquipmentFieldContentProps extends RouteComponentProps, WithStyles<typeof styles> {
   equipment: ObservableEquipment
   slotSize?: number
   toEquipmentsPage?: (event: React.MouseEvent<HTMLInputElement>) => void
@@ -47,12 +47,12 @@ export interface IEquipmentFieldContentProps extends RouteComponentProps, WithSt
   style?: React.CSSProperties
 }
 
-interface IEquipmentFieldContentState {
+interface EquipmentFieldContentState {
   anchorEl: HTMLElement | null
 }
 
 @observer
-class EquipmentFieldContent extends React.Component<IEquipmentFieldContentProps, IEquipmentFieldContentState> {
+class EquipmentFieldContent extends React.Component<EquipmentFieldContentProps, EquipmentFieldContentState> {
   public state = {
     anchorEl: null
   }

@@ -1,4 +1,4 @@
-'use strict';
+'use strict'
 const path = require('path')
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin')
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
@@ -20,9 +20,8 @@ module.exports = {
         enforce: 'pre',
         use: [
           {
-            loader: 'tslint-loader',
+            loader: 'eslint-loader',
             options: {
-              typeCheck: true,
               fix: true,
               formatter: 'codeFrame'
             }
@@ -37,7 +36,7 @@ module.exports = {
             loader: 'ts-loader',
             options: {
               transpileOnly: true,
-              experimentalWatchApi: true,
+              experimentalWatchApi: true
             }
           }
         ],
@@ -63,16 +62,14 @@ module.exports = {
   },
   devServer: {
     contentBase: path.resolve(__dirname, 'docs'),
-    openPage: "jervis/",
+    openPage: 'jervis/',
     port: 3000,
     historyApiFallback: true,
     headers: {
       'Access-Control-Allow-Origin': '*',
-      "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, PATCH, OPTIONS",
-      "Access-Control-Allow-Headers": "X-Requested-With, content-type, Authorization"
+      'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, PATCH, OPTIONS',
+      'Access-Control-Allow-Headers': 'X-Requested-With, content-type, Authorization'
     }
   },
-  plugins: [
-    new ForkTsCheckerWebpackPlugin()
-  ]
+  plugins: [new ForkTsCheckerWebpackPlugin()]
 }

@@ -11,11 +11,11 @@ import EquipmentIcon from '../../components/EquipmentIcon'
 import { ImprovementSelect } from '../../components'
 import { EquipmentsDataStoreContext } from '../../stores'
 
-interface IEquipmentLabelCell {
+interface EquipmentLabelCell {
   equipment: IEquipment
 }
 
-const EquipmentLabelCell: React.FC<IEquipmentLabelCell> = ({ equipment }) => {
+const EquipmentLabelCell: React.FC<EquipmentLabelCell> = ({ equipment }) => {
   const { history } = useReactRouter()
   const equipmentsDataStore = useContext(EquipmentsDataStoreContext)
   const handleClick = useCallback(() => {

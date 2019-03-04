@@ -25,11 +25,11 @@ const useStyles = makeStyles({
   }
 })
 
-interface IJsonDialogProps {
+interface JsonDialogProps {
   json: string
 }
 
-const JsonDialog: React.FC<IJsonDialogProps> = ({ json }) => {
+const JsonDialog: React.FC<JsonDialogProps> = ({ json }) => {
   const classes = useStyles()
   const textRef = useRef<HTMLInputElement>(null)
   const [snackbarOpen, setSnackbarOpen] = useState(false)
@@ -54,8 +54,9 @@ const JsonDialog: React.FC<IJsonDialogProps> = ({ json }) => {
       <DialogActions>
         <Button
           variant="outlined"
-          href={`https://www.nishikuma.net/ImgKCbuilder?predeck=${json}`}
           target="_blank"
+          rel="noopener noreferrer"
+          href={`https://www.nishikuma.net/ImgKCbuilder?predeck=${json}`}
           color="primary"
         >
           編成画像出力で開く
@@ -63,8 +64,9 @@ const JsonDialog: React.FC<IJsonDialogProps> = ({ json }) => {
 
         <Button
           variant="outlined"
-          href={`http://kancolle-calc.net/deckbuilder.html?predeck=${json}`}
           target="_blank"
+          rel="noopener noreferrer"
+          href={`http://kancolle-calc.net/deckbuilder.html?predeck=${json}`}
           color="primary"
         >
           デッキビルダーで開く

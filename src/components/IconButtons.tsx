@@ -14,7 +14,7 @@ import ShareIcon from '@material-ui/icons/Share'
 import VisibilityIcon from '@material-ui/icons/Visibility'
 import VisibilityOffIcon from '@material-ui/icons/VisibilityOff'
 
-import withIconButton, { IWithIconButtonProps } from '../hocs/withIconButton'
+import withIconButton, { WithIconButtonProps } from '../hocs/withIconButton'
 
 export const AddButton = withIconButton(Add)
 export const CloseButton = withIconButton(CloseIcon)
@@ -26,10 +26,10 @@ export const ShareButton = withIconButton(ShareIcon)
 export const SaveButton = withIconButton(SaveIcon)
 
 const SimpleCopyButton = withIconButton(FileCopyIcon)
-interface ICopyButtonProps extends IWithIconButtonProps {
+interface CopyButtonProps extends WithIconButtonProps {
   text?: string
 }
-export const CopyButton: React.FC<ICopyButtonProps> = ({ text, ...buttonProps }) => {
+export const CopyButton: React.FC<CopyButtonProps> = ({ text, ...buttonProps }) => {
   const Button = <SimpleCopyButton {...buttonProps} />
   if (text) {
     return <CopyToClipboard text={text}>{Button}</CopyToClipboard>
@@ -37,9 +37,9 @@ export const CopyButton: React.FC<ICopyButtonProps> = ({ text, ...buttonProps })
   return Button
 }
 
-interface IVisibilityButtonProps extends IconButtonProps {
+interface VisibilityButtonProps extends IconButtonProps {
   visible: boolean
 }
-export const VisibilityButton: React.FC<IVisibilityButtonProps> = ({ visible, ...iconButtonProps }) => (
+export const VisibilityButton: React.FC<VisibilityButtonProps> = ({ visible, ...iconButtonProps }) => (
   <IconButton {...iconButtonProps}>{visible ? <VisibilityIcon /> : <VisibilityOffIcon />}</IconButton>
 )

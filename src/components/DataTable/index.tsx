@@ -68,13 +68,13 @@ const cellRenderer: TableCellRenderer = props => {
   return <DataTableCell>{props.cellData}</DataTableCell>
 }
 
-interface IDataTableProps<T = any> {
+interface DataTableProps<T = any> {
   columns: ColumnProps[]
   data: T[]
   sort?: Sort<T>
 }
 
-const DataTable: React.FC<IDataTableProps> = props => {
+const DataTable: React.FC<DataTableProps> = props => {
   const { setSortState, sortBy, sortDirection, defaultSort } = useSort()
   const { columns, sort = defaultSort } = props
   const classes = useStyles()

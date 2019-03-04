@@ -9,13 +9,13 @@ const defaultSort: Sort = params => {
   return newData
 }
 
-interface ISortState {
+interface SortState {
   sortBy: string
   sortDirection: SortDirectionType
 }
 
 const useSort = () => {
-  const [sortState, setSortState] = useState<ISortState>({ sortBy: 'name', sortDirection: SortDirection.ASC })
+  const [sortState, setSortState] = useState<SortState>({ sortBy: 'name', sortDirection: SortDirection.ASC })
   return { ...sortState, setSortState, defaultSort }
 }
 

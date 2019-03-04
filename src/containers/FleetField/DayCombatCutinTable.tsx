@@ -3,10 +3,7 @@ import { action, observable } from 'mobx'
 import { observer } from 'mobx-react-lite'
 import React, { createContext, useCallback, useContext, useState } from 'react'
 
-import Checkbox from '@material-ui/core/Checkbox'
-import FormControlLabel from '@material-ui/core/FormControlLabel'
 import { createStyles, withStyles, WithStyles } from '@material-ui/core/styles'
-import Switch from '@material-ui/core/Switch'
 import Table from '@material-ui/core/Table'
 import TableBody from '@material-ui/core/TableBody'
 import TableCell from '@material-ui/core/TableCell'
@@ -31,7 +28,7 @@ const CutinRate: React.FC<{ cutin: DayCombatCutin; rate?: number }> = ({ cutin, 
   )
 }
 
-interface IShipRowProps {
+interface ShipRowProps {
   ship?: IShip
   fleetLosModifier: number
   isFlagship: boolean
@@ -73,7 +70,7 @@ const useCutinState = (
   }
 }
 
-let ShipRow: React.FC<IShipRowProps> = ({ ship, fleetLosModifier, isFlagship }) => {
+let ShipRow: React.FC<ShipRowProps> = ({ ship, fleetLosModifier, isFlagship }) => {
   if (!ship) {
     return null
   }
@@ -114,7 +111,7 @@ const styles = createStyles({
   }
 })
 
-interface IDayCombatCutinTableProps extends WithStyles<typeof styles> {
+interface DayCombatCutinTableProps extends WithStyles<typeof styles> {
   fleet: IFleet
   fleetRole: FleetRole
 }
@@ -129,7 +126,7 @@ class AirControlStateStore {
   }
 }
 
-const DayCombatCutinTable: React.FC<IDayCombatCutinTableProps> = props => {
+const DayCombatCutinTable: React.FC<DayCombatCutinTableProps> = props => {
   const { fleet, fleetRole, classes } = props
 
   const fleetLosModifier = ArtillerySpotting.calculateFleetLosModifier(fleet)

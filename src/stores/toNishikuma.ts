@@ -1,9 +1,9 @@
 import { IEquipment, IFleet, IOperation, IOperationDataObject, IShip } from 'kc-calculator'
 import { Proficiency } from 'kc-calculator/dist/objects/Equipment'
 
-import { DeckFleet, IDeckEquipmet, IDeckShip, INishikuma } from './fromNishikuma'
+import { DeckFleet, DeckEquipmet, DeckShip, Nishikuma } from './fromNishikuma'
 
-const toDeckEquipment = (equipment: IEquipment): IDeckEquipmet => {
+const toDeckEquipment = (equipment: IEquipment): DeckEquipmet => {
   const { masterId, improvement, proficiency } = equipment
   return {
     id: masterId,
@@ -17,9 +17,9 @@ const isExpansionEquipment = (ship: IShip, equip: IEquipment) => {
   return equipIndex >= ship.slots.length
 }
 
-const toDeckShip = (ship: IShip): IDeckShip => {
+const toDeckShip = (ship: IShip): DeckShip => {
   const { masterId, level, equipments, nakedStats } = ship
-  const items: { [K in string]: IDeckEquipmet } = {}
+  const items: { [K in string]: DeckEquipmet } = {}
   equipments.forEach((equip, index) => {
     if (!equip) {
       return
@@ -38,7 +38,7 @@ const toDeckShip = (ship: IShip): IDeckShip => {
 }
 
 const toDeckFleet = (fleet: IFleet): DeckFleet => {
-  const deckFleet: { [K in string]: IDeckShip } = {}
+  const deckFleet: { [K in string]: DeckShip } = {}
   fleet.ships.forEach((ship, index) => {
     if (ship) {
       const key = `s${index + 1}`
@@ -48,7 +48,7 @@ const toDeckFleet = (fleet: IFleet): DeckFleet => {
   return deckFleet
 }
 
-const toNishikuma = (operation: IOperation, hqlv: number): INishikuma => {
+const toNishikuma = (operation: IOperation, hqlv: number): Nishikuma => {
   const nishikumaObject: { [K in string]: DeckFleet } = {}
   operation.fleets.forEach((fleet, index) => {
     const key = `f${index + 1}`

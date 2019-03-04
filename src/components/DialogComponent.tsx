@@ -11,12 +11,12 @@ const useStyles = makeStyles({
   close: { position: 'fixed', top: '10%', right: '10%' }
 })
 
-interface IDialogComponent {
+interface DialogComponent {
   buttonLabel: React.ReactNode
   buttonProps?: ButtonProps
 }
 
-const DialogComponent: React.FC<IDialogComponent> = ({ buttonLabel, buttonProps = {}, children }) => {
+const DialogComponent: React.FC<DialogComponent> = ({ buttonLabel, buttonProps = {}, children }) => {
   const [open, setOpen] = useState(false)
   const handleClose = useCallback(() => setOpen(false), [])
   const handleClickOpen = useCallback(() => setOpen(true), [])

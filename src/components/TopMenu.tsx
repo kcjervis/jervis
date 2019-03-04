@@ -5,17 +5,16 @@ import AppBar from '@material-ui/core/AppBar'
 import { createStyles, Theme, withStyles, WithStyles } from '@material-ui/core/styles'
 import Tab from '@material-ui/core/Tab'
 import Tabs from '@material-ui/core/Tabs'
+import { makeStyles } from '@material-ui/styles'
 
-const styles = (theme: Theme) =>
-  createStyles({
-    appBar: {
-      backgroundColor: theme.palette.primary.dark
-    }
-  })
+const useStyles = makeStyles((theme: Theme) => ({
+  appBar: {
+    backgroundColor: theme.palette.primary.dark
+  }
+}))
 
-export interface ITopMenuProps extends WithStyles<typeof styles> {}
-
-const TopMenu: React.FC<ITopMenuProps> = ({ classes }) => {
+const TopMenu: React.FC = props => {
+  const classes = useStyles()
   const {
     location: { pathname }
   } = useReactRouter()
@@ -39,4 +38,4 @@ const TopMenu: React.FC<ITopMenuProps> = ({ classes }) => {
     </div>
   )
 }
-export default withStyles(styles)(TopMenu)
+export default TopMenu

@@ -13,11 +13,11 @@ import InputIcon from '@material-ui/icons/Input'
 
 import { OperationStore } from '../stores'
 
-interface INishikumaFormDialogProps {
+interface NishikumaFormDialogProps {
   operationStore: OperationStore
 }
 
-const NishikumaFormDialog: React.FC<INishikumaFormDialogProps> = ({ operationStore }) => {
+const NishikumaFormDialog: React.FC<NishikumaFormDialogProps> = ({ operationStore }) => {
   const [open, setOpen] = useState(false)
   const inputRef = useRef({ value: '' })
   const handleClickOpen = useCallback(() => setOpen(true), [])

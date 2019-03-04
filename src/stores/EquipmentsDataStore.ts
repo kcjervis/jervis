@@ -34,11 +34,11 @@ export default class EquipmentsDataStore {
   @observable
   public activeEquipmentListId?: string
 
-  get activeEquipmentList() {
+  public get activeEquipmentList() {
     return this.equipmentLists.find(list => list.id === this.activeEquipmentListId)
   }
 
-  get label() {
+  public get label() {
     const { parent } = this
     if (parent instanceof ObservableShip) {
       return `${parent.asKcObject.name} 選択中`
@@ -48,13 +48,13 @@ export default class EquipmentsDataStore {
     return ''
   }
 
-  @computed get equipmentsData() {
+  @computed public get equipmentsData() {
     return masterData.equipments
       .map(equip => kcObjectFactory.createEquipment({ masterId: equip.id }))
       .filter(nonNullable)
   }
 
-  @computed get visibleEquipments() {
+  @computed public get visibleEquipments() {
     const { parent, index = 0, equipmentsData, visibleAlly, visibleAbysall, mode, activeEquipmentList } = this
     const listEquipments = activeEquipmentList ? activeEquipmentList.asKcEquipments : equipmentsData
     const equipments = listEquipments.filter(({ masterId }) => {

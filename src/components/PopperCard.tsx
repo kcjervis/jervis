@@ -6,7 +6,7 @@ import ClickAwayListener from '@material-ui/core/ClickAwayListener'
 import Fade from '@material-ui/core/Fade'
 import Popper from '@material-ui/core/Popper'
 
-interface IPopperCardProps {
+interface PopperCardProps {
   open: boolean
   anchorEl: null | HTMLElement
   onClickAway: (event: React.ChangeEvent<{}>) => void
@@ -14,7 +14,7 @@ interface IPopperCardProps {
   style?: React.CSSProperties
 }
 
-const PopperCard: React.FC<IPopperCardProps> = ({ open, anchorEl, onClickAway, children, className, style }) => (
+const PopperCard: React.FC<PopperCardProps> = ({ open, anchorEl, onClickAway, children, className, style }) => (
   <Popper className={className} style={style} open={open} anchorEl={anchorEl} transition={true}>
     {({ TransitionProps }) => (
       <ClickAwayListener onClickAway={onClickAway}>

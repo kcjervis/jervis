@@ -35,11 +35,11 @@ const useStyles = makeStyles({
     backgroundColor: 'rgba( 220, 220, 220, 0.1 )'
   }
 })
-interface IHealthBarProps {
+interface HealthBarProps {
   health: IHealth
 }
 
-const HealthBar: React.FC<IHealthBarProps> = ({ health }) => {
+const HealthBar: React.FC<HealthBarProps> = ({ health }) => {
   const backgroundColors = useBackgroundColorStyles()
   const classes = useStyles()
   const { maxHp, nowHp, damage } = health

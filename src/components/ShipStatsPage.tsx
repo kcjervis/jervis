@@ -10,11 +10,11 @@ import { BattleType } from 'kc-calculator'
 
 const styles = (theme: Theme) => createStyles({})
 
-interface IShipStatsPageProps extends WithStyles<typeof styles> {
+interface ShipStatsPageProps extends WithStyles<typeof styles> {
   ship: IShip
 }
 
-const ShipStatsPage: React.FC<IShipStatsPageProps> = ({ ship, classes }) => {
+const ShipStatsPage: React.FC<ShipStatsPageProps> = ({ ship, classes }) => {
   const battleType = BattleType.AerialBattle
   return <Card />
 }

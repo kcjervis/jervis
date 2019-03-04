@@ -1,7 +1,8 @@
 import { observer } from 'mobx-react-lite'
 import React from 'react'
 
-import { shipStatKeys } from 'kc-calculator'
+import { shipStatKeys, Side } from 'kc-calculator'
+import { shipAdjustedAntiAir } from 'kc-calculator/dist/combats/AerialCombat/antiAir'
 
 import Button from '@material-ui/core/Button'
 import Card from '@material-ui/core/Card'
@@ -53,14 +54,14 @@ const useStyles = makeStyles({
   }
 })
 
-interface IShipForm {
+interface ShipForm {
   ship?: ObservableShip
   fleet: ObservableFleet
   index: number
   onEndDrag: (drag: any, drop: any) => void
 }
 
-const ShipForm: React.FC<IShipForm> = props => {
+const ShipForm: React.FC<ShipForm> = props => {
   const { ship, fleet, index } = props
   const classes = useStyles()
   if (!ship) {
@@ -121,6 +122,9 @@ const ShipForm: React.FC<IShipForm> = props => {
                   <ShipStatDialog statKey={statKey} ship={ship} />
                 </Grid>
               ))}
+              <Grid item={true} xs={6} style={{ display: 'flex', alignItems: 'center' }}>
+                <Typography>加重対空{shipAdjustedAntiAir(ship.asKcObject, Side.Player)}</Typography>
+              </Grid>
             </Grid>
           </>
         )}

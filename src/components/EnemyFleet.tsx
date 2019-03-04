@@ -70,11 +70,11 @@ export const createEnemyBattleFleet = (enemy: TEnemyFleet) => {
 
 const styles = createStyles({})
 
-interface IEnemyFleetProps extends WithStyles<typeof styles> {
+interface EnemyFleetProps extends WithStyles<typeof styles> {
   enemy: TEnemyFleet
 }
 
-const EnemyFleet: React.FC<IEnemyFleetProps> = ({ enemy }) => {
+const EnemyFleet: React.FC<EnemyFleetProps> = ({ enemy }) => {
   const battleFleet = createEnemyBattleFleet(enemy)
   if (!battleFleet) {
     return <Typography align="left">編成を生成できませんでした</Typography>

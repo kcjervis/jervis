@@ -9,11 +9,11 @@ import { IFleet } from 'kc-calculator'
 
 const styles = (theme: Theme) => createStyles({})
 
-interface IFleetPageProps extends WithStyles<typeof styles> {
+interface FleetPageProps extends WithStyles<typeof styles> {
   fleet: IFleet
 }
 
-const FleetPage: React.FC<IFleetPageProps> = ({ fleet, classes, children }) => {
+const FleetPage: React.FC<FleetPageProps> = ({ fleet, classes, children }) => {
   return <div>{children}</div>
 }
 

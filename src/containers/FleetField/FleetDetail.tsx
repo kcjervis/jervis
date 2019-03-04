@@ -12,7 +12,7 @@ import ContactTable from './ContactTable'
 import DayCombatCutinTable from './DayCombatCutinTable'
 import NightBattleSpecialAttackTable from './NightBattleSpecialAttackTable'
 
-interface IFleetDetailProps {
+interface FleetDetailProps {
   fleet: IFleet
   fleetRole: FleetRole
 
@@ -22,7 +22,7 @@ interface IFleetDetailProps {
 
 const FleetDetailContext = createContext(observable({ activeTab: 0 }))
 
-const FleetDetail: React.FC<IFleetDetailProps> = props => {
+const FleetDetail: React.FC<FleetDetailProps> = props => {
   const fleetDetailStore = useContext(FleetDetailContext)
   const handleChangeTab = (event: React.ChangeEvent<{}>, next: number) => {
     fleetDetailStore.activeTab = next

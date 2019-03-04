@@ -7,7 +7,7 @@ import kcObjectFactory from './kcObjectFactory'
 
 export default class ObservableEquipment implements IEquipmentDataObject {
   @computed
-  get asKcObject() {
+  public get asKcObject() {
     const equip = kcObjectFactory.createEquipment(this)
     if (!equip) {
       throw new Error(`masterId: ${this.masterId} equipment is undefined`)

@@ -23,11 +23,11 @@ import stores from '../stores'
 const masterData = new MasterData()
 const masterShips = masterData.ships
 
-interface IMasterShipsPageProps extends RouteComponentProps {
+interface MasterShipsPageProps extends RouteComponentProps {
   createShip?: (ship: IShipDataObject) => void
 }
 
-interface IMasterShipsPageState {
+interface MasterShipsPageState {
   masterShip: MasterShip | null
   anchorEl: HTMLElement | null
 
@@ -47,7 +47,7 @@ interface IMasterShipsPageState {
   searchText: string
 }
 
-class MasterShipsPage extends React.Component<IMasterShipsPageProps, IMasterShipsPageState> {
+class MasterShipsPage extends React.Component<MasterShipsPageProps, MasterShipsPageState> {
   public readonly categories = [
     { name: '戦艦級', typeIds: [8, 9, 10, 12] },
     { name: '航空母艦', typeIds: [7, 11, 18] },
@@ -59,16 +59,13 @@ class MasterShipsPage extends React.Component<IMasterShipsPageProps, IMasterShip
     { name: '補助艦艇', typeIds: [15, 16, 17, 19, 20, 21, 22] }
   ]
 
-  constructor(props: IMasterShipsPageProps) {
-    super(props)
-    this.state = {
-      masterShip: null,
-      anchorEl: null,
-      visibleAbysall: false,
-      visiblePreRemodel: false,
-      visibleTypeIds: [7, 11, 18],
-      searchText: ''
-    }
+  public state: MasterShipsPageState = {
+    masterShip: null,
+    anchorEl: null,
+    visibleAbysall: false,
+    visiblePreRemodel: false,
+    visibleTypeIds: [7, 11, 18],
+    searchText: ''
   }
 
   public toggleAbysall = () => {
@@ -176,12 +173,9 @@ class MasterShipsPage extends React.Component<IMasterShipsPageProps, IMasterShip
         <Input endAdornment={<SearchIcon />} onChange={this.handleSearchChange} />
         {/*表示する艦娘のカテゴリー選択ボタン*/}
         {this.categories.map(category => (
-          <Button
-            key={category.name}
-            size="small"
-            children={category.name}
-            onClick={this.setTypeIds(category.typeIds)}
-          />
+          <Button key={category.name} size="small" onClick={this.setTypeIds(category.typeIds)}>
+            {category.name}
+          </Button>
         ))}
 
         {/*深海棲艦表示切り替え*/}
@@ -235,12 +229,12 @@ class MasterShipsPage extends React.Component<IMasterShipsPageProps, IMasterShip
   }
 }
 
-interface IParams {
+interface Params {
   fleetId?: string
   index?: string
 }
 
-const mapStateToProps = (s: any, props: RouteComponentProps<IParams>) => {
+const mapStateToProps = (s: any, props: RouteComponentProps<Params>) => {
   const { fleetId, index } = props.match.params
   if (!fleetId || !index) {
     return

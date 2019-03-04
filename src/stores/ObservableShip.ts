@@ -8,7 +8,7 @@ import ObservableEquipment from './ObservableEquipment'
 
 export default class ObservableShip implements IShipDataObject {
   @computed
-  get asKcObject() {
+  public get asKcObject() {
     const ship = kcObjectFactory.createShip(this)
     if (!ship) {
       this.isVisible = false
@@ -75,7 +75,7 @@ export default class ObservableShip implements IShipDataObject {
   @observable
   public visibleEquipments = true
 
-  constructor() {
+  public constructor() {
     autorun(() => {
       if (this.nowHp < 0) {
         this.nowHp = this.asKcObject.health.maxHp

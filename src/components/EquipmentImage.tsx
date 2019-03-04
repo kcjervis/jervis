@@ -1,10 +1,10 @@
 import React from 'react'
 
-interface IEquipmentImageProps extends React.ImgHTMLAttributes<HTMLImageElement> {
+interface EquipmentImageProps extends React.ImgHTMLAttributes<HTMLImageElement> {
   masterId: number
 }
 
-const EquipmentImage: React.FC<IEquipmentImageProps> = ({ masterId, ...rest }) => {
+const EquipmentImage: React.FC<EquipmentImageProps> = ({ masterId, ...rest }) => {
   if (masterId > 500) {
     return null
   }

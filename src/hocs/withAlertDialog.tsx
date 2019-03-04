@@ -7,18 +7,18 @@ import DialogContent from '@material-ui/core/DialogContent'
 import DialogContentText from '@material-ui/core/DialogContentText'
 import DialogTitle from '@material-ui/core/DialogTitle'
 
-interface IInjectedProps {
+interface InjectedProps {
   onClick: React.MouseEventHandler<HTMLInputElement>
 }
 
-const withAlertDialog = <WrappedProps extends IInjectedProps>(WrappedComponent: React.ComponentType<WrappedProps>) => {
+const withAlertDialog = <WrappedProps extends InjectedProps>(WrappedComponent: React.ComponentType<WrappedProps>) => {
   type THocProps = WrappedProps & {
     dialogTitle: string
   }
-  interface IHocState {
+  interface HocState {
     readonly open: boolean
   }
-  return class WithAlertDialog extends React.Component<THocProps, IHocState> {
+  return class WithAlertDialog extends React.Component<THocProps, HocState> {
     public static displayName = `withAlertDialog(${WrappedComponent.name})`
 
     public static readonly WrappedComponent = WrappedComponent

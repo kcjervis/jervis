@@ -22,12 +22,12 @@ const styles = createStyles({
   }
 })
 
-interface ILandBasedAirCorpsCard extends WithStyles<typeof styles> {
+interface LandBasedAirCorpsCard extends WithStyles<typeof styles> {
   landBasedAirCorps: ObservableLandBasedAirCorps
   index: number
 }
 
-const LandBasedAirCorpsCard: React.FC<ILandBasedAirCorpsCard> = ({ landBasedAirCorps, index, classes }) => {
+const LandBasedAirCorpsCard: React.FC<LandBasedAirCorpsCard> = ({ landBasedAirCorps, index, classes }) => {
   const { asKcObject: kcAirCorps } = landBasedAirCorps
   const { combatRadius, minCombatRadius, fighterPower, interceptionPower } = kcAirCorps
   const addedRadius = combatRadius - minCombatRadius

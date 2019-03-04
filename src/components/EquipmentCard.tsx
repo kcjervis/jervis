@@ -42,13 +42,13 @@ const styles = (theme: Theme) =>
     }
   })
 
-interface IEquipmentCardProps extends WithStyles<typeof styles> {
+interface EquipmentCardProps extends WithStyles<typeof styles> {
   equipment: IEquipment
   className?: string
   style?: React.CSSProperties
 }
 
-const EquipmentCard: React.FC<IEquipmentCardProps> = ({ equipment, classes, className, style }) => {
+const EquipmentCard: React.FC<EquipmentCardProps> = ({ equipment, classes, className, style }) => {
   const { masterId, category, iconId, name } = equipment
 
   return (
