@@ -2,9 +2,7 @@ import { FleetType } from 'kc-calculator'
 import React from 'react'
 
 import FormControl from '@material-ui/core/FormControl'
-import InputLabel from '@material-ui/core/InputLabel'
 import MenuItem from '@material-ui/core/MenuItem'
-import OutlinedInput from '@material-ui/core/OutlinedInput'
 import Select from '@material-ui/core/Select'
 
 interface FleetTypeSelectProps {

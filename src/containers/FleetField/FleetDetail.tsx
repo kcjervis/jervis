@@ -11,6 +11,7 @@ import Typography from '@material-ui/core/Typography'
 import ContactTable from './ContactTable'
 import DayCombatCutinTable from './DayCombatCutinTable'
 import NightBattleSpecialAttackTable from './NightBattleSpecialAttackTable'
+import AerialCombatTable from './AerialCombatTable'
 
 interface FleetDetailProps {
   fleet: IFleet
@@ -31,12 +32,13 @@ const FleetDetail: React.FC<FleetDetailProps> = props => {
   const { fleet, fleetRole, isCombinedFleet, combinedFleetPlanes } = props
   const { activeTab } = fleetDetailStore
   return (
-    <div>
+    <div style={{ marginBottom: 300 }}>
       <div style={{ display: 'flex', alignItems: 'center' }}>
         <Tabs value={fleetDetailStore.activeTab} onChange={handleChangeTab}>
           <Tab label="弾着&戦爆発動率" />
           <Tab label="触接率" />
           <Tab label="夜戦CI" />
+          <Tab label="航空戦" />
         </Tabs>
       </div>
 
@@ -58,6 +60,7 @@ const FleetDetail: React.FC<FleetDetailProps> = props => {
         </>
       )}
       {activeTab === 2 && <NightBattleSpecialAttackTable fleet={fleet} />}
+      {activeTab === 3 && <AerialCombatTable fleet={fleet} />}
     </div>
   )
 }
