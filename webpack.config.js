@@ -30,7 +30,7 @@ module.exports = {
         exclude: /node_modules/
       },
       {
-        test: /\.tsx?$/,
+        test: /\.(j|t)sx?$/,
         use: [
           {
             loader: 'ts-loader',
