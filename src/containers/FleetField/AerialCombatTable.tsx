@@ -30,7 +30,7 @@ const AntiAirCutInSelect: React.FC<{
   const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     onChange(AntiAirCutin.fromApi(Number(event.target.value)))
   }
-  const currentId = antiAirCutin && antiAirCutin.api
+  const currentId = antiAirCutin ? antiAirCutin.api : 0
   return (
     <FormControl style={{ width: 120 }}>
       <InputLabel>対空CI</InputLabel>

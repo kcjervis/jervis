@@ -42,7 +42,7 @@ const styles = createStyles({
 export interface EquipmentFieldContentProps extends RouteComponentProps, WithStyles<typeof styles> {
   equipment: ObservableEquipment
   slotSize?: number
-  toEquipmentsPage?: (event: React.MouseEvent<HTMLInputElement>) => void
+  toEquipmentsPage?: (event: React.MouseEvent<HTMLButtonElement>) => void
   onSlotSizeChage?: (value: number) => void
   style?: React.CSSProperties
 }
@@ -135,7 +135,7 @@ class EquipmentFieldContent extends React.Component<EquipmentFieldContentProps, 
                   <div className={classes.buttons}>
                     {Proficiency.internalBounds.concat(120).map(inter => (
                       <Button key={inter} className={classes.button} onClick={this.handleProficiencyClick(inter)}>
-                        <ProficiencyIcon value={inter} />
+                        <ProficiencyIcon internal={inter} />
                       </Button>
                     ))}
                   </div>

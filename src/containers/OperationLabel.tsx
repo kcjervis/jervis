@@ -31,11 +31,13 @@ const OperationLabel: React.FC<OperationLabelProps> = ({ operation }) => {
   const flagship = operation.fleets[0].ships[0]
   return (
     <Card style={{ margin: 8 }}>
-      <Typography variant="caption">{operation.name}</Typography>
+      <Typography variant="caption" component="div">
+        {operation.name}
+      </Typography>
       <Button onClick={handleOpen} size="large" variant="outlined">
         {flagship ? <ShipImage imageType="banner" masterId={flagship.masterId} /> : '編成を開く'}
       </Button>
-      <RemoveButton onClick={operation.remove} />
+      <RemoveButton title="編成を削除" onClick={operation.remove} />
       <CopyButton title="編成をコピー" onClick={handleCopy} />
       <OperationShareDialog operation={operation} />
     </Card>

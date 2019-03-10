@@ -17,7 +17,7 @@ const styles = (theme: Theme) =>
       flexWrap: 'wrap',
       alignItems: 'center',
       padding: 0,
-      paddingBottom: theme.spacing.unit,
+      paddingBottom: theme.spacing(1),
       '&:last-child': {
         paddingBottom: 0
       }
@@ -26,7 +26,7 @@ const styles = (theme: Theme) =>
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
-      margin: theme.spacing.unit * 0.5,
+      margin: theme.spacing(1),
       minWidth: 200,
       height: 50
     }

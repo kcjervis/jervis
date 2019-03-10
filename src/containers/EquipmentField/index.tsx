@@ -4,10 +4,16 @@ import useReactRouter from 'use-react-router'
 
 import Button from '@material-ui/core/Button'
 
-import withDragAndDrop from '../hocs/withDragAndDrop'
-import { EquipmentsDataStoreContext, ObservableLandBasedAirCorps, ObservableShip } from '../stores'
-import ObservableEquipment from '../stores/ObservableEquipment'
-import EquipmentFieldContent from './EquipmentFieldContent'
+import withDragAndDrop from '../../hocs/withDragAndDrop'
+import {
+  EquipmentsDataStoreContext,
+  ObservableLandBasedAirCorps,
+  ObservableShip,
+  ObservableEquipment
+} from '../../stores'
+import EquipmentFieldContent from '../EquipmentFieldContent'
+
+import EquipmentFieldCard from './EquipmentFieldCard'
 
 export interface EquipmentFieldProps {
   parent: ObservableShip | ObservableLandBasedAirCorps
@@ -42,6 +48,15 @@ const EquipmentField: React.FC<EquipmentFieldProps> = ({ equipment, parent, inde
 
   return (
     <div>
+      <EquipmentFieldCard
+        style={{ marginTop: 8 }}
+        equipment={equipment.asKcObject}
+        slotSize={slotSize}
+        onImprovementChange={equipment.changeImprovement}
+        onProficiencyChange={equipment.changeProficiency}
+        onSlotSizeChange={handleSlotSizeChange}
+        onRemove={equipment.remove}
+      />
       <EquipmentFieldContent
         style={style}
         equipment={equipment}

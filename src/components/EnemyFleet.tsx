@@ -3,7 +3,6 @@ import BattleFleet from 'kc-calculator/dist/combats/BattleFleet'
 import flatMap from 'lodash/flatMap'
 import React from 'react'
 
-import { createStyles, withStyles, WithStyles } from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography'
 
 import { TEnemyFleet, TEventDifficulty } from '*maps'
@@ -68,9 +67,7 @@ export const createEnemyBattleFleet = (enemy: TEnemyFleet) => {
   return battleFleet
 }
 
-const styles = createStyles({})
-
-interface EnemyFleetProps extends WithStyles<typeof styles> {
+interface EnemyFleetProps {
   enemy: TEnemyFleet
 }
 
@@ -109,4 +106,4 @@ const EnemyFleet: React.FC<EnemyFleetProps> = ({ enemy }) => {
   )
 }
 
-export default withStyles(styles)(EnemyFleet)
+export default EnemyFleet

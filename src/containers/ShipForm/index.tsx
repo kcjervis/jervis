@@ -93,8 +93,13 @@ const ShipForm: React.FC<ShipForm> = props => {
             {index + 1} ID:{ship.masterId} {ship.asKcObject.name}
           </Typography>
           <div style={{ alignItems: 'right' }}>
-            <UpdateButton size="small" style={{ padding: 4 }} href={`#/ships/${fleet.id}/${index}`} />
-            <RemoveButton size="small" style={{ padding: 4 }} onClick={ship.remove} />
+            <UpdateButton
+              title="艦娘を変更"
+              size="small"
+              style={{ padding: 4 }}
+              href={`#/ships/${fleet.id}/${index}`}
+            />
+            <RemoveButton title="艦娘を削除" size="small" style={{ padding: 4 }} onClick={ship.remove} />
           </div>
         </div>
 

@@ -8,7 +8,7 @@ import DialogContentText from '@material-ui/core/DialogContentText'
 import DialogTitle from '@material-ui/core/DialogTitle'
 
 interface InjectedProps {
-  onClick: React.MouseEventHandler<HTMLInputElement>
+  onClick: React.MouseEventHandler<HTMLButtonElement>
 }
 
 const withAlertDialog = <WrappedProps extends InjectedProps>(WrappedComponent: React.ComponentType<WrappedProps>) => {
@@ -19,7 +19,7 @@ const withAlertDialog = <WrappedProps extends InjectedProps>(WrappedComponent: R
     readonly open: boolean
   }
   return class WithAlertDialog extends React.Component<THocProps, HocState> {
-    public static displayName = `withAlertDialog(${WrappedComponent.name})`
+    public static displayName = `withDragAndDrop(${WrappedComponent.name && WrappedComponent.displayName})`
 
     public static readonly WrappedComponent = WrappedComponent
 
@@ -31,7 +31,7 @@ const withAlertDialog = <WrappedProps extends InjectedProps>(WrappedComponent: R
 
     public handleClose = () => this.setState({ open: false })
 
-    public handleClick: React.MouseEventHandler<HTMLInputElement> = event => {
+    public handleClick: React.MouseEventHandler<HTMLButtonElement> = event => {
       this.props.onClick(event)
       this.setState({ open: false })
     }

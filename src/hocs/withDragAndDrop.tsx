@@ -35,7 +35,7 @@ const withDragAndDrop = (type: string) => <WrappedProps extends {}>(
     connectDropTarget: connect.dropTarget()
   }))
   class DragAndDrop extends React.Component<THocProps> {
-    public static displayName? = `withDragAndDrop(${WrappedComponent.name})`
+    public static displayName? = `withDragAndDrop(${WrappedComponent.name && WrappedComponent.displayName})`
 
     public render() {
       const { isDragging, connectDragSource, connectDropTarget, ...restProps } = this.props as any

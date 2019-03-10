@@ -1,14 +1,13 @@
-import { createStyles, withStyles, WithStyles } from '@material-ui/core/styles'
+import { makeStyles } from '@material-ui/styles'
 import random from 'lodash/random'
 import range from 'lodash/range'
 import React from 'react'
 
 import ShipImage from './components/ShipImage'
 
-import stores from './stores'
 import { masterData } from './stores/kcObjectFactory'
 
-const styles = createStyles({
+const useStyles = makeStyles({
   background: {
     background: `linear-gradient(
       180deg,
@@ -48,7 +47,8 @@ const getRandomShipId = () => {
   return ship.id
 }
 
-const Background: React.FC<WithStyles<typeof styles>> = ({ classes }) => {
+const Background: React.FC = props => {
+  const classes = useStyles()
   return (
     <div className={classes.background}>
       <ShipImage className={classes.image} imageType="full" masterId={getRandomShipId()} />
@@ -56,4 +56,4 @@ const Background: React.FC<WithStyles<typeof styles>> = ({ classes }) => {
   )
 }
 
-export default withStyles(styles)(Background)
+export default Background

@@ -39,8 +39,7 @@ export default class ObservableEquipment implements IEquipmentDataObject {
   @observable
   public proficiency: number = 0
 
-  @observable
-  public isVisible = true
+  @observable public isVisible = true
 
   public isValid() {
     const equip = kcObjectFactory.createEquipment(this)
@@ -51,8 +50,15 @@ export default class ObservableEquipment implements IEquipmentDataObject {
     return true
   }
 
-  @action.bound
-  public remove() {
+  @action public changeImprovement = (value: number) => {
+    this.improvement = value
+  }
+
+  @action public changeProficiency = (value: number) => {
+    this.proficiency = value
+  }
+
+  @action public remove = () => {
     this.isVisible = false
   }
 

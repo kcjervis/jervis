@@ -2,60 +2,70 @@ import React from 'react'
 
 import { equipmentStatKeys, IEquipment } from 'kc-calculator'
 
-import Card from '@material-ui/core/Card'
+import { Theme } from '@material-ui/core'
+import Card, { CardProps } from '@material-ui/core/Card'
 import CardContent from '@material-ui/core/CardContent'
-import { createStyles, Theme, withStyles, WithStyles } from '@material-ui/core/styles'
+import { makeStyles } from '@material-ui/styles'
 import Typography from '@material-ui/core/Typography'
 
 import EquipmentIcon from './EquipmentIcon'
 import EquipmentImage from './EquipmentImage'
 import StatChip from './StatChip'
+import { RemoveButton, UpdateButton, CloseButton } from '../components/IconButtons'
 
-const styles = (theme: Theme) =>
-  createStyles({
-    icon: {
-      width: 32,
-      height: 32
-    },
-    title: {
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center',
-      margin: theme.spacing.unit
-    },
-    buttons: {
-      display: 'flex',
-      justifyContent: 'flex-end'
-    },
-    details: {
-      display: 'flex',
-      justifyContent: 'space-around'
-    },
-    stats: {
-      display: 'flex',
-      flexDirection: 'column'
-    },
-    image: {
-      margin: theme.spacing.unit,
-      alignSelf: 'center',
-      maxWidth: 200
-    }
-  })
+const useStyles = makeStyles((theme: Theme) => ({
+  icon: {
+    width: 32,
+    height: 32
+  },
+  title: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    margin: theme.spacing(1)
+  },
+  buttons: {
+    display: 'flex',
+    justifyContent: 'flex-end'
+  },
+  details: {
+    display: 'flex',
+    justifyContent: 'space-around'
+  },
+  stats: {
+    display: 'flex',
+    flexDirection: 'column'
+  },
+  image: {
+    margin: theme.spacing(1),
+    alignSelf: 'center',
+    maxWidth: 200
+  }
+}))
 
-interface EquipmentCardProps extends WithStyles<typeof styles> {
+interface EquipmentCardProps extends CardProps {
   equipment: IEquipment
-  className?: string
-  style?: React.CSSProperties
+  onRemove?: () => void
+  onUpdate?: () => void
+  onClose?: () => void
 }
 
-const EquipmentCard: React.FC<EquipmentCardProps> = ({ equipment, classes, className, style }) => {
+const EquipmentCard: React.FC<EquipmentCardProps> = ({ equipment, onRemove, onUpdate, onClose, ...cardProps }) => {
+  const classes = useStyles()
   const { masterId, category, iconId, name } = equipment
-
   return (
-    <Card className={className} style={style} elevation={12}>
-      <Typography variant="caption" align="left">
-        ID:{masterId} {category.name}
-      </Typography>
+    <Card elevation={12} {...cardProps}>
+      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+        <Typography variant="caption">
+          ID:{masterId} {category.name}
+        </Typography>
+
+        <div>
+          {onRemove && <RemoveButton size="small" onClick={onRemove} />}
+          {onUpdate && <UpdateButton size="small" onClick={onUpdate} />}
+          {onClose && <CloseButton size="small" onClick={onClose} />}
+        </div>
+      </div>
 
       <Typography className={classes.title} variant="subtitle1">
         <EquipmentIcon className={classes.icon} iconId={iconId} />
@@ -79,4 +89,4 @@ const EquipmentCard: React.FC<EquipmentCardProps> = ({ equipment, classes, class
   )
 }
 
-export default withStyles(styles)(EquipmentCard)
+export default EquipmentCard

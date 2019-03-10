@@ -4,38 +4,39 @@ import { MasterShip, shipStatKeys } from 'kc-calculator'
 
 import Card from '@material-ui/core/Card'
 import CardContent from '@material-ui/core/CardContent'
-import { createStyles, Theme, withStyles, WithStyles } from '@material-ui/core/styles'
+import { Theme } from '@material-ui/core'
+import { makeStyles } from '@material-ui/styles'
 import Typography from '@material-ui/core/Typography'
 
 import ShipImage from './ShipImage'
 import StatChip from './StatChip'
 
-const styles = (theme: Theme) =>
-  createStyles({
-    root: {
-      background: 'rgba(0, 0, 0, 0.9)'
-    },
-    details: {
-      display: 'flex',
-      alignItems: 'center'
-    },
-    stats: {
-      display: 'flex',
-      flexDirection: 'column'
-    },
-    shipImage: {
-      width: 'auto',
-      height: 'auto',
-      maxWidth: 600,
-      maxHeight: 500
-    }
-  })
+const useStyles = makeStyles((theme: Theme) => ({
+  root: {
+    background: 'rgba(0, 0, 0, 0.9)'
+  },
+  details: {
+    display: 'flex',
+    alignItems: 'center'
+  },
+  stats: {
+    display: 'flex',
+    flexDirection: 'column'
+  },
+  shipImage: {
+    width: 'auto',
+    height: 'auto',
+    maxWidth: 600,
+    maxHeight: 500
+  }
+}))
 
-interface MasterShipCardProps extends WithStyles<typeof styles> {
+interface MasterShipCardProps {
   ship: MasterShip
 }
 
-const MasterShipCard: React.FC<MasterShipCardProps> = ({ ship, classes }) => {
+const MasterShipCard: React.FC<MasterShipCardProps> = ({ ship }) => {
+  const classes = useStyles()
   const { id, name, shipType } = ship
   return (
     <Card className={classes.root} elevation={12}>
@@ -61,4 +62,4 @@ const MasterShipCard: React.FC<MasterShipCardProps> = ({ ship, classes }) => {
   )
 }
 
-export default withStyles(styles)(MasterShipCard)
+export default MasterShipCard

@@ -2,6 +2,9 @@
   "editor.formatOnSave": false,
   "tslint.enable": false,
   "eslint.autoFixOnSave": true,
+  "eslint.options": {
+    "ignorePath": ".eslintignore"
+  },
   "eslint.validate": [
     "javascript",
     "javascriptreact",

@@ -26,12 +26,13 @@ const TopMenu: React.FC = props => {
     { label: 'Apps', path: '/apps' }
   ]
   const isActive = paths.some(({ path }) => path === pathname)
+
   return (
     <div>
       <AppBar className={classes.appBar} position="static">
         <Tabs value={isActive && pathname} variant="fullWidth" indicatorColor="primary">
           {paths.map(({ label, path }) => (
-            <Tab key={path} href={`#${path}`} label={label} value={path} />
+            <Tab key={path} {...{ href: `#${path}` } as any} label={label} value={path} />
           ))}
         </Tabs>
       </AppBar>

@@ -70,7 +70,7 @@ const useCutinState = (
   }
 }
 
-let ShipRow: React.FC<ShipRowProps> = ({ ship, fleetLosModifier, isFlagship }) => {
+const ShipRow: React.FC<ShipRowProps> = ({ ship, fleetLosModifier, isFlagship }) => {
   if (!ship) {
     return null
   }
@@ -100,7 +100,7 @@ let ShipRow: React.FC<ShipRowProps> = ({ ship, fleetLosModifier, isFlagship }) =
   )
 }
 
-ShipRow = observer(ShipRow)
+const ObservedShipRow = observer(ShipRow)
 
 const styles = createStyles({
   checkBoxForm: {
@@ -111,7 +111,7 @@ const styles = createStyles({
   }
 })
 
-interface DayCombatCutinTableProps extends WithStyles<typeof styles> {
+interface DayCombatCutinTableProps {
   fleet: IFleet
   fleetRole: FleetRole
 }
@@ -127,7 +127,7 @@ class AirControlStateStore {
 }
 
 const DayCombatCutinTable: React.FC<DayCombatCutinTableProps> = props => {
-  const { fleet, fleetRole, classes } = props
+  const { fleet, fleetRole } = props
 
   const fleetLosModifier = ArtillerySpotting.calculateFleetLosModifier(fleet)
 
@@ -151,7 +151,7 @@ const DayCombatCutinTable: React.FC<DayCombatCutinTableProps> = props => {
         </TableHead>
         <TableBody>
           {fleet.ships.map((ship, index) => (
-            <ShipRow
+            <ObservedShipRow
               key={index}
               ship={ship}
               fleetLosModifier={fleetLosModifier}
@@ -166,4 +166,4 @@ const DayCombatCutinTable: React.FC<DayCombatCutinTableProps> = props => {
   )
 }
 
-export default withStyles(styles)(observer(DayCombatCutinTable))
+export default observer(DayCombatCutinTable)

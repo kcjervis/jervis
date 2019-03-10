@@ -6,9 +6,6 @@ const darkBackground = 'rgba(0, 0, 0, 0.9)'
 const darkPaper = { paper: { background: darkBackground } }
 
 const theme = createMuiTheme({
-  typography: {
-    useNextVariants: true
-  },
   palette: {
     type: 'dark',
     background: {
@@ -20,6 +17,7 @@ const theme = createMuiTheme({
     MuiMenu: darkPaper,
     MuiDialog: darkPaper,
     MuiDrawer: darkPaper,
+    MuiPopover: darkPaper,
     MuiTooltip: {
       tooltip: {
         backgroundColor: darkBackground

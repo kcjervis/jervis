@@ -34,7 +34,7 @@ const withDragSortable = (type: string) => <WrappedProps extends {}>(
     connectDropTarget: connect.dropTarget()
   }))
   class DragSortable extends React.Component<Props> {
-    public static displayName? = `withDragAndDrop(${WrappedComponent.name})`
+    public static displayName? = `withDragAndDrop(${WrappedComponent.name && WrappedComponent.displayName})`
 
     public render() {
       const { isDragging, connectDragSource, connectDropTarget, ...rest } = this.props as any

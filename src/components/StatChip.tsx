@@ -9,7 +9,7 @@ import statKeys from '../data/statKeys'
 const styles = (theme: Theme) =>
   createStyles({
     root: {
-      margin: theme.spacing.unit * 0.5
+      margin: theme.spacing(1)
     },
     avatar: {
       backgroundColor: 'rgba(0, 0, 0, 0)'

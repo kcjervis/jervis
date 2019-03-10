@@ -1,7 +1,7 @@
 import React from 'react'
 
 import Paper from '@material-ui/core/Paper'
-import { createStyles, withStyles, WithStyles } from '@material-ui/core/styles'
+import { makeStyles } from '@material-ui/styles'
 import Typography from '@material-ui/core/Typography'
 
 import EquipmentIcon from './EquipmentIcon'
@@ -9,7 +9,7 @@ import EquipmentIcon from './EquipmentIcon'
 import { IEquipment } from 'kc-calculator'
 import ProficiencyIcon from './ProficiencyIcon'
 
-const styles = createStyles({
+const useStyles = makeStyles({
   card: {
     width: '100%',
     height: '100%',
@@ -35,12 +35,13 @@ const styles = createStyles({
   }
 })
 
-interface EquipmentLabelProps extends WithStyles<typeof styles> {
+interface EquipmentLabelProps {
   equipment: IEquipment
   slotSize?: number
 }
 
-const EquipmentLabel: React.FC<EquipmentLabelProps> = ({ equipment, slotSize, classes }) => {
+const EquipmentLabel: React.FC<EquipmentLabelProps> = ({ equipment, slotSize }) => {
+  const classes = useStyles()
   const { proficiency, improvement } = equipment
   return (
     <Paper className={classes.card} elevation={1}>
@@ -50,7 +51,7 @@ const EquipmentLabel: React.FC<EquipmentLabelProps> = ({ equipment, slotSize, cl
 
       <div className={classes.right}>
         {equipment.category.isAerialCombatAircraft && (
-          <ProficiencyIcon style={{ marginRight: 8 }} value={proficiency.internal} />
+          <ProficiencyIcon style={{ marginRight: 8 }} internal={proficiency.internal} />
         )}
         <div>
           <Typography>{'★' + improvement.value}</Typography>
@@ -61,4 +62,4 @@ const EquipmentLabel: React.FC<EquipmentLabelProps> = ({ equipment, slotSize, cl
   )
 }
 
-export default withStyles(styles)(EquipmentLabel)
+export default EquipmentLabel

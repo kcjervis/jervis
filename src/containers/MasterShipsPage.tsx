@@ -205,7 +205,7 @@ class MasterShipsPage extends React.Component<MasterShipsPageProps, MasterShipsP
                 onMouseEnter={this.handleCardOpen(ship)}
                 onMouseLeave={this.handleCardClose}
               >
-                <Typography variant="caption" align="left">
+                <Typography variant="caption" align="left" component="div">
                   ID:{ship.id} {ship.name}
                 </Typography>
 

@@ -48,7 +48,7 @@ class ProficiencyDialog extends React.Component<ProficiencyDialogProps> {
           <DialogContent>
             {Proficiency.internalBounds.concat(120).map(inter => (
               <Button key={inter} onClick={this.handleProficiencyChange(inter)}>
-                <ProficiencyIcon value={inter} />
+                <ProficiencyIcon internal={inter} />
               </Button>
             ))}
           </DialogContent>
