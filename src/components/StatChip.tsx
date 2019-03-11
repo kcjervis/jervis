@@ -2,29 +2,30 @@ import React from 'react'
 
 import Avatar from '@material-ui/core/Avatar'
 import Chip from '@material-ui/core/Chip'
-import { createStyles, Theme, withStyles, WithStyles } from '@material-ui/core/styles'
+import { Theme } from '@material-ui/core'
+import { makeStyles } from '@material-ui/styles'
 
 import statKeys from '../data/statKeys'
 
-const styles = (theme: Theme) =>
-  createStyles({
-    root: {
-      margin: theme.spacing(1)
-    },
-    avatar: {
-      backgroundColor: 'rgba(0, 0, 0, 0)'
-    },
-    image: {
-      filter: 'brightness(150%)'
-    }
-  })
+const useStyles = makeStyles((theme: Theme) => ({
+  root: {
+    marginBottom: theme.spacing(1)
+  },
+  avatar: {
+    backgroundColor: 'rgba(0, 0, 0, 0)'
+  },
+  image: {
+    filter: 'brightness(150%)'
+  }
+}))
 
-interface StatChipProps extends WithStyles<typeof styles> {
+interface StatChipProps {
   statKey: string
   value: number | string | [number, number]
 }
 
-const StatChip: React.FC<StatChipProps> = ({ statKey, value, classes }) => {
+const StatChip: React.FC<StatChipProps> = ({ statKey, value }) => {
+  const classes = useStyles()
   const stat = statKeys.find(({ key }) => key === statKey)
   const label = stat ? stat.name : statKey
 
@@ -47,4 +48,4 @@ const StatChip: React.FC<StatChipProps> = ({ statKey, value, classes }) => {
   )
 }
 
-export default withStyles(styles)(StatChip)
+export default StatChip

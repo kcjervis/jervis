@@ -1,8 +1,8 @@
 {
   "compilerOptions": {
     /* Basic Options */
-    "module": "commonjs",
     "target": "es5",
+    "moduleResolution": "node",
     "lib": [
       "esnext",
       "dom"

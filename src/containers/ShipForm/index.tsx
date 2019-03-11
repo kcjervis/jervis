@@ -28,7 +28,7 @@ const useStyles = makeStyles({
     margin: 4
   },
   card: {
-    width: 280
+    width: 248
   },
   top: {
     display: 'flex',
@@ -39,7 +39,7 @@ const useStyles = makeStyles({
     justifyContent: 'space-around'
   },
   addShipButton: {
-    width: 280
+    width: 248
   },
 
   equipments: {
@@ -93,13 +93,8 @@ const ShipForm: React.FC<ShipForm> = props => {
             {index + 1} ID:{ship.masterId} {ship.asKcObject.name}
           </Typography>
           <div style={{ alignItems: 'right' }}>
-            <UpdateButton
-              title="艦娘を変更"
-              size="small"
-              style={{ padding: 4 }}
-              href={`#/ships/${fleet.id}/${index}`}
-            />
-            <RemoveButton title="艦娘を削除" size="small" style={{ padding: 4 }} onClick={ship.remove} />
+            <UpdateButton title="艦娘を変更" size="small" href={`#/ships/${fleet.id}/${index}`} />
+            <RemoveButton title="艦娘を削除" size="small" onClick={ship.remove} />
           </div>
         </div>
 

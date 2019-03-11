@@ -2,11 +2,11 @@ import React from 'react'
 
 import { EquipmentStatKey, ShipStatKey } from 'kc-calculator'
 
-import { createStyles, withStyles, WithStyles } from '@material-ui/core/styles'
+import { makeStyles } from '@material-ui/styles'
 import Typography from '@material-ui/core/Typography'
 import statKeys from '../data/statKeys'
 
-const styles = createStyles({
+const useStyles = makeStyles({
   root: {
     position: 'relative',
     paddingRight: 5,
@@ -25,13 +25,14 @@ const styles = createStyles({
   }
 })
 
-interface ShipIcon extends WithStyles<typeof styles> {
+interface ShipIcon {
   statKey: ShipStatKey | EquipmentStatKey
   label?: string | number
 }
 
 const ShipIcon: React.FC<ShipIcon> = props => {
-  const { statKey, classes } = props
+  const classes = useStyles()
+  const { statKey } = props
   let image
   try {
     image = require(`../images/icons/${statKey}.png`)
@@ -53,4 +54,4 @@ const ShipIcon: React.FC<ShipIcon> = props => {
   )
 }
 
-export default withStyles(styles)(ShipIcon)
+export default ShipIcon

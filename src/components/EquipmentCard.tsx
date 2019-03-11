@@ -39,7 +39,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   image: {
     margin: theme.spacing(1),
     alignSelf: 'center',
-    maxWidth: 200
+    maxWidth: 160
   }
 }))
 
@@ -61,9 +61,13 @@ const EquipmentCard: React.FC<EquipmentCardProps> = ({ equipment, onRemove, onUp
         </Typography>
 
         <div>
-          {onRemove && <RemoveButton size="small" onClick={onRemove} />}
-          {onUpdate && <UpdateButton size="small" onClick={onUpdate} />}
-          {onClose && <CloseButton size="small" onClick={onClose} />}
+          {onRemove && (
+            <RemoveButton title="装備を削除" tooltipProps={{ placement: 'top' }} size="small" onClick={onRemove} />
+          )}
+          {onUpdate && (
+            <UpdateButton title="装備を変更" tooltipProps={{ placement: 'top' }} size="small" onClick={onUpdate} />
+          )}
+          {onClose && <CloseButton title="閉じる" tooltipProps={{ placement: 'top' }} size="small" onClick={onClose} />}
         </div>
       </div>
 

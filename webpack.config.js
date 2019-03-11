@@ -71,5 +71,10 @@ module.exports = {
       'Access-Control-Allow-Headers': 'X-Requested-With, content-type, Authorization'
     }
   },
-  plugins: [new ForkTsCheckerWebpackPlugin()]
+  plugins: [
+    new ForkTsCheckerWebpackPlugin(),
+    new BundleAnalyzerPlugin({
+      analyzerMode: 'static'
+    })
+  ]
 }

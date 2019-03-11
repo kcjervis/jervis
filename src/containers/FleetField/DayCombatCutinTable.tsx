@@ -1,9 +1,8 @@
 import { AirControlState, AircraftCarrierCutin, ArtillerySpotting, FleetRole, IFleet, IShip } from 'kc-calculator'
 import { action, observable } from 'mobx'
 import { observer } from 'mobx-react-lite'
-import React, { createContext, useCallback, useContext, useState } from 'react'
+import React from 'react'
 
-import { createStyles, withStyles, WithStyles } from '@material-ui/core/styles'
 import Table from '@material-ui/core/Table'
 import TableBody from '@material-ui/core/TableBody'
 import TableCell from '@material-ui/core/TableCell'
@@ -101,15 +100,6 @@ const ShipRow: React.FC<ShipRowProps> = ({ ship, fleetLosModifier, isFlagship })
 }
 
 const ObservedShipRow = observer(ShipRow)
-
-const styles = createStyles({
-  checkBoxForm: {
-    margin: 8
-  },
-  checkBox: {
-    padding: 0
-  }
-})
 
 interface DayCombatCutinTableProps {
   fleet: IFleet

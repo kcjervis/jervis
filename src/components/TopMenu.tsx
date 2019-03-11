@@ -2,7 +2,7 @@ import React from 'react'
 import useReactRouter from 'use-react-router'
 
 import AppBar from '@material-ui/core/AppBar'
-import { createStyles, Theme, withStyles, WithStyles } from '@material-ui/core/styles'
+import { Theme } from '@material-ui/core'
 import Tab from '@material-ui/core/Tab'
 import Tabs from '@material-ui/core/Tabs'
 import { makeStyles } from '@material-ui/styles'

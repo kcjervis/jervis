@@ -10,7 +10,6 @@ import FormControlLabel from '@material-ui/core/FormControlLabel'
 import Input from '@material-ui/core/Input'
 import Paper from '@material-ui/core/Paper'
 import Popper from '@material-ui/core/Popper'
-import { createStyles, Theme, withStyles, WithStyles } from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography'
 import SearchIcon from '@material-ui/icons/Search'
 

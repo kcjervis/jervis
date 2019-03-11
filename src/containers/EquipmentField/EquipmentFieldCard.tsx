@@ -6,6 +6,7 @@ import { Theme } from '@material-ui/core'
 import Typography from '@material-ui/core/Typography'
 import Paper, { PaperProps } from '@material-ui/core/Paper'
 import Popover from '@material-ui/core/Popover'
+import Tooltip from '@material-ui/core/Tooltip'
 import { makeStyles } from '@material-ui/styles'
 
 import { EquipmentIcon, ImprovementSelect, ProficiencySelect, SlotSizePopover, EquipmentCard } from '../../components'
@@ -14,26 +15,27 @@ import { useBaseStyles, useAnchorEl } from '../../hooks'
 
 const useStyles = makeStyles((theme: Theme) => ({
   icon: {
-    height: 24
+    height: 24,
+    marginRight: theme.spacing(1)
   },
   proficiency: {
-    margin: theme.spacing(1)
+    marginRight: theme.spacing(1)
   },
-  right: {
+  rightButtons: {
     display: 'flex',
-    marginLeft: 'auto',
-    marginRight: 4,
-    alignItems: 'center'
+    alignItems: 'center',
+    margin: `0 ${theme.spacing(1) * 0.5}px`
   }
 }))
 
 interface EquipmentFieldCardProps extends PaperProps {
   equipment: IEquipment
+  slotSize?: number
   onImprovementChange?: (value: number) => void
   onProficiencyChange?: (value: number) => void
   onSlotSizeChange?: (value: number) => void
   onRemove?: () => void
-  slotSize?: number
+  onUpdate?: () => void
 }
 
 const EquipmentFieldCard: React.FC<EquipmentFieldCardProps> = ({
@@ -43,6 +45,8 @@ const EquipmentFieldCard: React.FC<EquipmentFieldCardProps> = ({
   onProficiencyChange,
   onSlotSizeChange,
   onRemove,
+  onUpdate,
+
   className,
   ...paperProps
 }) => {
@@ -51,12 +55,17 @@ const EquipmentFieldCard: React.FC<EquipmentFieldCardProps> = ({
   const classes = useStyles()
   const baseClasses = useBaseStyles()
   return (
-    <Paper className={classNames(baseClasses.flexbox, className)} {...paperProps}>
-      <EquipmentIcon className={classes.icon} iconId={iconId} />
-      <Typography onClick={onClick} variant="caption">
-        {equipment.name}
-      </Typography>
-      <div className={classes.right}>
+    <Paper className={classNames(baseClasses.flexbox, className)} elevation={1} {...paperProps}>
+      <div
+        onClick={onClick}
+        className={classNames(baseClasses.flexbox, baseClasses.brightButton)}
+        style={{ width: '100%' }}
+      >
+        <EquipmentIcon className={classes.icon} iconId={iconId} />
+        <Typography variant="caption">{equipment.name}</Typography>
+      </div>
+
+      <div className={classes.rightButtons}>
         {category.isAerialCombatAircraft && onProficiencyChange && (
           <div className={classes.proficiency}>
             <ProficiencySelect internal={proficiency.internal} onChange={onProficiencyChange} />
@@ -69,7 +78,7 @@ const EquipmentFieldCard: React.FC<EquipmentFieldCardProps> = ({
       </div>
 
       <Popover open={Boolean(anchorEl)} anchorEl={anchorEl} onClose={onClose}>
-        <EquipmentCard equipment={equipment} />
+        <EquipmentCard equipment={equipment} onRemove={onRemove} onUpdate={onUpdate} onClose={onClose} />
       </Popover>
     </Paper>
   )
