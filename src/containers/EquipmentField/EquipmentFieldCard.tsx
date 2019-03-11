@@ -73,7 +73,9 @@ const EquipmentFieldCard: React.FC<EquipmentFieldCardProps> = ({
         )}
         <div>
           {onImprovementChange && <ImprovementSelect value={improvement.value} onChange={onImprovementChange} />}
-          {slotSize && onSlotSizeChange && <SlotSizePopover value={slotSize} onChange={onSlotSizeChange} />}
+          {slotSize !== undefined && onSlotSizeChange && (
+            <SlotSizePopover value={slotSize} onChange={onSlotSizeChange} />
+          )}
         </div>
       </div>
 
