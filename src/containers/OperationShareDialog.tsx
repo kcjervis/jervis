@@ -27,14 +27,15 @@ const useOperationShare = (operation: ObservableOperation) => {
   const createShareUrl = useCallback(async () => {
     const url = new URL(window.location.href)
     url.hash = ''
-    url.searchParams.set('operation-json', JSON.stringify(operation))
+    const operationJson = JSON.stringify(operation)
+    url.searchParams.set('operation-json', operationJson)
 
     if (isLoading) {
       return
     }
     setIsLoading(true)
 
-    if (url.href.length > 6500) {
+    if (url.href.length > 6500 || operationJson.includes('#')) {
       const pathName = await setOperation(operation)
       url.searchParams.delete('operation-json')
       url.searchParams.set('operation-path', pathName)
@@ -67,7 +68,7 @@ const useStyles = makeStyles({
 })
 
 const OperationShareDialog: React.FC<{ operation: ObservableOperation }> = ({ operation }) => {
-  const { open, handleOpen, handleClose } = useOpen()
+  const { open, onOpen, onClose } = useOpen()
   const { shareUrl, createShareUrl } = useOperationShare(operation)
   const classes = useStyles()
 
@@ -75,9 +76,9 @@ const OperationShareDialog: React.FC<{ operation: ObservableOperation }> = ({ op
 
   return (
     <>
-      <ShareButton title="共有URLの生成、デッキビルダー、編成画像出力が使えます" onClick={handleOpen} />
+      <ShareButton title="共有URLの生成、デッキビルダー、編成画像出力が使えます" onClick={onOpen} />
 
-      <Dialog open={open} onClose={handleClose}>
+      <Dialog open={open} onClose={onClose}>
         <DialogTitle>
           <Typography>{operation.name}</Typography>
         </DialogTitle>

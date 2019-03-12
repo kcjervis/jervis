@@ -30,14 +30,14 @@ const withIconButton = (WrappedIcon: typeof SvgIcon) => {
         {label}
       </IconButton>
     )
-    if (!title || (tooltipProps && !tooltipProps.title)) {
-      return WrappedButton
+    if (title || (tooltipProps && tooltipProps.title)) {
+      return (
+        <Tooltip title={title} {...tooltipProps}>
+          {WrappedButton}
+        </Tooltip>
+      )
     }
-    return (
-      <Tooltip title={title} {...tooltipProps}>
-        {WrappedButton}
-      </Tooltip>
-    )
+    return WrappedButton
   }
 
   WithIconButton.displayName = `WithIconButton(${WrappedIcon.displayName})`

@@ -26,7 +26,7 @@ import OperationDescriptionField from './OperationDescriptionField'
 const useStyles = makeStyles({
   root: {
     margin: 8,
-    marginBottom: 300
+    marginBottom: 500
   },
   name: { marginRight: 8 },
   hqLevel: { marginLeft: 8, marginRight: 8, width: 50 },

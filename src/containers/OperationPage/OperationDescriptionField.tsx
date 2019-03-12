@@ -1,62 +1,79 @@
-import React, { useRef, useCallback, useState } from 'react'
+import React, { useCallback, useState } from 'react'
+import ReactDOMServer from 'react-dom/server'
 import { observer } from 'mobx-react-lite'
 import ReactMde from 'react-mde'
 import classNames from 'classnames'
-import Showdown from 'showdown'
+import ReactMarkdown from 'react-markdown'
 import 'react-mde/lib/styles/css/react-mde-all.css'
 
-import TextField from '@material-ui/core/TextField'
+import Paper from '@material-ui/core/Paper'
+import EditIcon from '@material-ui/icons/Edit'
+import ClickAwayListener from '@material-ui/core/ClickAwayListener'
 
 import { ObservableOperation } from '../../stores'
 import { makeStyles } from '@material-ui/styles'
+import { useOpen } from '../../hooks'
+import withIconButton from '../../hocs/withIconButton'
+
+const EditButton = withIconButton(EditIcon)
 
 const useStyles = makeStyles({
   root: {
+    display: 'flex',
     margin: 8,
-    marginTop: 8 * 3
+    marginTop: 8 * 3,
+    paddingBottom: 8 * 5
   },
-  mde: {
-    color: 'white'
+  markdown: {
+    color: 'white',
+    margin: 8,
+    padding: '8px 24px',
+    width: '100%'
   }
 })
 
-const converter = new Showdown.Converter({
-  omitExtraWLInCodeBlocks: true,
-  tables: true,
-  simplifiedAutoLink: true,
-  strikethrough: true,
-  tasklists: true
-})
-
-interface OperationDescriptionFieldProps {
+interface OperationDescriptionFieldProps extends React.HTMLAttributes<HTMLDivElement> {
   operation: ObservableOperation
 }
 
-const OperationDescriptionField: React.FC<OperationDescriptionFieldProps> = ({ operation }) => {
+const OperationDescriptionField: React.FC<OperationDescriptionFieldProps> = ({ operation, className, ...divProps }) => {
   const { description } = operation
   const classes = useStyles()
-  const [tab, setTab] = useState<'write' | 'preview'>('preview')
+  const [tab, setTab] = useState<'write' | 'preview'>('write')
   const handleChange = useCallback(
-    (value: string) => {
+    (value: string | undefined = '') => {
       operation.description = value
     },
     [operation]
   )
+  const { open, onOpen, onClose } = useOpen()
 
-  const generateMarkdownPreview = (markdown: string) =>
-    Promise.resolve(converter.makeHtml(markdown.replace(/[ ]*(\r\n|\n|\r)/g, '<br />\n')))
-
+  const generateMarkdownPreview = async (markdown: string) =>
+    ReactDOMServer.renderToString(
+      <ReactMarkdown className={classes.markdown} source={markdown.replace(/[ ]*(\r\n|\n|\r)/g, '  \n')} />
+    )
   return (
     <>
-      <div className={classNames('container', classes.root)}>
-        <ReactMde
-          className={classes.mde}
-          onTabChange={setTab}
-          selectedTab={tab}
-          value={description}
-          onChange={handleChange}
-          generateMarkdownPreview={generateMarkdownPreview}
-        />
+      <div className={classNames('container', classes.root, className)} {...divProps}>
+        <div>
+          <EditButton title="編集" tooltipProps={{ placement: 'top' }} onClick={onOpen} />
+        </div>
+
+        <Paper className={classes.markdown}>
+          {open ? (
+            <ClickAwayListener onClickAway={onClose}>
+              <ReactMde
+                onTabChange={setTab}
+                selectedTab={tab}
+                value={description}
+                onChange={handleChange}
+                generateMarkdownPreview={generateMarkdownPreview}
+              />
+            </ClickAwayListener>
+          ) : (
+            <ReactMarkdown source={description.replace(/[ ]*(\r\n|\n|\r)/g, '  \n')} />
+          )}
+        </Paper>
       </div>
     </>
   )
