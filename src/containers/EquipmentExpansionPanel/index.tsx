@@ -8,9 +8,11 @@ import Typography from '@material-ui/core/Typography'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import { makeStyles } from '@material-ui/styles'
 
-import EquipmentIcon from '../components/EquipmentIcon'
-import stores, { ObservableEquipment, ObservableLandBasedAirCorps, ObservableShip } from '../stores'
-import EquipmentField from './EquipmentField'
+import { EquipmentIcon } from '../../components'
+import EquipmentField from '../EquipmentField'
+import EquipmentAvatar from '../EquipmentAvatar'
+
+import stores, { ObservableEquipment, ObservableLandBasedAirCorps, ObservableShip } from '../../stores'
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {},
@@ -30,6 +32,7 @@ const EquipmentExpansionPanel: React.FC<EquipmentExpansionPanelProps> = props =>
   const handleEndDrag = stores.operationStore.switchEquipment
   return (
     <div>
+      {equipments.map((equip, index) => equip && <EquipmentAvatar key={index} equipment={equip} />)}
       {equipments.map((equip, index) => (
         <EquipmentField
           key={index}

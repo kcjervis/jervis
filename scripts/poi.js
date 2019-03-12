@@ -44,14 +44,14 @@ const getPoiEnemyFleets = async (mapId, point, difficulty) => {
 
   console.log(`map: ${mapId}, point: ${point} is successful`)
 
-  return Array.from(enemyCountMap).filter(([enemyName, count]) => count >= 3).map(([enemyName, count]) => {
-    ships = enemyName.match(/\d+(?=\))/g).map(Number)
-    formation = enemyName.match(/\((\D+)\)/)[1]
-    return { ships, formation, difficulty }
-  })
+  return Array.from(enemyCountMap)
+    .filter(([enemyName, count]) => count >= 3)
+    .map(([enemyName, count]) => {
+      const ships = enemyName.match(/\d+(?=\))/g).map(Number)
+      const formation = enemyName.match(/\((\D+)\)/)[1]
+      return { ships, formation, difficulty }
+    })
 }
-
-
 
 const getPoiEventCell = async (mapId, point) => {
   const cell = {
@@ -79,7 +79,7 @@ const indexToChar = index => {
   return 'Z' + (index - 25 + 1)
 }
 
-const getPoiNormalMap = async (mapId) => {
+const getPoiNormalMap = async mapId => {
   const map = {
     mapId,
     cells: []
@@ -97,7 +97,7 @@ const getPoiNormalMap = async (mapId) => {
   return map
 }
 
-const getPoiEventMap = async (mapId) => {
+const getPoiEventMap = async mapId => {
   const map = {
     mapId,
     cells: []
@@ -134,15 +134,4 @@ const writeMaps = async mapIds => {
 
 const createMapIds = ([worldId, length]) => _.range(worldId * 10 + 1, worldId * 10 + 1 + length)
 
-writeMaps([
-  [1, 6],
-  [2, 5],
-  [3, 5],
-  [4, 5],
-  [5, 5],
-  [6, 5],
-  [7, 2],
-  [43, 3]
-].flatMap(createMapIds))
-
-
+writeMaps([[1, 6], [2, 5], [3, 5], [4, 5], [5, 5], [6, 5], [7, 2], [43, 3]].flatMap(createMapIds))

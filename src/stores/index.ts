@@ -25,6 +25,7 @@ export const loadStores = async () => {
   await hydrate('equipmentsDataStore', equipmentsDataStore)
 }
 
+const SettingStoreContext = createContext(settingStore)
 const OperationStoreContext = createContext(operationStore)
 const EquipmentsDataStoreContext = createContext(equipmentsDataStore)
 
@@ -37,6 +38,7 @@ export {
   ObservableOperation,
   SettingStore,
   ShipsPageStore,
+  SettingStoreContext,
   OperationStoreContext,
   EquipmentsDataStoreContext
 }

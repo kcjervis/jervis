@@ -5,13 +5,11 @@ import React, { createContext, useContext } from 'react'
 
 import Checkbox from '@material-ui/core/Checkbox'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
-import Paper from '@material-ui/core/Paper'
 import Table from '@material-ui/core/Table'
 import TableBody from '@material-ui/core/TableBody'
 import TableCell from '@material-ui/core/TableCell'
 import TableHead from '@material-ui/core/TableHead'
 import TableRow from '@material-ui/core/TableRow'
-import Typography from '@material-ui/core/Typography'
 
 import { toPercent } from './ContactTable'
 
@@ -41,10 +39,11 @@ const enemyBattleState = { side: Side.Enemy, formation: Formation.LineAhead, sta
 interface ShipRowProps {
   ship: IShip
   isFlagship: boolean
+  battleState: NightBattleStore
 }
 
-const ShipRow: React.FC<ShipRowProps> = ({ ship, isFlagship }) => {
-  const battleState = useContext(NightBattleStoreContext)
+const ShipRow: React.FC<ShipRowProps> = observer(props => {
+  const { ship, isFlagship, battleState } = props
   const preModifierValue = NightBattleSpecialAttack.calcPreModifierValue(ship)
   const baseValue = NightBattleSpecialAttack.calcBaseValue(ship, isFlagship, battleState, enemyBattleState)
 
@@ -70,7 +69,7 @@ const ShipRow: React.FC<ShipRowProps> = ({ ship, isFlagship }) => {
       <TableCell>{cutinRates.map(({ ci, rate }) => `${ci.name} ${toPercent(rate)} `)}</TableCell>
     </TableRow>
   )
-}
+})
 
 interface NightBattleSpecialAttackTable {
   fleet: IFleet
@@ -112,7 +111,10 @@ const NightBattleSpecialAttackTable: React.FC<NightBattleSpecialAttackTable> = p
           </TableRow>
         </TableHead>
         <TableBody>
-          {fleet.ships.map((ship, index) => ship && <ShipRow key={index} ship={ship} isFlagship={index === 0} />)}
+          {fleet.ships.map(
+            (ship, index) =>
+              ship && <ShipRow key={index} ship={ship} isFlagship={index === 0} battleState={nightBattleStore} />
+          )}
         </TableBody>
       </Table>
     </>

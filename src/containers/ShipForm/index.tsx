@@ -1,34 +1,32 @@
 import { observer } from 'mobx-react-lite'
-import React from 'react'
-
-import { shipStatKeys, Side } from 'kc-calculator'
-import { shipAdjustedAntiAir } from 'kc-calculator/dist/combats/AerialCombat/antiAir'
+import React, { useContext } from 'react'
 
 import Button from '@material-ui/core/Button'
 import Card from '@material-ui/core/Card'
-import Grid from '@material-ui/core/Grid'
 import Input from '@material-ui/core/Input'
 import InputAdornment from '@material-ui/core/InputAdornment'
 import Typography from '@material-ui/core/Typography'
 import Add from '@material-ui/icons/Add'
-
 import { makeStyles } from '@material-ui/styles'
 
 import { RemoveButton, UpdateButton } from '../../components/IconButtons'
-import ShipImage from '../../components/ShipImage'
+import { ShipImage } from '../../components'
 import withDragAndDrop from '../../hocs/withDragAndDrop'
-import EquipmentExpansionPanel from '../EquipmentExpansionPanel'
-import ShipStatDialog from './ShipStatDialog'
+import EquipmentField from '../EquipmentField'
 
-import stores, { ObservableFleet, ObservableShip } from '../../stores'
-import HealthBarDialog from './HealthBarDialog'
+import ShipStatsExpansionPanel from './ShipStatsExpansionPanel'
+
+import { ObservableFleet, ObservableShip, OperationStoreContext, SettingStoreContext } from '../../stores'
 
 const useStyles = makeStyles({
   root: {
     margin: 4
   },
+  addShipButton: {
+    width: 8 * 31
+  },
   card: {
-    width: 248
+    width: 8 * 31
   },
   top: {
     display: 'flex',
@@ -38,19 +36,13 @@ const useStyles = makeStyles({
     display: 'flex',
     justifyContent: 'space-around'
   },
-  addShipButton: {
-    width: 248
-  },
-
   equipments: {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center'
   },
-  stats: {
-    display: 'flex',
-    justifyContent: 'center',
-    flexWrap: 'wrap'
+  equipment: {
+    marginTop: 4
   }
 })
 
@@ -63,6 +55,8 @@ interface ShipForm {
 
 const ShipForm: React.FC<ShipForm> = props => {
   const { ship, fleet, index } = props
+  const settingStore = useContext(SettingStoreContext)
+  const operationStore = useContext(OperationStoreContext)
   const classes = useStyles()
   if (!ship) {
     return (
@@ -111,26 +105,19 @@ const ShipForm: React.FC<ShipForm> = props => {
           />
         </div>
 
-        {/* 艦娘ステータス */
-        stores.settingStore.operationPage.visibleShipStats && (
-          <>
-            <HealthBarDialog ship={ship} />
-
-            <Grid container={true}>
-              {shipStatKeys.map(statKey => (
-                <Grid item={true} xs={6} key={statKey}>
-                  <ShipStatDialog statKey={statKey} ship={ship} />
-                </Grid>
-              ))}
-              <Grid item={true} xs={6} style={{ display: 'flex', alignItems: 'center' }}>
-                <Typography>加重対空{shipAdjustedAntiAir(ship.asKcObject, Side.Player)}</Typography>
-              </Grid>
-            </Grid>
-          </>
-        )}
+        <ShipStatsExpansionPanel ship={ship} open={settingStore.operationPage.visibleShipStats} />
 
         <div className={classes.equipments}>
-          <EquipmentExpansionPanel parent={ship} equipments={ship.equipments} />
+          {ship.equipments.map((equip, index) => (
+            <EquipmentField
+              key={index}
+              className={classes.equipment}
+              onEndDrag={operationStore.switchEquipment}
+              parent={ship}
+              index={index}
+              equipment={equip}
+            />
+          ))}
         </div>
       </Card>
     </div>

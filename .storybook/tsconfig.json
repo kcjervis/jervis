@@ -1,6 +1,7 @@
 {
   "extends": "../tsconfig",
   "compilerOptions": {
-    "sourceMap": true
+    "sourceMap": true,
+    "rootDirs": ["src", "stories"]
   }
 }

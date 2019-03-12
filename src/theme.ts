@@ -29,6 +29,24 @@ const theme = createMuiTheme({
         minWidth: 0
       }
     },
+    MuiExpansionPanel: {
+      root: {
+        background: 'rgba( 20, 20, 20, 0 )',
+        '&:before': undefined
+      },
+      expanded: {
+        margin: 0
+      }
+    },
+    MuiExpansionPanelSummary: {
+      root: {
+        height: 8 * 3,
+        minHeight: 0,
+        '&$expanded': {
+          minHeight: 0
+        }
+      }
+    },
     MuiTab: {
       root: {
         textTransform: 'none'
