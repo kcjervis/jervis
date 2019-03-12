@@ -30,7 +30,7 @@ const withIconButton = (WrappedIcon: typeof SvgIcon) => {
         {label}
       </IconButton>
     )
-    if (!title && tooltipProps && !tooltipProps.title) {
+    if (!title || (tooltipProps && !tooltipProps.title)) {
       return WrappedButton
     }
     return (

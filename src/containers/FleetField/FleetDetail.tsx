@@ -32,7 +32,7 @@ const FleetDetail: React.FC<FleetDetailProps> = props => {
   const { fleet, fleetRole, isCombinedFleet, combinedFleetPlanes } = props
   const { activeTab } = fleetDetailStore
   return (
-    <div style={{ marginBottom: 300 }}>
+    <div>
       <div style={{ display: 'flex', alignItems: 'center' }}>
         <Tabs value={fleetDetailStore.activeTab} onChange={handleChangeTab}>
           <Tab label="弾着&戦爆発動率" />

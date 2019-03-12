@@ -21,8 +21,13 @@ import stores, { ObservableOperation } from '../../stores'
 import FleetField from '../FleetField'
 import LandBaseForm from '../LandBaseForm'
 import OperationShareDialog from '../OperationShareDialog'
+import OperationDescriptionField from './OperationDescriptionField'
 
 const useStyles = makeStyles({
+  root: {
+    margin: 8,
+    marginBottom: 300
+  },
   name: { marginRight: 8 },
   hqLevel: { marginLeft: 8, marginRight: 8, width: 50 },
   tabs: { display: 'flex', flexWrap: 'wrap' },
@@ -90,7 +95,7 @@ const OperationPage: React.FC<RouteComponentProps> = props => {
   }
 
   return (
-    <div style={{ margin: 8 }}>
+    <div className={classes.root}>
       <div className={classes.menu}>
         <Input className={classes.name} value={operation.name} onChange={handleChangeName} />
         <FleetTypeSelect fleetType={operation.fleetType} onChange={handleFleetTypeChange} />
@@ -139,6 +144,10 @@ const OperationPage: React.FC<RouteComponentProps> = props => {
 
       {activeFleet && <FleetField fleet={activeFleet} operation={operation} />}
       {!activeFleet && <LandBaseForm operation={operation} />}
+
+      <Divider />
+
+      <OperationDescriptionField operation={operation} />
     </div>
   )
 }

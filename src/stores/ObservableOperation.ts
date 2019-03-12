@@ -10,12 +10,15 @@ import ObservableLandBasedAirCorps from './ObservableLandBasedAirCorps'
 import toNishikuma from './toNishikuma'
 
 export default class ObservableOperation implements IOperationDataObject {
-  public static create = (operationData: IOperationDataObject & { name?: string }) => {
+  public static create = (operationData: IOperationDataObject & { name?: string; description?: string }) => {
     const observableOperation = new ObservableOperation()
 
-    const { name } = operationData
+    const { name, description } = operationData
     if (name) {
       observableOperation.name = name
+    }
+    if (description) {
+      observableOperation.description = description
     }
     observableOperation.side = operationData.side
     observableOperation.fleetType = operationData.fleetType
@@ -33,6 +36,10 @@ export default class ObservableOperation implements IOperationDataObject {
   @persist
   @observable
   public name = new Date().toLocaleString() + 'の編成'
+
+  @persist
+  @observable
+  public description = ''
 
   @persist
   @observable
