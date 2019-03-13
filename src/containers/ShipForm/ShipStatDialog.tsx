@@ -1,5 +1,5 @@
-import { observer } from 'mobx-react'
-import React from 'react'
+import { observer } from 'mobx-react-lite'
+import React, { useCallback, useEffect } from 'react'
 
 import { ShipStatKey } from 'kc-calculator'
 
@@ -8,99 +8,112 @@ import Dialog from '@material-ui/core/Dialog'
 import DialogActions from '@material-ui/core/DialogActions'
 import DialogContent from '@material-ui/core/DialogContent'
 import Grid from '@material-ui/core/Grid'
-import { createStyles, withStyles, WithStyles } from '@material-ui/styles'
 import TextField from '@material-ui/core/TextField'
 import Typography from '@material-ui/core/Typography'
 
 import StatLabel from '../../components/StatLabel'
 
 import { ObservableShip } from '../../stores'
+import { useOpen, useBaseStyles } from '../../hooks'
 
-const styles = createStyles({
-  root: {
-    display: 'flex',
-    alignItems: 'center'
-  }
-})
-
-interface ShipStatDialogProps extends WithStyles<typeof styles> {
+interface ShipStatDialogProps {
   ship: ObservableShip
   statKey: ShipStatKey
 }
 
-@observer
-class ShipStatDialog extends React.Component<ShipStatDialogProps> {
-  public state = { open: false }
+const useShipStat = ({ ship, statKey }: ShipStatDialogProps) => {
+  const { stats, nakedStats } = ship.asKcObject
+  const stat = stats[statKey]
+  const nakedStat = nakedStats[statKey]
+  const totalEquipmentStat = ship.asKcObject.totalEquipmentStats(statKey)
+  const bonus = stats.statsBonus ? stats.statsBonus[statKey] : 0
+  const increasedStat = ship.increased[statKey] || 0
+  const rawStat = nakedStat - increasedStat
 
-  public handleClickOpen = () => this.setState({ open: true })
+  const changeIncreasedStat = useCallback(
+    (value: number) => {
+      if (value) {
+        ship.increased[statKey] = value
+      } else {
+        delete ship.increased[statKey]
+      }
+      if (statKey === 'hp') {
+        ship.nowHp = ship.asKcObject.health.maxHp
+      }
+    },
+    [ship, statKey]
+  )
 
-  public handleClose = () => this.setState({ open: false })
+  const changeStat = useCallback(
+    (nextStat: number) => {
+      const deff = nextStat - stat
+      changeIncreasedStat(deff + increasedStat)
+    },
+    [stat, increasedStat, changeIncreasedStat]
+  )
 
-  public handleStatChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { ship, statKey } = this.props
-    const value = Number(event.target.value)
-    if (value) {
-      ship.increased[statKey] = value
-    } else {
-      delete ship.increased[statKey]
-    }
-    if (statKey === 'hp') {
-      ship.nowHp = ship.asKcObject.health.maxHp
-    }
-  }
+  const handleIncreasedStatChange = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => changeIncreasedStat(Number(event.target.value)),
+    [changeIncreasedStat]
+  )
 
-  public render() {
-    const { statKey, ship, classes } = this.props
-    const { stats, nakedStats } = ship.asKcObject
+  const handleStatChange = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => changeStat(Number(event.target.value)),
+    [changeStat]
+  )
 
-    const stat = stats[statKey]
-    const nakedStat = nakedStats[statKey]
-    const increasedStat = ship.increased[statKey]
-    const { statsBonus } = stats
-
-    let statBonusLabel = 0
-    if (statsBonus && statKey in statsBonus) {
-      statBonusLabel = (statsBonus as any)[statKey]
-    }
-
-    const totalEquipmentStat = ship.asKcObject.totalEquipmentStats(statKey)
-    return (
-      <div>
-        <Button className={classes.root} onClick={this.handleClickOpen}>
-          <StatLabel statKey={statKey} stat={stat} increasedStat={increasedStat} />
-        </Button>
-
-        <Dialog
-          open={this.state.open}
-          onClose={this.handleClose}
-          aria-labelledby="form-dialog-title"
-          PaperProps={{ style: { background: 'rgba(0, 0, 0, 0.8)' } }}
-        >
-          <DialogContent>
-            <Typography variant="subtitle1">{ship.asKcObject.name}</Typography>
-            <StatLabel statKey={statKey} stat={stat} increasedStat={increasedStat} />
-            <Typography>装備無しステータス: {nakedStat}</Typography>
-            <Typography>装備合計: {totalEquipmentStat}</Typography>
-            <Typography>装備フィット: {statBonusLabel}</Typography>
-          </DialogContent>
-
-          <DialogContent>
-            <TextField
-              label="増加ステータス"
-              value={increasedStat ? increasedStat : 0}
-              type="number"
-              onChange={this.handleStatChange}
-            />
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={this.handleClose} color="primary">
-              Close
-            </Button>
-          </DialogActions>
-        </Dialog>
-      </div>
-    )
-  }
+  return { stat, nakedStat, totalEquipmentStat, bonus, handleIncreasedStatChange, handleStatChange, increasedStat }
 }
 
-export default withStyles(styles)(ShipStatDialog)
+const ShipStatDialog: React.FC<ShipStatDialogProps> = props => {
+  const classes = useBaseStyles()
+  const { open, onOpen, onClose } = useOpen()
+  const {
+    stat,
+    nakedStat,
+    totalEquipmentStat,
+    bonus,
+    handleStatChange,
+    handleIncreasedStatChange,
+    increasedStat
+  } = useShipStat(props)
+  const { ship, statKey } = props
+
+  return (
+    <div>
+      <Button className={classes.flexbox} onClick={onOpen}>
+        <StatLabel statKey={statKey} stat={stat} bonus={bonus} increased={increasedStat} />
+      </Button>
+
+      <Dialog
+        open={open}
+        onClose={onClose}
+        aria-labelledby="form-dialog-title"
+        PaperProps={{ style: { background: 'rgba(0, 0, 0, 0.8)' } }}
+      >
+        <DialogContent>
+          <Typography variant="subtitle1">{ship.asKcObject.name}</Typography>
+          <StatLabel statKey={statKey} stat={stat} bonus={bonus} increased={increasedStat} />
+          <Typography>装備無しステータス: {nakedStat}</Typography>
+          <Typography>装備合計: {totalEquipmentStat}</Typography>
+          <div className={classes.flexbox}>
+            <Typography>装備フィット:</Typography>
+            <Typography color="secondary">{bonus}</Typography>
+          </div>
+        </DialogContent>
+
+        <DialogContent className={classes.column}>
+          <TextField label="表示ステータス" value={stat} type="number" onChange={handleStatChange} />
+          <TextField label="増加ステータス" value={increasedStat} type="number" onChange={handleIncreasedStatChange} />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={onClose} color="primary">
+            Close
+          </Button>
+        </DialogActions>
+      </Dialog>
+    </div>
+  )
+}
+
+export default observer(ShipStatDialog)

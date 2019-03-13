@@ -5,6 +5,10 @@ const styles = createStyles({
     display: 'flex',
     alignItems: 'center'
   },
+  column: {
+    display: 'flex',
+    flexDirection: 'column'
+  },
   brightButton: {
     cursor: 'pointer',
     '&:hover': {
