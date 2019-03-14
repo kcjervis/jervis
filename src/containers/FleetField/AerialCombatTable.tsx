@@ -19,7 +19,7 @@ import MenuItem from '@material-ui/core/MenuItem'
 import Select from '@material-ui/core/Select'
 import InputLabel from '@material-ui/core/InputLabel'
 import FormControl from '@material-ui/core/FormControl'
-import AntiAirCutin from 'kc-calculator/dist/data/AntiAirCutin'
+import AntiAirCutin from 'kc-calculator/dist/combats/AerialCombat/AntiAirCutin'
 import union from 'lodash/union'
 
 const AntiAirCutInSelect: React.FC<{
@@ -28,17 +28,17 @@ const AntiAirCutInSelect: React.FC<{
   onChange: (aaci: AntiAirCutin | undefined) => void
 }> = ({ antiAirCutins, antiAirCutin, onChange }) => {
   const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    onChange(AntiAirCutin.fromApi(Number(event.target.value)))
+    onChange(AntiAirCutin.fromId(Number(event.target.value)))
   }
-  const currentId = antiAirCutin ? antiAirCutin.api : 0
+  const currentId = antiAirCutin ? antiAirCutin.id : 0
   return (
     <FormControl style={{ width: 120 }}>
       <InputLabel>対空CI</InputLabel>
       <Select variant="outlined" value={currentId} onChange={handleChange}>
         <MenuItem value={0}>なし</MenuItem>
         {antiAirCutins.map(aaci => (
-          <MenuItem key={aaci.api} value={aaci.api}>
-            {aaci.api}種(*{aaci.fixedAirDefenseModifier}+{aaci.minimumBonus})
+          <MenuItem key={aaci.id} value={aaci.id}>
+            {aaci.id}種(*{aaci.fixedAirDefenseModifier}+{aaci.minimumBonus})
           </MenuItem>
         ))}
       </Select>
@@ -58,9 +58,6 @@ const AerialCombatTable: React.FC<{ fleet: IFleet }> = ({ fleet }) => {
   console.log(formation.fleetAntiAirModifier)
   return (
     <>
-      <Typography variant="caption" color="secondary">
-        連合,新しい対空CI未対応
-      </Typography>
       <div style={{ display: 'flex', alignItems: 'center' }}>
         <FormationSelect formation={formation} onChange={setFormation} />
         <AntiAirCutInSelect antiAirCutin={antiAirCutin} antiAirCutins={antiAirCutins} onChange={setAntiAirCutin} />

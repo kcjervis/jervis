@@ -19,9 +19,9 @@ const FormationSelect: React.FC<FormationSelectProps> = ({ formation, onChange }
   return (
     <FormControl>
       <InputLabel>陣形</InputLabel>
-      <Select variant="outlined" value={formation.api} onChange={handleChange}>
+      <Select variant="outlined" value={formation.id} onChange={handleChange}>
         {Formation.all.map(form => (
-          <MenuItem key={form.api} value={form.api}>
+          <MenuItem key={form.id} value={form.id}>
             {form.name}
           </MenuItem>
         ))}
