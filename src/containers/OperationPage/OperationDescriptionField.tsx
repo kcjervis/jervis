@@ -14,6 +14,7 @@ import { ObservableOperation } from '../../stores'
 import { makeStyles } from '@material-ui/styles'
 import { useOpen } from '../../hooks'
 import withIconButton from '../../hocs/withIconButton'
+import { Theme } from '@material-ui/core'
 
 const EditButton = withIconButton(EditIcon)
 
@@ -22,7 +23,8 @@ const useStyles = makeStyles({
     display: 'flex',
     margin: 8,
     marginTop: 8 * 3,
-    paddingBottom: 8 * 5
+    width: 800,
+    minHeight: 8 * 41
   },
   markdown: {
     color: 'white',

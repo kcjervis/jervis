@@ -16,9 +16,9 @@ import TableHead from '@material-ui/core/TableHead'
 import TableRow from '@material-ui/core/TableRow'
 import TextField from '@material-ui/core/TextField'
 
-import { CarrierBasedAerialCombat, LandBaseAerialSupport } from 'kc-calculator/dist/combats/AerialCombat'
-import BattleFleet from 'kc-calculator/dist/combats/BattleFleet'
-import CombatInformation from 'kc-calculator/dist/combats/CombatInformation'
+import { CarrierBasedAerialCombat, LandBaseAerialSupport } from 'kc-calculator/dist/Battle/AerialCombat'
+import BattleFleet from 'kc-calculator/dist/Battle/BattleFleet'
+import CombatInformation from 'kc-calculator/dist/Battle/CombatInformation'
 
 import { createEnemyBattleFleet } from '../components/EnemyFleet'
 import { ObservableOperation } from '../stores'

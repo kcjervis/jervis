@@ -1,10 +1,11 @@
-import { IFleet, Side, Formation, nonNullable } from 'kc-calculator'
+import { IFleet, Side, Formation, nonNullable, AerialCombat } from 'kc-calculator'
+import AntiAirCutin from 'kc-calculator/dist/Battle/AerialCombat/AntiAirCutin'
 import {
   fleetAntiAir as calcFleetAntiAir,
   shipAdjustedAntiAir,
   fixedShotdownNumber,
   proportionalShotdownRate
-} from 'kc-calculator/dist/combats/AerialCombat/antiAir'
+} from 'kc-calculator/dist/Battle/AerialCombat/antiAir'
 import React, { useState } from 'react'
 
 import Table from '@material-ui/core/Table'
@@ -19,7 +20,6 @@ import MenuItem from '@material-ui/core/MenuItem'
 import Select from '@material-ui/core/Select'
 import InputLabel from '@material-ui/core/InputLabel'
 import FormControl from '@material-ui/core/FormControl'
-import AntiAirCutin from 'kc-calculator/dist/combats/AerialCombat/AntiAirCutin'
 import union from 'lodash/union'
 
 const AntiAirCutInSelect: React.FC<{

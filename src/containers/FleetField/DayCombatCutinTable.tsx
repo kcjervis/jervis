@@ -1,4 +1,4 @@
-import { AirControlState, AircraftCarrierCutin, ArtillerySpotting, FleetRole, IFleet, IShip } from 'kc-calculator'
+import { AirControlState, DayCombat, FleetRole, IFleet, IShip } from 'kc-calculator'
 import { action, observable } from 'mobx'
 import { observer } from 'mobx-react-lite'
 import React from 'react'
@@ -12,7 +12,9 @@ import Typography from '@material-ui/core/Typography'
 
 import { toPercent } from './ContactTable'
 
-type DayCombatCutin = ArtillerySpotting | AircraftCarrierCutin
+const { ArtillerySpotting, AircraftCarrierCutin } = DayCombat
+
+type DayCombatCutin = DayCombat.ArtillerySpotting | DayCombat.AircraftCarrierCutin
 
 const dayCutins = new Array<DayCombatCutin>().concat(ArtillerySpotting.all, AircraftCarrierCutin.all)
 
@@ -81,16 +83,16 @@ const ShipRow: React.FC<ShipRowProps> = ({ ship, fleetLosModifier, isFlagship })
       <TableCell component="th" scope="row">
         {ship.name}
       </TableCell>
-      <TableCell>{airSupremacyCutinState.baseValue}</TableCell>
-      <TableCell>{toPercent(airSupremacyCutinState.cutinRate)}</TableCell>
-      <TableCell>
+      <TableCell align="right">{airSupremacyCutinState.baseValue}</TableCell>
+      <TableCell align="right">{toPercent(airSupremacyCutinState.cutinRate)}</TableCell>
+      <TableCell align="right">
         {dayCutins.map(cutin => (
           <CutinRate key={cutin.name} cutin={cutin} rate={airSupremacyCutinState.dayCombatCutinMap.get(cutin)} />
         ))}
       </TableCell>
-      <TableCell>{airSuperiorityCutinState.baseValue}</TableCell>
-      <TableCell>{toPercent(airSuperiorityCutinState.cutinRate)}</TableCell>
-      <TableCell>
+      <TableCell align="right">{airSuperiorityCutinState.baseValue}</TableCell>
+      <TableCell align="right">{toPercent(airSuperiorityCutinState.cutinRate)}</TableCell>
+      <TableCell align="right">
         {dayCutins.map(cutin => (
           <CutinRate key={cutin.name} cutin={cutin} rate={airSuperiorityCutinState.dayCombatCutinMap.get(cutin)} />
         ))}
@@ -131,12 +133,12 @@ const DayCombatCutinTable: React.FC<DayCombatCutinTableProps> = props => {
         <TableHead>
           <TableRow>
             <TableCell>艦娘</TableCell>
-            <TableCell>観測項(確保)</TableCell>
-            <TableCell>合計発動率(確保)</TableCell>
-            <TableCell>発動率(確保)</TableCell>
-            <TableCell>観測項(優勢)</TableCell>
-            <TableCell>合計発動率(優勢)</TableCell>
-            <TableCell>発動率(優勢)</TableCell>
+            <TableCell align="right">観測項(確保)</TableCell>
+            <TableCell align="right">合計発動率(確保)</TableCell>
+            <TableCell align="right">発動率(確保)</TableCell>
+            <TableCell align="right">観測項(優勢)</TableCell>
+            <TableCell align="right">合計発動率(優勢)</TableCell>
+            <TableCell align="right">発動率(優勢)</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>

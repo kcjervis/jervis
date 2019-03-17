@@ -1,5 +1,5 @@
 import { FleetType, Formation, Side } from 'kc-calculator'
-import BattleFleet from 'kc-calculator/dist/combats/BattleFleet'
+import BattleFleet from 'kc-calculator/dist/Battle/BattleFleet'
 import flatMap from 'lodash/flatMap'
 import React from 'react'
 

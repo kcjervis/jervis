@@ -26,7 +26,7 @@ import OperationDescriptionField from './OperationDescriptionField'
 const useStyles = makeStyles({
   root: {
     margin: 8,
-    marginBottom: 500
+    marginBottom: 8 * 10
   },
   name: { marginRight: 8 },
   hqLevel: { marginLeft: 8, marginRight: 8, width: 50 },
@@ -144,8 +144,6 @@ const OperationPage: React.FC<RouteComponentProps> = props => {
 
       {activeFleet && <FleetField fleet={activeFleet} operation={operation} />}
       {!activeFleet && <LandBaseForm operation={operation} />}
-
-      <Divider />
 
       <OperationDescriptionField operation={operation} />
     </div>

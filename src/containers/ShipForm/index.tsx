@@ -17,6 +17,7 @@ import EquipmentField from '../EquipmentField'
 import ShipStatsExpansionPanel from './ShipStatsExpansionPanel'
 
 import { ObservableFleet, ObservableShip, OperationStoreContext, SettingStoreContext } from '../../stores'
+import ShipCalculator from '../ShipCalculator'
 
 const useStyles = makeStyles({
   root: {

@@ -29,7 +29,6 @@ const useOperationShare = (operation: ObservableOperation) => {
     url.hash = ''
     const operationJson = JSON.stringify(operation)
     url.searchParams.set('operation-json', operationJson)
-
     if (isLoading) {
       return
     }

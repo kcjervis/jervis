@@ -123,6 +123,7 @@ class MasterShipsPage extends React.Component<MasterShipsPageProps, MasterShipsP
       })
     }
     history.replace('/operation')
+    window.scrollTo(0, 0)
   }
 
   /**

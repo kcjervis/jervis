@@ -1,4 +1,4 @@
-import { Formation, IFleet, IShip, NightBattleSpecialAttack, Side } from 'kc-calculator'
+import { Formation, IFleet, IShip, Side, NightBattle } from 'kc-calculator'
 import { observable } from 'mobx'
 import { observer } from 'mobx-react-lite'
 import React, { createContext, useContext } from 'react'
@@ -10,8 +10,11 @@ import TableBody from '@material-ui/core/TableBody'
 import TableCell from '@material-ui/core/TableCell'
 import TableHead from '@material-ui/core/TableHead'
 import TableRow from '@material-ui/core/TableRow'
+import Typography from '@material-ui/core/Typography'
 
 import { toPercent } from './ContactTable'
+
+const { calcPreModifierValue, calcBaseValue, getPossibleSpecialAttacks } = NightBattle.SpecialAttack
 
 class NightBattleStore {
   public side = Side.Player
@@ -44,11 +47,11 @@ interface ShipRowProps {
 
 const ShipRow: React.FC<ShipRowProps> = observer(props => {
   const { ship, isFlagship, battleState } = props
-  const preModifierValue = NightBattleSpecialAttack.calcPreModifierValue(ship)
-  const baseValue = NightBattleSpecialAttack.calcBaseValue(ship, isFlagship, battleState, enemyBattleState)
+  const preModifierValue = calcPreModifierValue(ship)
+  const baseValue = calcBaseValue(ship, isFlagship, battleState, enemyBattleState)
 
-  const cis = NightBattleSpecialAttack.getPossibleSpecialAttacks(ship)
-  const cutinRates = new Array<{ ci: NightBattleSpecialAttack; rate: number }>()
+  const cis = getPossibleSpecialAttacks(ship)
+  const cutinRates = new Array<{ ci: NightBattle.SpecialAttack; rate: number }>()
   const totalRate = cis.reduce((acc, curCutin) => {
     let currentRate = (1 - acc) * curCutin.calcRate(baseValue)
     if (currentRate > 1) {
@@ -66,7 +69,13 @@ const ShipRow: React.FC<ShipRowProps> = observer(props => {
       <TableCell align="right">{preModifierValue}</TableCell>
       <TableCell align="right">{baseValue}</TableCell>
       <TableCell align="right">{toPercent(totalRate)}</TableCell>
-      <TableCell>{cutinRates.map(({ ci, rate }) => `${ci.name} ${toPercent(rate)} `)}</TableCell>
+      <TableCell align="right">
+        {cutinRates.map(({ ci, rate }, index) => (
+          <Typography key={index}>
+            {ci.name} {toPercent(rate)}
+          </Typography>
+        ))}
+      </TableCell>
     </TableRow>
   )
 })
@@ -107,7 +116,7 @@ const NightBattleSpecialAttackTable: React.FC<NightBattleSpecialAttackTable> = p
             <TableCell align="right">補正無しCI項</TableCell>
             <TableCell align="right">CI項</TableCell>
             <TableCell align="right">合計発動率</TableCell>
-            <TableCell>発動率</TableCell>
+            <TableCell align="right">発動率</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>

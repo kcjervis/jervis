@@ -60,7 +60,18 @@ const theme = createMuiTheme({
         }
       }
     },
-
+    MuiTableCell: {
+      root: {
+        padding: 0
+      }
+    },
+    MuiTableRow: {
+      root: {
+        '&:hover': {
+          background: 'rgba(200, 200, 200, 0.08)'
+        }
+      }
+    },
     MuiFormControlLabel: {
       root: {
         marginLeft: 8

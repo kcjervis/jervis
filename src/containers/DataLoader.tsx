@@ -9,9 +9,8 @@ import { getOperation } from '../stores/firebase'
 const loadOperation = async () => {
   const url = new URL(window.location.href)
   const filePath = url.searchParams.get('operation-path')
-  url.searchParams.delete('operation-path')
   const dataObject = url.searchParams.get('operation-json')
-  url.searchParams.delete('operation-json')
+  url.search = ''
   window.history.replaceState('', '', url.href)
   if (filePath) {
     return await getOperation(filePath)
