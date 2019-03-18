@@ -21,6 +21,7 @@ import Select from '@material-ui/core/Select'
 import InputLabel from '@material-ui/core/InputLabel'
 import FormControl from '@material-ui/core/FormControl'
 import union from 'lodash/union'
+import { useFormation } from '../../hooks'
 
 const AntiAirCutInSelect: React.FC<{
   antiAirCutins: AntiAirCutin[]
@@ -47,15 +48,13 @@ const AntiAirCutInSelect: React.FC<{
 }
 
 const AerialCombatTable: React.FC<{ fleet: IFleet }> = ({ fleet }) => {
-  const [formation, setFormation] = useState<Formation>(Formation.LineAhead)
+  const { formation, setFormation } = useFormation()
   const [antiAirCutin, setAntiAirCutin] = useState<AntiAirCutin | undefined>()
   const side = Side.Player
   const fleetAntiAir = calcFleetAntiAir(fleet, side, formation.fleetAntiAirModifier)
   const antiAirCutins = union(
     ...fleet.ships.filter(nonNullable).map(ship => AntiAirCutin.getPossibleAntiAirCutins(ship))
   )
-
-  console.log(formation.fleetAntiAirModifier)
   return (
     <>
       <div style={{ display: 'flex', alignItems: 'center' }}>

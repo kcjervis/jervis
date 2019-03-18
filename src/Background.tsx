@@ -15,7 +15,7 @@ const useStyles = makeStyles({
       rgba(139, 49, 67, 0.9)
     )`,
     height: 'calc(100% + 16px)',
-    width: 'calc(100% + 16px)',
+    width: 'calc(100vw + 16px)',
     zIndex: -10000,
     position: 'fixed',
     left: -8,
