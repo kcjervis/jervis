@@ -8,11 +8,10 @@ import { Provider as MobXProvider } from 'mobx-react'
 import stores from './stores'
 
 import Background from './Background'
-import TopMenu from './components/TopMenu'
 
 import MapsPage from './containers/MapsPage'
-
 import MasterShipsPage from './containers/MasterShipsPage'
+
 import OperationPage from './containers/OperationPage'
 import OperationsPage from './containers/OperationsPage'
 
@@ -23,6 +22,7 @@ import EquipmentsDataTable from './containers/EquipmentsDataTable'
 import UrlShortener from './containers/UrlShortener'
 
 import theme from './theme'
+import Workspace from './containers/Workspace/Workspace'
 
 @DragDropContext(HTML5Backend)
 export default class App extends Component {
@@ -33,19 +33,20 @@ export default class App extends Component {
           <Background />
           <HashRouter>
             <DataLoader>
-              <TopMenu />
-              <Route exact={true} path="/" component={OperationsPage} />
-              <Route exact={true} path="/operations" component={OperationsPage} />
-              <Route exact={true} path="/operation" component={OperationPage} />
-              <Route path="/operation/:json" component={OperationPage} />
-              <Route path="/ships/:fleetId/:index" component={MasterShipsPage} />
-              <Route exact={true} path="/ships" component={MasterShipsPage} />
-              <Route exact={true} path="/equipments" component={EquipmentsDataTable} />
-              <Route path="/maps/:operationId" component={MapsPage} />
-              <Route exact={true} path="/maps" component={MapsPage} />
+              <Workspace>
+                <Route exact={true} path="/" component={OperationsPage} />
+                <Route exact={true} path="/operations" component={OperationsPage} />
+                <Route exact={true} path="/operation" component={OperationPage} />
+                <Route path="/operation/:json" component={OperationPage} />
+                <Route path="/ships/:fleetId/:index" component={MasterShipsPage} />
+                <Route exact={true} path="/ships" component={MasterShipsPage} />
+                <Route exact={true} path="/equipments" component={EquipmentsDataTable} />
+                <Route path="/maps/:operationId" component={MapsPage} />
+                <Route exact={true} path="/maps" component={MapsPage} />
 
-              <Route exact={true} path="/apps" component={AppsPage} />
-              <Route exact={true} path="/url-shortener" component={UrlShortener} />
+                <Route exact={true} path="/apps" component={AppsPage} />
+                <Route exact={true} path="/url-shortener" component={UrlShortener} />
+              </Workspace>
             </DataLoader>
           </HashRouter>
         </ThemeProvider>

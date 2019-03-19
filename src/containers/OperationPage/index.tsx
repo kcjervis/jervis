@@ -28,7 +28,7 @@ const useStyles = makeStyles({
     margin: 8,
     marginBottom: 8 * 10
   },
-  name: { marginRight: 8 },
+  name: { marginRight: 8, width: 8 * 25 },
   hqLevel: { marginLeft: 8, marginRight: 8, width: 50 },
   tabs: { display: 'flex', flexWrap: 'wrap' },
   menu: {

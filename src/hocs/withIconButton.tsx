@@ -22,10 +22,17 @@ export interface WithIconButtonProps extends Omit<IconButtonProps, 'size'> {
 }
 
 const withIconButton = (WrappedIcon: typeof SvgIcon) => {
-  const WithIconButton: React.FC<WithIconButtonProps> = ({ title, size, label, tooltipProps, ...iconButonProps }) => {
+  const WithIconButton: React.FC<WithIconButtonProps> = ({
+    title,
+    size,
+    label,
+    tooltipProps,
+    className,
+    ...iconButonProps
+  }) => {
     const classes = useStyles()
     const WrappedButton = (
-      <IconButton className={classNames({ [classes.small]: size === 'small' })} {...iconButonProps}>
+      <IconButton className={classNames({ [classes.small]: size === 'small' }, className)} {...iconButonProps}>
         <WrappedIcon fontSize={size} />
         {label}
       </IconButton>

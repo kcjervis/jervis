@@ -1,6 +1,6 @@
 import { observer } from 'mobx-react-lite'
 import React, { useContext } from 'react'
-import { RouteComponentProps } from 'react-router'
+import useReactRouter from 'use-react-router'
 
 import Button from '@material-ui/core/Button'
 import Add from '@material-ui/icons/Add'
@@ -8,9 +8,10 @@ import Add from '@material-ui/icons/Add'
 import NishikumaFormDialog from './NishikumaFormDialog'
 import OperationLabel, { OperationLabelProps } from './OperationLabel'
 
-import { ObservableOperation, OperationStoreContext } from '../stores'
+import { OperationStoreContext } from '../stores'
 
-const OperationsPage: React.FC<RouteComponentProps> = ({ history, location }) => {
+const OperationsPage: React.FC = props => {
+  const { history } = useReactRouter()
   const operationStore = useContext(OperationStoreContext)
   const handleDrag = (props1: OperationLabelProps, props2: OperationLabelProps) => {
     operationStore.operations[props2.index] = props1.operation
