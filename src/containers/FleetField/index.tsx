@@ -7,8 +7,8 @@ import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
 import Add from '@material-ui/icons/Add'
 import Remove from '@material-ui/icons/Remove'
-
-import { makeStyles } from '@material-ui/styles'
+import { Theme } from '@material-ui/core'
+import { makeStyles, createStyles } from '@material-ui/styles'
 
 import StatIcon from '../../components/StatIcon'
 import ShipForm from '../ShipForm'
@@ -17,16 +17,20 @@ import FleetDetail from './FleetDetail'
 import ProficiencyDialog from '../../components/ProficiencyDialog'
 import { ObservableFleet, ObservableOperation, OperationStoreContext } from '../../stores'
 
-const useStyles = makeStyles({
-  ships: {
-    display: 'flex',
-    flexWrap: 'wrap'
-  },
-  bottomControl: {
-    display: 'flex',
-    justifyContent: 'center'
-  }
-})
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    root: {},
+    ships: {
+      display: 'flex',
+      flexWrap: 'wrap',
+      maxWidth: 8 * 31 * 3
+    },
+    bottomControl: {
+      display: 'flex',
+      justifyContent: 'center'
+    }
+  })
+)
 
 interface FleetFieldProps {
   fleet: ObservableFleet
@@ -79,7 +83,7 @@ const FleetField: React.FC<FleetFieldProps> = ({ fleet, operation }) => {
   }
 
   return (
-    <div>
+    <div className={classes.root}>
       <div style={{ display: 'flex', alignItems: 'center' }}>
         <Typography>制空: {fleet.asKcObject.fighterPower}</Typography>
         <ProficiencyDialog changeProficiency={setProficiency} />

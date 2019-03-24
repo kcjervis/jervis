@@ -4,6 +4,7 @@
     "target": "es5",
     "module": "esnext",
     "moduleResolution": "node",
+    "incremental": true,
     "lib": [
       "esnext",
       "dom"
@@ -19,7 +20,7 @@
 
     // fork-ts-checker-webpack-plugin用
     "skipLibCheck": true,
-    "typeRoots": ["./src/types"]
+    "typeRoots": ["src/types", "node_modules/@types"]
   },
   "include": [
     "src/**/*"

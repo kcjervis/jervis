@@ -10,7 +10,7 @@ import stores from './stores'
 import Background from './Background'
 
 import MapsPage from './containers/MapsPage'
-import MasterShipsPage from './containers/MasterShipsPage'
+import { ShipSelectPanel } from './containers'
 
 import OperationPage from './containers/OperationPage'
 import OperationsPage from './containers/OperationsPage'
@@ -38,8 +38,7 @@ export default class App extends Component {
                 <Route exact={true} path="/operations" component={OperationsPage} />
                 <Route exact={true} path="/operation" component={OperationPage} />
                 <Route path="/operation/:json" component={OperationPage} />
-                <Route path="/ships/:fleetId/:index" component={MasterShipsPage} />
-                <Route exact={true} path="/ships" component={MasterShipsPage} />
+                <Route path="/ships" component={ShipSelectPanel} />
                 <Route exact={true} path="/equipments" component={EquipmentsDataTable} />
                 <Route path="/maps/:operationId" component={MapsPage} />
                 <Route exact={true} path="/maps" component={MapsPage} />

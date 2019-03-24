@@ -1,8 +1,7 @@
-import React, { useCallback, useRef, useState } from 'react'
-import useReactRouter from 'use-react-router'
+import React, { useCallback, useState } from 'react'
 
 import Button from '@material-ui/core/Button'
-import Dialog from '@material-ui/core/Dialog'
+import Dialog, { DialogProps } from '@material-ui/core/Dialog'
 import DialogActions from '@material-ui/core/DialogActions'
 import DialogContent from '@material-ui/core/DialogContent'
 import DialogTitle from '@material-ui/core/DialogTitle'
@@ -15,7 +14,7 @@ import Snackbar from '@material-ui/core/Snackbar'
 import CheckCircleIcon from '@material-ui/icons/CheckCircle'
 import { makeStyles } from '@material-ui/styles'
 
-import { CopyButton, ShareButton } from '../components/IconButtons'
+import { CopyButton } from '../components/IconButtons'
 import { useOpen } from '../hooks'
 import { ObservableOperation } from '../stores'
 import { setOperation, urlShortener } from '../stores/firebase'
@@ -66,8 +65,10 @@ const useStyles = makeStyles({
   }
 })
 
-const OperationShareDialog: React.FC<{ operation: ObservableOperation }> = ({ operation }) => {
-  const { open, onOpen, onClose } = useOpen()
+type OperationShareDialogProps = { operation: ObservableOperation } & DialogProps
+
+const OperationShareDialog: React.FC<OperationShareDialogProps> = ({ operation, ...dialogProps }) => {
+  const { open: snackbarOpen, onOpen: handleSnackbarOpen, onClose: handleSnackbarClose } = useOpen()
   const { shareUrl, createShareUrl } = useOperationShare(operation)
   const classes = useStyles()
 
@@ -75,9 +76,7 @@ const OperationShareDialog: React.FC<{ operation: ObservableOperation }> = ({ op
 
   return (
     <>
-      <ShareButton title="共有URLの生成、デッキビルダー、編成画像出力が使えます" onClick={onOpen} />
-
-      <Dialog open={open} onClose={onClose}>
+      <Dialog {...dialogProps}>
         <DialogTitle>
           <Typography>{operation.name}</Typography>
         </DialogTitle>
@@ -91,34 +90,44 @@ const OperationShareDialog: React.FC<{ operation: ObservableOperation }> = ({ op
               <CopyButton text={shareUrl} title="URLをコピー" />
             </div>
           ) : (
-            <Button onClick={createShareUrl} variant="outlined" color="primary">
+            <Button onClick={createShareUrl} color="primary">
               共有URLを生成する
             </Button>
           )}
         </DialogContent>
         <DialogContent>
           <TextField color="primary" label="デッキビルダー形式" value={predeck} />
-          <CopyButton text={predeck} title="デッキビルダー形式をコピー" />
+          <CopyButton text={predeck} title="デッキビルダー形式をコピー" onCopy={handleSnackbarOpen} />
         </DialogContent>
         <DialogActions>
-          <Button
-            variant="outlined"
-            href={`https://www.nishikuma.net/ImgKCbuilder?predeck=${predeck}`}
-            target="_blank"
-            color="primary"
-          >
+          <Button href={`https://www.nishikuma.net/ImgKCbuilder?predeck=${predeck}`} target="_blank" color="primary">
             編成画像出力で開く
           </Button>
-          <Button
-            variant="outlined"
-            href={`http://kancolle-calc.net/deckbuilder.html?predeck=${predeck}`}
-            target="_blank"
-            color="primary"
-          >
+          <Button href={`http://kancolle-calc.net/deckbuilder.html?predeck=${predeck}`} target="_blank" color="primary">
             デッキビルダーで開く
           </Button>
         </DialogActions>
       </Dialog>
+
+      <Snackbar
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'left'
+        }}
+        open={snackbarOpen}
+        onClose={handleSnackbarClose}
+        autoHideDuration={2000}
+        ContentProps={{
+          'aria-describedby': 'message-id',
+          className: classes.snackbar
+        }}
+        message={
+          <Typography className={classes.message} id="message-id" variant="subtitle1">
+            <CheckCircleIcon className={classes.messageIcon} />
+            success
+          </Typography>
+        }
+      />
     </>
   )
 }

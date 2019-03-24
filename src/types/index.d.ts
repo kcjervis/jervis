@@ -1,1 +1,1 @@
-declare module '*.png'
+export * from './stores'

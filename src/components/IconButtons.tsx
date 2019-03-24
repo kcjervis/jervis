@@ -1,6 +1,7 @@
 import React from 'react'
 import CopyToClipboard from 'react-copy-to-clipboard'
 
+import { Omit } from '@material-ui/core'
 import IconButton, { IconButtonProps } from '@material-ui/core/IconButton'
 import Add from '@material-ui/icons/Add'
 import CloseIcon from '@material-ui/icons/Close'
@@ -26,13 +27,17 @@ export const ShareButton = withIconButton(ShareIcon)
 export const SaveButton = withIconButton(SaveIcon)
 
 const SimpleCopyButton = withIconButton(FileCopyIcon)
-interface CopyButtonProps extends WithIconButtonProps {
-  text?: string
-}
-export const CopyButton: React.FC<CopyButtonProps> = ({ text, ...buttonProps }) => {
+
+type CopyButtonProps = Omit<WithIconButtonProps, 'onCopy'> & Partial<CopyToClipboard.Props>
+
+export const CopyButton: React.FC<CopyButtonProps> = ({ text, onCopy, options, ...buttonProps }) => {
   const Button = <SimpleCopyButton {...buttonProps} />
   if (text) {
-    return <CopyToClipboard text={text}>{Button}</CopyToClipboard>
+    return (
+      <CopyToClipboard text={text} onCopy={onCopy} options={options}>
+        {Button}
+      </CopyToClipboard>
+    )
   }
   return Button
 }

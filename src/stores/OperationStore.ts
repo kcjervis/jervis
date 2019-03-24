@@ -1,13 +1,13 @@
 import flatMap from 'lodash/flatMap'
-import { action, autorun, computed, observable } from 'mobx'
+import { action, computed, observable, IObservableArray } from 'mobx'
 import { persist } from 'mobx-persist'
 
-import fromNishikuma from './fromNishikuma'
 import ObservableEquipment from './ObservableEquipment'
 import ObservableFleet from './ObservableFleet'
 import ObservableLandBasedAirCorps from './ObservableLandBasedAirCorps'
 import ObservableOperation from './ObservableOperation'
 import ObservableShip from './ObservableShip'
+import { setDeckbuilder } from '../utils'
 
 const switchArrayItems = <T>(array1: T[], index1: number, array2: T[], index2: number) => {
   const item1 = array1[index1]
@@ -27,53 +27,13 @@ interface DraggableShipProps {
 }
 
 export default class OperationStore {
-  public get activeOperation() {
-    const { activeOperationId, temporaryOperation } = this
-    if (temporaryOperation) {
-      return temporaryOperation
-    }
-    if (activeOperationId) {
-      return this.getOperation(activeOperationId)
-    }
-    return undefined
-  }
-
-  @observable public temporaryOperation?: ObservableOperation
-
   @persist('list', ObservableOperation)
   @observable
-  public operations: ObservableOperation[] = []
-
-  @persist
-  @observable
-  private activeOperationId = ''
-
-  public constructor() {
-    autorun(() => {
-      this.operations.forEach(({ isVisible }, index) => {
-        if (!isVisible) {
-          this.operations.splice(index, 1)
-        }
-      })
-    })
-  }
-
-  @action public setActiveOperation = (operation: ObservableOperation) => {
-    this.temporaryOperation = undefined
-    this.activeOperationId = operation.id
-  }
-
-  @computed public get allOperations() {
-    const operations = Array.from(this.operations)
-    if (this.temporaryOperation) {
-      operations.push(this.temporaryOperation)
-    }
-    return operations
-  }
+  public operations = observable<ObservableOperation>([])
 
   @computed
   public get fleets() {
-    return flatMap(this.allOperations, operation => operation.fleets)
+    return flatMap(this.operations, operation => operation.fleets)
   }
 
   @computed
@@ -90,29 +50,36 @@ export default class OperationStore {
     )
   }
 
-  @action public createOperation = () => {
+  @action public createOperation = (name = `編成${this.operations.length + 1}`) => {
     const newOperation = new ObservableOperation()
+    newOperation.store = this
+    newOperation.name = name
     this.operations.push(newOperation)
     return newOperation
+  }
+
+  @action public set = (index: number, operation: ObservableOperation) => {
+    this.operations[index] = operation
+    operation.store = this
+  }
+
+  @action public push = (operation: ObservableOperation) => {
+    this.operations.push(operation)
+    operation.store = this
+  }
+
+  @action public fromNishikuma = (json: string, name?: string) => {
+    const deckObject = JSON.parse(json.replace(/^http:\/\/kancolle-calc\.net\/deckbuilder\.html\?predeck=/, ''))
+    const newOperation = this.createOperation(name)
+    return setDeckbuilder(newOperation, deckObject)
   }
 
   @action public copyOperation = (operation: ObservableOperation) => {
     const newOperation = ObservableOperation.create(operation)
+    newOperation.store = this
     newOperation.name = `${operation.name}のコピー`
     this.operations.push(newOperation)
     return newOperation
-  }
-
-  @action.bound
-  public fromNishikuma(json: string) {
-    const operation = fromNishikuma(
-      JSON.parse(json.replace(/^http:\/\/kancolle-calc\.net\/deckbuilder\.html\?predeck=/, ''))
-    )
-    if (operation) {
-      this.operations.push(operation)
-      return operation
-    }
-    return undefined
   }
 
   @action.bound
@@ -140,7 +107,7 @@ export default class OperationStore {
   }
 
   public getOperation = (id: string) => {
-    return this.allOperations.find(operation => operation.id === id)
+    return this.operations.find(operation => operation.id === id)
   }
 
   public getLandBasedAirCorps = (id: string) => {

@@ -6,7 +6,6 @@ import { Theme } from '@material-ui/core'
 import Typography from '@material-ui/core/Typography'
 import Paper, { PaperProps } from '@material-ui/core/Paper'
 import Popover from '@material-ui/core/Popover'
-import Tooltip from '@material-ui/core/Tooltip'
 import { makeStyles } from '@material-ui/styles'
 
 import { EquipmentIcon, ImprovementSelect, ProficiencySelect, SlotSizePopover, EquipmentCard } from '../../components'

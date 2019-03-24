@@ -30,7 +30,7 @@ const DialogComponent: React.FC<DialogComponent> = ({ buttonLabel, buttonProps =
 
       <Dialog open={open} onClose={handleClose} PaperProps={{ style: { background: 'rgba(0, 0, 0, 0.8)' } }}>
         {children}
-        <CloseButton className={classes.close} size="large" onClick={handleClose} />
+        <CloseButton className={classes.close} onClick={handleClose} />
       </Dialog>
     </>
   )

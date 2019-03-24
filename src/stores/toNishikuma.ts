@@ -1,7 +1,6 @@
-import { IEquipment, IFleet, IOperation, IOperationDataObject, IShip } from 'kc-calculator'
-import { Proficiency } from 'kc-calculator/dist/objects/Equipment'
+import { IEquipment, IFleet, IOperation, IShip } from 'kc-calculator'
 
-import { DeckFleet, DeckEquipmet, DeckShip, Nishikuma } from './fromNishikuma'
+import { DeckFleet, DeckEquipmet, DeckShip, Nishikuma } from '../utils'
 
 const toDeckEquipment = (equipment: IEquipment): DeckEquipmet => {
   const { masterId, improvement, proficiency } = equipment

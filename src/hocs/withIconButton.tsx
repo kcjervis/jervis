@@ -1,20 +1,11 @@
 import React from 'react'
-import classNames from 'classnames'
 
-import { SvgIcon, Omit } from '@material-ui/core'
+import { SvgIcon } from '@material-ui/core'
 import IconButton, { IconButtonProps } from '@material-ui/core/IconButton'
 import Tooltip, { TooltipProps } from '@material-ui/core/Tooltip'
-import { makeStyles } from '@material-ui/styles'
 
-const useStyles = makeStyles({
-  small: {
-    padding: 4
-  }
-})
-
-export interface WithIconButtonProps extends Omit<IconButtonProps, 'size'> {
+export interface WithIconButtonProps extends IconButtonProps {
   label?: string
-  size?: 'inherit' | 'default' | 'small' | 'large'
   title?: string
   tooltipProps?: Partial<TooltipProps>
   // バグ対策
@@ -22,18 +13,10 @@ export interface WithIconButtonProps extends Omit<IconButtonProps, 'size'> {
 }
 
 const withIconButton = (WrappedIcon: typeof SvgIcon) => {
-  const WithIconButton: React.FC<WithIconButtonProps> = ({
-    title,
-    size,
-    label,
-    tooltipProps,
-    className,
-    ...iconButonProps
-  }) => {
-    const classes = useStyles()
+  const WithIconButton: React.FC<WithIconButtonProps> = ({ title, label, tooltipProps, ...iconButonProps }) => {
     const WrappedButton = (
-      <IconButton className={classNames({ [classes.small]: size === 'small' }, className)} {...iconButonProps}>
-        <WrappedIcon fontSize={size} />
+      <IconButton {...iconButonProps}>
+        <WrappedIcon fontSize="inherit" />
         {label}
       </IconButton>
     )

@@ -5,7 +5,9 @@
 .env.development.local
 .env.test.local
 .env.production.local
+
 cors.json
+*.tsbuildinfo
 
 npm-debug.log*
 yarn-debug.log*

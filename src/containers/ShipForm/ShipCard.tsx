@@ -6,6 +6,7 @@ import Paper, { PaperProps } from '@material-ui/core/Paper'
 import Input from '@material-ui/core/Input'
 import InputAdornment from '@material-ui/core/InputAdornment'
 import Typography from '@material-ui/core/Typography'
+import Tooltip from '@material-ui/core/Tooltip'
 import { makeStyles } from '@material-ui/styles'
 
 import { RemoveButton, UpdateButton } from '../../components/IconButtons'
@@ -39,9 +40,10 @@ const useStyles = makeStyles({
 interface ShipCardProps extends PaperProps {
   ship: ObservableShip
   fleet: ObservableFleet
+  onUpdate: () => void
 }
 
-const ShipCard: React.FC<ShipCardProps> = ({ ship, fleet, ...paperProps }) => {
+const ShipCard: React.FC<ShipCardProps> = ({ ship, fleet, onUpdate, ...paperProps }) => {
   const settingStore = useContext(SettingStoreContext)
   const operationStore = useContext(OperationStoreContext)
   const classes = useStyles()
@@ -56,11 +58,13 @@ const ShipCard: React.FC<ShipCardProps> = ({ ship, fleet, ...paperProps }) => {
   return (
     <Paper {...paperProps}>
       <div className={classes.top}>
-        <Typography variant="caption">
-          {index + 1} ID:{ship.masterId} {ship.asKcObject.name}
-        </Typography>
+        <Tooltip title={`ID: ${ship.masterId}`}>
+          <Typography variant="caption">
+            {index + 1} {ship.asKcObject.name}
+          </Typography>
+        </Tooltip>
         <div style={{ alignItems: 'right' }}>
-          <UpdateButton title="艦娘を変更" size="small" href={`#/ships/${fleet.id}/${index}`} />
+          <UpdateButton title="艦娘を変更" size="small" href={'#/ships'} onClick={onUpdate} />
           <RemoveButton title="艦娘を削除" size="small" onClick={ship.remove} />
         </div>
       </div>

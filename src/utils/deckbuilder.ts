@@ -2,8 +2,8 @@ import { IEquipmentDataObject, IShipDataObject } from 'kc-calculator'
 import { Proficiency } from 'kc-calculator/dist/objects/Equipment'
 import { calcHpAtLevel, calcStatAtLevel } from 'kc-calculator/dist/objects/Ship/ShipNakedStats'
 
-import { masterData } from './kcObjectFactory'
-import ObservableOperation from './ObservableOperation'
+import { masterData } from '../stores/kcObjectFactory'
+import { ObservableOperation } from '../stores'
 
 export interface DeckEquipmet {
   id: number | null
@@ -74,11 +74,13 @@ const toShipDataObject = (deckShip: DeckShip | undefined): IShipDataObject | und
     increased.asw = asw - calcStatAtLevel(masterShip.asw, lv)
   }
 
+  const slots = masterShip.slotCapacities.concat()
+
   return {
     masterId: shipId,
     level: lv,
     equipments,
-    slots: masterShip.slotCapacities,
+    slots,
     increased
   }
 }
@@ -104,8 +106,7 @@ export interface Nishikuma {
   f4?: DeckFleet
 }
 
-const fromNishikuma = ({ hqlv = 120, f1, f2, f3, f4 }: Nishikuma) => {
-  const operation = new ObservableOperation()
+export const setDeckbuilder = (operation: ObservableOperation, { hqlv = 120, f1, f2, f3, f4 }: Nishikuma) => {
   operation.hqLevel = hqlv
   ;[f1, f2, f3, f4].forEach((deckFleet, fleetIndex) => {
     if (!deckFleet) {
@@ -127,5 +128,3 @@ const fromNishikuma = ({ hqlv = 120, f1, f2, f3, f4 }: Nishikuma) => {
 
   return operation
 }
-
-export default fromNishikuma

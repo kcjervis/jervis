@@ -1,10 +1,10 @@
 import React, { useContext, useEffect, useState } from 'react'
-import useReactRouter from 'use-react-router'
 
 import CircularProgress from '@material-ui/core/CircularProgress'
 
-import { loadStores, ObservableOperation, OperationStoreContext } from '../stores'
+import { loadStores, ObservableOperation, TemporaryOperationStoreContext } from '../stores'
 import { getOperation } from '../stores/firebase'
+import { useWorkspace } from '../hooks'
 
 const loadOperation = async () => {
   const url = new URL(window.location.href)
@@ -22,16 +22,16 @@ const loadOperation = async () => {
 
 const DataLoader: React.FC = ({ children }) => {
   const [isReady, setIsReady] = useState(false)
-  const { history } = useReactRouter()
-  const operationStore = useContext(OperationStoreContext)
+  const { openOperation } = useWorkspace()
+  const temporaryOperationStore = useContext(TemporaryOperationStoreContext)
 
   useEffect(() => {
     const load = async () => {
       await loadStores()
       const operation = await loadOperation()
       if (operation instanceof ObservableOperation) {
-        operationStore.temporaryOperation = operation
-        history.replace('operation')
+        temporaryOperationStore.push(operation)
+        openOperation(operation)
       }
       setIsReady(true)
     }

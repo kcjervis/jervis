@@ -1,8 +1,6 @@
 import { FleetType, Side } from 'kc-calculator'
 import { observer } from 'mobx-react-lite'
-import React, { useEffect, useMemo, useState } from 'react'
-import { RouteComponentProps } from 'react-router'
-import { Redirect } from 'react-router-dom'
+import React, { useContext, useCallback } from 'react'
 
 import Checkbox from '@material-ui/core/Checkbox'
 import Divider from '@material-ui/core/Divider'
@@ -16,44 +14,46 @@ import { makeStyles } from '@material-ui/styles'
 
 import FleetTypeSelect from '../../components/FleetTypeSelect'
 
-import { SaveButton } from '../../components/IconButtons'
-import stores, { ObservableOperation } from '../../stores'
+import { SaveButton, ShareButton } from '../../components/IconButtons'
 import FleetField from '../FleetField'
 import LandBaseForm from '../LandBaseForm'
 import OperationShareDialog from '../OperationShareDialog'
 import OperationDescriptionField from './OperationDescriptionField'
+
+import { ObservableOperation, SettingStoreContext } from '../../stores'
+import { useOpen, useOperationStore } from '../../hooks'
 
 const useStyles = makeStyles({
   root: {
     margin: 8,
     marginBottom: 8 * 10
   },
-  name: { marginRight: 8, width: 8 * 25 },
-  hqLevel: { marginLeft: 8, marginRight: 8, width: 50 },
+  name: { width: 8 * 25 },
+  hqLevel: { marginRight: 8, width: 8 * 10 },
   tabs: { display: 'flex', flexWrap: 'wrap' },
   menu: {
     display: 'flex',
     alignItems: 'center',
     marginLeft: 8
   },
-  checkBoxForm: {
-    margin: 8
+  form: {
+    display: 'flex',
+    alignItems: 'end'
   }
 })
 
-const OperationPage: React.FC<RouteComponentProps> = props => {
-  const classes = useStyles()
-  const { operationStore, settingStore } = stores
-  const operation = operationStore.activeOperation
-  if (!operation) {
-    return <Redirect to="operations" />
-  }
+interface OperationPanelProps {
+  operation: ObservableOperation
+}
 
-  const isTemporaryOperation = !operationStore.operations.includes(operation)
+const OperationPanel: React.FC<OperationPanelProps> = ({ operation }) => {
+  const classes = useStyles()
+  const { isTemporary, save } = useOperationStore()
+  const settingStore = useContext(SettingStoreContext)
+  const { onOpen: onShareOpen, ...shareProps } = useOpen()
 
   const handleSave = () => {
-    operationStore.operations.push(operation)
-    operationStore.setActiveOperation(operation)
+    save(operation)
   }
 
   const handleChange = (e: unknown, value: number) => {
@@ -97,35 +97,38 @@ const OperationPage: React.FC<RouteComponentProps> = props => {
   return (
     <div className={classes.root}>
       <div className={classes.menu}>
-        <Input className={classes.name} value={operation.name} onChange={handleChangeName} />
-        <FleetTypeSelect fleetType={operation.fleetType} onChange={handleFleetTypeChange} />
-        <Typography>司令部Lv</Typography>
-        <TextField
-          className={classes.hqLevel}
-          type="number"
-          inputProps={{ min: 1 }}
-          value={operation.hqLevel}
-          onChange={handleHqLevelChange}
-        />
-        <Typography style={{ margin: 8 }}>
+        <div className={classes.form}>
+          <TextField label="編成名" className={classes.name} value={operation.name} onChange={handleChangeName} />
+          <TextField
+            className={classes.hqLevel}
+            label="司令部Lv"
+            type="number"
+            inputProps={{ min: 1 }}
+            value={operation.hqLevel}
+            onChange={handleHqLevelChange}
+          />
+          <FleetTypeSelect fleetType={operation.fleetType} onChange={handleFleetTypeChange} />
+        </div>
+
+        <Typography variant="caption" style={{ margin: 8 }}>
           第一艦隊制空: {mainFleet.fighterPower} {combinedFleetFighterPowerLabel}
         </Typography>
 
         <FormControlLabel
-          className={classes.checkBoxForm}
           control={
             <Checkbox checked={settingStore.operationPage.visibleShipStats} onChange={handleVisibleShipStatsChange} />
           }
           label={<Typography variant="caption">ステータス表示</Typography>}
         />
-        <FormControlLabel
-          className={classes.checkBoxForm}
+        {/* <FormControlLabel
           control={<Checkbox checked={operation.side === Side.Enemy} onChange={handleSideChange} />}
           label={<Typography variant="caption">敵艦隊</Typography>}
-        />
+        /> */}
 
-        <OperationShareDialog operation={operation} />
-        {isTemporaryOperation && <SaveButton title="編成をローカルに保存" onClick={handleSave} />}
+        <ShareButton title="共有URLの生成、デッキビルダー、編成画像出力が使えます" onClick={onShareOpen} />
+        <OperationShareDialog operation={operation} {...shareProps} />
+
+        {isTemporary(operation) && <SaveButton title="編成をローカルに保存" onClick={handleSave} />}
       </div>
 
       <div className={classes.tabs}>
@@ -150,4 +153,4 @@ const OperationPage: React.FC<RouteComponentProps> = props => {
   )
 }
 
-export default observer(OperationPage)
+export default observer(OperationPanel)

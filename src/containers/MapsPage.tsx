@@ -5,12 +5,11 @@ import Button from '@material-ui/core/Button'
 import Divider from '@material-ui/core/Divider'
 import Tab from '@material-ui/core/Tab'
 import Tabs from '@material-ui/core/Tabs'
-import Typography from '@material-ui/core/Typography'
 
 import { TEnemyFleet, TEventDifficulty } from 'maps'
-import EnemyFleet from '../components/EnemyFleet'
 import maps from '../data/maps'
 import stores from '../stores'
+import EnemyFleetButton from './EnemyFleetButton'
 
 const worlds = [
   { id: 1, name: '鎮守府海域' },
@@ -77,6 +76,7 @@ class MapsPage extends React.Component<RouteComponentProps<{ operationId?: strin
   public render() {
     const selectedMap = maps.find(map => map.mapId === this.state.mapId)
     const selectedCell = selectedMap && selectedMap.cells.find(cell => cell.point === this.state.point)
+    const { operationId } = this.props.match.params
     return (
       <div>
         <div>
@@ -127,14 +127,7 @@ class MapsPage extends React.Component<RouteComponentProps<{ operationId?: strin
           selectedCell.enemies &&
           selectedCell.enemies
             .filter(({ difficulty }) => difficulty === undefined || difficulty === this.state.difficulty)
-            .map((enemy, index) => (
-              <div key={index}>
-                <Divider />
-                <Button onClick={this.handleEnemyClick(enemy)} variant="outlined">
-                  <EnemyFleet enemy={enemy} />
-                </Button>
-              </div>
-            ))}
+            .map((enemy, index) => <EnemyFleetButton key={index} enemy={enemy} operationId={operationId} />)}
       </div>
     )
   }

@@ -1,59 +1,84 @@
-import React, { useContext } from 'react'
+import React, { useState, useCallback } from 'react'
 import classNames from 'classnames'
-import useReactRouter from 'use-react-router'
 
-import grey from '@material-ui/core/colors/grey'
-import Paper from '@material-ui/core/Paper'
-import Divider from '@material-ui/core/Divider'
-import Typography from '@material-ui/core/Typography'
-import InsertChartIcon from '@material-ui/icons/BarChart'
 import { makeStyles, createStyles } from '@material-ui/styles'
 import { Theme } from '@material-ui/core'
 
-import { useOpen, useBaseStyles } from '../../hooks'
-import { OperationStoreContext } from '../../stores'
 import { CloseButton } from '../../components/IconButtons'
+import { ItemLabel, OperationIcon } from '../../components'
+
+import { WorkspaceItem } from '../../stores'
+import { useWorkspace, useOperationStore } from '../../hooks'
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
+    root: {
+      display: 'flex',
+      alignItems: 'center',
+      minWidth: 8 * 15,
+      maxWidth: 8 * 25,
+      height: '100%',
+      borderRight: `thin solid ${theme.palette.grey[800]}`
+    },
     divider: {
       width: 1,
       height: '60%',
-      backgroundColor: grey[500]
-    },
-    icon: {
-      margin: 4
+      background: theme.palette.grey[500]
     },
     name: {
-      cursor: 'pointer'
+      color: theme.palette.text.disabled,
+      cursor: 'pointer',
+      maxWidth: 'calc(100% - 32px)',
+      height: '100%',
+      flexGrow: 1
     },
-    inactive: {
-      color: grey[500]
+    active: {
+      color: theme.palette.text.primary
     }
   })
 )
 
 interface WorkspaceTabProps {
-  name: string
-  active?: boolean
-  onClick?: () => void
-  onClose?: () => void
+  item: WorkspaceItem
 }
 
-const WorkspaceTab: React.FC<WorkspaceTabProps> = ({ name, active, onClick, onClose }) => {
+const WorkspaceTab: React.FC<WorkspaceTabProps> = ({ item }) => {
+  const [visibleClose, setVisibleClose] = useState(false)
   const classes = useStyles()
-  const baseClasses = useBaseStyles()
+  const { getOperation, isTemporary } = useOperationStore()
+
+  const handleMouseOver = useCallback(() => setVisibleClose(true), [])
+  const handleMouseOut = useCallback(() => setVisibleClose(false), [])
+  const handleClose = useCallback(
+    (event: React.MouseEvent<HTMLElement>) => {
+      event.stopPropagation()
+      item.remove()
+    },
+    [item]
+  )
+
+  const operation = getOperation(item.id)
+  if (!operation) {
+    return null
+  }
+  const icon = <OperationIcon color={isTemporary(operation) ? 'default' : 'secondary'} />
+
   return (
     <>
-      <div style={{ display: 'flex', alignItems: 'center' }}>
-        <div className={classNames(classes.name, baseClasses.flexbox)} onClick={onClick}>
-          <InsertChartIcon fontSize="small" color="secondary" className={classes.icon} />
-          <Typography className={classNames(!active && classes.inactive)} variant="caption">
-            {name}
-          </Typography>
+      <div
+        className={classes.root}
+        onClick={item.setActive}
+        onMouseEnter={handleMouseOver}
+        onMouseLeave={handleMouseOut}
+      >
+        <ItemLabel
+          icon={icon}
+          text={operation.name}
+          className={classNames(classes.name, { [classes.active]: item.isActive })}
+        />
+        <div style={{ width: 24, margin: '0 4px' }}>
+          {visibleClose && <CloseButton size="small" onClick={handleClose} />}
         </div>
-        <div style={{ width: 28 }}>{onClose && <CloseButton size="small" />}</div>
-        <div className={classes.divider} />
       </div>
     </>
   )

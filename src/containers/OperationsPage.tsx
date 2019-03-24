@@ -1,39 +1,33 @@
 import { observer } from 'mobx-react-lite'
-import React, { useContext } from 'react'
-import useReactRouter from 'use-react-router'
+import React from 'react'
 
 import Button from '@material-ui/core/Button'
 import Add from '@material-ui/icons/Add'
 
-import NishikumaFormDialog from './NishikumaFormDialog'
-import OperationLabel, { OperationLabelProps } from './OperationLabel'
+import OperationCard from './OperationCard'
 
-import { OperationStoreContext } from '../stores'
+import { ObservableOperation } from '../stores'
+import { useOperationStore, useOpen } from '../hooks'
+import OperationCreateDialog from './Explorer/OperationCreateDialog'
 
 const OperationsPage: React.FC = props => {
-  const { history } = useReactRouter()
-  const operationStore = useContext(OperationStoreContext)
-  const handleDrag = (props1: OperationLabelProps, props2: OperationLabelProps) => {
-    operationStore.operations[props2.index] = props1.operation
-    operationStore.operations[props1.index] = props2.operation
-  }
-  const handleCreate = () => {
-    const newOperation = operationStore.createOperation()
-    operationStore.setActiveOperation(newOperation)
-    history.push('operation')
-  }
+  const { persistentOperationStore } = useOperationStore()
+
+  const { onOpen: onDialogOpen, ...dialogProps } = useOpen()
+
   return (
     <div style={{ margin: 8 }}>
-      {operationStore.operations.map((operation, index) => (
-        <OperationLabel key={index} index={index} operation={operation} onEndDrag={handleDrag} />
-      ))}
+      <Button onClick={onDialogOpen} fullWidth size="large">
+        <Add />
+        編成を追加
+      </Button>
 
-      <div style={{ display: 'flex', margin: 8 }}>
-        <Button onClick={handleCreate} variant="outlined">
-          <Add />
-          編成を追加
-        </Button>
-        <NishikumaFormDialog operationStore={operationStore} />
+      <OperationCreateDialog store={persistentOperationStore} {...dialogProps} />
+
+      <div style={{ display: 'flex', flexWrap: 'wrap' }}>
+        {persistentOperationStore.operations.map((operation, index) => (
+          <OperationCard key={index} operation={operation} />
+        ))}
       </div>
     </div>
   )

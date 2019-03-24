@@ -96,7 +96,8 @@ class MasterShipsPage extends React.Component<MasterShipsPageProps, MasterShipsP
     if (!createShip) {
       return
     }
-    const { slotCapacities: slots, id: masterId } = ship
+    const { slotCapacities, id: masterId } = ship
+    const slots = slotCapacities.concat()
     if (!ship.isAbyssal) {
       createShip({
         masterId,

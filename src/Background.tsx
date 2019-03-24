@@ -14,10 +14,11 @@ const useStyles = makeStyles({
       rgba(0, 52, 119, 0.8),
       rgba(139, 49, 67, 0.9)
     )`,
-    height: 'calc(100% + 16px)',
+    height: 'calc(100vh + 16px)',
     width: 'calc(100vw + 16px)',
     zIndex: -10000,
     position: 'fixed',
+    top: -8,
     left: -8,
     textAlign: 'right',
     filter: 'blur(4px)',

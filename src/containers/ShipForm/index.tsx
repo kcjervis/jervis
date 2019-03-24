@@ -4,11 +4,15 @@ import React, { useContext } from 'react'
 import Button from '@material-ui/core/Button'
 import Add from '@material-ui/icons/Add'
 import { makeStyles } from '@material-ui/styles'
+import Dialog from '@material-ui/core/Dialog'
 
 import withDragAndDrop from '../../hocs/withDragAndDrop'
 
-import { ObservableFleet, ObservableShip } from '../../stores'
+import { ObservableFleet, ObservableShip, WorkspaceStoreContext } from '../../stores'
 import ShipCard from './ShipCard'
+import { useOpen } from '../../hooks'
+import ShipSelectPanel from '../ShipSelectPanel'
+import { IShipDataObject } from 'kc-calculator'
 
 const useStyles = makeStyles({
   root: {
@@ -29,26 +33,36 @@ interface ShipForm {
 const ShipForm: React.FC<ShipForm> = props => {
   const { ship, fleet, index } = props
   const classes = useStyles()
+  const { onOpen, ...dialogProps } = useOpen()
+
+  const createShip = (data: IShipDataObject) => {
+    fleet.createShip(index, data)
+    dialogProps.onClose()
+  }
+
+  const dialog = (
+    <Dialog fullWidth maxWidth="xl" {...dialogProps}>
+      <ShipSelectPanel onSelect={createShip} />
+    </Dialog>
+  )
+
   if (!ship) {
     return (
       <div className={classes.root}>
-        <Button
-          className={classes.width}
-          href={`#/ships/${fleet.id}/${index}`}
-          variant="outlined"
-          fullWidth={true}
-          size="large"
-        >
+        <Button className={classes.width} variant="outlined" fullWidth={true} size="large" onClick={onOpen}>
           <Add />
           艦娘{index + 1}
         </Button>
+
+        {dialog}
       </div>
     )
   }
 
   return (
     <div className={classes.root}>
-      <ShipCard className={classes.width} ship={ship} fleet={fleet} />
+      <ShipCard className={classes.width} ship={ship} fleet={fleet} onUpdate={onOpen} />
+      {dialog}
     </div>
   )
 }

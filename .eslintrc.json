@@ -17,13 +17,16 @@
     "project": "./tsconfig.json"
   },
   "rules": {
+    "@typescript-eslint/prefer-interface": "off",
+    "@typescript-eslint/array-type": ["error", "array-simple"],
+    "@typescript-eslint/explicit-function-return-type": "off",
+    
+    "@typescript-eslint/no-var-requires": "off",
+    "react/prop-types": "off",
+    "react/display-name": "off",
+
     "no-console": "off",
     "@typescript-eslint/no-explicit-any": "off",
-    "@typescript-eslint/explicit-function-return-type": "off",
-    "@typescript-eslint/no-unused-vars": "off",
-    "react/prop-types": "off",
-    "@typescript-eslint/array-type": ["error", "array-simple"],
-    "@typescript-eslint/no-var-requires": "off",
-    "react/display-name": "off"
+    "@typescript-eslint/no-unused-vars": "off"
   }
 }

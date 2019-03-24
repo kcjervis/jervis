@@ -18,6 +18,8 @@ import {
 } from 'react-virtualized'
 import useSort, { Sort } from './useSort'
 
+export type Sort<T> = Sort<T>
+
 const useStyles = makeStyles({
   flexContainer: {
     display: 'flex',
@@ -125,5 +127,4 @@ const DataTable: React.FC<DataTableProps> = props => {
   )
 }
 
-export { Sort }
 export default DataTable

@@ -31,7 +31,7 @@ const masterIdToDataObject = (masterId: number) => {
   return {
     masterId: master.id,
     level: 1,
-    slots: master.slotCapacities,
+    slots: master.slotCapacities.concat(),
     equipments: master.equipments.map(equip => {
       if (equip === undefined) {
         return undefined
@@ -67,7 +67,7 @@ export const createEnemyBattleFleet = (enemy: TEnemyFleet) => {
   return battleFleet
 }
 
-interface EnemyFleetProps {
+export interface EnemyFleetProps {
   enemy: TEnemyFleet
 }
 
@@ -92,14 +92,14 @@ const EnemyFleet: React.FC<EnemyFleetProps> = ({ enemy }) => {
         {difficulty && difficultyToString(difficulty)} {formationName} 制空:{fighterPower} 基地戦:{lbasFighterPower}
       </Typography>
       <div>
-        {battleFleet.mainFleet.nonNullableShips.map(({ masterId }, sIndex) => (
-          <ShipImage key={sIndex} imageType="banner" masterId={masterId} />
+        {battleFleet.mainFleet.nonNullableShips.map((ship, shipIndex) => (
+          <ShipImage key={shipIndex} imageType="banner" masterId={ship.masterId} />
         ))}
       </div>
       <div>
         {escortFleet &&
-          escortFleet.nonNullableShips.map(({ masterId }, sIndex) => (
-            <ShipImage key={sIndex} imageType="banner" masterId={masterId} />
+          escortFleet.nonNullableShips.map((ship, shipIndex) => (
+            <ShipImage key={shipIndex} imageType="banner" masterId={ship.masterId} />
           ))}
       </div>
     </div>

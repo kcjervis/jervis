@@ -26,8 +26,8 @@ const useStyles = makeStyles((theme: Theme) => ({
   shipImage: {
     width: 'auto',
     height: 'auto',
-    maxWidth: 600,
-    maxHeight: 500
+    maxWidth: 8 * 40,
+    maxHeight: 8 * 40
   }
 }))
 

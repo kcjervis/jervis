@@ -16,3 +16,8 @@ declare module '*maps' {
   const maps: TMapData[]
   export default maps
 }
+
+declare module '*.png' {
+  const value: any
+  export = value
+}

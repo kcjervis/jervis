@@ -8,6 +8,7 @@ import kcObjectFactory from './kcObjectFactory'
 import ObservableFleet from './ObservableFleet'
 import ObservableLandBasedAirCorps from './ObservableLandBasedAirCorps'
 import toNishikuma from './toNishikuma'
+import OperationStore from './OperationStore'
 
 export default class ObservableOperation implements IOperationDataObject {
   public static create = (operationData: IOperationDataObject & { name?: string; description?: string }) => {
@@ -30,12 +31,14 @@ export default class ObservableOperation implements IOperationDataObject {
     return observableOperation
   }
 
+  public store?: OperationStore
+
   @persist
   public id = uuid()
 
   @persist
   @observable
-  public name = new Date().toLocaleString() + 'の編成'
+  public name = ''
 
   @persist
   @observable
@@ -66,14 +69,32 @@ export default class ObservableOperation implements IOperationDataObject {
   public enemies: TEnemyFleet[] = []
 
   @observable
-  public isVisible = true
-
-  @observable
   public activeFleetIndex: number = 0
 
-  @action.bound
-  public remove() {
-    this.isVisible = false
+  @action public copy = () => {
+    const { store } = this
+    if (store) {
+      store.copyOperation(this)
+    }
+  }
+
+  @action public switch = (target: ObservableOperation) => {
+    const { store } = this
+    const targetStore = target.store
+    if (!store || !targetStore) {
+      return
+    }
+    const index = store.operations.indexOf(this)
+    const targetIndex = targetStore.operations.indexOf(target)
+    store.set(index, target)
+    targetStore.set(targetIndex, this)
+  }
+
+  @action public remove = () => {
+    const { store } = this
+    if (store) {
+      store.operations.remove(this)
+    }
   }
 
   public get activeFleet() {
@@ -95,7 +116,7 @@ export default class ObservableOperation implements IOperationDataObject {
 
   private toJSON() {
     const dataObject = { ...this, version: 1 }
-    delete dataObject.isVisible
+    delete dataObject.store
     delete dataObject.enemies
     delete dataObject.activeFleetIndex
     return dataObject
