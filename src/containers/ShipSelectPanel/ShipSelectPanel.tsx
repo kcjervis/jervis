@@ -1,12 +1,4 @@
-import {
-  IShip,
-  IShipDataObject,
-  MasterData,
-  MasterShip,
-  ShipClass,
-  ShipType,
-  IEquipmentDataObject
-} from 'kc-calculator'
+import { IShipDataObject, MasterShip, IEquipmentDataObject } from 'kc-calculator'
 import React, { useState, useRef, useEffect, useCallback, useMemo } from 'react'
 import groupBy from 'lodash/groupBy'
 

@@ -1,5 +1,6 @@
 import React, { useState, useCallback } from 'react'
 import classNames from 'classnames'
+import useReactRouter from 'use-react-router'
 
 import { makeStyles, createStyles } from '@material-ui/styles'
 import { Theme } from '@material-ui/core'
@@ -46,6 +47,12 @@ const WorkspaceTab: React.FC<WorkspaceTabProps> = ({ item }) => {
   const [visibleClose, setVisibleClose] = useState(false)
   const classes = useStyles()
   const { getOperation, isTemporary } = useOperationStore()
+  const { history } = useReactRouter()
+
+  const handleClick = useCallback(() => {
+    item.setActive()
+    history.replace('operation')
+  }, [item])
 
   const handleMouseOver = useCallback(() => setVisibleClose(true), [])
   const handleMouseOut = useCallback(() => setVisibleClose(false), [])
@@ -65,12 +72,7 @@ const WorkspaceTab: React.FC<WorkspaceTabProps> = ({ item }) => {
 
   return (
     <>
-      <div
-        className={classes.root}
-        onClick={item.setActive}
-        onMouseEnter={handleMouseOver}
-        onMouseLeave={handleMouseOut}
-      >
+      <div className={classes.root} onClick={handleClick} onMouseEnter={handleMouseOver} onMouseLeave={handleMouseOut}>
         <ItemLabel
           icon={icon}
           text={operation.name}

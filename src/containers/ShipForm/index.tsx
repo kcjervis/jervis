@@ -1,9 +1,10 @@
 import { observer } from 'mobx-react-lite'
-import React, { useContext } from 'react'
+import React from 'react'
 
+import { Theme } from '@material-ui/core'
 import Button from '@material-ui/core/Button'
 import Add from '@material-ui/icons/Add'
-import { makeStyles } from '@material-ui/styles'
+import { makeStyles, createStyles } from '@material-ui/styles'
 import Dialog from '@material-ui/core/Dialog'
 
 import withDragAndDrop from '../../hocs/withDragAndDrop'
@@ -14,14 +15,19 @@ import { useOpen } from '../../hooks'
 import ShipSelectPanel from '../ShipSelectPanel'
 import { IShipDataObject } from 'kc-calculator'
 
-const useStyles = makeStyles({
-  root: {
-    margin: 4
-  },
-  width: {
-    width: 8 * 30
-  }
-})
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    root: {
+      margin: 4
+    },
+    width: {
+      width: 8 * 30
+    },
+    dialogPaper: {
+      background: theme.palette.grey[800]
+    }
+  })
+)
 
 interface ShipForm {
   ship?: ObservableShip
@@ -41,7 +47,7 @@ const ShipForm: React.FC<ShipForm> = props => {
   }
 
   const dialog = (
-    <Dialog fullWidth maxWidth="xl" {...dialogProps}>
+    <Dialog fullWidth maxWidth="xl" {...dialogProps} classes={{ paper: classes.dialogPaper }}>
       <ShipSelectPanel onSelect={createShip} />
     </Dialog>
   )

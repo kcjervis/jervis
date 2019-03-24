@@ -22,8 +22,7 @@ const useStyles = makeStyles((theme: Theme) =>
     root: {},
     ships: {
       display: 'flex',
-      flexWrap: 'wrap',
-      maxWidth: 8 * 31 * 3
+      flexWrap: 'wrap'
     },
     bottomControl: {
       display: 'flex',
@@ -84,30 +83,32 @@ const FleetField: React.FC<FleetFieldProps> = ({ fleet, operation }) => {
 
   return (
     <div className={classes.root}>
-      <div style={{ display: 'flex', alignItems: 'center' }}>
-        <Typography>制空: {fleet.asKcObject.fighterPower}</Typography>
-        <ProficiencyDialog changeProficiency={setProficiency} />
-        {range(1, 6).map(nodeDivaricatedFactor => (
-          <div key={nodeDivaricatedFactor} style={{ display: 'flex', alignItems: 'center', marginLeft: 8 }}>
-            <StatIcon statKey="los" label={`(${nodeDivaricatedFactor})`} />
-            <Typography>{getEffectiveLos(nodeDivaricatedFactor).toFixed(2)}</Typography>
-          </div>
-        ))}
-      </div>
+      <div>
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+          <Typography>制空: {fleet.asKcObject.fighterPower}</Typography>
+          {range(1, 6).map(nodeDivaricatedFactor => (
+            <div key={nodeDivaricatedFactor} style={{ display: 'flex', alignItems: 'center', marginLeft: 8 }}>
+              <StatIcon statKey="los" label={`(${nodeDivaricatedFactor})`} />
+              <Typography>{getEffectiveLos(nodeDivaricatedFactor).toFixed(2)}</Typography>
+            </div>
+          ))}
+          <ProficiencyDialog changeProficiency={setProficiency} />
+        </div>
 
-      <div className={classes.ships}>
-        {ships.map((ship, index) => (
-          <ShipForm key={index} fleet={fleet} index={index} ship={ship} onEndDrag={operationStore.switchShip} />
-        ))}
-      </div>
+        <div className={classes.ships}>
+          {ships.map((ship, index) => (
+            <ShipForm key={index} fleet={fleet} index={index} ship={ship} onEndDrag={operationStore.switchShip} />
+          ))}
+        </div>
 
-      <div className={classes.bottomControl}>
-        <Button onClick={addShipForm}>
-          <Add />
-        </Button>
-        <Button onClick={removeShipForm}>
-          <Remove />
-        </Button>
+        <div className={classes.bottomControl}>
+          <Button onClick={addShipForm}>
+            <Add />
+          </Button>
+          <Button onClick={removeShipForm}>
+            <Remove />
+          </Button>
+        </div>
       </div>
 
       <FleetDetail

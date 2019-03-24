@@ -56,7 +56,7 @@ const OperationDescriptionField: React.FC<OperationDescriptionFieldProps> = ({ o
     )
   return (
     <>
-      <div className={classNames('container', classes.root, className)} {...divProps}>
+      <div className={classNames(classes.root, className)} {...divProps}>
         <div>
           <EditButton title="編集" tooltipProps={{ placement: 'top' }} onClick={onOpen} />
         </div>

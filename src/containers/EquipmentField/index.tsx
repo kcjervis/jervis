@@ -18,8 +18,7 @@ import {
 
 const useStyles = makeStyles({
   root: {
-    width: 240,
-    height: 40
+    height: 8 * 5
   }
 })
 

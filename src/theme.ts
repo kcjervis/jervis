@@ -1,4 +1,5 @@
 import blue from '@material-ui/core/colors/blue'
+import grey from '@material-ui/core/colors/grey'
 import { createMuiTheme } from '@material-ui/core/styles'
 
 const clearBackground = 'rgba( 20, 20, 20, 0.1 )'
@@ -14,6 +15,22 @@ const theme = createMuiTheme({
     primary: blue
   },
   overrides: {
+    MuiPaper: {
+      root: {
+        scrollbarColor: `${grey[700]} ${grey[900]}`,
+        scrollbarWidth: 'thin',
+        '&::-webkit-scrollbar': {
+          width: 8
+        },
+        '&::-webkit-scrollbar-track': {
+          background: grey[900],
+          borderLeft: `solid 1px ${grey[700]}`
+        },
+        '&::-webkit-scrollbar-thumb': {
+          background: grey[700]
+        }
+      }
+    },
     MuiMenu: darkPaper,
     MuiDialog: darkPaper,
     MuiDrawer: darkPaper,

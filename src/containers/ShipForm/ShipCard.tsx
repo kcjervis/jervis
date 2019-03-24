@@ -33,7 +33,8 @@ const useStyles = makeStyles({
     alignItems: 'center'
   },
   equipment: {
-    marginTop: 4
+    marginTop: 4,
+    height: 8 * 4 + 4
   }
 })
 
@@ -92,7 +93,6 @@ const ShipCard: React.FC<ShipCardProps> = ({ ship, fleet, onUpdate, ...paperProp
           parent={ship}
           index={index}
           equipment={equip}
-          // style={{ width: '100%', height: 8 * 5 }}
         />
       ))}
       {/* <ShipCalculator ship={ship.asKcObject} /> */}

@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import { IEquipment } from 'kc-calculator'
 import classNames from 'classnames'
 
@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   rightButtons: {
     display: 'flex',
     alignItems: 'center',
-    margin: `0 ${theme.spacing(1) * 0.5}px`
+    margin: `0 4px`
   }
 }))
 
@@ -58,7 +58,7 @@ const EquipmentFieldCard: React.FC<EquipmentFieldCardProps> = ({
       <div
         onClick={onClick}
         className={classNames(baseClasses.flexbox, baseClasses.brightButton)}
-        style={{ width: '100%' }}
+        style={{ flexGrow: 1 }}
       >
         <EquipmentIcon className={classes.icon} iconId={iconId} />
         <Typography variant="caption">{equipment.name}</Typography>
