@@ -4,24 +4,21 @@ import { EquipmentStatKey, ShipStatKey } from 'kc-calculator'
 
 import { makeStyles } from '@material-ui/styles'
 import Typography from '@material-ui/core/Typography'
-import statKeys from '../data/statKeys'
 
 const useStyles = makeStyles({
   root: {
-    position: 'relative',
-    paddingRight: 5,
-    marginRight: 5
+    display: 'flex',
+    alignItems: 'flex-end',
+    marginRight: 4
   },
   icon: {
-    width: 18,
-    height: 18,
-    filter: 'contrast(150%) opacity(0.6)'
+    width: 8 * 2,
+    height: 8 * 2,
+    filter: 'contrast(180%) opacity(0.9)'
   },
-  statKey: {
+  label: {
     fontSize: 10,
-    position: 'absolute',
-    right: -3,
-    bottom: 0
+    lineHeight: 1
   }
 })
 
@@ -30,26 +27,19 @@ interface ShipIcon {
   label?: string | number
 }
 
-const ShipIcon: React.FC<ShipIcon> = props => {
+const ShipIcon: React.FC<ShipIcon> = ({ statKey, label }) => {
   const classes = useStyles()
-  const { statKey } = props
   let image
   try {
     image = require(`../images/icons/${statKey}.png`)
   } catch (error) {
     console.log(error)
   }
-  const stat = statKeys.find(({ key }) => key === statKey)
-  let label: string | number
-  if (props.label) {
-    label = props.label
-  } else {
-    label = stat ? stat.name : statKey
-  }
+
   return (
     <div className={classes.root}>
       <img className={classes.icon} src={image} />
-      <Typography className={classes.statKey}>{label}</Typography>
+      <Typography className={classes.label}>{label}</Typography>
     </div>
   )
 }

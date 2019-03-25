@@ -164,7 +164,7 @@ const ShipSelectPanel: React.FC<ShipSelectPanelProps> = ({ onSelect }) => {
           {masterShips.map(masterShip => (
             <Tooltip
               enterDelay={800}
-              TransitionProps={{ style: { maxWidth: undefined } }}
+              TransitionProps={{ style: { maxWidth: 1000 } }}
               key={masterShip.id}
               title={<MasterShipCard ship={masterShip} />}
             >

@@ -34,7 +34,7 @@ const useStyles = makeStyles({
   },
   equipment: {
     marginTop: 4,
-    height: 8 * 4 + 4
+    height: 8 * 5
   }
 })
 
@@ -65,7 +65,7 @@ const ShipCard: React.FC<ShipCardProps> = ({ ship, fleet, onUpdate, ...paperProp
           </Typography>
         </Tooltip>
         <div style={{ alignItems: 'right' }}>
-          <UpdateButton title="艦娘を変更" size="small" href={'#/ships'} onClick={onUpdate} />
+          <UpdateButton title="艦娘を変更" size="small" onClick={onUpdate} />
           <RemoveButton title="艦娘を削除" size="small" onClick={ship.remove} />
         </div>
       </div>

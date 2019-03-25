@@ -55,7 +55,7 @@ const ShipForm: React.FC<ShipForm> = props => {
   if (!ship) {
     return (
       <div className={classes.root}>
-        <Button className={classes.width} variant="outlined" fullWidth={true} size="large" onClick={onOpen}>
+        <Button className={classes.width} variant="outlined" fullWidth size="large" onClick={onOpen}>
           <Add />
           艦娘{index + 1}
         </Button>

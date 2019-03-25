@@ -1,11 +1,14 @@
 import { EquipmentStatKey, ShipStatKey, Speed } from 'kc-calculator'
 import React from 'react'
+import classNames from 'classnames'
 
 import Typography from '@material-ui/core/Typography'
-
+import Tooltip from '@material-ui/core/Tooltip'
 import { makeStyles } from '@material-ui/styles'
 
 import StatIcon from './StatIcon'
+
+import statKeys from '../data/statKeys'
 
 const useStyles = makeStyles({
   root: {
@@ -14,11 +17,12 @@ const useStyles = makeStyles({
   }
 })
 
-interface ShipStatProps extends React.HTMLAttributes<HTMLDivElement> {
+interface StatLabelProps extends React.HTMLAttributes<HTMLDivElement> {
   statKey: ShipStatKey | EquipmentStatKey
   stat: number
   increased?: number
   bonus?: number
+  disableTooltip?: boolean
 }
 
 const rangeValueToName = (range: number) => {
@@ -45,9 +49,9 @@ const valueToString = (value: number | undefined) => {
   return value > 0 ? `+${value}` : `${value}`
 }
 
-const ShipStat: React.FC<ShipStatProps> = props => {
+const StatLabel: React.FC<StatLabelProps> = props => {
   const classes = useStyles()
-  const { statKey, stat, increased, bonus, ...rest } = props
+  const { statKey, stat, increased, bonus, disableTooltip, className, ...rest } = props
 
   let displayValue: number | string = stat
   let visibleBonus = Boolean(increased || bonus)
@@ -60,10 +64,12 @@ const ShipStat: React.FC<ShipStatProps> = props => {
     visibleBonus = false
   }
 
-  return (
-    <div className={classes.root} {...rest}>
+  const label = (
+    <div className={classNames(classes.root, className)} {...rest}>
       <StatIcon statKey={statKey} />
-      <Typography variant="subtitle2">{displayValue}</Typography>
+      <Typography variant="subtitle2" style={{ lineHeight: undefined }}>
+        {displayValue}
+      </Typography>
       {visibleBonus && (
         <>
           <Typography variant="caption">(</Typography>
@@ -78,6 +84,14 @@ const ShipStat: React.FC<ShipStatProps> = props => {
       )}
     </div>
   )
+
+  if (disableTooltip) {
+    return label
+  }
+  const statData = statKeys.find(statData => statData.key === statKey)
+  const title = statData && statData.name
+
+  return <Tooltip title={title}>{label}</Tooltip>
 }
 
-export default ShipStat
+export default StatLabel

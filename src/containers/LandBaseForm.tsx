@@ -4,6 +4,7 @@ import React from 'react'
 
 import Button from '@material-ui/core/Button'
 import Paper from '@material-ui/core/Paper'
+import Typography from '@material-ui/core/Typography'
 
 import AerialCombatSimulator from './AerialCombatSimulator'
 import LandBasedAirCorpsCard from './LandBasedAirCorpsCard'
@@ -29,10 +30,25 @@ const LandBaseForm: React.FC<LandBaseForm> = ({ operation }) => {
       }
     })
   }
+
+  const { mainFleet, escortFleet } = operation.asKcObject
+  let combinedFleetFighterPower = mainFleet.fighterPower
+  let combinedFleetFighterPowerLabel = ''
+  if (escortFleet) {
+    combinedFleetFighterPower += escortFleet.fighterPower
+    combinedFleetFighterPowerLabel = `連合戦制空: ${combinedFleetFighterPower}`
+  }
+
   return (
     <>
       <Paper style={{ margin: 8, padding: 8 }}>
-        <ProficiencyDialog changeProficiency={handleProficiencyChange} />
+        <div style={{ display: 'flex' }}>
+          <Typography variant="caption" style={{ margin: 8 }}>
+            第一艦隊制空: {mainFleet.fighterPower} {combinedFleetFighterPowerLabel}
+          </Typography>
+
+          <ProficiencyDialog changeProficiency={handleProficiencyChange} />
+        </div>
 
         <div style={{ display: 'flex', justifyContent: 'center' }}>
           {operation.landBase.map((airCorps, index) => (

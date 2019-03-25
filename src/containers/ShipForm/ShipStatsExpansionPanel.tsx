@@ -13,11 +13,16 @@ import Grid from '@material-ui/core/Grid'
 
 import ShipStatDialog from './ShipStatDialog'
 import HealthBarDialog from './HealthBarDialog'
+import ShipStatLabel from './ShipStatLabel'
+import { EquipmentIcon, StatLabel } from '../../components'
 
-import { EquipmentIcon } from '../../components'
-import stores, { ObservableShip } from '../../stores'
+import { ObservableShip } from '../../stores'
 
-const useStyles = makeStyles({})
+const useStyles = makeStyles({
+  stat: {
+    marginLeft: 8
+  }
+})
 
 interface ShipStatsExpansionPanelProps {
   ship: ObservableShip
@@ -33,7 +38,13 @@ const ShipStatsExpansionPanel: React.FC<ShipStatsExpansionPanelProps> = ({ ship,
   const classes = useStyles()
   return (
     <ExpansionPanel expanded={expanded} elevation={0}>
-      <ExpansionPanelSummary onClick={toggle} expandIcon={<ExpandMoreIcon />} />
+      <ExpansionPanelSummary onClick={toggle} expandIcon={<ExpandMoreIcon />}>
+        {/* <div style={{ display: 'flex', justifyContent: 'space-around', flexGrow: 1 }}>
+          <ShipStatLabel className={classes.stat} ship={ship} statKey="hp" />
+          <ShipStatLabel className={classes.stat} ship={ship} statKey="asw" />
+          <ShipStatLabel className={classes.stat} ship={ship} statKey="luck" />
+        </div> */}
+      </ExpansionPanelSummary>
 
       <HealthBarDialog ship={ship} />
 

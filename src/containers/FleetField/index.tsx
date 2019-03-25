@@ -7,6 +7,7 @@ import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
 import Add from '@material-ui/icons/Add'
 import Remove from '@material-ui/icons/Remove'
+import Tooltip from '@material-ui/core/Tooltip'
 import { Theme } from '@material-ui/core'
 import { makeStyles, createStyles } from '@material-ui/styles'
 
@@ -85,29 +86,33 @@ const FleetField: React.FC<FleetFieldProps> = ({ fleet, operation }) => {
     <div className={classes.root}>
       <div>
         <div style={{ display: 'flex', alignItems: 'center' }}>
-          <Typography>制空: {fleet.asKcObject.fighterPower}</Typography>
-          {range(1, 6).map(nodeDivaricatedFactor => (
-            <div key={nodeDivaricatedFactor} style={{ display: 'flex', alignItems: 'center', marginLeft: 8 }}>
-              <StatIcon statKey="los" label={`(${nodeDivaricatedFactor})`} />
-              <Typography>{getEffectiveLos(nodeDivaricatedFactor).toFixed(2)}</Typography>
-            </div>
-          ))}
+          <div style={{ display: 'flex', alignItems: 'center', flexGrow: 1 }}>
+            <Typography>制空: {fleet.asKcObject.fighterPower}</Typography>
+            {range(1, 6).map(nodeDivaricatedFactor => (
+              <Tooltip key={nodeDivaricatedFactor} title={`マップ索敵 分岐点係数${nodeDivaricatedFactor}`}>
+                <div style={{ display: 'flex', alignItems: 'center', marginLeft: 8 }}>
+                  <StatIcon statKey="los" label={nodeDivaricatedFactor} />
+                  <Typography variant="caption">{getEffectiveLos(nodeDivaricatedFactor).toFixed(2)}</Typography>
+                </div>
+              </Tooltip>
+            ))}
+          </div>
           <ProficiencyDialog changeProficiency={setProficiency} />
+
+          <div className={classes.bottomControl}>
+            <Button title="艦娘枠を増やす" onClick={addShipForm}>
+              <Add />
+            </Button>
+            <Button title="艦娘枠を減らす" onClick={removeShipForm}>
+              <Remove />
+            </Button>
+          </div>
         </div>
 
         <div className={classes.ships}>
           {ships.map((ship, index) => (
             <ShipForm key={index} fleet={fleet} index={index} ship={ship} onEndDrag={operationStore.switchShip} />
           ))}
-        </div>
-
-        <div className={classes.bottomControl}>
-          <Button onClick={addShipForm}>
-            <Add />
-          </Button>
-          <Button onClick={removeShipForm}>
-            <Remove />
-          </Button>
         </div>
       </div>
 
