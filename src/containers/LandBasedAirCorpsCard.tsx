@@ -19,7 +19,9 @@ const useStyles = makeStyles((theme: Theme) => ({
     margin: theme.spacing(1)
   },
   equipment: {
-    margin: theme.spacing(1) * 0.5
+    margin: theme.spacing(1) * 0.5,
+    height: 8 * 5,
+    width: 8 * 30
   }
 }))
 
@@ -61,9 +63,13 @@ const LandBasedAirCorpsCard: React.FC<LandBasedAirCorpsCard> = ({ landBasedAirCo
           </FormControl>
         </div>
         {landBasedAirCorps.equipments.map((equip, equipIndex) => (
-          <div key={equipIndex} className={classes.equipment}>
-            <EquipmentField store={landBasedAirCorps} index={equipIndex} equipment={equip} />
-          </div>
+          <EquipmentField
+            key={equipIndex}
+            className={classes.equipment}
+            store={landBasedAirCorps}
+            index={equipIndex}
+            equipment={equip}
+          />
         ))}
 
         <Typography>{`制空 出撃:${fighterPower} 防空:${interceptionPower}`}</Typography>

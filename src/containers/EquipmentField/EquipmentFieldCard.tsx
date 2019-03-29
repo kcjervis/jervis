@@ -7,6 +7,7 @@ import Typography from '@material-ui/core/Typography'
 import Paper, { PaperProps } from '@material-ui/core/Paper'
 import Popover from '@material-ui/core/Popover'
 import { makeStyles } from '@material-ui/styles'
+import BuildIcon from '@material-ui/icons/Build'
 
 import { EquipmentIcon, ImprovementSelect, ProficiencySelect, SlotSizePopover, EquipmentCard } from '../../components'
 
@@ -15,10 +16,10 @@ import { useBaseStyles, useAnchorEl } from '../../hooks'
 const useStyles = makeStyles((theme: Theme) => ({
   icon: {
     height: 24,
-    marginRight: theme.spacing(1)
+    marginRight: 4
   },
   proficiency: {
-    marginRight: theme.spacing(1)
+    marginRight: 4
   },
   rightButtons: {
     display: 'flex',
@@ -55,13 +56,20 @@ const EquipmentFieldCard: React.FC<EquipmentFieldCardProps> = ({
   const baseClasses = useBaseStyles()
   return (
     <Paper className={classNames(baseClasses.flexbox, className)} elevation={1} {...paperProps}>
+      <div style={{ width: 16 }}>
+        {slotSize === undefined ? (
+          <BuildIcon color="action" style={{ fontSize: '1rem', verticalAlign: 'middle' }} />
+        ) : (
+          onSlotSizeChange && <SlotSizePopover value={slotSize} onChange={onSlotSizeChange} />
+        )}
+      </div>
       <div
         onClick={onClick}
         className={classNames(baseClasses.flexbox, baseClasses.brightButton)}
         style={{ flexGrow: 1 }}
       >
         <EquipmentIcon className={classes.icon} iconId={iconId} />
-        <Typography variant="caption">{equipment.name}</Typography>
+        <Typography style={{ lineHeight: 1, fontSize: '0.75rem' }}>{equipment.name}</Typography>
       </div>
 
       <div className={classes.rightButtons}>
@@ -72,9 +80,6 @@ const EquipmentFieldCard: React.FC<EquipmentFieldCardProps> = ({
         )}
         <div>
           {onImprovementChange && <ImprovementSelect value={improvement.value} onChange={onImprovementChange} />}
-          {slotSize !== undefined && onSlotSizeChange && (
-            <SlotSizePopover value={slotSize} onChange={onSlotSizeChange} />
-          )}
         </div>
       </div>
 

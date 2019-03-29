@@ -33,7 +33,7 @@ const SlotSizePopover: React.FC<SlotSizePopoverProps> = ({ value, onChange }) =>
   return (
     <>
       <Tooltip title="搭載を設定">
-        <Typography className={classes.brightButton} onClick={onClick}>
+        <Typography className={classes.brightButton} align="right" onClick={onClick}>
           {value}
         </Typography>
       </Tooltip>

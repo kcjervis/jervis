@@ -65,12 +65,17 @@ const EquipmentField: React.FC<EquipmentFieldProps> = props => {
   if (!equipment || !equipment.isValid()) {
     return (
       <div ref={dndRef} className={rootClassName} style={style}>
-        <Button variant="outlined" onClick={toEquipmentsPage} fullWidth style={{ alignItems: 'flex-start' }}>
+        <Button
+          variant="outlined"
+          onClick={toEquipmentsPage}
+          fullWidth
+          style={{ padding: 0, display: 'flex', alignItems: 'center' }}
+        >
           {isExpansionSlot ? (
-            <BuildIcon />
+            <BuildIcon fontSize="small" />
           ) : (
             <>
-              ({slotSize})<AddIcon />
+              <AddIcon fontSize="small" />({slotSize})
             </>
           )}
         </Button>

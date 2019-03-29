@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme: Theme) =>
       margin: 4
     },
     width: {
-      width: 8 * 30
+      width: 8 * 32
     },
     dialogPaper: {
       background: theme.palette.grey[800]

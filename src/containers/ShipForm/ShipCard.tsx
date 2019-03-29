@@ -34,7 +34,7 @@ const useStyles = makeStyles({
   },
   equipment: {
     marginTop: 4,
-    height: 8 * 5
+    height: 8 * 4
   }
 })
 
