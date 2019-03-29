@@ -64,7 +64,9 @@ const ListEquipmentDialog: React.FC<{ equipment: IEquipment }> = ({ equipment })
   const state = activeEquipmentList.getEquipmentState(equipment)
 
   const handleRemove = () => {
-    activeEquipmentList.removeEquipment(equipment)
+    if (state) {
+      state.remove()
+    }
   }
 
   return (

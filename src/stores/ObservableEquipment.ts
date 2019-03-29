@@ -4,10 +4,12 @@ import { persist } from 'mobx-persist'
 import uuid from 'uuid'
 
 import kcObjectFactory from './kcObjectFactory'
+import { StoreItem, EquipmentStore } from '../types'
 
-export default class ObservableEquipment implements IEquipmentDataObject {
-  @computed
-  public get asKcObject() {
+export type ObservableEquipmentStore = EquipmentStore<ObservableEquipment | undefined>
+
+export default class ObservableEquipment implements IEquipmentDataObject, StoreItem<ObservableEquipmentStore> {
+  @computed public get asKcObject() {
     const equip = kcObjectFactory.createEquipment(this)
     if (!equip) {
       throw new Error(`masterId: ${this.masterId} equipment is undefined`)
@@ -15,8 +17,9 @@ export default class ObservableEquipment implements IEquipmentDataObject {
     return equip
   }
 
-  public static create(data: IEquipmentDataObject) {
+  public static create(data: IEquipmentDataObject, store: ObservableEquipmentStore) {
     const equip = new ObservableEquipment()
+    equip.initialize(store)
     const { masterId, improvement = 0, proficiency = 0 } = data
     equip.masterId = masterId
     equip.improvement = improvement
@@ -24,22 +27,23 @@ export default class ObservableEquipment implements IEquipmentDataObject {
     return equip
   }
 
-  @persist
-  public id = uuid()
+  public store?: ObservableEquipmentStore
 
-  @persist
-  @observable
-  public masterId: number = 0
+  @persist public id = uuid()
 
-  @persist
-  @observable
-  public improvement: number = 0
+  @persist @observable public masterId = 0
 
-  @persist
-  @observable
-  public proficiency: number = 0
+  @persist @observable public improvement = 0
 
-  @observable public isVisible = true
+  @persist @observable public proficiency = 0
+
+  public get index() {
+    const { store } = this
+    if (store) {
+      return store.equipments.indexOf(this)
+    }
+    return -1
+  }
 
   public isValid() {
     const equip = kcObjectFactory.createEquipment(this)
@@ -59,18 +63,17 @@ export default class ObservableEquipment implements IEquipmentDataObject {
   }
 
   @action public remove = () => {
-    this.isVisible = false
+    if (this.store) {
+      this.store.removeEquipment(this)
+    }
+  }
+
+  @action public initialize = (store: ObservableEquipmentStore) => {
+    this.store = store
   }
 
   private toJSON(): IEquipmentDataObject {
     const { masterId, improvement, proficiency } = this
-    const dataObject: IEquipmentDataObject = { masterId }
-    if (improvement) {
-      dataObject.improvement = improvement
-    }
-    if (proficiency) {
-      dataObject.proficiency = proficiency
-    }
     return {
       masterId,
       improvement: improvement ? improvement : undefined,

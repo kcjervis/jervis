@@ -1,5 +1,6 @@
 import { observer } from 'mobx-react-lite'
 import React from 'react'
+import { IShipDataObject } from 'kc-calculator'
 
 import { Theme } from '@material-ui/core'
 import Button from '@material-ui/core/Button'
@@ -7,13 +8,10 @@ import Add from '@material-ui/icons/Add'
 import { makeStyles, createStyles } from '@material-ui/styles'
 import Dialog from '@material-ui/core/Dialog'
 
-import withDragAndDrop from '../../hocs/withDragAndDrop'
-
-import { ObservableFleet, ObservableShip, WorkspaceStoreContext } from '../../stores'
+import { ObservableFleet, ObservableShip } from '../../stores'
 import ShipCard from './ShipCard'
-import { useOpen } from '../../hooks'
+import { useOpen, useDragAndDrop } from '../../hooks'
 import ShipSelectPanel from '../ShipSelectPanel'
-import { IShipDataObject } from 'kc-calculator'
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -29,20 +27,28 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 )
 
-interface ShipForm {
+interface ShipFormProps {
   ship?: ObservableShip
-  fleet: ObservableFleet
+  store: ObservableFleet
   index: number
-  onEndDrag: (drag: any, drop: any) => void
 }
 
-const ShipForm: React.FC<ShipForm> = props => {
-  const { ship, fleet, index } = props
+const ShipForm: React.FC<ShipFormProps> = props => {
+  const { ship, store, index } = props
   const classes = useStyles()
   const { onOpen, ...dialogProps } = useOpen()
+  const [{ isDragging }, dndRef] = useDragAndDrop({
+    item: { type: 'Ship', ship, store, index },
+    drop: dragItem => {
+      store.set(index, dragItem.ship)
+      dragItem.store.set(dragItem.index, ship)
+    }
+  })
+
+  const opacity = isDragging ? 0 : 1
 
   const createShip = (data: IShipDataObject) => {
-    fleet.createShip(index, data)
+    store.createShip(index, data)
     dialogProps.onClose()
   }
 
@@ -54,7 +60,7 @@ const ShipForm: React.FC<ShipForm> = props => {
 
   if (!ship) {
     return (
-      <div className={classes.root}>
+      <div className={classes.root} ref={dndRef} style={{ opacity }}>
         <Button className={classes.width} variant="outlined" fullWidth size="large" onClick={onOpen}>
           <Add />
           艦娘{index + 1}
@@ -66,11 +72,11 @@ const ShipForm: React.FC<ShipForm> = props => {
   }
 
   return (
-    <div className={classes.root}>
-      <ShipCard className={classes.width} ship={ship} fleet={fleet} onUpdate={onOpen} />
+    <div className={classes.root} ref={dndRef} style={{ opacity }}>
+      <ShipCard className={classes.width} ship={ship} onUpdate={onOpen} />
       {dialog}
     </div>
   )
 }
 
-export default withDragAndDrop('ShipForm')(observer(ShipForm))
+export default observer(ShipForm)

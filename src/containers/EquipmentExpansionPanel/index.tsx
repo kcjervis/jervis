@@ -12,7 +12,7 @@ import { EquipmentIcon } from '../../components'
 import EquipmentField from '../EquipmentField'
 import EquipmentAvatar from '../EquipmentAvatar'
 
-import stores, { ObservableEquipment, ObservableLandBasedAirCorps, ObservableShip } from '../../stores'
+import { ObservableEquipment, ObservableLandBasedAirCorps, ObservableShip } from '../../stores'
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {},
@@ -22,26 +22,18 @@ const useStyles = makeStyles((theme: Theme) => ({
 }))
 
 interface EquipmentExpansionPanelProps {
-  parent: ObservableShip | ObservableLandBasedAirCorps
+  store: ObservableShip | ObservableLandBasedAirCorps
   equipments: Array<ObservableEquipment | undefined>
 }
 
 const EquipmentExpansionPanel: React.FC<EquipmentExpansionPanelProps> = props => {
   const classes = useStyles()
-  const { equipments, parent } = props
-  const handleEndDrag = stores.operationStore.switchEquipment
+  const { equipments, store } = props
   return (
     <div>
       {equipments.map((equip, index) => equip && <EquipmentAvatar key={index} equipment={equip} />)}
       {equipments.map((equip, index) => (
-        <EquipmentField
-          key={index}
-          className={classes.equipment}
-          onEndDrag={handleEndDrag}
-          parent={parent}
-          index={index}
-          equipment={equip}
-        />
+        <EquipmentField key={index} className={classes.equipment} store={store} index={index} equipment={equip} />
       ))}
     </div>
   )

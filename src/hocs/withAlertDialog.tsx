@@ -19,7 +19,7 @@ const withAlertDialog = <WrappedProps extends InjectedProps>(WrappedComponent: R
     readonly open: boolean
   }
   return class WithAlertDialog extends React.Component<THocProps, HocState> {
-    public static displayName = `withDragAndDrop(${WrappedComponent.name && WrappedComponent.displayName})`
+    public static displayName = `withAlertDialog(${WrappedComponent.name && WrappedComponent.displayName})`
 
     public static readonly WrappedComponent = WrappedComponent
 

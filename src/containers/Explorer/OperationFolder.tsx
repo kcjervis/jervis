@@ -45,8 +45,7 @@ const OperationsFolder: React.FC<OperationsFolderProps> = ({ store }) => {
 
   const [collectedProps, dropRef] = useDrop({
     accept: 'OperationLabel',
-    drop: (item: { operation: ObservableOperation }) => {
-      item.operation.remove()
+    drop: (item: { type: 'OperationLabel'; operation: ObservableOperation }) => {
       store.push(item.operation)
     }
   })

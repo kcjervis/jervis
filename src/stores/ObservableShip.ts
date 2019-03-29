@@ -1,14 +1,17 @@
 import { IEquipment, IEquipmentDataObject, IShipDataObject, shipStatKeys } from 'kc-calculator'
-import { action, autorun, computed, observable } from 'mobx'
+import { action, computed, observable } from 'mobx'
 import { persist } from 'mobx-persist'
 import uuid from 'uuid'
+import { range } from 'lodash-es'
 
 import kcObjectFactory from './kcObjectFactory'
-import ObservableEquipment from './ObservableEquipment'
+import ObservableEquipment, { ObservableEquipmentStore } from './ObservableEquipment'
 
-export default class ObservableShip implements IShipDataObject {
-  @computed
-  public get asKcObject() {
+import { StoreItem } from '../types'
+import ObservableFleet from './ObservableFleet'
+
+export default class ObservableShip implements IShipDataObject, ObservableEquipmentStore, StoreItem<ObservableFleet> {
+  @computed public get asKcObject() {
     const ship = kcObjectFactory.createShip(this)
     if (!ship) {
       this.isVisible = false
@@ -17,18 +20,24 @@ export default class ObservableShip implements IShipDataObject {
     return ship
   }
 
-  public static create({ masterId, level, slots, equipments, nowHp, increased }: IShipDataObject) {
+  public static create(data: IShipDataObject, store: ObservableFleet) {
+    const { masterId, level, slots, equipments, nowHp, increased } = data
     const observableShip = new ObservableShip()
     observableShip.masterId = masterId
     observableShip.level = level
-    observableShip.slots = slots
-    observableShip.equipments = Array.from(Array(slots.length + 1), (_, index) => {
-      const equip = equipments[index]
-      if (!equip || equip.masterId <= 0) {
-        return undefined
-      }
-      return ObservableEquipment.create(equip)
-    })
+    observableShip.slots = slots.concat()
+    observableShip.equipments = observable(
+      range(slots.length + 1).map(index => {
+        const equip = equipments[index]
+        if (!equip || equip.masterId <= 0) {
+          return undefined
+        }
+        return ObservableEquipment.create(equip, observableShip)
+      })
+    )
+
+    observableShip.initialize(store)
+
     if (increased) {
       observableShip.increased = increased
     }
@@ -42,82 +51,74 @@ export default class ObservableShip implements IShipDataObject {
     return observableShip
   }
 
-  @persist
-  public id = uuid()
+  public store?: ObservableFleet
 
-  @persist
-  @observable
-  public masterId: number = 30
+  @persist public id = uuid()
 
-  @persist
-  @observable
-  public level: number = 0
+  @persist @observable public masterId = 30
 
-  @persist('list', ObservableEquipment)
-  @observable
-  public equipments: Array<ObservableEquipment | undefined> = []
+  @persist @observable public level = 0
 
-  @persist('list')
-  @observable
-  public slots: number[] = []
+  @persist('list', ObservableEquipment) @observable public equipments = observable<ObservableEquipment | undefined>([])
 
-  @persist
-  @observable
-  public nowHp: number = -1
+  @persist('list') @observable public slots: number[] = []
 
-  @persist('object')
-  @observable
-  public increased: NonNullable<IShipDataObject['increased']> = {}
+  @persist @observable public nowHp = -1
 
-  @observable
-  public isVisible = true
+  @persist('object') @observable public increased: NonNullable<IShipDataObject['increased']> = {}
 
-  @observable
-  public visibleEquipments = true
+  @observable public isVisible = true
 
-  public constructor() {
-    autorun(() => {
-      if (this.nowHp < 0) {
-        this.nowHp = this.asKcObject.health.maxHp
-      }
-      this.equipments.forEach((equip, index) => {
-        if (equip && !equip.isVisible) {
-          this.equipments[index] = undefined
-        }
-      })
-    })
+  @observable public visibleEquipments = true
+
+  public get index() {
+    const { store } = this
+    return store ? store.ships.indexOf(this) : -1
   }
 
   public canEquip(equipment: IEquipment, slotIndex: number) {
     return this.asKcObject.canEquip(equipment, slotIndex)
   }
 
-  @action.bound
-  public remove() {
-    this.isVisible = false
+  @action public remove = () => {
+    if (this.store) {
+      this.store.removeShip(this)
+    }
   }
 
-  @action public setEquipment = (index: number, equipment?: ObservableEquipment) => {
+  @action public set = (index: number, equipment?: ObservableEquipment) => {
+    if (equipment) {
+      equipment.remove()
+      equipment.store = this
+    }
     this.equipments[index] = equipment
-    if (!equipment) {
+
+    if (!equipment || !this.slots[index]) {
       return
     }
-    if (!this.asKcObject.shipClass.is('NisshinClass') || !equipment.asKcObject.category.is('LargeFlyingBoat')) {
-      return
-    }
-    if (this.slots[index] > 0) {
+    if (this.asKcObject.shipClass.is('NisshinClass') && equipment.asKcObject.category.is('LargeFlyingBoat')) {
       this.setSlotSize(index, 1)
     }
   }
 
   @action public createEquipment = (index: number, data: IEquipmentDataObject) => {
-    this.setEquipment(index, ObservableEquipment.create(data))
+    this.set(index, ObservableEquipment.create(data, this))
+  }
+
+  @action public removeEquipment = (equipment: ObservableEquipment) => {
+    const { equipments } = this
+    equipments[equipments.indexOf(equipment)] = undefined
   }
 
   @action public setSlotSize = (index: number, value: number) => {
     if (typeof this.slots[index] === 'number') {
       this.slots[index] = value
     }
+  }
+
+  @action public initialize = (store: ObservableFleet) => {
+    this.store = store
+    this.equipments.forEach(equip => equip && equip.initialize(this))
   }
 
   private toJSON(): IShipDataObject {

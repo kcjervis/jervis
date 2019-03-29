@@ -111,7 +111,7 @@ const FleetField: React.FC<FleetFieldProps> = ({ fleet, operation }) => {
 
         <div className={classes.ships}>
           {ships.map((ship, index) => (
-            <ShipForm key={index} fleet={fleet} index={index} ship={ship} onEndDrag={operationStore.switchShip} />
+            <ShipForm key={index} store={fleet} index={index} ship={ship} />
           ))}
         </div>
       </div>

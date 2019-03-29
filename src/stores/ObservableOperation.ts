@@ -9,8 +9,9 @@ import ObservableFleet from './ObservableFleet'
 import ObservableLandBasedAirCorps from './ObservableLandBasedAirCorps'
 import toNishikuma from './toNishikuma'
 import OperationStore from './OperationStore'
+import { StoreItem } from '../types'
 
-export default class ObservableOperation implements IOperationDataObject {
+export default class ObservableOperation implements IOperationDataObject, StoreItem<OperationStore> {
   public static create = (operationData: IOperationDataObject & { name?: string; description?: string }) => {
     const observableOperation = new ObservableOperation()
 
@@ -23,53 +24,37 @@ export default class ObservableOperation implements IOperationDataObject {
     }
     observableOperation.side = operationData.side
     observableOperation.fleetType = operationData.fleetType
-    observableOperation.fleets = operationData.fleets.map(fleetData => ObservableFleet.create(fleetData))
-    observableOperation.landBase = operationData.landBase.map(airCorpsData =>
-      ObservableLandBasedAirCorps.create(airCorpsData)
-    )
 
+    observableOperation.fleets = observable(operationData.fleets.map(ObservableFleet.create))
+    observableOperation.landBase = observable(operationData.landBase.map(ObservableLandBasedAirCorps.create))
     return observableOperation
   }
 
   public store?: OperationStore
 
-  @persist
-  public id = uuid()
+  @persist public id = uuid()
 
-  @persist
-  @observable
-  public name = ''
+  @persist @observable public name = ''
 
-  @persist
-  @observable
-  public description = ''
+  @persist @observable public description = ''
 
-  @persist
-  @observable
-  public hqLevel = 120
+  @persist @observable public hqLevel = 120
 
-  @persist
-  @observable
-  public side = Side.Player
+  @persist @observable public side = Side.Player
 
-  @persist
-  @observable
-  public fleetType = FleetType.Single
+  @persist @observable public fleetType = FleetType.Single
 
   @persist('list', ObservableFleet)
   @observable
-  public fleets = Array.from(Array(4), () => new ObservableFleet())
+  public fleets = observable(Array.from(Array(4), () => new ObservableFleet()))
 
   @persist('list', ObservableLandBasedAirCorps)
   @observable
-  public landBase = Array.from(Array(3), () => new ObservableLandBasedAirCorps())
+  public landBase = observable(Array.from(Array(3), () => new ObservableLandBasedAirCorps()))
 
-  @persist('list')
-  @observable
-  public enemies: TEnemyFleet[] = []
+  @persist('list') @observable public enemies: TEnemyFleet[] = []
 
-  @observable
-  public activeFleetIndex: number = 0
+  @observable public activeFleetIndex: number = 0
 
   @action public copy = () => {
     const { store } = this
@@ -78,7 +63,7 @@ export default class ObservableOperation implements IOperationDataObject {
     }
   }
 
-  @action public switch = (target: ObservableOperation) => {
+  @action public swap = (target: ObservableOperation) => {
     const { store } = this
     const targetStore = target.store
     if (!store || !targetStore) {
@@ -112,6 +97,12 @@ export default class ObservableOperation implements IOperationDataObject {
 
   public get toNishikumaJson() {
     return JSON.stringify(toNishikuma(this.asKcObject, this.hqLevel))
+  }
+
+  @action public initialize = (store: OperationStore) => {
+    this.store = store
+    this.fleets.forEach(fleet => fleet.initialize(this))
+    this.landBase.forEach(airCorps => airCorps.initialize(this))
   }
 
   private toJSON() {

@@ -40,16 +40,13 @@ const useStyles = makeStyles({
 
 interface ShipCardProps extends PaperProps {
   ship: ObservableShip
-  fleet: ObservableFleet
   onUpdate: () => void
 }
 
-const ShipCard: React.FC<ShipCardProps> = ({ ship, fleet, onUpdate, ...paperProps }) => {
+const ShipCard: React.FC<ShipCardProps> = ({ ship, onUpdate, ...paperProps }) => {
   const settingStore = useContext(SettingStoreContext)
   const operationStore = useContext(OperationStoreContext)
   const classes = useStyles()
-
-  const index = fleet.ships.indexOf(ship)
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     ship.level = Number(event.target.value)
@@ -61,7 +58,7 @@ const ShipCard: React.FC<ShipCardProps> = ({ ship, fleet, onUpdate, ...paperProp
       <div className={classes.top}>
         <Tooltip title={`ID: ${ship.masterId}`}>
           <Typography variant="caption">
-            {index + 1} {ship.asKcObject.name}
+            {ship.index + 1} {ship.asKcObject.name}
           </Typography>
         </Tooltip>
         <div style={{ alignItems: 'right' }}>
@@ -86,14 +83,7 @@ const ShipCard: React.FC<ShipCardProps> = ({ ship, fleet, onUpdate, ...paperProp
       <ShipStatsExpansionPanel ship={ship} open={settingStore.operationPage.visibleShipStats} />
 
       {ship.equipments.map((equip, index) => (
-        <EquipmentField
-          key={index}
-          className={classes.equipment}
-          onEndDrag={operationStore.switchEquipment}
-          parent={ship}
-          index={index}
-          equipment={equip}
-        />
+        <EquipmentField key={index} className={classes.equipment} store={ship} index={index} equipment={equip} />
       ))}
       {/* <ShipCalculator ship={ship.asKcObject} /> */}
     </Paper>

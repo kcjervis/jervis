@@ -27,9 +27,8 @@ export const loadStores = async () => {
   await hydrate('operationStore', operationStore)
   await hydrate('settingStore', settingStore)
   await hydrate('equipmentsDataStore', equipmentsDataStore)
-  operationStore.operations.forEach(operation => {
-    operation.store = operationStore
-  })
+  operationStore.initialize()
+  equipmentsDataStore.initialize()
 }
 
 const WorkspaceStoreContext = createContext(workspaceStore)

@@ -67,7 +67,7 @@ const OperationLabel: React.FC<OperationLabelProps> = ({ operation, temporary })
   const item = { type: 'OperationLabel', operation }
   const [collectedProps, dndRef] = useDragAndDrop({
     item,
-    drop: dragItem => dragItem.operation.switch(operation)
+    drop: dragItem => dragItem.operation.swap(operation)
   })
 
   return (

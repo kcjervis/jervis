@@ -1,10 +1,12 @@
 import { IEquipment, IEquipmentDataObject, ILandBasedAirCorpsDataObject } from 'kc-calculator'
-import { action, autorun, computed, observable } from 'mobx'
+import { action, computed, observable } from 'mobx'
 import { persist } from 'mobx-persist'
 import uuid from 'uuid'
 
 import kcObjectFactory from './kcObjectFactory'
-import ObservableEquipment from './ObservableEquipment'
+import ObservableEquipment, { ObservableEquipmentStore } from './ObservableEquipment'
+import { StoreItem } from '../types'
+import ObservableOperation from './ObservableOperation'
 
 export enum LandBasedAirCorpsMode {
   Standby,
@@ -12,7 +14,8 @@ export enum LandBasedAirCorpsMode {
   Sortie2
 }
 
-export default class ObservableLandBasedAirCorps implements ILandBasedAirCorpsDataObject {
+export default class ObservableLandBasedAirCorps
+  implements ILandBasedAirCorpsDataObject, ObservableEquipmentStore, StoreItem<ObservableOperation> {
   @computed public get asKcObject() {
     const airCorps = kcObjectFactory.createLandBasedAirCorps(this)
     return airCorps
@@ -26,30 +29,17 @@ export default class ObservableLandBasedAirCorps implements ILandBasedAirCorpsDa
     return observableLandBasedAirCorps
   }
 
-  @persist
-  public id = uuid()
+  public store?: ObservableOperation
 
-  @persist
-  @observable
-  public mode = LandBasedAirCorpsMode.Sortie2
+  @persist public id = uuid()
+
+  @persist @observable public mode = LandBasedAirCorpsMode.Sortie2
 
   @persist('list', ObservableEquipment)
   @observable
-  public equipments: Array<ObservableEquipment | undefined> = new Array(4)
+  public equipments = observable<ObservableEquipment | undefined>(new Array(4))
 
-  @persist('list')
-  @observable
-  public slots = [18, 18, 18, 18]
-
-  public constructor() {
-    autorun(() =>
-      this.equipments.forEach((equip, index) => {
-        if (equip && !equip.isVisible) {
-          this.equipments[index] = undefined
-        }
-      })
-    )
-  }
+  @persist('list') @observable public slots = [18, 18, 18, 18]
 
   public canEquip({ category }: IEquipment, slotIndex: number) {
     return (
@@ -60,13 +50,17 @@ export default class ObservableLandBasedAirCorps implements ILandBasedAirCorpsDa
     )
   }
 
-  @action public setEquipment = (index: number, equipment?: ObservableEquipment) => {
+  @action public set = (index: number, equipment?: ObservableEquipment) => {
+    if (equipment) {
+      equipment.remove()
+      equipment.store = this
+    }
     this.equipments[index] = equipment
   }
 
   @action public createEquipment = (index: number, data: IEquipmentDataObject) => {
-    const equip = ObservableEquipment.create(data)
-    this.setEquipment(index, equip)
+    const equip = ObservableEquipment.create(data, this)
+    this.set(index, equip)
     if (equip.asKcObject.category.isReconnaissanceAircraft) {
       this.slots[index] = 4
     } else {
@@ -74,11 +68,21 @@ export default class ObservableLandBasedAirCorps implements ILandBasedAirCorpsDa
     }
   }
 
+  @action public removeEquipment = (equip: ObservableEquipment) => {
+    const { equipments } = this
+    equipments[equipments.indexOf(equip)] = undefined
+  }
+
   @action.bound
   public setSlotSize(index: number, value: number) {
     if (typeof this.slots[index] === 'number') {
       this.slots[index] = value
     }
+  }
+
+  @action public initialize = (store: ObservableOperation) => {
+    this.store = store
+    this.equipments.forEach(equip => equip && equip.initialize(this))
   }
 
   private toJSON(): ILandBasedAirCorpsDataObject {

@@ -4,70 +4,97 @@ import classNames from 'classnames'
 import useReactRouter from 'use-react-router'
 
 import Button from '@material-ui/core/Button'
+import BuildIcon from '@material-ui/icons/Build'
+import AddIcon from '@material-ui/icons/Add'
+import Typography from '@material-ui/core/Typography'
 import { makeStyles } from '@material-ui/styles'
 
 import EquipmentFieldCard from './EquipmentFieldCard'
 
-import withDragAndDrop from '../../hocs/withDragAndDrop'
 import {
   EquipmentsDataStoreContext,
   ObservableLandBasedAirCorps,
   ObservableShip,
   ObservableEquipment
 } from '../../stores'
+import { useDragAndDrop } from '../../hooks'
+import { swap } from '../../utils'
 
 const useStyles = makeStyles({
   root: {
-    height: 8 * 5
+    display: 'flex'
+  },
+  dragging: {
+    opacity: 0
   }
 })
 
-export interface EquipmentFieldProps {
-  className?: string
-  style?: React.CSSProperties
-  parent: ObservableShip | ObservableLandBasedAirCorps
+export interface EquipmentFieldProps extends React.HTMLAttributes<HTMLDivElement> {
+  store: ObservableShip | ObservableLandBasedAirCorps
   index: number
   equipment?: ObservableEquipment
 }
 
-const EquipmentField: React.FC<EquipmentFieldProps> = ({ equipment, parent, index, className, style }) => {
+const EquipmentField: React.FC<EquipmentFieldProps> = props => {
+  const { equipment, store, index, className, style } = props
   const classes = useStyles()
   const { history } = useReactRouter()
   const equipmentsDataStore = useContext(EquipmentsDataStoreContext)
+  const [{ isDragging }, dndRef] = useDragAndDrop({
+    item: { type: 'Equipment', equipment, store, index },
+    drop: dragItem => {
+      store.set(index, dragItem.equipment)
+      dragItem.store.set(dragItem.index, equipment)
+      if (store instanceof ObservableLandBasedAirCorps && dragItem.store instanceof ObservableLandBasedAirCorps) {
+        swap(store.slots, index, dragItem.store.slots, dragItem.index)
+      }
+    }
+  })
 
-  const slotSize = parent.slots.concat()[index]
+  const slotSize = store.slots.concat()[index]
 
   const toEquipmentsPage = () => {
-    equipmentsDataStore.parent = parent
+    equipmentsDataStore.parent = store
     equipmentsDataStore.index = index
     history.push(`/equipments`)
   }
 
+  const rootClassName = classNames(classes.root, { [classes.dragging]: isDragging }, className)
+  const isExpansionSlot = typeof slotSize !== 'number'
+
   if (!equipment || !equipment.isValid()) {
     return (
-      <div className={classNames(classes.root, className)} style={style}>
-        <Button variant="outlined" onClick={toEquipmentsPage} fullWidth>
-          {slotSize === undefined ? '補強増設' : `装備追加(${slotSize})`}
+      <div ref={dndRef} className={rootClassName} style={style}>
+        <Button variant="outlined" onClick={toEquipmentsPage} fullWidth style={{ alignItems: 'flex-start' }}>
+          {isExpansionSlot ? (
+            <BuildIcon />
+          ) : (
+            <>
+              ({slotSize})<AddIcon />
+            </>
+          )}
         </Button>
       </div>
     )
   }
 
-  const handleSlotSizeChange = (value: number) => parent.setSlotSize(index, value)
+  const handleSlotSizeChange = (value: number) => store.setSlotSize(index, value)
 
   return (
-    <EquipmentFieldCard
-      className={classNames(classes.root, className)}
-      style={style}
-      equipment={equipment.asKcObject}
-      slotSize={slotSize}
-      onImprovementChange={equipment.changeImprovement}
-      onProficiencyChange={equipment.changeProficiency}
-      onSlotSizeChange={handleSlotSizeChange}
-      onRemove={equipment.remove}
-      onUpdate={toEquipmentsPage}
-    />
+    <div ref={dndRef}>
+      <EquipmentFieldCard
+        className={rootClassName}
+        style={style}
+        equipment={equipment.asKcObject}
+        slotSize={slotSize}
+        onImprovementChange={equipment.changeImprovement}
+        onProficiencyChange={equipment.changeProficiency}
+        onSlotSizeChange={handleSlotSizeChange}
+        onRemove={equipment.remove}
+        onUpdate={toEquipmentsPage}
+      />
+    </div>
   )
 }
 
-export default withDragAndDrop('EquipmentField')(observer(EquipmentField))
+export default observer(EquipmentField)

@@ -4,23 +4,29 @@ import range from 'lodash/range'
 
 import Typography from '@material-ui/core/Typography'
 import cyan from '@material-ui/core/colors/cyan'
-import { makeStyles } from '@material-ui/styles'
+import { makeStyles, createStyles } from '@material-ui/styles'
+import { Theme } from '@material-ui/core'
 
-const useStyles = makeStyles({
-  root: {
-    display: 'flex',
-    position: 'relative'
-  },
-  image: {
-    maxHeight: 24
-  },
-  value: {
-    position: 'absolute',
-    fontSize: 10,
-    bottom: -8,
-    right: -2
-  }
-})
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    root: {
+      display: 'flex',
+      position: 'relative'
+    },
+    image: {
+      maxHeight: 24
+    },
+    value: {
+      position: 'absolute',
+      fontSize: 10,
+      bottom: 0,
+      right: 0,
+      lineHeight: 1,
+      background: 'rgba(128, 64, 64, 0.8)',
+      borderRadius: 2
+    }
+  })
+)
 
 type ProficiencyIconProps = {
   internal?: number

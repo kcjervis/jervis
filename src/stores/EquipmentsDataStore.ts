@@ -6,10 +6,11 @@ import EquipmentList from './EquipmentList'
 import kcObjectFactory, { masterData } from './kcObjectFactory'
 import ObservableLandBasedAirCorps from './ObservableLandBasedAirCorps'
 import ObservableShip from './ObservableShip'
+import { Store } from '../types'
 
 type Mode = 'default' | 'sort' | 'setting'
 
-export default class EquipmentsDataStore {
+export default class EquipmentsDataStore implements Store {
   @observable public parent?: ObservableShip | ObservableLandBasedAirCorps
 
   @observable public index?: number
@@ -134,5 +135,9 @@ export default class EquipmentsDataStore {
     })
 
     return true
+  }
+
+  @action public initialize = () => {
+    this.equipmentLists.forEach(list => list.initialize())
   }
 }

@@ -39,7 +39,7 @@ const OperationCard: React.FC<OperationCardProps> = ({ operation }) => {
   const { openOperation } = useWorkspace()
   const [{ isDragging }, dndRef] = useDragAndDrop({
     item: { type: 'OperationCard', operation },
-    drop: item => item.operation.switch(operation)
+    drop: item => item.operation.swap(operation)
   })
 
   const handleCopy = () => {

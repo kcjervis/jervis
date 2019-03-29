@@ -62,7 +62,7 @@ const LandBasedAirCorpsCard: React.FC<LandBasedAirCorpsCard> = ({ landBasedAirCo
         </div>
         {landBasedAirCorps.equipments.map((equip, equipIndex) => (
           <div key={equipIndex} className={classes.equipment}>
-            <EquipmentField parent={landBasedAirCorps} index={equipIndex} equipment={equip} />
+            <EquipmentField store={landBasedAirCorps} index={equipIndex} equipment={equip} />
           </div>
         ))}
 

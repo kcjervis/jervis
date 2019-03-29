@@ -1,5 +1,5 @@
 import flatMap from 'lodash/flatMap'
-import { action, computed, observable, IObservableArray } from 'mobx'
+import { action, computed, observable } from 'mobx'
 import { persist } from 'mobx-persist'
 
 import ObservableEquipment from './ObservableEquipment'
@@ -8,6 +8,7 @@ import ObservableLandBasedAirCorps from './ObservableLandBasedAirCorps'
 import ObservableOperation from './ObservableOperation'
 import ObservableShip from './ObservableShip'
 import { setDeckbuilder } from '../utils'
+import { Store } from '../types'
 
 const switchArrayItems = <T>(array1: T[], index1: number, array2: T[], index2: number) => {
   const item1 = array1[index1]
@@ -26,25 +27,20 @@ interface DraggableShipProps {
   index: number
 }
 
-export default class OperationStore {
-  @persist('list', ObservableOperation)
-  @observable
-  public operations = observable<ObservableOperation>([])
+export default class OperationStore implements Store<ObservableOperation> {
+  @persist('list', ObservableOperation) @observable public operations = observable<ObservableOperation>([])
 
-  @computed
-  public get fleets() {
+  @computed public get fleets() {
     return flatMap(this.operations, operation => operation.fleets)
   }
 
-  @computed
-  public get ships() {
+  @computed public get ships() {
     return flatMap(this.fleets, ({ ships }) => ships).filter(
       (ship): ship is ObservableShip => ship instanceof ObservableShip
     )
   }
 
-  @computed
-  public get equipments() {
+  @computed public get equipments() {
     return flatMap(this.ships, ({ equipments }) => equipments).filter(
       (equip): equip is ObservableEquipment => equip instanceof ObservableEquipment
     )
@@ -64,6 +60,7 @@ export default class OperationStore {
   }
 
   @action public push = (operation: ObservableOperation) => {
+    operation.remove()
     this.operations.push(operation)
     operation.store = this
   }
@@ -80,30 +77,6 @@ export default class OperationStore {
     newOperation.name = `${operation.name}のコピー`
     this.operations.push(newOperation)
     return newOperation
-  }
-
-  @action.bound
-  public switchEquipment(dragProps: DraggableEquipmentProps, dropProps: DraggableEquipmentProps) {
-    const dragParent = dragProps.parent
-    const dropParent = dropProps.parent
-    const equip1 = dragParent.equipments[dragProps.index]
-    const equip2 = dropParent.equipments[dropProps.index]
-    dragParent.setEquipment(dragProps.index, equip2)
-    dropParent.setEquipment(dropProps.index, equip1)
-    if (dragParent instanceof ObservableLandBasedAirCorps) {
-      switchArrayItems(dragParent.slots, dragProps.index, dropParent.slots, dropProps.index)
-    }
-  }
-
-  @action.bound
-  public switchShip(dragProps: DraggableShipProps, dropProps: DraggableShipProps) {
-    const dragFleet = dragProps.fleet
-    const dropFleet = dropProps.fleet
-    if (dragFleet && dropFleet) {
-      const { ships: ships1 } = dragFleet
-      const { ships: ships2 } = dropFleet
-      switchArrayItems(ships1, dragProps.index, ships2, dropProps.index)
-    }
   }
 
   public getOperation = (id: string) => {
@@ -126,5 +99,9 @@ export default class OperationStore {
 
   public getShip = (id: string) => {
     return this.ships.find(ship => ship.id === id)
+  }
+
+  @action public initialize = () => {
+    this.operations.forEach(operation => operation.initialize(this))
   }
 }
