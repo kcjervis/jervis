@@ -58,7 +58,7 @@ const EquipmentFieldCard: React.FC<EquipmentFieldCardProps> = ({
     <Paper className={classNames(baseClasses.flexbox, className)} elevation={1} {...paperProps}>
       <div style={{ width: 16 }}>
         {slotSize === undefined ? (
-          <BuildIcon color="action" style={{ fontSize: '1rem', verticalAlign: 'middle' }} />
+          <BuildIcon color="action" style={{ fontSize: '0.875rem', verticalAlign: 'middle' }} />
         ) : (
           onSlotSizeChange && <SlotSizePopover value={slotSize} onChange={onSlotSizeChange} />
         )}
