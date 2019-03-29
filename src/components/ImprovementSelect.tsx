@@ -12,7 +12,17 @@ import { makeStyles } from '@material-ui/styles'
 
 import { useAnchorEl, useBaseStyles } from '../hooks'
 
+const improvementValueToString = (value: number) => {
+  if (value === 10) {
+    return '★M'
+  }
+  return `★${value}`
+}
+
 const useStyles = makeStyles((theme: Theme) => ({
+  root: {
+    width: 8 * 3
+  },
   improvementColor: {
     color: cyan[500]
   },
@@ -38,8 +48,11 @@ const ImprovementSelect: React.FC<ImprovementSelectProps> = ({ value, onChange }
   return (
     <>
       <Tooltip title="改修値選択">
-        <Typography className={classNames(classes.improvementColor, baseClasses.brightButton)} onClick={onClick}>
-          ★{value}
+        <Typography
+          className={classNames({ [classes.improvementColor]: value !== 0 }, classes.root, baseClasses.brightButton)}
+          onClick={onClick}
+        >
+          {improvementValueToString(value)}
         </Typography>
       </Tooltip>
 
@@ -58,7 +71,7 @@ const ImprovementSelect: React.FC<ImprovementSelectProps> = ({ value, onChange }
             className={classNames(classes.improvementColor, classes.selectButton)}
             onClick={handleImprovementClick(improveValue)}
           >
-            ★{improveValue}
+            {improvementValueToString(improveValue)}
           </Button>
         ))}
       </Popover>
