@@ -35,7 +35,8 @@ const useStyles = makeStyles((theme: Theme) =>
       padding: 0,
       justifyContent: 'start',
       borderRadius: 0,
-      flexGrow: 1
+      flexGrow: 1,
+      maxWidth: 'calc(100% - 24px)'
     }
   })
 )
