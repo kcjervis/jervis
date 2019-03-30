@@ -31,6 +31,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 interface EquipmentFieldCardProps extends PaperProps {
   equipment: IEquipment
   slotSize?: number
+  equipable?: boolean
   onImprovementChange?: (value: number) => void
   onProficiencyChange?: (value: number) => void
   onSlotSizeChange?: (value: number) => void
@@ -41,6 +42,7 @@ interface EquipmentFieldCardProps extends PaperProps {
 const EquipmentFieldCard: React.FC<EquipmentFieldCardProps> = ({
   equipment,
   slotSize,
+  equipable,
   onImprovementChange,
   onProficiencyChange,
   onSlotSizeChange,
@@ -69,7 +71,9 @@ const EquipmentFieldCard: React.FC<EquipmentFieldCardProps> = ({
         style={{ flexGrow: 1 }}
       >
         <EquipmentIcon className={classes.icon} iconId={iconId} />
-        <Typography style={{ lineHeight: 1, fontSize: '0.75rem' }}>{equipment.name}</Typography>
+        <Typography style={{ lineHeight: 1, fontSize: '0.75rem' }} color={equipable ? 'default' : 'secondary'}>
+          {equipment.name}
+        </Typography>
       </div>
 
       <div className={classes.rightButtons}>

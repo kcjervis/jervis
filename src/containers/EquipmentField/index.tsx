@@ -84,6 +84,7 @@ const EquipmentField: React.FC<EquipmentFieldProps> = props => {
   }
 
   const handleSlotSizeChange = (value: number) => store.setSlotSize(index, value)
+  const equipable = store.canEquip(equipment.asKcObject, index)
 
   return (
     <div ref={dndRef}>
@@ -92,6 +93,7 @@ const EquipmentField: React.FC<EquipmentFieldProps> = props => {
         style={style}
         equipment={equipment.asKcObject}
         slotSize={slotSize}
+        equipable={equipable}
         onImprovementChange={equipment.changeImprovement}
         onProficiencyChange={equipment.changeProficiency}
         onSlotSizeChange={handleSlotSizeChange}
