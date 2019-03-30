@@ -50,13 +50,13 @@ const EquipmentFieldCard: React.FC<EquipmentFieldCardProps> = ({
   className,
   ...paperProps
 }) => {
-  const { masterId, iconId, improvement, proficiency, category } = equipment
+  const { iconId, improvement, proficiency, category } = equipment
   const { anchorEl, onClick, onClose } = useAnchorEl()
   const classes = useStyles()
   const baseClasses = useBaseStyles()
   return (
     <Paper className={classNames(baseClasses.flexbox, className)} elevation={1} {...paperProps}>
-      <div style={{ width: 16 }}>
+      <div style={{ width: 16, textAlign: 'right' }}>
         {slotSize === undefined ? (
           <BuildIcon color="action" style={{ fontSize: '0.875rem', verticalAlign: 'middle' }} />
         ) : (

@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme: Theme) =>
       bottom: 0,
       right: 0,
       lineHeight: 1,
-      background: 'rgba(128, 64, 64, 0.8)',
+      background: 'rgba(128, 64, 64, 0.6)',
       borderRadius: 2
     }
   })

@@ -15,7 +15,7 @@ import EquipmentField from '../EquipmentField'
 
 import ShipStatsExpansionPanel from './ShipStatsExpansionPanel'
 
-import { ObservableFleet, ObservableShip, OperationStoreContext, SettingStoreContext } from '../../stores'
+import { ObservableFleet, ObservableShip, SettingStoreContext } from '../../stores'
 import ShipCalculator from '../ShipCalculator'
 
 const useStyles = makeStyles({
@@ -45,7 +45,6 @@ interface ShipCardProps extends PaperProps {
 
 const ShipCard: React.FC<ShipCardProps> = ({ ship, onUpdate, ...paperProps }) => {
   const settingStore = useContext(SettingStoreContext)
-  const operationStore = useContext(OperationStoreContext)
   const classes = useStyles()
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {

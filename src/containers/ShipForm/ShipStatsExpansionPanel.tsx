@@ -1,6 +1,7 @@
 import React, { useState, useCallback, useEffect } from 'react'
-import { shipStatKeys, Side } from 'kc-calculator'
+import { shipStatKeys, Side, ShipStatKey } from 'kc-calculator'
 import { observer } from 'mobx-react-lite'
+import classNames from 'classnames'
 
 import { Theme } from '@material-ui/core'
 import ExpansionPanel from '@material-ui/core/ExpansionPanel'
@@ -19,8 +20,15 @@ import { EquipmentIcon, StatLabel } from '../../components'
 import { ObservableShip } from '../../stores'
 
 const useStyles = makeStyles({
-  stat: {
-    marginLeft: 8
+  summary: {
+    padding: '0 8px'
+  },
+  summaryStats: {
+    display: 'flex',
+    flexGrow: 1
+  },
+  expanded: {
+    opacity: 0
   }
 })
 
@@ -36,14 +44,17 @@ const ShipStatsExpansionPanel: React.FC<ShipStatsExpansionPanelProps> = ({ ship,
     setExpanded(open)
   }, [open])
   const classes = useStyles()
+  const summaryStatKeys: ShipStatKey[] = ['hp', 'asw', 'luck']
   return (
     <ExpansionPanel expanded={expanded} elevation={0}>
-      <ExpansionPanelSummary onClick={toggle} expandIcon={<ExpandMoreIcon />}>
-        {/* <div style={{ display: 'flex', justifyContent: 'space-around', flexGrow: 1 }}>
-          <ShipStatLabel className={classes.stat} ship={ship} statKey="hp" />
-          <ShipStatLabel className={classes.stat} ship={ship} statKey="asw" />
-          <ShipStatLabel className={classes.stat} ship={ship} statKey="luck" />
-        </div> */}
+      <ExpansionPanelSummary className={classes.summary} onClick={toggle} expandIcon={<ExpandMoreIcon />}>
+        <div className={classNames(classes.summaryStats, { [classes.expanded]: expanded })}>
+          {summaryStatKeys.map(statKey => (
+            <Grid key={statKey} item={true} xs={4}>
+              <ShipStatLabel ship={ship} statKey={statKey} />
+            </Grid>
+          ))}
+        </div>
       </ExpansionPanelSummary>
 
       <HealthBarDialog ship={ship} />
