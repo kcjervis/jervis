@@ -42,7 +42,7 @@ interface EquipmentFieldCardProps extends PaperProps {
 const EquipmentFieldCard: React.FC<EquipmentFieldCardProps> = ({
   equipment,
   slotSize,
-  equipable,
+  equipable = true,
   onImprovementChange,
   onProficiencyChange,
   onSlotSizeChange,

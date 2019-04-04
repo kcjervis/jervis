@@ -7,8 +7,8 @@ import { ObservableOperation } from '../stores'
 
 export interface DeckEquipmet {
   id: number | null
-  rf: number
-  mas: number
+  rf: number | string
+  mas: number | string
 }
 
 const toEquipmentDataObject = (item: DeckEquipmet | undefined): IEquipmentDataObject | undefined => {
@@ -16,10 +16,10 @@ const toEquipmentDataObject = (item: DeckEquipmet | undefined): IEquipmentDataOb
     return undefined
   }
 
-  const proficiency = Proficiency.internalBounds[item.mas]
+  const proficiency = Proficiency.internalBounds[Number(item.mas)]
   return {
     masterId: item.id,
-    improvement: item.rf,
+    improvement: Number(item.rf),
     proficiency
   }
 }
