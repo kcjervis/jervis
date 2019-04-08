@@ -31,11 +31,11 @@ const tabCategories = [
   { name: '戦艦級', typeIds: [8, 9, 10, 12] },
   { name: '航空母艦', typeIds: [7, 11, 18] },
   { name: '重巡級', typeIds: [5, 6] },
-  { name: '軽巡級', typeIds: [3, 4] },
+  { name: '軽巡級', typeIds: [3, 4, 21] },
   { name: '駆逐艦', typeIds: [2] },
   { name: '海防艦', typeIds: [1] },
   { name: '潜水艦', typeIds: [13, 14] },
-  { name: '補助艦艇', typeIds: [15, 16, 17, 19, 20, 21, 22] }
+  { name: '補助艦艇', typeIds: [15, 16, 17, 19, 20, 22] }
 ]
 
 const createMasterShipFilter = (
