@@ -36,7 +36,7 @@ const FleetDetail: React.FC<FleetDetailProps> = props => {
   const { fleet, fleetRole, isCombinedFleet, combinedFleetPlanes } = props
   const { activeTab } = fleetDetailStore
 
-  const combinedFleetModifier = getCombinedFleetModifier(BattleType.NormalBattle, fleetRole)
+  const combinedFleetModifier = isCombinedFleet ? getCombinedFleetModifier(BattleType.NormalBattle, fleetRole) : 1
   return (
     <Paper style={{ padding: 8, minHeight: 8 * 35, width: 800, alignSelf: 'center' }}>
       <div className={classes.flexbox}>
