@@ -1,4 +1,5 @@
-import { FleetRole, IFleet } from 'kc-calculator'
+import { FleetRole, IFleet, BattleType } from 'kc-calculator'
+import { getCombinedFleetModifier } from 'kc-calculator/dist/Battle/AerialCombat/antiAir'
 import { IPlane } from 'kc-calculator/dist/objects'
 import { observable } from 'mobx'
 import { observer } from 'mobx-react-lite'
@@ -34,6 +35,8 @@ const FleetDetail: React.FC<FleetDetailProps> = props => {
 
   const { fleet, fleetRole, isCombinedFleet, combinedFleetPlanes } = props
   const { activeTab } = fleetDetailStore
+
+  const combinedFleetModifier = getCombinedFleetModifier(BattleType.NormalBattle, fleetRole)
   return (
     <Paper style={{ padding: 8, minHeight: 8 * 35, width: 800, alignSelf: 'center' }}>
       <div className={classes.flexbox}>
@@ -63,7 +66,7 @@ const FleetDetail: React.FC<FleetDetailProps> = props => {
         </>
       )}
       {activeTab === 2 && <NightBattleSpecialAttackTable fleet={fleet} />}
-      {activeTab === 3 && <AerialCombatTable fleet={fleet} />}
+      {activeTab === 3 && <AerialCombatTable fleet={fleet} combinedFleetModifier={combinedFleetModifier} />}
     </Paper>
   )
 }

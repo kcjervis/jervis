@@ -47,7 +47,10 @@ const AntiAirCutInSelect: React.FC<{
   )
 }
 
-const AerialCombatTable: React.FC<{ fleet: IFleet }> = ({ fleet }) => {
+const AerialCombatTable: React.FC<{ fleet: IFleet; combinedFleetModifier?: number }> = ({
+  fleet,
+  combinedFleetModifier = 1
+}) => {
   const { formation, setFormation } = useFormation()
   const [antiAirCutin, setAntiAirCutin] = useState<AntiAirCutin | undefined>()
   const side = Side.Player
@@ -60,7 +63,9 @@ const AerialCombatTable: React.FC<{ fleet: IFleet }> = ({ fleet }) => {
       <div style={{ display: 'flex', alignItems: 'center' }}>
         <FormationSelect formation={formation} onChange={setFormation} />
         <AntiAirCutInSelect antiAirCutin={antiAirCutin} antiAirCutins={antiAirCutins} onChange={setAntiAirCutin} />
-        <Typography color="primary">艦隊防空: {fleetAntiAir.toFixed(4)}</Typography>
+        <Typography color="primary">
+          艦隊防空: {fleetAntiAir.toFixed(4)} {combinedFleetModifier !== 1 ? '連合艦隊補正は通常戦固定です' : null}
+        </Typography>
       </div>
       <Table>
         <TableHead>
@@ -81,9 +86,11 @@ const AerialCombatTable: React.FC<{ fleet: IFleet }> = ({ fleet }) => {
                     {ship.name}
                   </TableCell>
                   <TableCell align="right">{shipAdjustedAntiAir(ship, side)}</TableCell>
-                  <TableCell align="right">{proportionalShotdownRate(ship, side).toFixed(4)}</TableCell>
                   <TableCell align="right">
-                    {fixedShotdownNumber(ship, side, fleetAntiAir, undefined, antiAirCutin)}
+                    {proportionalShotdownRate(ship, side, combinedFleetModifier).toFixed(4)}
+                  </TableCell>
+                  <TableCell align="right">
+                    {fixedShotdownNumber(ship, side, fleetAntiAir, combinedFleetModifier, antiAirCutin)}
                   </TableCell>
                   <TableCell align="right">{antiAirCutin ? antiAirCutin.minimumBonus : 1}</TableCell>
                 </TableRow>
