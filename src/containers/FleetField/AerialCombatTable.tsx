@@ -1,4 +1,5 @@
-import { IFleet, Side, Formation, nonNullable, AerialCombat } from 'kc-calculator'
+import { IFleet, Side, FleetRole, nonNullable, BattleType } from 'kc-calculator'
+import { getCombinedFleetModifier } from 'kc-calculator/dist/Battle/AerialCombat/antiAir'
 import AntiAirCutin from 'kc-calculator/dist/Battle/AerialCombat/AntiAirCutin'
 import {
   fleetAntiAir as calcFleetAntiAir,
@@ -47,10 +48,13 @@ const AntiAirCutInSelect: React.FC<{
   )
 }
 
-const AerialCombatTable: React.FC<{ fleet: IFleet; combinedFleetModifier?: number }> = ({
-  fleet,
-  combinedFleetModifier = 1
-}) => {
+type AerialCombatTableProps = {
+  fleet: IFleet
+  isCombinedFleet?: boolean
+  fleetRole: FleetRole
+}
+
+const AerialCombatTable: React.FC<AerialCombatTableProps> = ({ fleet, isCombinedFleet, fleetRole }) => {
   const { formation, setFormation } = useFormation()
   const [antiAirCutin, setAntiAirCutin] = useState<AntiAirCutin | undefined>()
   const side = Side.Player
@@ -58,13 +62,16 @@ const AerialCombatTable: React.FC<{ fleet: IFleet; combinedFleetModifier?: numbe
   const antiAirCutins = union(
     ...fleet.ships.filter(nonNullable).map(ship => AntiAirCutin.getPossibleAntiAirCutins(ship))
   )
+
+  const combinedFleetModifier = isCombinedFleet ? getCombinedFleetModifier(BattleType.NormalBattle, fleetRole) : 1
   return (
     <>
       <div style={{ display: 'flex', alignItems: 'center' }}>
         <FormationSelect formation={formation} onChange={setFormation} />
         <AntiAirCutInSelect antiAirCutin={antiAirCutin} antiAirCutins={antiAirCutins} onChange={setAntiAirCutin} />
         <Typography color="primary">
-          艦隊防空: {fleetAntiAir.toFixed(4)} {combinedFleetModifier !== 1 ? '連合艦隊補正は通常戦固定です' : null}
+          艦隊防空: {fleetAntiAir.toFixed(4)}
+          {isCombinedFleet ? `連合艦隊補正: ${combinedFleetModifier}(通常戦固定)` : null}
         </Typography>
       </div>
       <Table>
