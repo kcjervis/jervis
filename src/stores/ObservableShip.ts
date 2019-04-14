@@ -91,12 +91,18 @@ export default class ObservableShip implements IShipDataObject, ObservableEquipm
       equipment.remove()
       equipment.store = this
     }
+    const prevEquipment = this.equipments[index]
     this.equipments[index] = equipment
 
-    if (!equipment || !this.slots[index]) {
+    if (!this.asKcObject.shipClass.is('NisshinClass') || !this.slots[index]) {
       return
     }
-    if (this.asKcObject.shipClass.is('NisshinClass') && equipment.asKcObject.category.is('LargeFlyingBoat')) {
+
+    // if (prevEquipment && prevEquipment.asKcObject.category.is('LargeFlyingBoat')) {
+    //   this.setSlotSize(index, this.asKcObject.slotCap[index])
+    // }
+
+    if (equipment && equipment.asKcObject.category.is('LargeFlyingBoat')) {
       this.setSlotSize(index, 1)
     }
   }

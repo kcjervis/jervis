@@ -1,5 +1,5 @@
-import { FleetRole, IFleet, BattleType } from 'kc-calculator'
-import { IPlane } from 'kc-calculator/dist/objects'
+import { FleetRole, IFleet, BattleType, IOperation, IPlane } from 'kc-calculator'
+import { getCombinedFleetModifier } from 'kc-calculator/dist/Battle/AerialCombat/antiAir'
 import { observable } from 'mobx'
 import { observer } from 'mobx-react-lite'
 import React, { createContext, useContext } from 'react'
@@ -16,6 +16,8 @@ import AerialCombatTable from './AerialCombatTable'
 import { useBaseStyles } from '../../hooks'
 
 interface FleetDetailProps {
+  operation: IOperation
+
   fleet: IFleet
   fleetRole: FleetRole
 
@@ -32,7 +34,7 @@ const FleetDetail: React.FC<FleetDetailProps> = props => {
     fleetDetailStore.activeTab = next
   }
 
-  const { fleet, fleetRole, isCombinedFleet, combinedFleetPlanes } = props
+  const { operation, fleet, fleetRole, isCombinedFleet, combinedFleetPlanes } = props
   const { activeTab } = fleetDetailStore
 
   return (
@@ -64,7 +66,14 @@ const FleetDetail: React.FC<FleetDetailProps> = props => {
         </>
       )}
       {activeTab === 2 && <NightBattleSpecialAttackTable fleet={fleet} />}
-      {activeTab === 3 && <AerialCombatTable fleet={fleet} isCombinedFleet={isCombinedFleet} fleetRole={fleetRole} />}
+      {activeTab === 3 && (
+        <AerialCombatTable
+          operation={operation}
+          fleet={fleet}
+          isCombinedFleet={isCombinedFleet}
+          fleetRole={fleetRole}
+        />
+      )}
     </Paper>
   )
 }

@@ -117,6 +117,7 @@ const FleetField: React.FC<FleetFieldProps> = ({ fleet, operation }) => {
       </div>
 
       <FleetDetail
+        operation={operation.asKcObject}
         fleet={fleet.asKcObject}
         fleetRole={fleetRole}
         isCombinedFleet={isCombinedFleet}

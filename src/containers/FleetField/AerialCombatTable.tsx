@@ -1,4 +1,4 @@
-import { IFleet, Side, FleetRole, nonNullable, BattleType } from 'kc-calculator'
+import { IFleet, Side, FleetRole, nonNullable, BattleType, IOperation } from 'kc-calculator'
 import { getCombinedFleetModifier } from 'kc-calculator/dist/Battle/AerialCombat/antiAir'
 import AntiAirCutin from 'kc-calculator/dist/Battle/AerialCombat/AntiAirCutin'
 import {
@@ -49,29 +49,38 @@ const AntiAirCutInSelect: React.FC<{
 }
 
 type AerialCombatTableProps = {
+  operation: IOperation
+
   fleet: IFleet
   isCombinedFleet?: boolean
   fleetRole: FleetRole
 }
 
-const AerialCombatTable: React.FC<AerialCombatTableProps> = ({ fleet, isCombinedFleet, fleetRole }) => {
+const AerialCombatTable: React.FC<AerialCombatTableProps> = ({ operation, fleet, isCombinedFleet, fleetRole }) => {
   const { formation, setFormation } = useFormation()
   const [antiAirCutin, setAntiAirCutin] = useState<AntiAirCutin | undefined>()
-  const side = Side.Player
-  const fleetAntiAir = calcFleetAntiAir(fleet, side, formation.fleetAntiAirModifier)
+  const { side, mainFleet, escortFleet } = operation
   const antiAirCutins = union(
     ...fleet.ships.filter(nonNullable).map(ship => AntiAirCutin.getPossibleAntiAirCutins(ship))
   )
 
-  const combinedFleetModifier = isCombinedFleet ? getCombinedFleetModifier(BattleType.NormalBattle, fleetRole) : 1
+  const formationModifier = formation.fleetAntiAirModifier
+  let fleetAntiAir = calcFleetAntiAir(fleet, side, formationModifier)
+  let combinedFleetModifier: number | undefined
+  if (isCombinedFleet && escortFleet) {
+    fleetAntiAir =
+      calcFleetAntiAir(mainFleet, side, formationModifier) + calcFleetAntiAir(escortFleet, side, formationModifier)
+    combinedFleetModifier = getCombinedFleetModifier(BattleType.NormalBattle, fleetRole)
+  }
+
   return (
     <>
       <div style={{ display: 'flex', alignItems: 'center' }}>
         <FormationSelect formation={formation} onChange={setFormation} />
         <AntiAirCutInSelect antiAirCutin={antiAirCutin} antiAirCutins={antiAirCutins} onChange={setAntiAirCutin} />
         <Typography color="primary">
-          艦隊防空: {fleetAntiAir.toFixed(4)}
-          {isCombinedFleet ? `連合艦隊補正: ${combinedFleetModifier}(通常戦固定)` : null}
+          艦隊防空: {fleetAntiAir.toFixed(2)}
+          {isCombinedFleet ? ` 連合艦隊補正: ${combinedFleetModifier}(通常戦固定)` : null}
         </Typography>
       </div>
       <Table>

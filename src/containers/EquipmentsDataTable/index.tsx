@@ -81,8 +81,8 @@ const EquipmentsDataTable: React.FC = props => {
     equipmentsDataStore.mode = event.target.value as typeof mode
   }, [])
 
-  const handleChangeFilter = useCallback((event: React.ChangeEvent<HTMLSelectElement>) => {
-    equipmentsDataStore.filterName = event.target.value
+  const handleChangeFilter = useCallback((event: React.ChangeEvent<{}>, value: string) => {
+    equipmentsDataStore.filterName = value
   }, [])
 
   const columns = useMemo(() => {
@@ -143,7 +143,7 @@ const EquipmentsDataTable: React.FC = props => {
           <MenuItem value="setting">非表示装備を表示</MenuItem>
         </Select>
 
-        <Select value={filterName} onChange={handleChangeFilter} style={{ height: 32 }}>
+        <Select value={filterName} onChange={handleChangeFilter as any} style={{ height: 32 }}>
           <MenuItem value="all">
             <img src={require(`../../images/equipmentFilterIcons/all.png`)} />
           </MenuItem>
@@ -159,6 +159,14 @@ const EquipmentsDataTable: React.FC = props => {
 
         <Typography color="secondary">{equipmentsDataStore.label}</Typography>
       </div>
+
+      {/* <Tabs value={filterName} onChange={handleChangeFilter}>
+        <Tab value="all" label={<img src={require(`../../images/equipmentFilterIcons/all.png`)} />} />
+        {filterButtons.map(({ name }) => (
+          <Tab key={name} value={name} label={<img src={require(`../../images/equipmentFilterIcons/${name}.png`)} />} />
+        ))}
+        <Tab value="other" label={<img src={require(`../../images/equipmentFilterIcons/other.png`)} />} />
+      </Tabs> */}
 
       <EquipmentListTabs store={equipmentsDataStore} />
 
