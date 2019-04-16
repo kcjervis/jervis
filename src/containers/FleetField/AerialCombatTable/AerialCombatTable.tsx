@@ -15,14 +15,15 @@ import TableCell from '@material-ui/core/TableCell'
 import TableHead from '@material-ui/core/TableHead'
 import TableRow from '@material-ui/core/TableRow'
 import Typography from '@material-ui/core/Typography'
-import FormationSelect from '../../components/FormationSelect'
+import FormationSelect from '../../../components/FormationSelect'
 
 import MenuItem from '@material-ui/core/MenuItem'
 import Select from '@material-ui/core/Select'
 import InputLabel from '@material-ui/core/InputLabel'
 import FormControl from '@material-ui/core/FormControl'
 import union from 'lodash/union'
-import { useFormation } from '../../hooks'
+import { useFormation } from '../../../hooks'
+import AerialCombatShipRow from './AerialCombatShipRow'
 
 const AntiAirCutInSelect: React.FC<{
   antiAirCutins: AntiAirCutin[]
@@ -91,25 +92,21 @@ const AerialCombatTable: React.FC<AerialCombatTableProps> = ({ operation, fleet,
             <TableCell align="right">割合撃墜</TableCell>
             <TableCell align="right">固定撃墜</TableCell>
             <TableCell align="right">最低保証</TableCell>
+            <TableCell align="right">対空CI個艦発動率</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {fleet.ships.map(
             (ship, index) =>
               ship && (
-                <TableRow key={index}>
-                  <TableCell component="th" scope="row">
-                    {ship.name}
-                  </TableCell>
-                  <TableCell align="right">{shipAdjustedAntiAir(ship, side)}</TableCell>
-                  <TableCell align="right">
-                    {proportionalShotdownRate(ship, side, combinedFleetModifier).toFixed(4)}
-                  </TableCell>
-                  <TableCell align="right">
-                    {fixedShotdownNumber(ship, side, fleetAntiAir, combinedFleetModifier, antiAirCutin)}
-                  </TableCell>
-                  <TableCell align="right">{antiAirCutin ? antiAirCutin.minimumBonus : 1}</TableCell>
-                </TableRow>
+                <AerialCombatShipRow
+                  key={index}
+                  ship={ship}
+                  side={side}
+                  fleetAntiAir={fleetAntiAir}
+                  combinedFleetModifier={combinedFleetModifier}
+                  antiAirCutin={antiAirCutin}
+                />
               )
           )}
         </TableBody>
