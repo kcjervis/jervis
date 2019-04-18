@@ -1,12 +1,7 @@
 import { IFleet, Side, FleetRole, nonNullable, BattleType, IOperation } from 'kc-calculator'
 import { getCombinedFleetModifier } from 'kc-calculator/dist/Battle/AerialCombat/antiAir'
 import AntiAirCutin from 'kc-calculator/dist/Battle/AerialCombat/AntiAirCutin'
-import {
-  fleetAntiAir as calcFleetAntiAir,
-  shipAdjustedAntiAir,
-  fixedShotdownNumber,
-  proportionalShotdownRate
-} from 'kc-calculator/dist/Battle/AerialCombat/antiAir'
+import { fleetAntiAir as calcFleetAntiAir } from 'kc-calculator/dist/Battle/AerialCombat/antiAir'
 import React, { useState } from 'react'
 
 import Table from '@material-ui/core/Table'
@@ -24,6 +19,8 @@ import FormControl from '@material-ui/core/FormControl'
 import union from 'lodash/union'
 import { useFormation } from '../../../hooks'
 import AerialCombatShipRow from './AerialCombatShipRow'
+import calcAntiAirCutinRates from './calcAntiAirCutinRate'
+import { toPercent } from '../ContactTable'
 
 const AntiAirCutInSelect: React.FC<{
   antiAirCutins: AntiAirCutin[]
@@ -61,18 +58,20 @@ const AerialCombatTable: React.FC<AerialCombatTableProps> = ({ operation, fleet,
   const { formation, setFormation } = useFormation()
   const [antiAirCutin, setAntiAirCutin] = useState<AntiAirCutin | undefined>()
   const { side, mainFleet, escortFleet } = operation
-  const antiAirCutins = union(
-    ...fleet.ships.filter(nonNullable).map(ship => AntiAirCutin.getPossibleAntiAirCutins(ship))
-  )
 
   const formationModifier = formation.fleetAntiAirModifier
+  let allShips = fleet.ships.filter(nonNullable)
   let fleetAntiAir = calcFleetAntiAir(fleet, side, formationModifier)
   let combinedFleetModifier: number | undefined
   if (isCombinedFleet && escortFleet) {
+    allShips = mainFleet.ships.concat(escortFleet.ships).filter(nonNullable)
     fleetAntiAir =
       calcFleetAntiAir(mainFleet, side, formationModifier) + calcFleetAntiAir(escortFleet, side, formationModifier)
     combinedFleetModifier = getCombinedFleetModifier(BattleType.NormalBattle, fleetRole)
   }
+
+  const antiAirCutins = union(...allShips.map(ship => AntiAirCutin.getPossibleAntiAirCutins(ship)))
+  const aaciRates = calcAntiAirCutinRates(allShips)
 
   return (
     <>
@@ -84,6 +83,7 @@ const AerialCombatTable: React.FC<AerialCombatTableProps> = ({ operation, fleet,
           {isCombinedFleet ? ` 連合艦隊補正: ${combinedFleetModifier}(通常戦固定)` : null}
         </Typography>
       </div>
+
       <Table>
         <TableHead>
           <TableRow>
@@ -111,6 +111,15 @@ const AerialCombatTable: React.FC<AerialCombatTableProps> = ({ operation, fleet,
           )}
         </TableBody>
       </Table>
+
+      <Typography>対空CI艦隊発動率</Typography>
+      <div style={{ display: 'flex', alignItems: 'center' }}>
+        {aaciRates.map(aaciRate => (
+          <Typography key={aaciRate.ci.id} style={{ marginRight: 8 }}>
+            {aaciRate.ci.id}種: {toPercent(aaciRate.rate)}
+          </Typography>
+        ))}
+      </div>
     </>
   )
 }

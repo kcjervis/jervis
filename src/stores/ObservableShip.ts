@@ -117,7 +117,7 @@ export default class ObservableShip implements IShipDataObject, ObservableEquipm
   }
 
   @action public setSlotSize = (index: number, value: number) => {
-    if (typeof this.slots[index] === 'number') {
+    if (typeof this.slots[index] === 'number' && value >= 0) {
       this.slots[index] = value
     }
   }
