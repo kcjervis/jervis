@@ -1,5 +1,6 @@
 import { AirControlState, BattleType, nonNullable, Side } from 'kc-calculator'
-import { Dictionary, countBy, groupBy, mapValues, times as lodashTimes } from 'lodash'
+import { Dictionary } from 'lodash'
+import { countBy, groupBy, mapValues, times as lodashTimes } from 'lodash-es'
 import React from 'react'
 
 import Button from '@material-ui/core/Button'
