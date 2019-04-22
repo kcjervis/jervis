@@ -13,10 +13,10 @@ import Typography from '@material-ui/core/Typography'
 import FormationSelect from '../../../components/FormationSelect'
 
 import MenuItem from '@material-ui/core/MenuItem'
-import Select from '@material-ui/core/Select'
+import Select, { SelectProps } from '@material-ui/core/Select'
 import InputLabel from '@material-ui/core/InputLabel'
 import FormControl from '@material-ui/core/FormControl'
-import union from 'lodash/union'
+import { union } from 'lodash-es'
 import { useFormation } from '../../../hooks'
 import AerialCombatShipRow from './AerialCombatShipRow'
 import calcAntiAirCutinRates from './calcAntiAirCutinRate'
@@ -27,7 +27,7 @@ const AntiAirCutInSelect: React.FC<{
   antiAirCutin?: AntiAirCutin
   onChange: (aaci: AntiAirCutin | undefined) => void
 }> = ({ antiAirCutins, antiAirCutin, onChange }) => {
-  const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleChange = (event: React.ChangeEvent<SelectProps>) => {
     onChange(AntiAirCutin.fromId(Number(event.target.value)))
   }
   const currentId = antiAirCutin ? antiAirCutin.id : 0

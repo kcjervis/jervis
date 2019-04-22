@@ -1,5 +1,5 @@
 import React from 'react'
-import classNames from 'classnames'
+import clsx from 'clsx'
 
 import { Theme } from '@material-ui/core'
 import Typography from '@material-ui/core/Typography'
@@ -34,7 +34,7 @@ type ItemLabelProps = {
 const ItemLabel: React.FC<ItemLabelProps> = ({ icon, text, className, ...divProps }) => {
   const classes = useStyles()
   return (
-    <div className={classNames(classes.root, className)} {...divProps}>
+    <div className={clsx(classes.root, className)} {...divProps}>
       {icon}
       <Typography className={classes.typography} variant="caption" color="inherit">
         {text}

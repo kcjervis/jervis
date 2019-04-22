@@ -1,6 +1,5 @@
 import { makeStyles } from '@material-ui/styles'
-import random from 'lodash/random'
-import range from 'lodash/range'
+import { random, range } from 'lodash-es'
 import React from 'react'
 
 import ShipImage from './components/ShipImage'

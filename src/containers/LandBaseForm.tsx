@@ -1,5 +1,4 @@
 import { nonNullable } from 'kc-calculator'
-import flatMap from 'lodash/flatMap'
 import React from 'react'
 
 import Button from '@material-ui/core/Button'
@@ -23,7 +22,7 @@ const LandBaseForm: React.FC<LandBaseForm> = ({ operation }) => {
     operation.enemies = []
   }
   const handleProficiencyChange = (inter: number) => {
-    const equipments = flatMap(operation.landBase, airCorps => airCorps.equipments.filter(nonNullable))
+    const equipments = operation.landBase.flatMap(airCorps => airCorps.equipments).filter(nonNullable)
     equipments.forEach(equip => {
       if (!equip.asKcObject.category.is('LandBasedReconnaissanceAircraft')) {
         equip.proficiency = inter

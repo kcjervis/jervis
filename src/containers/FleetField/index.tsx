@@ -1,6 +1,5 @@
 import { FleetRole, FleetType, nonNullable } from 'kc-calculator'
-import flatMap from 'lodash/flatMap'
-import range from 'lodash/range'
+import { range } from 'lodash-es'
 import React, { useContext } from 'react'
 
 import Button from '@material-ui/core/Button'
@@ -53,7 +52,8 @@ const FleetField: React.FC<FleetFieldProps> = ({ fleet, operation }) => {
   }
 
   const setProficiency = (value: number) => {
-    flatMap(ships, ship => ship && ship.equipments)
+    ships
+      .flatMap(ship => ship && ship.equipments)
       .filter(nonNullable)
       .forEach(equip => {
         equip.proficiency = value

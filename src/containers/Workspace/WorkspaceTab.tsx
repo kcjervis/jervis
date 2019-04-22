@@ -1,9 +1,10 @@
 import React, { useState, useCallback } from 'react'
-import classNames from 'classnames'
+import clsx from 'clsx'
 import useReactRouter from 'use-react-router'
 
 import { makeStyles, createStyles } from '@material-ui/styles'
 import { Theme } from '@material-ui/core'
+import ShipIcon from '@material-ui/icons/AssignmentInd'
 
 import { CloseButton } from '../../components/IconButtons'
 import { ItemLabel, OperationIcon } from '../../components'
@@ -64,20 +65,25 @@ const WorkspaceTab: React.FC<WorkspaceTabProps> = ({ item }) => {
     [item]
   )
 
-  const operation = getOperation(item.id)
-  if (!operation) {
-    return null
+  let icon: JSX.Element
+  let text: string
+
+  if (item.type === 'Operation') {
+    const operation = getOperation(item.id)
+    if (!operation) {
+      return null
+    }
+    icon = <OperationIcon color={isTemporary(operation) ? 'default' : 'secondary'} />
+    text = operation.name
+  } else {
+    icon = <ShipIcon fontSize="inherit" />
+    text = 'ship'
   }
-  const icon = <OperationIcon color={isTemporary(operation) ? 'default' : 'secondary'} />
 
   return (
     <>
       <div className={classes.root} onClick={handleClick} onMouseEnter={handleMouseOver} onMouseLeave={handleMouseOut}>
-        <ItemLabel
-          icon={icon}
-          text={operation.name}
-          className={classNames(classes.name, { [classes.active]: item.isActive })}
-        />
+        <ItemLabel icon={icon} text={text} className={clsx(classes.name, { [classes.active]: item.isActive })} />
         <div style={{ width: 24, margin: '0 4px' }}>
           {visibleClose && <CloseButton size="small" onClick={handleClose} />}
         </div>

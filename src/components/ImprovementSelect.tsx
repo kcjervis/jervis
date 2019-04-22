@@ -1,5 +1,5 @@
-import classNames from 'classnames'
-import range from 'lodash/range'
+import clsx from 'clsx'
+import { range } from 'lodash-es'
 import React from 'react'
 
 import { Theme } from '@material-ui/core'
@@ -49,8 +49,9 @@ const ImprovementSelect: React.FC<ImprovementSelectProps> = ({ value, onChange }
     <>
       <Tooltip title="改修値選択">
         <Typography
-          className={classNames({ [classes.improvementColor]: value !== 0 }, classes.root, baseClasses.brightButton)}
+          className={clsx({ [classes.improvementColor]: value !== 0 }, classes.root, baseClasses.brightButton)}
           onClick={onClick}
+          variant="subtitle2"
         >
           {improvementValueToString(value)}
         </Typography>
@@ -68,7 +69,7 @@ const ImprovementSelect: React.FC<ImprovementSelectProps> = ({ value, onChange }
         {range(11).map(improveValue => (
           <Button
             key={improveValue}
-            className={classNames(classes.improvementColor, classes.selectButton)}
+            className={clsx(classes.improvementColor, classes.selectButton)}
             onClick={handleImprovementClick(improveValue)}
           >
             {improvementValueToString(improveValue)}

@@ -10,6 +10,7 @@ import FileCopyIcon from '@material-ui/icons/FileCopy'
 import LinkIcon from '@material-ui/icons/Link'
 import MoreVert from '@material-ui/icons/MoreVert'
 import RefreshIcon from '@material-ui/icons/Refresh'
+import InfoIcon from '@material-ui/icons/Info'
 import SaveIcon from '@material-ui/icons/Save'
 import ShareIcon from '@material-ui/icons/Share'
 import VisibilityIcon from '@material-ui/icons/Visibility'
@@ -25,6 +26,7 @@ export const UpdateButton = withIconButton(RefreshIcon)
 export const LinkButton = withIconButton(LinkIcon)
 export const ShareButton = withIconButton(ShareIcon)
 export const SaveButton = withIconButton(SaveIcon)
+export const InfoButton = withIconButton(InfoIcon)
 
 const SimpleCopyButton = withIconButton(FileCopyIcon)
 

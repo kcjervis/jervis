@@ -1,5 +1,5 @@
 import { AirControlState, IPlane } from 'kc-calculator'
-import sumBy from 'lodash/sumBy'
+import { sumBy } from 'lodash-es'
 import React from 'react'
 
 import Table from '@material-ui/core/Table'

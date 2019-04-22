@@ -1,5 +1,4 @@
 import { useContext, useCallback, useMemo } from 'react'
-import useReactRouter from 'use-react-router'
 
 import {
   ObservableOperation,
@@ -7,16 +6,17 @@ import {
   OperationStoreContext,
   TemporaryOperationStoreContext
 } from '../stores'
+import { nonNullable } from 'kc-calculator'
 
 const useOperationStore = () => {
   const workspaceStore = useContext(WorkspaceStoreContext)
   const persistentOperationStore = useContext(OperationStoreContext)
   const temporaryOperationStore = useContext(TemporaryOperationStoreContext)
-  const { history } = useReactRouter()
 
   const { activeItem } = useContext(WorkspaceStoreContext)
 
   const baseDeps = [persistentOperationStore, temporaryOperationStore, workspaceStore]
+
   const activeOperation = useMemo(() => {
     if (!activeItem) {
       return undefined
@@ -51,6 +51,22 @@ const useOperationStore = () => {
     return temporaryOperationStore.getOperation(id)
   }
 
+  const operations = useMemo(
+    () => persistentOperationStore.operations.concat(temporaryOperationStore.operations),
+    baseDeps
+  )
+
+  const ships = useMemo(
+    () =>
+      operations
+        .flatMap(({ fleets }) => fleets)
+        .flatMap(({ ships }) => ships)
+        .filter(nonNullable),
+    operations
+  )
+
+  const getShip = (id: string) => ships.find(ship => ship.id === id)
+
   return {
     persistentOperationStore,
     temporaryOperationStore,
@@ -58,7 +74,8 @@ const useOperationStore = () => {
     isTemporary,
     save,
 
-    getOperation
+    getOperation,
+    getShip
   }
 }
 

@@ -1,6 +1,5 @@
 import { FleetType, Formation, Side } from 'kc-calculator'
 import BattleFleet from 'kc-calculator/dist/Battle/BattleFleet'
-import flatMap from 'lodash/flatMap'
 import React from 'react'
 
 import Typography from '@material-ui/core/Typography'
@@ -79,7 +78,7 @@ const EnemyFleet: React.FC<EnemyFleetProps> = ({ enemy }) => {
   const { ships, difficulty, formation: formationName } = enemy
   const escortFleet = masterIdsToFleet(ships.slice(6, 12))
 
-  const allPlanes = flatMap(battleFleet.allShips, ({ planes }) => planes)
+  const allPlanes = battleFleet.allShips.flatMap(ship => ship.planes)
   const fighterPower = allPlanes
     .filter(({ category }) => !category.isReconnaissanceAircraft)
     .reduce((value, plane) => value + plane.fighterPower, 0)

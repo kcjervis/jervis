@@ -1,5 +1,5 @@
 import { makeStyles } from '@material-ui/styles'
-import lodashSortBy from 'lodash/sortBy'
+import { sortBy as lodashSortBy } from 'lodash-es'
 import { observer } from 'mobx-react-lite'
 import React, { useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react'
 
@@ -11,7 +11,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel'
 import Input from '@material-ui/core/Input'
 import MenuItem from '@material-ui/core/MenuItem'
 import Paper from '@material-ui/core/Paper'
-import Select from '@material-ui/core/Select'
+import Select, { SelectProps } from '@material-ui/core/Select'
 import Tab from '@material-ui/core/Tab'
 import Tabs from '@material-ui/core/Tabs'
 
@@ -77,12 +77,15 @@ const EquipmentsDataTable: React.FC = props => {
     filterName
   } = equipmentsDataStore
 
-  const handleModeChange = useCallback((event: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleModeChange = useCallback((event: React.ChangeEvent<SelectProps>) => {
     equipmentsDataStore.mode = event.target.value as typeof mode
   }, [])
 
-  const handleChangeFilter = useCallback((event: React.ChangeEvent<HTMLSelectElement>) => {
-    equipmentsDataStore.filterName = event.target.value
+  const handleChangeFilter = useCallback((event: React.ChangeEvent<SelectProps>) => {
+    const { value } = event.target
+    if (typeof value === 'string') {
+      equipmentsDataStore.filterName = value
+    }
   }, [])
 
   const columns = useMemo(() => {

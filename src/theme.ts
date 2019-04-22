@@ -15,6 +15,11 @@ const theme = createMuiTheme({
     primary: blue
   },
   overrides: {
+    MuiTypography: {
+      root: {
+        color: 'white'
+      }
+    },
     MuiPaper: {
       root: {
         scrollbarColor: `${grey[700]} ${grey[900]}`,
@@ -77,6 +82,7 @@ const theme = createMuiTheme({
         }
       }
     },
+
     MuiTableCell: {
       root: {
         padding: 0

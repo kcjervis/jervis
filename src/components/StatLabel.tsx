@@ -1,6 +1,6 @@
 import { EquipmentStatKey, ShipStatKey, Speed } from 'kc-calculator'
 import React from 'react'
-import classNames from 'classnames'
+import clsx from 'clsx'
 
 import Typography from '@material-ui/core/Typography'
 import Tooltip from '@material-ui/core/Tooltip'
@@ -65,7 +65,7 @@ const StatLabel: React.FC<StatLabelProps> = props => {
   }
 
   const label = (
-    <div className={classNames(classes.root, className)} {...rest}>
+    <div className={clsx(classes.root, className)} {...rest}>
       <StatIcon statKey={statKey} />
       <Typography variant="subtitle2" style={{ lineHeight: undefined }}>
         {displayValue}

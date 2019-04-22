@@ -1,6 +1,6 @@
 import { IShipDataObject, MasterShip, IEquipmentDataObject } from 'kc-calculator'
 import React, { useState, useRef, useEffect, useCallback, useMemo } from 'react'
-import groupBy from 'lodash/groupBy'
+import { groupBy } from 'lodash-es'
 
 import Button from '@material-ui/core/Button'
 import Checkbox, { CheckboxProps } from '@material-ui/core/Checkbox'

@@ -1,4 +1,3 @@
-import flatMap from 'lodash/flatMap'
 import { action, computed, observable } from 'mobx'
 import { persist } from 'mobx-persist'
 
@@ -9,6 +8,7 @@ import ObservableOperation from './ObservableOperation'
 import ObservableShip from './ObservableShip'
 import { setDeckbuilder } from '../utils'
 import { Store } from '../types'
+import { nonNullable } from 'kc-calculator'
 
 const switchArrayItems = <T>(array1: T[], index1: number, array2: T[], index2: number) => {
   const item1 = array1[index1]
@@ -29,22 +29,6 @@ interface DraggableShipProps {
 
 export default class OperationStore implements Store<ObservableOperation> {
   @persist('list', ObservableOperation) @observable public operations = observable<ObservableOperation>([])
-
-  @computed public get fleets() {
-    return flatMap(this.operations, operation => operation.fleets)
-  }
-
-  @computed public get ships() {
-    return flatMap(this.fleets, ({ ships }) => ships).filter(
-      (ship): ship is ObservableShip => ship instanceof ObservableShip
-    )
-  }
-
-  @computed public get equipments() {
-    return flatMap(this.ships, ({ equipments }) => equipments).filter(
-      (equip): equip is ObservableEquipment => equip instanceof ObservableEquipment
-    )
-  }
 
   @action public createOperation = (name = `編成${this.operations.length + 1}`) => {
     const newOperation = new ObservableOperation()
@@ -81,24 +65,6 @@ export default class OperationStore implements Store<ObservableOperation> {
 
   public getOperation = (id: string) => {
     return this.operations.find(operation => operation.id === id)
-  }
-
-  public getLandBasedAirCorps = (id: string) => {
-    for (const { landBase } of this.operations) {
-      const found = landBase.find(airCorps => airCorps.id === id)
-      if (found) {
-        return found
-      }
-    }
-    return
-  }
-
-  public getFleet = (id: string) => {
-    return this.fleets.find(fleet => fleet.id === id)
-  }
-
-  public getShip = (id: string) => {
-    return this.ships.find(ship => ship.id === id)
   }
 
   @action public initialize = () => {

@@ -1,6 +1,6 @@
 import React from 'react'
 import { IEquipment } from 'kc-calculator'
-import classNames from 'classnames'
+import clsx from 'clsx'
 
 import { Theme } from '@material-ui/core'
 import Typography from '@material-ui/core/Typography'
@@ -57,7 +57,7 @@ const EquipmentFieldCard: React.FC<EquipmentFieldCardProps> = ({
   const classes = useStyles()
   const baseClasses = useBaseStyles()
   return (
-    <Paper className={classNames(baseClasses.flexbox, className)} elevation={1} {...paperProps}>
+    <Paper className={clsx(baseClasses.flexbox, className)} elevation={1} {...paperProps}>
       <div style={{ width: 16, textAlign: 'right' }}>
         {slotSize === undefined ? (
           <BuildIcon color="action" style={{ fontSize: '0.875rem', verticalAlign: 'middle' }} />
@@ -65,13 +65,9 @@ const EquipmentFieldCard: React.FC<EquipmentFieldCardProps> = ({
           onSlotSizeChange && <SlotSizePopover value={slotSize} onChange={onSlotSizeChange} />
         )}
       </div>
-      <div
-        onClick={onClick}
-        className={classNames(baseClasses.flexbox, baseClasses.brightButton)}
-        style={{ flexGrow: 1 }}
-      >
+      <div onClick={onClick} className={clsx(baseClasses.flexbox, baseClasses.brightButton)} style={{ flexGrow: 1 }}>
         <EquipmentIcon className={classes.icon} iconId={iconId} />
-        <Typography style={{ lineHeight: 1, fontSize: '0.75rem' }} color={equipable ? 'default' : 'secondary'}>
+        <Typography style={{ lineHeight: 1, fontSize: '0.75rem' }} color={equipable ? 'initial' : 'secondary'}>
           {equipment.name}
         </Typography>
       </div>

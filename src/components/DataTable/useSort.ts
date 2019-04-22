@@ -1,4 +1,4 @@
-import lodashSortBy from 'lodash/sortBy'
+import { sortBy as lodashSortBy } from 'lodash-es'
 import { useCallback, useState } from 'react'
 import { SortDirection, SortDirectionType } from 'react-virtualized'
 

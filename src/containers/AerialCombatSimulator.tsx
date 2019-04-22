@@ -1,10 +1,5 @@
 import { AirControlState, BattleType, nonNullable, Side } from 'kc-calculator'
-import { Dictionary } from 'lodash'
-import countBy from 'lodash/countBy'
-import flatMap from 'lodash/flatMap'
-import groupBy from 'lodash/groupBy'
-import mapValues from 'lodash/mapValues'
-import lodashTimes from 'lodash/times'
+import { Dictionary, countBy, groupBy, mapValues, times as lodashTimes } from 'lodash'
 import React from 'react'
 
 import Button from '@material-ui/core/Button'
@@ -103,7 +98,9 @@ class AerialCombatSimulator extends React.Component<AerialCombatSimulatorProps, 
 
   public simulate = () => {
     const { times } = this.state
-    const battleResults = flatMap(lodashTimes(times, this.aerialBattle).filter(nonNullable))
+    const battleResults = lodashTimes(times, this.aerialBattle)
+      .filter(nonNullable)
+      .flat()
     const mapper = ([name, battleResult]: [string, typeof battleResults]) => {
       const count = mapValues(countBy(battleResult, result => result.airControlState), result =>
         toPercent(result / times)

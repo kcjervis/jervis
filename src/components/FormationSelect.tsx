@@ -3,7 +3,7 @@ import React from 'react'
 
 import FormControl from '@material-ui/core/FormControl'
 import MenuItem from '@material-ui/core/MenuItem'
-import Select from '@material-ui/core/Select'
+import Select, { SelectProps } from '@material-ui/core/Select'
 import InputLabel from '@material-ui/core/InputLabel'
 
 interface FormationSelectProps {
@@ -12,7 +12,7 @@ interface FormationSelectProps {
 }
 
 const FormationSelect: React.FC<FormationSelectProps> = ({ formation, onChange }) => {
-  const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleChange = (event: React.ChangeEvent<SelectProps>) => {
     const from = Formation.fromId(Number(event.target.value))
     onChange(from as Formation)
   }

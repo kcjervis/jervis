@@ -1,6 +1,6 @@
 import { observer } from 'mobx-react-lite'
 import React, { useContext } from 'react'
-import classNames from 'classnames'
+import clsx from 'clsx'
 
 import Paper, { PaperProps } from '@material-ui/core/Paper'
 import Input from '@material-ui/core/Input'
@@ -9,14 +9,13 @@ import Typography from '@material-ui/core/Typography'
 import Tooltip from '@material-ui/core/Tooltip'
 import { makeStyles } from '@material-ui/styles'
 
-import { RemoveButton, UpdateButton } from '../../components/IconButtons'
-import { ShipImage } from '../../components'
+import { ShipImage, InfoButton, RemoveButton, UpdateButton } from '../../components'
 import EquipmentField from '../EquipmentField'
 
 import ShipStatsExpansionPanel from './ShipStatsExpansionPanel'
 
-import { ObservableFleet, ObservableShip, SettingStoreContext } from '../../stores'
-import ShipCalculator from '../ShipCalculator'
+import { ObservableFleet, ObservableShip } from '../../stores'
+import { useWorkspace } from '../../hooks'
 
 const useStyles = makeStyles({
   top: {
@@ -40,12 +39,13 @@ const useStyles = makeStyles({
 
 interface ShipCardProps extends PaperProps {
   ship: ObservableShip
+  defaultStatsExpanded?: boolean
   onUpdate: () => void
 }
 
-const ShipCard: React.FC<ShipCardProps> = ({ ship, onUpdate, ...paperProps }) => {
-  const settingStore = useContext(SettingStoreContext)
+const ShipCard: React.FC<ShipCardProps> = ({ ship, onUpdate, defaultStatsExpanded, ...paperProps }) => {
   const classes = useStyles()
+  const { openShipCalculator } = useWorkspace()
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     ship.level = Number(event.target.value)
@@ -61,6 +61,7 @@ const ShipCard: React.FC<ShipCardProps> = ({ ship, onUpdate, ...paperProps }) =>
           </Typography>
         </Tooltip>
         <div style={{ alignItems: 'right' }}>
+          {/* <InfoButton size="small" onClick={() => openShipCalculator(ship)} /> */}
           <UpdateButton title="艦娘を変更" size="small" onClick={onUpdate} />
           <RemoveButton title="艦娘を削除" size="small" onClick={ship.remove} />
         </div>
@@ -79,7 +80,7 @@ const ShipCard: React.FC<ShipCardProps> = ({ ship, onUpdate, ...paperProps }) =>
         />
       </div>
 
-      <ShipStatsExpansionPanel ship={ship} open={settingStore.operationPage.visibleShipStats} />
+      <ShipStatsExpansionPanel ship={ship} defaultExpanded={defaultStatsExpanded} />
 
       {ship.equipments.map((equip, index) => (
         <EquipmentField key={index} className={classes.equipment} store={ship} index={index} equipment={equip} />

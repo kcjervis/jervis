@@ -3,7 +3,7 @@ import React from 'react'
 
 import FormControl from '@material-ui/core/FormControl'
 import MenuItem from '@material-ui/core/MenuItem'
-import Select from '@material-ui/core/Select'
+import Select, { SelectProps } from '@material-ui/core/Select'
 
 interface FleetTypeSelectProps {
   fleetType: FleetType
@@ -11,7 +11,7 @@ interface FleetTypeSelectProps {
 }
 
 const FleetTypeSelect: React.FC<FleetTypeSelectProps> = ({ fleetType, onChange }) => {
-  const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleChange = (event: React.ChangeEvent<SelectProps>) => {
     onChange(event.target.value as FleetType)
   }
   return (

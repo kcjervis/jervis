@@ -5,7 +5,7 @@ import ObservableShip from './ObservableShip'
 import ObservableEquipment from './ObservableEquipment'
 import WorkspaceStore from './WorkspaceStore'
 
-type WorkspaceItemType = 'Operation'
+type WorkspaceItemType = 'Operation' | 'Ship'
 
 type WorkspaceItemData = ObservableOperation | ObservableShip | ObservableEquipment
 

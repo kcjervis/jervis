@@ -1,13 +1,13 @@
 import React, { useState, useCallback, useEffect } from 'react'
 import { shipStatKeys, ShipStatKey } from 'kc-calculator'
 import { observer } from 'mobx-react-lite'
-import classNames from 'classnames'
+import clsx from 'clsx'
 
 import { Theme } from '@material-ui/core'
 import ExpansionPanel from '@material-ui/core/ExpansionPanel'
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails'
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary'
-import Typography from '@material-ui/core/Typography'
+import Box from '@material-ui/core/Box'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import { makeStyles, createStyles } from '@material-ui/styles'
 import Grid from '@material-ui/core/Grid'
@@ -23,10 +23,6 @@ const useStyles = makeStyles(
     summary: {
       padding: '0 8px'
     },
-    summaryStats: {
-      display: 'flex',
-      flexGrow: 1
-    },
     summaryStat: {
       minWidth: 8 * 7
     },
@@ -38,25 +34,25 @@ const useStyles = makeStyles(
 
 interface ShipStatsExpansionPanelProps {
   ship: ObservableShip
-  open?: boolean
+  defaultExpanded?: boolean
 }
 
-const ShipStatsExpansionPanel: React.FC<ShipStatsExpansionPanelProps> = ({ ship, open = false }) => {
-  const [expanded, setExpanded] = useState(open)
+const ShipStatsExpansionPanel: React.FC<ShipStatsExpansionPanelProps> = ({ ship, defaultExpanded = false }) => {
+  const [expanded, setExpanded] = useState(defaultExpanded)
   const toggle = useCallback(() => setExpanded(value => !value), [])
   useEffect(() => {
-    setExpanded(open)
-  }, [open])
+    setExpanded(defaultExpanded)
+  }, [defaultExpanded])
   const classes = useStyles()
   const summaryStatKeys: ShipStatKey[] = ['hp', 'asw', 'luck']
   return (
-    <ExpansionPanel expanded={expanded} elevation={0}>
+    <ExpansionPanel style={{ margin: 0 }} expanded={expanded} elevation={0}>
       <ExpansionPanelSummary className={classes.summary} onClick={toggle} expandIcon={<ExpandMoreIcon />}>
-        <div className={classNames(classes.summaryStats, { [classes.expanded]: expanded })}>
+        <Box display="flex" flexGrow={1} className={clsx({ [classes.expanded]: expanded })}>
           {summaryStatKeys.map(statKey => (
             <ShipStatLabel key={statKey} className={classes.summaryStat} ship={ship} statKey={statKey} />
           ))}
-        </div>
+        </Box>
       </ExpansionPanelSummary>
 
       <HealthBarDialog ship={ship} />

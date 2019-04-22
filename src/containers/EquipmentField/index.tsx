@@ -1,6 +1,6 @@
 import { observer } from 'mobx-react-lite'
 import React, { useContext } from 'react'
-import classNames from 'classnames'
+import clsx from 'clsx'
 import useReactRouter from 'use-react-router'
 
 import Button from '@material-ui/core/Button'
@@ -59,7 +59,7 @@ const EquipmentField: React.FC<EquipmentFieldProps> = props => {
     history.push(`/equipments`)
   }
 
-  const rootClassName = classNames(classes.root, { [classes.dragging]: isDragging }, className)
+  const rootClassName = clsx(classes.root, { [classes.dragging]: isDragging }, className)
   const isExpansionSlot = typeof slotSize !== 'number'
 
   if (!equipment || !equipment.isValid()) {

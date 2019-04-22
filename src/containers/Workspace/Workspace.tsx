@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import classNames from 'classnames'
+import clsx from 'clsx'
 import { observer } from 'mobx-react-lite'
 
 import Button from '@material-ui/core/Button'
@@ -9,6 +9,7 @@ import { makeStyles, createStyles } from '@material-ui/styles'
 import { Theme } from '@material-ui/core'
 
 import Explorer from '../Explorer'
+import OperationsPage from '../OperationsPage'
 
 import { useOpen } from '../../hooks'
 import { WorkspaceStoreContext } from '../../stores'
@@ -77,14 +78,14 @@ const Workspace: React.FC<{ children?: React.ReactNode }> = ({ children }) => {
       </Drawer>
       <WorkspaceBar
         workspaceStore={store}
-        className={classNames(classes.workspaceBar, open && classes.workspaceBarShift)}
+        className={clsx(classes.workspaceBar, open && classes.workspaceBarShift)}
         position="fixed"
       >
         <FolderButton title="編成一覧" size="small" color="primary" onClick={onOpen} />
       </WorkspaceBar>
-      <div className={classNames(classes.content, open && classes.contentShift)}>
+      <div className={clsx(classes.content, open && classes.contentShift)}>
         {children}
-        {/* {activeItem && <WorkspaceTabPanel item={activeItem} />} */}
+        {/* {activeItem ? <WorkspaceTabPanel item={activeItem} /> : <OperationsPage />} */}
       </div>
     </>
   )

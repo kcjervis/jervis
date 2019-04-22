@@ -1,5 +1,5 @@
 import { observer } from 'mobx-react-lite'
-import React from 'react'
+import React, { useContext } from 'react'
 import { IShipDataObject } from 'kc-calculator'
 
 import { Theme } from '@material-ui/core'
@@ -8,7 +8,7 @@ import Add from '@material-ui/icons/Add'
 import { makeStyles, createStyles } from '@material-ui/styles'
 import Dialog from '@material-ui/core/Dialog'
 
-import { ObservableFleet, ObservableShip } from '../../stores'
+import { ObservableFleet, ObservableShip, SettingStoreContext } from '../../stores'
 import ShipCard from './ShipCard'
 import { useOpen, useDragAndDrop } from '../../hooks'
 import ShipSelectPanel from '../ShipSelectPanel'
@@ -35,6 +35,8 @@ interface ShipFormProps {
 
 const ShipForm: React.FC<ShipFormProps> = props => {
   const { ship, store, index } = props
+  const settingStore = useContext(SettingStoreContext)
+
   const classes = useStyles()
   const { onOpen, ...dialogProps } = useOpen()
   const [{ isDragging }, dndRef] = useDragAndDrop({
@@ -73,7 +75,12 @@ const ShipForm: React.FC<ShipFormProps> = props => {
 
   return (
     <div className={classes.root} ref={dndRef} style={{ opacity }}>
-      <ShipCard className={classes.width} ship={ship} onUpdate={onOpen} />
+      <ShipCard
+        className={classes.width}
+        ship={ship}
+        defaultStatsExpanded={settingStore.operationPage.visibleShipStats}
+        onUpdate={onOpen}
+      />
       {dialog}
     </div>
   )

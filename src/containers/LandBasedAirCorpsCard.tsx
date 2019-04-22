@@ -5,7 +5,7 @@ import { Theme } from '@material-ui/core'
 import Card from '@material-ui/core/Card'
 import FormControl from '@material-ui/core/FormControl'
 import MenuItem from '@material-ui/core/MenuItem'
-import Select from '@material-ui/core/Select'
+import Select, { SelectProps } from '@material-ui/core/Select'
 import { makeStyles } from '@material-ui/styles'
 import Typography from '@material-ui/core/Typography'
 
@@ -37,7 +37,7 @@ const LandBasedAirCorpsCard: React.FC<LandBasedAirCorpsCard> = ({ landBasedAirCo
   const addedRadius = combatRadius - minCombatRadius
   const addedRadiusLabel = addedRadius > 0 ? `(${minCombatRadius}+${addedRadius})` : ''
 
-  const handleModeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleModeChange = (event: React.ChangeEvent<SelectProps>) => {
     landBasedAirCorps.mode = Number(event.target.value)
   }
 

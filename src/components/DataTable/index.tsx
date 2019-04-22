@@ -1,4 +1,4 @@
-import classNames from 'classnames'
+import clsx from 'clsx'
 import React, { useEffect, useMemo, useState } from 'react'
 
 import { makeStyles } from '@material-ui/styles'
@@ -94,7 +94,7 @@ const DataTable: React.FC<DataTableProps> = props => {
   const rowGetter = ({ index }: Index) => data[index]
 
   const rowClassName = ({ index }: Index) =>
-    index === -1 ? classes.flexContainer : classNames(classes.flexContainer, classes.hover)
+    index === -1 ? classes.flexContainer : clsx(classes.flexContainer, classes.hover)
 
   return (
     <AutoSizer>

@@ -2,7 +2,7 @@ import React, { useCallback, useState } from 'react'
 import ReactDOMServer from 'react-dom/server'
 import { observer } from 'mobx-react-lite'
 import ReactMde from 'react-mde'
-import classNames from 'classnames'
+import clsx from 'clsx'
 import ReactMarkdown from 'react-markdown'
 import 'react-mde/lib/styles/css/react-mde-all.css'
 
@@ -56,7 +56,7 @@ const OperationDescriptionField: React.FC<OperationDescriptionFieldProps> = ({ o
     )
   return (
     <>
-      <div className={classNames(classes.root, className)} {...divProps}>
+      <div className={clsx(classes.root, className)} {...divProps}>
         <div>
           <EditButton title="編集" tooltipProps={{ placement: 'top' }} onClick={onOpen} />
         </div>

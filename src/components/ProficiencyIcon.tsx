@@ -1,9 +1,8 @@
 import { Proficiency } from 'kc-calculator/dist/objects/Equipment'
 import React from 'react'
-import range from 'lodash/range'
+import clsx from 'clsx'
 
 import Typography from '@material-ui/core/Typography'
-import cyan from '@material-ui/core/colors/cyan'
 import { makeStyles, createStyles } from '@material-ui/styles'
 import { Theme } from '@material-ui/core'
 
@@ -33,7 +32,8 @@ type ProficiencyIconProps = {
   level?: number
 } & JSX.IntrinsicElements['div']
 
-const ProficiencyIcon: React.FC<ProficiencyIconProps> = ({ internal, level = 0, ...rootProps }) => {
+const ProficiencyIcon = React.forwardRef<HTMLDivElement, ProficiencyIconProps>((props, ref) => {
+  let { internal, level = 0, className, ...rootProps } = props
   const classes = useStyles()
   if (internal) {
     level = Proficiency.internalToLevel(internal)
@@ -41,13 +41,11 @@ const ProficiencyIcon: React.FC<ProficiencyIconProps> = ({ internal, level = 0, 
     internal = Proficiency.internalBounds[level]
   }
   return (
-    <div {...rootProps}>
-      <div className={classes.root}>
-        <img className={classes.image} src={require(`../images/icons/proficiency${level}.png`)} />
-        <Typography className={classes.value}>{internal}</Typography>
-      </div>
+    <div className={clsx(classes.root, className)} {...rootProps} ref={ref}>
+      <img className={classes.image} src={require(`../images/icons/proficiency${level}.png`)} />
+      <Typography className={classes.value}>{internal}</Typography>
     </div>
   )
-}
+})
 
 export default ProficiencyIcon
