@@ -35,8 +35,10 @@ export default class App extends Component {
             <DataLoader>
               <Workspace>
                 <Route exact={true} path="/" component={OperationsPage} />
-                <Route path="/ships" component={ShipSelectPanel} />
+                <Route path="/operations" component={OperationsPage} />
+
                 <Route path="/operation" component={OperationPage} />
+                <Route path="/ships" component={ShipSelectPanel} />
                 <Route exact={true} path="/equipments" component={EquipmentsDataTable} />
                 <Route path="/maps/:operationId" component={MapsPage} />
                 <Route exact={true} path="/maps" component={MapsPage} />
