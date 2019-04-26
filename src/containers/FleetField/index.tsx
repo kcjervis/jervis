@@ -88,8 +88,9 @@ const FleetField: React.FC<FleetFieldProps> = ({ fleet, operation }) => {
         <div style={{ display: 'flex', alignItems: 'center' }}>
           <div style={{ display: 'flex', alignItems: 'center', flexGrow: 1 }}>
             <Typography>制空: {fleet.asKcObject.fighterPower}</Typography>
+            <Typography style={{ marginLeft: 8 }}>マップ索敵: </Typography>
             {range(1, 6).map(nodeDivaricatedFactor => (
-              <Tooltip key={nodeDivaricatedFactor} title={`マップ索敵 分岐点係数${nodeDivaricatedFactor}`}>
+              <Tooltip key={nodeDivaricatedFactor} title={`分岐点係数${nodeDivaricatedFactor}`}>
                 <div style={{ display: 'flex', alignItems: 'center', marginLeft: 8 }}>
                   <StatIcon statKey="los" label={nodeDivaricatedFactor} />
                   <Typography variant="caption">{getEffectiveLos(nodeDivaricatedFactor).toFixed(2)}</Typography>
