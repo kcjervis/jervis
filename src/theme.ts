@@ -37,6 +37,11 @@ const theme = createMuiTheme({
       }
     },
     MuiMenu: darkPaper,
+    MuiMenuItem: {
+      root: {
+        color: 'white'
+      }
+    },
     MuiDialog: darkPaper,
     MuiDrawer: darkPaper,
     MuiPopover: darkPaper,
