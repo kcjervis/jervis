@@ -1,6 +1,7 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import clsx from 'clsx'
 import { observer } from 'mobx-react-lite'
+import { Redirect } from 'react-router'
 
 import Button from '@material-ui/core/Button'
 import FolderIcon from '@material-ui/icons/Folder'
@@ -11,7 +12,7 @@ import { Theme } from '@material-ui/core'
 import Explorer from '../Explorer'
 import OperationsPage from '../OperationsPage'
 
-import { useOpen } from '../../hooks'
+import { useOpen, useWorkspace } from '../../hooks'
 import { WorkspaceStoreContext } from '../../stores'
 import WorkspaceBar from './WorkspaceBar'
 import WorkspaceTabPanel from './WorkspaceTabPanel'
@@ -69,7 +70,7 @@ const useStyles = makeStyles((theme: Theme) => {
 const Workspace: React.FC<{ children?: React.ReactNode }> = ({ children }) => {
   const classes = useStyles()
   const { open, onOpen, onClose } = useOpen()
-  const store = useContext(WorkspaceStoreContext)
+  const { workspaceStore: store, visiblePanel } = useWorkspace()
   const { activeItem } = store
   return (
     <>
@@ -84,8 +85,7 @@ const Workspace: React.FC<{ children?: React.ReactNode }> = ({ children }) => {
         <FolderButton title="編成一覧" size="small" color="primary" onClick={onOpen} />
       </WorkspaceBar>
       <div className={clsx(classes.content, open && classes.contentShift)}>
-        {children}
-        {/* {activeItem ? <WorkspaceTabPanel item={activeItem} /> : <OperationsPage />} */}
+        {visiblePanel ? activeItem ? <WorkspaceTabPanel item={activeItem} /> : <Redirect to="operations" /> : children}
       </div>
     </>
   )

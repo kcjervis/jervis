@@ -7,7 +7,7 @@ import useOperationStore from './useOperationStore'
 const useWorkspace = () => {
   const workspaceStore = useContext(WorkspaceStoreContext)
   const { getOperation, getShip } = useOperationStore()
-  const { history } = useReactRouter()
+  const { history, location } = useReactRouter()
 
   const openOperation = useCallback(
     (operation: ObservableOperation) => {
@@ -33,7 +33,9 @@ const useWorkspace = () => {
     return getShip(item.id)
   }
 
-  return { workspaceStore, openOperation, openShipCalculator, itemSelector }
+  const visiblePanel = Boolean(workspaceStore.activeItem) && location.pathname === 'operation'
+
+  return { workspaceStore, openOperation, openShipCalculator, itemSelector, visiblePanel }
 }
 
 export default useWorkspace

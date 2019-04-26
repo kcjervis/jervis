@@ -36,7 +36,6 @@ export default class App extends Component {
               <Workspace>
                 <Route exact={true} path="/" component={OperationsPage} />
                 <Route path="/operations" component={OperationsPage} />
-
                 <Route path="/operation" component={OperationPage} />
                 <Route path="/ships" component={ShipSelectPanel} />
                 <Route exact={true} path="/equipments" component={EquipmentsDataTable} />

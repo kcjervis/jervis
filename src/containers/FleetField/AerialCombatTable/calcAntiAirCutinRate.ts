@@ -1,71 +1,77 @@
 import { IShip, AerialCombat } from 'kc-calculator'
+import { sumBy, uniq } from 'lodash-es'
 
-type CutinRate = { ci: AerialCombat.AntiAirCutin; rate: number }
+const { AntiAirCutin } = AerialCombat
+type AntiAirCutin = AerialCombat.AntiAirCutin
 
-const isSpecialAaci = (aaci: AerialCombat.AntiAirCutin) => [34, 35].includes(aaci.id)
+export type AntiAirCutinRateDatum = { cutin: AntiAirCutin; rate: number }
 
-const calcShipAntiAirCutinRates = (ship: IShip) => {
-  const antiAirCutins = AerialCombat.AntiAirCutin.getPossibleAntiAirCutins(ship)
-  const cutinRates = new Array<CutinRate>()
+const isSpecialAaci = (aaci: AntiAirCutin) => [34, 35].includes(aaci.id)
+
+const getShipRateData = (ship: IShip) => {
+  const antiAirCutins = AntiAirCutin.getPossibleAntiAirCutins(ship)
+  const cutinRateData = new Array<AntiAirCutinRateDatum>()
 
   const specialAntiAirCutins = antiAirCutins.filter(isSpecialAaci)
+  const normalAntiAirCutins = antiAirCutins.filter(aaci => !isSpecialAaci(aaci))
+
   const totalSpecialAaciRate = specialAntiAirCutins.reduce((prevRate, aaci) => {
-    const rate = ((1 - prevRate) * aaci.probability) / 101
-    cutinRates.push({ ci: aaci, rate })
-    return rate
+    const rate = (1 - prevRate) * (aaci.probability / 101)
+    cutinRateData.push({ cutin: aaci, rate })
+    return prevRate + rate
   }, 0)
 
-  const normalAntiAirCutins = antiAirCutins.filter(aaci => !isSpecialAaci(aaci))
   const totalNormalAaciRate = normalAntiAirCutins.reduce((prevRate, aaci) => {
     const rate = aaci.probability / 101
     let curRate = rate - prevRate
     if (curRate < 0) {
-      cutinRates.push({ ci: aaci, rate: 0 })
+      cutinRateData.push({ cutin: aaci, rate: 0 })
       return prevRate
     }
     if (totalSpecialAaciRate > 0) {
       curRate = (1 - totalSpecialAaciRate) * curRate
     }
-    cutinRates.push({ ci: aaci, rate: curRate })
+    cutinRateData.push({ cutin: aaci, rate: curRate })
     return rate
   }, 0)
 
-  return cutinRates
+  return cutinRateData
 }
 
-const calcShipsAntiAirCutinRates = (ships: IShip[]) => {
-  const fleetCutinRates = new Array<CutinRate>()
-  const shipCutinRates = ships
-    .flatMap(calcShipAntiAirCutinRates)
-    .filter(aaciRate => aaciRate.rate > 0)
-    .sort((aaciRate1, aaciRate2) => aaciRate2.ci.id - aaciRate1.ci.id)
-  for (const { ci, rate } of shipCutinRates) {
-    const foundCutinRate = fleetCutinRates.find(cutinRate => cutinRate.ci === ci)
-    if (!foundCutinRate) {
-      fleetCutinRates.push({ ci, rate })
-      continue
-    }
-    const curRate = (1 - foundCutinRate.rate) * rate
-    foundCutinRate.rate += curRate
+type RateDataMap = Map<IShip, AntiAirCutinRateDatum[]>
+
+const calcFleetCutinRate = (dataMap: RateDataMap, aaci: AntiAirCutin) => {
+  let gtRate = 0
+  let ltRate = 1
+  dataMap.forEach(data => {
+    gtRate += (1 - gtRate) * sumBy(data.filter(datum => datum.cutin.id > aaci.id), datum => datum.rate)
+    ltRate *= 1 - sumBy(data.filter(datum => datum.cutin.id >= aaci.id), datum => datum.rate)
+  })
+
+  return 1 - (gtRate + ltRate)
+}
+
+const getShipsRateData = (ships: IShip[]) => {
+  const shipRateDataMap: RateDataMap = new Map()
+  for (const ship of ships) {
+    const data = getShipRateData(ship).filter(datum => datum.rate > 0)
+    shipRateDataMap.set(ship, data)
   }
 
-  const totalFleetCutinRate = fleetCutinRates.reduce((totalRate, curAaciRate) => {
-    let curRate = (1 - totalRate) * curAaciRate.rate
-    if (curRate < 0) {
-      curRate = 0
-    }
-    curAaciRate.rate = curRate
-    return totalRate + curRate
-  }, 0)
+  const fleetCutins = uniq(
+    Array.from(shipRateDataMap.values())
+      .flat()
+      .map(datum => datum.cutin)
+  ).sort((aaci1, aaci2) => aaci2.id - aaci1.id)
 
-  return fleetCutinRates
+  return fleetCutins.map(cutin => ({ cutin, rate: calcFleetCutinRate(shipRateDataMap, cutin) }))
 }
 
 const calcAntiAirCutinRates = (arg: IShip | IShip[]) => {
   if (Array.isArray(arg)) {
-    return calcShipsAntiAirCutinRates(arg)
+    return getShipsRateData(arg)
   }
-  return calcShipAntiAirCutinRates(arg)
+  return getShipRateData(arg)
 }
 
 export default calcAntiAirCutinRates

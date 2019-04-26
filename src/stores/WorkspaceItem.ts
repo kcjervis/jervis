@@ -11,11 +11,6 @@ type WorkspaceItemData = ObservableOperation | ObservableShip | ObservableEquipm
 
 export type WorkspaceItemObject = { type: WorkspaceItemType; id: string }
 
-type WorkspaceItemDao =
-  | { type: 'Operation' | 'TemporaryOperation'; item: ObservableOperation }
-  | { type: 'Ship'; item: ObservableShip }
-  | { type: 'Equipment'; item: ObservableEquipment }
-
 export default class WorkspaceItem {
   public id = ''
 

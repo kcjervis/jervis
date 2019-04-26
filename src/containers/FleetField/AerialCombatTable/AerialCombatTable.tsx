@@ -21,6 +21,7 @@ import { useFormation } from '../../../hooks'
 import AerialCombatShipRow from './AerialCombatShipRow'
 import calcAntiAirCutinRates from './calcAntiAirCutinRate'
 import { toPercent } from '../ContactTable'
+import AntiAirCutinRatePieChart from './AntiAirCutinRatePieChart'
 
 const AntiAirCutInSelect: React.FC<{
   antiAirCutins: AntiAirCutin[]
@@ -71,7 +72,7 @@ const AerialCombatTable: React.FC<AerialCombatTableProps> = ({ operation, fleet,
   }
 
   const antiAirCutins = union(...allShips.map(ship => AntiAirCutin.getPossibleAntiAirCutins(ship)))
-  const aaciRates = calcAntiAirCutinRates(allShips)
+  const aaciRateData = calcAntiAirCutinRates(allShips)
 
   return (
     <>
@@ -96,30 +97,21 @@ const AerialCombatTable: React.FC<AerialCombatTableProps> = ({ operation, fleet,
           </TableRow>
         </TableHead>
         <TableBody>
-          {fleet.ships.map(
-            (ship, index) =>
-              ship && (
-                <AerialCombatShipRow
-                  key={index}
-                  ship={ship}
-                  side={side}
-                  fleetAntiAir={fleetAntiAir}
-                  combinedFleetModifier={combinedFleetModifier}
-                  antiAirCutin={antiAirCutin}
-                />
-              )
-          )}
+          {allShips.map((ship, index) => (
+            <AerialCombatShipRow
+              key={index}
+              ship={ship}
+              side={side}
+              fleetAntiAir={fleetAntiAir}
+              combinedFleetModifier={combinedFleetModifier}
+              antiAirCutin={antiAirCutin}
+            />
+          ))}
         </TableBody>
       </Table>
 
       <Typography>対空CI艦隊発動率</Typography>
-      <div style={{ display: 'flex', alignItems: 'center' }}>
-        {aaciRates.map(aaciRate => (
-          <Typography key={aaciRate.ci.id} style={{ marginRight: 8 }}>
-            {aaciRate.ci.id}種: {toPercent(aaciRate.rate)}
-          </Typography>
-        ))}
-      </div>
+      <AntiAirCutinRatePieChart data={aaciRateData} />
     </>
   )
 }

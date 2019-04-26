@@ -16,6 +16,30 @@ module.exports = (env, argv) => {
   return {
     mode,
     entry: './src/index.tsx',
+    optimization: {
+      splitChunks: {
+        cacheGroups: {
+          vendor: {
+            test: /node_modules/,
+            name: 'vendor',
+            chunks: 'initial',
+            enforce: true
+          },
+          calculator: {
+            test: /kc-calculator/,
+            name: 'calculator',
+            chunks: 'initial',
+            enforce: true
+          },
+          data: {
+            test: /data/,
+            name: 'data',
+            chunks: 'initial',
+            enforce: true
+          }
+        }
+      }
+    },
     output: {
       path: path.resolve(__dirname, 'docs'),
       filename: '[name].js',

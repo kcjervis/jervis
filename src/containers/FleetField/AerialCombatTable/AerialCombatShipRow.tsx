@@ -44,9 +44,9 @@ const AerialCombatShipRow: React.FC<AerialCombatShipRowProps> = ({
       </TableCell>
       <TableCell align="right">{antiAirCutin ? antiAirCutin.minimumBonus : 1}</TableCell>
       <TableCell align="right">
-        {aaciRates.map(({ ci, rate }) => (
-          <Typography key={ci.id}>
-            {ci.id}種 {toPercent(rate)}
+        {aaciRates.map(({ cutin, rate }) => (
+          <Typography key={cutin.id}>
+            {cutin.id}種 {toPercent(rate)}
           </Typography>
         ))}
       </TableCell>

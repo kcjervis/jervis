@@ -61,7 +61,7 @@ const ShipCard: React.FC<ShipCardProps> = ({ ship, onUpdate, defaultStatsExpande
           </Typography>
         </Tooltip>
         <div style={{ alignItems: 'right' }}>
-          {/* <InfoButton size="small" onClick={() => openShipCalculator(ship)} /> */}
+          <InfoButton size="small" onClick={() => openShipCalculator(ship)} />
           <UpdateButton title="艦娘を変更" size="small" onClick={onUpdate} />
           <RemoveButton title="艦娘を削除" size="small" onClick={ship.remove} />
         </div>
@@ -85,7 +85,6 @@ const ShipCard: React.FC<ShipCardProps> = ({ ship, onUpdate, defaultStatsExpande
       {ship.equipments.map((equip, index) => (
         <EquipmentField key={index} className={classes.equipment} store={ship} index={index} equipment={equip} />
       ))}
-      {/* <ShipCalculator ship={ship.asKcObject} /> */}
     </Paper>
   )
 }
