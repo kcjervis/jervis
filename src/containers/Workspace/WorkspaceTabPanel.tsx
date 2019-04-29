@@ -17,13 +17,14 @@ type WorkspaceTabPanelProps = { item: WorkspaceItem }
 
 const WorkspaceTabPanel: React.FC<WorkspaceTabPanelProps> = ({ item }) => {
   const { itemSelector } = useWorkspace()
-  const store = itemSelector(item)
-  if (store instanceof ObservableOperation) {
-    return <OperationPanel operation={store} />
+  const state = itemSelector(item)
+
+  if (state instanceof ObservableOperation) {
+    return <OperationPanel operation={state} />
   }
 
-  if (store instanceof ObservableShip) {
-    return <ShipCalculator ship={store.asKcObject} />
+  if (state instanceof ObservableShip) {
+    return <ShipCalculator ship={state} />
   }
 
   return <Redirect to="operations" />

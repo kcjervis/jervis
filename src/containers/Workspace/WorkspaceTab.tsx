@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react'
+import React, { useState, useCallback, useMemo } from 'react'
 import clsx from 'clsx'
 import useReactRouter from 'use-react-router'
 
@@ -40,6 +40,23 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 )
 
+const useWorkspaceTab = (item: WorkspaceItem) => {
+  const { history } = useReactRouter()
+  const { workspaceStore, itemSelector } = useWorkspace()
+
+  const setActive = useCallback(() => {
+    item.setActive()
+    history.replace('operation')
+  }, [item])
+
+  const name = useMemo(() => {
+    const itemState = itemSelector(item)
+    return itemState ? itemState.name : ''
+  }, [item])
+
+  return { setActive, name }
+}
+
 interface WorkspaceTabProps {
   item: WorkspaceItem
 }
@@ -48,12 +65,8 @@ const WorkspaceTab: React.FC<WorkspaceTabProps> = ({ item }) => {
   const [visibleClose, setVisibleClose] = useState(false)
   const classes = useStyles()
   const { getOperation, isTemporary } = useOperationStore()
-  const { history } = useReactRouter()
 
-  const handleClick = useCallback(() => {
-    item.setActive()
-    history.replace('operation')
-  }, [item])
+  const { setActive, name } = useWorkspaceTab(item)
 
   const handleMouseOver = useCallback(() => setVisibleClose(true), [])
   const handleMouseOut = useCallback(() => setVisibleClose(false), [])
@@ -66,24 +79,20 @@ const WorkspaceTab: React.FC<WorkspaceTabProps> = ({ item }) => {
   )
 
   let icon: JSX.Element
-  let text: string
-
   if (item.type === 'Operation') {
     const operation = getOperation(item.id)
     if (!operation) {
       return null
     }
     icon = <OperationIcon color={isTemporary(operation) ? 'default' : 'secondary'} />
-    text = operation.name
   } else {
     icon = <ShipIcon fontSize="inherit" />
-    text = 'ship'
   }
 
   return (
     <>
-      <div className={classes.root} onClick={handleClick} onMouseEnter={handleMouseOver} onMouseLeave={handleMouseOut}>
-        <ItemLabel icon={icon} text={text} className={clsx(classes.name, { [classes.active]: item.isActive })} />
+      <div className={classes.root} onClick={setActive} onMouseEnter={handleMouseOver} onMouseLeave={handleMouseOut}>
+        <ItemLabel icon={icon} text={name} className={clsx(classes.name, { [classes.active]: item.isActive })} />
         <div style={{ width: 24, margin: '0 4px' }}>
           {visibleClose && <CloseButton size="small" onClick={handleClose} />}
         </div>

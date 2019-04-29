@@ -1,24 +1,30 @@
 import { observer } from 'mobx-react-lite'
-import React, { useContext } from 'react'
-import { IShip } from 'kc-calculator'
+import React from 'react'
+
+import Box from '@material-ui/core/Box'
 
 import ShipDayCombatCalculator from './ShipDayCombatCalculator'
-import FormationSelect from '../../components/FormationSelect'
+import { FormationSelect } from '../../components'
 import { useFormation } from '../../hooks'
 import { ObservableShip } from '../../stores'
 
+import ShipCard from '../ShipForm/ShipCard'
+
 interface ShipCalculatorProps {
-  ship: IShip
+  ship: ObservableShip
 }
 
 const ShipCalculator: React.FC<ShipCalculatorProps> = ({ ship }) => {
   const { formation, setFormation } = useFormation()
   return (
-    <>
+    <div style={{ margin: 8 }}>
       <FormationSelect formation={formation} onChange={setFormation} />
-      <ShipDayCombatCalculator ship={ship} formation={formation} />
-    </>
+      <Box display="flex">
+        <ShipDayCombatCalculator ship={ship.asKcObject} formation={formation} />
+        <ShipCard style={{ width: 400 }} ship={ship} defaultStatsExpanded={true} />
+      </Box>
+    </div>
   )
 }
 
-export default ShipCalculator
+export default observer(ShipCalculator)

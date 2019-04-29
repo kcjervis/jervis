@@ -20,8 +20,7 @@ const useWorkspace = () => {
 
   const openShipCalculator = useCallback(
     (ship: ObservableShip) => {
-      const item = workspaceStore.createItem({ type: 'Ship', id: ship.id })
-      item.setActive()
+      workspaceStore.createItem({ type: 'Ship', id: ship.id }).setActive()
     },
     [workspaceStore]
   )
@@ -30,10 +29,11 @@ const useWorkspace = () => {
     if (item.type === 'Operation') {
       return getOperation(item.id)
     }
+
     return getShip(item.id)
   }
 
-  const visiblePanel = Boolean(workspaceStore.activeItem) && location.pathname === 'operation'
+  const visiblePanel = location.pathname === '/operation'
 
   return { workspaceStore, openOperation, openShipCalculator, itemSelector, visiblePanel }
 }

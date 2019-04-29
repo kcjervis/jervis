@@ -1,26 +1,35 @@
 import { nonNullable } from 'kc-calculator'
 import React from 'react'
+import { observer } from 'mobx-react-lite'
 
 import Button from '@material-ui/core/Button'
 import Paper from '@material-ui/core/Paper'
+import Dialog from '@material-ui/core/Dialog'
 import Typography from '@material-ui/core/Typography'
 
-import AerialCombatSimulator from './AerialCombatSimulator'
+import AerialCombatSimulator, { operationToBattleFleet } from './AerialCombatSimulator'
 import LandBasedAirCorpsCard from './LandBasedAirCorpsCard'
 
-import { observer } from 'mobx-react'
 import EnemyFleet from '../components/EnemyFleet'
 import ProficiencyDialog from '../components/ProficiencyDialog'
 import { ObservableOperation } from '../stores'
+import { useOpen, useOperationStore } from '../hooks'
 
 interface LandBaseForm {
   operation: ObservableOperation
 }
 
 const LandBaseForm: React.FC<LandBaseForm> = ({ operation }) => {
+  const { onOpen, ...dialogProps } = useOpen()
+  const { persistentOperationStore } = useOperationStore()
   const removeEnemy = () => {
-    operation.enemies = []
+    operation.enemy = undefined
   }
+  const setEnemy = (enemyOperation: ObservableOperation) => {
+    dialogProps.onClose()
+    operation.enemy = enemyOperation
+  }
+
   const handleProficiencyChange = (inter: number) => {
     const equipments = operation.landBase.flatMap(airCorps => airCorps.equipments).filter(nonNullable)
     equipments.forEach(equip => {
@@ -57,16 +66,30 @@ const LandBaseForm: React.FC<LandBaseForm> = ({ operation }) => {
       </Paper>
 
       <Paper style={{ margin: 8, padding: 8 }}>
-        {operation.enemies.map((enemy, index) => (
-          <EnemyFleet key={index} enemy={enemy} />
-        ))}
-        {operation.enemies.length === 0 ? (
-          <Button href={`#/maps/${operation.id}`}>敵編成を選択</Button>
+        {operation.enemy ? (
+          <>
+            <Button onClick={removeEnemy}>敵編成を削除</Button>
+            <EnemyFleet battleFleet={operationToBattleFleet(operation.enemy)} />
+          </>
         ) : (
-          <Button onClick={removeEnemy}>敵編成を削除</Button>
+          <>
+            <Button href={`#/maps/${operation.id}`}>敵編成を選択</Button>
+            <Button onClick={onOpen}>編成一覧から選択</Button>
+          </>
         )}
+
         <AerialCombatSimulator operation={operation} />
       </Paper>
+
+      <Dialog {...dialogProps}>
+        <div>
+          {persistentOperationStore.operations.map(operation => (
+            <Button key={operation.id} fullWidth onClick={() => setEnemy(operation)}>
+              {operation.name}
+            </Button>
+          ))}
+        </div>
+      </Dialog>
     </>
   )
 }

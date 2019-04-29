@@ -1,6 +1,7 @@
 export { default as EquipmentIcon } from './EquipmentIcon'
 export { default as EquipmentImage } from './EquipmentImage'
 export { default as EquipmentCard } from './EquipmentCard'
+export { default as FormationSelect } from './FormationSelect'
 export { default as ImprovementSelect } from './ImprovementSelect'
 export { default as ItemLabel } from './ItemLabel'
 export { default as OperationIcon } from './OperationIcon'

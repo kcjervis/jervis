@@ -71,6 +71,10 @@ export default class ObservableShip implements IShipDataObject, ObservableEquipm
 
   @observable public visibleEquipments = true
 
+  public get name() {
+    return this.asKcObject.name
+  }
+
   public get index() {
     const { store } = this
     return store ? store.ships.indexOf(this) : -1

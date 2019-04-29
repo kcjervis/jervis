@@ -1,4 +1,4 @@
-import { AirControlState, BattleType, nonNullable, Side } from 'kc-calculator'
+import { AirControlState, BattleType, nonNullable, Side, IOperation, Formation } from 'kc-calculator'
 import { Dictionary } from 'lodash'
 import { countBy, groupBy, mapValues, times as lodashTimes } from 'lodash-es'
 import React from 'react'
@@ -16,11 +16,19 @@ import { CarrierBasedAerialCombat, LandBaseAerialSupport } from 'kc-calculator/d
 import BattleFleet from 'kc-calculator/dist/Battle/BattleFleet'
 import CombatInformation from 'kc-calculator/dist/Battle/CombatInformation'
 
-import { createEnemyBattleFleet } from '../components/EnemyFleet'
 import { ObservableOperation } from '../stores'
-import kcObjectFactory from '../stores/kcObjectFactory'
 import { LandBasedAirCorpsMode } from '../stores/ObservableLandBasedAirCorps'
 import { toPercent } from './FleetField/ContactTable'
+import kcObjectFactory from '../stores/kcObjectFactory'
+
+export const operationToBattleFleet = (operation: ObservableOperation, isEnemy?: boolean) => {
+  const { side, fleetType, mainFleet, escortFleet, landBase } = kcObjectFactory.createOperation(operation)
+  const battleFleet = new BattleFleet(isEnemy ? Side.Enemy : side, fleetType, landBase, mainFleet, escortFleet)
+  if (operation.temporaryFormation) {
+    battleFleet.formation = operation.temporaryFormation
+  }
+  return battleFleet
+}
 
 type AerialBattleResult = Array<{
   name: string
@@ -46,17 +54,18 @@ class AerialCombatSimulator extends React.Component<AerialCombatSimulatorProps, 
 
   public aerialBattle = () => {
     const observableOperation = this.props.operation
-    const { side, fleetType, mainFleet, escortFleet, landBase } = kcObjectFactory.createOperation(observableOperation)
-    const playerFleet = new BattleFleet(side, fleetType, landBase, mainFleet, escortFleet)
-    const enemyFleet = createEnemyBattleFleet(observableOperation.enemies[0])
-    if (!enemyFleet) {
+    const enemyOperation = observableOperation.enemy
+    const playerFleet = operationToBattleFleet(observableOperation)
+    if (!enemyOperation) {
       return
     }
+    const enemyFleet = operationToBattleFleet(enemyOperation, true)
+
     const combatInfo = new CombatInformation(playerFleet, enemyFleet, BattleType.NormalBattle)
 
     const results: AerialBattleResult = []
 
-    landBase.forEach((airCorps, index) => {
+    playerFleet.landBase.forEach((airCorps, index) => {
       const { mode } = observableOperation.landBase[index]
       const hasPlane = airCorps.planes.length > 0
       if (mode === LandBasedAirCorpsMode.Standby || !hasPlane) {
@@ -112,12 +121,13 @@ class AerialCombatSimulator extends React.Component<AerialCombatSimulatorProps, 
       return { name, count, fighterPower: fighterPower95 }
     }
     const simulationResult = Object.entries(groupBy(battleResults, 'name')).map(mapper)
+
     this.setState({ simulationResult })
   }
 
   public render() {
     const { operation } = this.props
-    if (operation.enemies.length === 0) {
+    if (!operation.enemy) {
       return null
     }
 

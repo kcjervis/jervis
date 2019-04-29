@@ -14,7 +14,7 @@ import EquipmentField from '../EquipmentField'
 
 import ShipStatsExpansionPanel from './ShipStatsExpansionPanel'
 
-import { ObservableFleet, ObservableShip } from '../../stores'
+import { ObservableShip } from '../../stores'
 import { useWorkspace } from '../../hooks'
 
 const useStyles = makeStyles({
@@ -40,7 +40,7 @@ const useStyles = makeStyles({
 interface ShipCardProps extends PaperProps {
   ship: ObservableShip
   defaultStatsExpanded?: boolean
-  onUpdate: () => void
+  onUpdate?: () => void
 }
 
 const ShipCard: React.FC<ShipCardProps> = ({ ship, onUpdate, defaultStatsExpanded, ...paperProps }) => {
@@ -61,8 +61,8 @@ const ShipCard: React.FC<ShipCardProps> = ({ ship, onUpdate, defaultStatsExpande
           </Typography>
         </Tooltip>
         <div style={{ alignItems: 'right' }}>
-          {/* <InfoButton size="small" onClick={() => openShipCalculator(ship)} /> */}
-          <UpdateButton title="艦娘を変更" size="small" onClick={onUpdate} />
+          {/* <InfoButton title="詳細" size="small" onClick={() => openShipCalculator(ship)} /> */}
+          {onUpdate && <UpdateButton title="艦娘を変更" size="small" onClick={onUpdate} />}
           <RemoveButton title="艦娘を削除" size="small" onClick={ship.remove} />
         </div>
       </div>

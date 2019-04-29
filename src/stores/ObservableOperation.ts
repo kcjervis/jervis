@@ -1,9 +1,8 @@
-import { FleetType, IOperationDataObject, Side } from 'kc-calculator'
+import { FleetType, IOperationDataObject, Side, Formation } from 'kc-calculator'
 import { action, computed, observable } from 'mobx'
 import { persist } from 'mobx-persist'
 import uuid from 'uuid'
 
-import { TEnemyFleet } from '*maps'
 import kcObjectFactory from './kcObjectFactory'
 import ObservableFleet from './ObservableFleet'
 import ObservableLandBasedAirCorps from './ObservableLandBasedAirCorps'
@@ -52,7 +51,9 @@ export default class ObservableOperation implements IOperationDataObject, StoreI
   @observable
   public landBase = observable(Array.from(Array(3), () => new ObservableLandBasedAirCorps()))
 
-  @persist('list') @observable public enemies: TEnemyFleet[] = []
+  @observable public enemy?: ObservableOperation
+
+  @observable public temporaryFormation: Formation = Formation.LineAhead
 
   @observable public activeFleetIndex: number = 0
 
@@ -108,7 +109,6 @@ export default class ObservableOperation implements IOperationDataObject, StoreI
   private toJSON() {
     const dataObject = { ...this, version: 1 }
     delete dataObject.store
-    delete dataObject.enemies
     delete dataObject.activeFleetIndex
     return dataObject
   }

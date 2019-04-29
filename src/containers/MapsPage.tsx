@@ -53,18 +53,6 @@ class MapsPage extends React.Component<RouteComponentProps<{ operationId?: strin
     this.setState({ point })
   }
 
-  public handleEnemyClick = (enemy: TEnemyFleet) => () => {
-    const { operationId } = this.props.match.params
-    if (!operationId) {
-      return
-    }
-    const operation = stores.operationStore.getOperation(operationId)
-    if (operation) {
-      operation.enemies.push(enemy)
-      this.props.history.replace('/operation')
-    }
-  }
-
   public getMapImage = (mapId: number) => {
     try {
       return require(`../images/maps/${mapId}.png`)
