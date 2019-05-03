@@ -16,7 +16,8 @@ type DamageCalculatorProps = {
 }
 
 const DamageCalculator: React.FC<DamageCalculatorProps> = ({ attackPower, defensePower, remainingAmmoModifier }) => {
-  const [min, max] = Damage.calcDamageRange(attackPower, defensePower, remainingAmmoModifier)
+  const { min, max } = new Damage(attackPower, defensePower, remainingAmmoModifier)
+
   return (
     <Table style={{ width: 8 * 20 }}>
       <TableBody>

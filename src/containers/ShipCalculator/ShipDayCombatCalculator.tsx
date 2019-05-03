@@ -17,7 +17,6 @@ interface ShipDayCombatCalculatorProps {
 const ShipDayCombatCalculator: React.FC<ShipDayCombatCalculatorProps> = ({ ship, formation }) => {
   const power = DayCombat.Shelling.calcPower(ship, formation.shellingPowerModifier)
   const accuracy = DayCombat.Shelling.calcAccuracy(ship, formation.shellingAccuracyModifier)
-
   return (
     <>
       <Table style={{ width: 8 * 15 }}>
