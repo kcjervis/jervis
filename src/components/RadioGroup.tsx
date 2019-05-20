@@ -1,13 +1,13 @@
 import React, { useCallback } from 'react'
 
 import { Omit } from '@material-ui/core'
-import MuiSelect, { SelectProps as MuiSelectProps } from '@material-ui/core/Select'
-import MenuItem from '@material-ui/core/MenuItem'
 import FormControl from '@material-ui/core/FormControl'
 import InputLabel from '@material-ui/core/InputLabel'
 import Radio from '@material-ui/core/Radio'
-import RadioGroup from '@material-ui/core/RadioGroup'
+import MuiRadioGroup, { RadioGroupProps as MuiRadioGroupProps } from '@material-ui/core/RadioGroup'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
+
+import { BaseSelectProps } from './Select'
 
 export const getDefaultOptionLabel = (option: unknown): string => {
   switch (typeof option) {
@@ -31,36 +31,31 @@ export const getDefaultOptionLabel = (option: unknown): string => {
   return ''
 }
 
-export type BaseSelectProps<OptionType> = {
-  options: OptionType[]
-  value: OptionType
-  onChange: (option: OptionType) => void
-  label?: string
-  getOptionLabel?: (option: OptionType) => React.ReactNode
-}
+type RadioGroupProps<OptionType> = BaseSelectProps<OptionType>
 
-export type SelectProps<OptionType> = BaseSelectProps<OptionType> & Omit<MuiSelectProps, 'value' | 'onChange'>
-
-function Select<OptionType>(props: SelectProps<OptionType>) {
+function RadioGroup<OptionType>(props: RadioGroupProps<OptionType>) {
   const { options, value, onChange, label, getOptionLabel = getDefaultOptionLabel, ...muiProps } = props
 
   const handleChange = useCallback(
-    (event: React.ChangeEvent<MuiSelectProps>) => onChange(options[Number(event.target.value)]),
+    (event: React.ChangeEvent<MuiRadioGroupProps>) => onChange(options[Number(event.target.value)]),
     [options, onChange]
   )
 
   return (
     <FormControl>
       {label && <InputLabel>{label}</InputLabel>}
-      <MuiSelect value={options.indexOf(value)} onChange={handleChange} {...muiProps}>
+      <MuiRadioGroup value={options.indexOf(value).toString()} onChange={handleChange} row>
         {options.map((option, index) => (
-          <MenuItem key={index} value={index}>
-            {getOptionLabel(option)}
-          </MenuItem>
+          <FormControlLabel
+            key={index}
+            label={getOptionLabel(option)}
+            value={index.toString()}
+            control={<Radio color="primary" />}
+          />
         ))}
-      </MuiSelect>
+      </MuiRadioGroup>
     </FormControl>
   )
 }
 
-export default Select
+export default RadioGroup

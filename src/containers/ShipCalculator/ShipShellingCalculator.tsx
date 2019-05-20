@@ -53,16 +53,15 @@ const ShipShellingCalculator: React.FC<ShipShellingCalculatorProps> = ({ getAtta
   const specialAttackSelect = useSelect(options)
 
   return (
-    <Paper style={{ marginLeft: 8, width: 8 * 50 }}>
-      <Typography>砲撃戦</Typography>
-
-      <Select
-        variant="outlined"
-        label="特殊攻撃"
-        style={{ width: 100 }}
-        {...specialAttackSelect}
-        getOptionLabel={option => (option ? option.name : '単発')}
-      />
+    <Paper style={{ marginLeft: 8, width: 8 * 50, padding: 8 }}>
+      <Box display="flex" alignItems="center">
+        <Typography>砲撃戦</Typography>
+        <Select
+          style={{ minWidth: 80, marginLeft: 8 }}
+          {...specialAttackSelect}
+          getOptionLabel={option => (option ? option.name : '単発')}
+        />
+      </Box>
 
       <Typography>攻撃力</Typography>
       <Table>

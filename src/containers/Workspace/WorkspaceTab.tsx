@@ -15,7 +15,7 @@ import { useWorkspace, useOperationStore } from '../../hooks'
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
-      display: 'flex',
+      display: 'inline-flex',
       alignItems: 'center',
       minWidth: 8 * 15,
       maxWidth: 8 * 25,
