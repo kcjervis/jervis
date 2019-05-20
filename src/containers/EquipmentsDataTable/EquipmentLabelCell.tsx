@@ -11,20 +11,14 @@ import EquipmentIcon from '../../components/EquipmentIcon'
 import { ImprovementSelect } from '../../components'
 import { EquipmentsDataStoreContext } from '../../stores'
 
-interface EquipmentLabelCell {
+export type EquipmentLabelCellProps = {
   equipment: IEquipment
+  onSelect?: (equipment: IEquipment) => void
 }
 
-const EquipmentLabelCell: React.FC<EquipmentLabelCell> = ({ equipment }) => {
-  const { history } = useReactRouter()
+const EquipmentLabelCell: React.FC<EquipmentLabelCellProps> = ({ equipment, onSelect }) => {
   const equipmentsDataStore = useContext(EquipmentsDataStoreContext)
-  const handleClick = useCallback(() => {
-    if (equipmentsDataStore.setEquipment(equipment)) {
-      history.push(`/operation`)
-      equipmentsDataStore.parent = undefined
-      equipmentsDataStore.index = undefined
-    }
-  }, [equipment])
+  const handleClick = useCallback(() => onSelect && onSelect(equipment), [onSelect, equipment])
 
   const { activeEquipmentList } = equipmentsDataStore
   const state = activeEquipmentList && activeEquipmentList.getEquipmentState(equipment)

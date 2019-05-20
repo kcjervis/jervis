@@ -1,4 +1,4 @@
-import { FleetType, IOperationDataObject, Side, Formation } from 'kc-calculator'
+import { FleetTypeName, IOperationDataObject, Side, Formation } from 'kc-calculator'
 import { action, computed, observable } from 'mobx'
 import { persist } from 'mobx-persist'
 import uuid from 'uuid'
@@ -41,7 +41,7 @@ export default class ObservableOperation implements IOperationDataObject, StoreI
 
   @persist @observable public side = Side.Player
 
-  @persist @observable public fleetType = FleetType.Single
+  @persist @observable public fleetType = FleetTypeName.Single
 
   @persist('list', ObservableFleet)
   @observable

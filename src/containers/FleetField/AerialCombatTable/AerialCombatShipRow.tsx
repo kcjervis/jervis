@@ -6,14 +6,17 @@ import {
   fixedShotdownNumber,
   proportionalShotdownRate
 } from 'kc-calculator/dist/Battle/AerialCombat/antiAir'
+import { maxBy } from 'lodash-es'
 
 import calcAntiAirCutinRates from './calcAntiAirCutinRate'
 
 import TableCell from '@material-ui/core/TableCell'
 import TableRow from '@material-ui/core/TableRow'
 import Typography from '@material-ui/core/Typography'
-import { toPercent } from '../ContactTable'
-import { maxBy } from 'lodash-es'
+
+import { toPercent } from '../../../utils'
+
+toPercent
 
 type AerialCombatShipRowProps = {
   ship: IShip

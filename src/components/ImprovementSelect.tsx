@@ -31,6 +31,23 @@ const useStyles = makeStyles((theme: Theme) => ({
   }
 }))
 
+export const ImprovementButtons: React.FC<{ onClick?: (value: number) => void }> = ({ onClick }) => {
+  const classes = useStyles()
+  return (
+    <>
+      {range(11).map(improveValue => (
+        <Button
+          key={improveValue}
+          className={clsx(classes.improvementColor, classes.selectButton)}
+          onClick={() => onClick && onClick(improveValue)}
+        >
+          {improvementValueToString(improveValue)}
+        </Button>
+      ))}
+    </>
+  )
+}
+
 interface ImprovementSelectProps {
   value: number
   onChange: (value: number) => void
@@ -41,7 +58,7 @@ const ImprovementSelect: React.FC<ImprovementSelectProps> = ({ value, onChange }
   const baseClasses = useBaseStyles()
   const classes = useStyles()
 
-  const handleImprovementClick = (improveValue: number) => () => {
+  const handleImprovementClick = (improveValue: number) => {
     onClose()
     onChange(improveValue)
   }
@@ -66,15 +83,7 @@ const ImprovementSelect: React.FC<ImprovementSelectProps> = ({ value, onChange }
         anchorEl={anchorEl}
         onClose={onClose}
       >
-        {range(11).map(improveValue => (
-          <Button
-            key={improveValue}
-            className={clsx(classes.improvementColor, classes.selectButton)}
-            onClick={handleImprovementClick(improveValue)}
-          >
-            {improvementValueToString(improveValue)}
-          </Button>
-        ))}
+        <ImprovementButtons onClick={handleImprovementClick} />
       </Popover>
     </>
   )

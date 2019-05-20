@@ -1,4 +1,4 @@
-import { FleetRole, FleetType, nonNullable } from 'kc-calculator'
+import { FleetRole, FleetTypeName, nonNullable } from 'kc-calculator'
 import { range } from 'lodash-es'
 import React, { useContext } from 'react'
 
@@ -10,12 +10,11 @@ import Tooltip from '@material-ui/core/Tooltip'
 import { Theme } from '@material-ui/core'
 import { makeStyles, createStyles } from '@material-ui/styles'
 
-import StatIcon from '../../components/StatIcon'
+import { StatIcon, EquipmentsSettingDialog } from '../../components'
 import ShipForm from '../ShipForm'
 import FleetDetail from './FleetDetail'
 
-import ProficiencyDialog from '../../components/ProficiencyDialog'
-import { ObservableFleet, ObservableOperation, OperationStoreContext } from '../../stores'
+import { ObservableFleet, ObservableOperation } from '../../stores'
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -38,7 +37,6 @@ interface FleetFieldProps {
 
 const FleetField: React.FC<FleetFieldProps> = ({ fleet, operation }) => {
   const { ships } = fleet
-  const operationStore = useContext(OperationStoreContext)
   const classes = useStyles()
 
   const addShipForm = () => {
@@ -51,19 +49,10 @@ const FleetField: React.FC<FleetFieldProps> = ({ fleet, operation }) => {
     }
   }
 
-  const setProficiency = (value: number) => {
-    ships
-      .flatMap(ship => ship && ship.equipments)
-      .filter(nonNullable)
-      .forEach(equip => {
-        equip.proficiency = value
-      })
-  }
-
   const fleetIndex = operation.fleets.indexOf(fleet)
   const { fleetType } = operation
   let fleetRole = FleetRole.MainFleet
-  if (fleetIndex === 1 && fleetType !== FleetType.Single) {
+  if (fleetIndex === 1 && fleetType !== FleetTypeName.Single) {
     fleetRole = FleetRole.EscortFleet
   }
 
@@ -98,7 +87,7 @@ const FleetField: React.FC<FleetFieldProps> = ({ fleet, operation }) => {
               </Tooltip>
             ))}
           </div>
-          <ProficiencyDialog changeProficiency={setProficiency} />
+          <EquipmentsSettingDialog equipments={ships.flatMap(ship => ship && ship.equipments).filter(nonNullable)} />
 
           <div className={classes.bottomControl}>
             <Button title="艦娘枠を増やす" onClick={addShipForm}>

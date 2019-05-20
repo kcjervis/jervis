@@ -3,7 +3,8 @@ import grey from '@material-ui/core/colors/grey'
 import { createMuiTheme } from '@material-ui/core/styles'
 
 const clearBackground = 'rgba( 20, 20, 20, 0.1 )'
-const darkBackground = 'rgba(0, 0, 0, 0.9)'
+const darkBackground = 'rgba(10, 10, 15, 0.95)'
+const dialogPaperBackground = 'rgba(66, 66, 77, 0.95)'
 const darkPaper = { paper: { background: darkBackground } }
 
 const theme = createMuiTheme({
@@ -42,7 +43,9 @@ const theme = createMuiTheme({
         color: 'white'
       }
     },
-    MuiDialog: darkPaper,
+    MuiDialog: {
+      paper: { background: dialogPaperBackground }
+    },
     MuiDrawer: darkPaper,
     MuiPopover: darkPaper,
     MuiTooltip: {
@@ -60,9 +63,6 @@ const theme = createMuiTheme({
       root: {
         background: 'rgba( 20, 20, 20, 0 )',
         '&:before': undefined
-      },
-      expanded: {
-        margin: 0
       }
     },
     MuiExpansionPanelSummary: {

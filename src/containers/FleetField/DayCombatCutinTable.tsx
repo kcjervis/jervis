@@ -10,7 +10,7 @@ import TableHead from '@material-ui/core/TableHead'
 import TableRow from '@material-ui/core/TableRow'
 import Typography from '@material-ui/core/Typography'
 
-import { toPercent } from './ContactTable'
+import { toPercent } from '../../utils'
 
 const { ArtillerySpotting, AircraftCarrierCutin } = DayCombat
 

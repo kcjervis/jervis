@@ -1,8 +1,9 @@
 import clsx from 'clsx'
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useMemo, useState } from 'react'
 
 import { makeStyles } from '@material-ui/styles'
 
+import Box, { BoxProps } from '@material-ui/core/Box'
 import TableCell, { TableCellProps } from '@material-ui/core/TableCell'
 import TableSortLabel from '@material-ui/core/TableSortLabel'
 
@@ -14,7 +15,8 @@ import {
   SortDirection,
   Table,
   TableCellRenderer,
-  TableHeaderRenderer
+  TableHeaderRenderer,
+  TableProps
 } from 'react-virtualized'
 import useSort, { Sort } from './useSort'
 
@@ -70,15 +72,16 @@ const cellRenderer: TableCellRenderer = props => {
   return <DataTableCell>{props.cellData}</DataTableCell>
 }
 
-interface DataTableProps<T = any> {
+type DataTableProps<T = any> = {
   columns: ColumnProps[]
   data: T[]
   sort?: Sort<T>
-}
+  onRowClick?: TableProps['onRowClick']
+} & BoxProps
 
 const DataTable: React.FC<DataTableProps> = props => {
   const { setSortState, sortBy, sortDirection, defaultSort } = useSort()
-  const { columns, sort = defaultSort } = props
+  const { columns, sort = defaultSort, onRowClick, ...boxProps } = props
   const classes = useStyles()
 
   const data = useMemo(() => {
@@ -97,33 +100,36 @@ const DataTable: React.FC<DataTableProps> = props => {
     index === -1 ? classes.flexContainer : clsx(classes.flexContainer, classes.hover)
 
   return (
-    <AutoSizer>
-      {({ height, width }) => (
-        <Table
-          headerHeight={50}
-          rowHeight={50}
-          rowCount={rowCount}
-          rowGetter={rowGetter}
-          height={height}
-          width={width}
-          rowClassName={rowClassName}
-          sort={setSortState}
-          sortBy={sortBy}
-          sortDirection={sortDirection}
-        >
-          {columns.map((column, index) => (
-            <Column
-              key={column.dataKey}
-              headerRenderer={headerRenderer}
-              cellRenderer={cellRenderer}
-              defaultSortDirection={SortDirection.DESC}
-              flexGrow={1}
-              {...column}
-            />
-          ))}
-        </Table>
-      )}
-    </AutoSizer>
+    <Box {...boxProps}>
+      <AutoSizer>
+        {({ height, width }) => (
+          <Table
+            headerHeight={50}
+            rowHeight={50}
+            rowCount={rowCount}
+            rowGetter={rowGetter}
+            height={height}
+            width={width}
+            rowClassName={rowClassName}
+            sort={setSortState}
+            sortBy={sortBy}
+            sortDirection={sortDirection}
+            onRowClick={onRowClick}
+          >
+            {columns.map((column, index) => (
+              <Column
+                key={column.dataKey}
+                headerRenderer={headerRenderer}
+                cellRenderer={cellRenderer}
+                defaultSortDirection={SortDirection.DESC}
+                flexGrow={1}
+                {...column}
+              />
+            ))}
+          </Table>
+        )}
+      </AutoSizer>
+    </Box>
   )
 }
 

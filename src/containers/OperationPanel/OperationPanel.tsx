@@ -1,4 +1,4 @@
-import { FleetType, Side } from 'kc-calculator'
+import { FleetTypeName, Side } from 'kc-calculator'
 import { observer } from 'mobx-react-lite'
 import React, { useContext, useCallback } from 'react'
 
@@ -34,7 +34,8 @@ const useStyles = makeStyles({
   menu: {
     display: 'flex',
     alignItems: 'center',
-    marginLeft: 8
+    marginLeft: 8,
+    flexWrap: 'wrap'
   },
   form: {
     display: 'flex',
@@ -60,7 +61,7 @@ const OperationPanel: React.FC<OperationPanelProps> = ({ operation }) => {
     operation.activeFleetIndex = value
   }
 
-  const handleFleetTypeChange = (fleetType: FleetType) => {
+  const handleFleetTypeChange = (fleetType: FleetTypeName) => {
     operation.fleetType = fleetType
   }
 
@@ -109,17 +110,18 @@ const OperationPanel: React.FC<OperationPanelProps> = ({ operation }) => {
           />
           <FleetTypeSelect fleetType={operation.fleetType} onChange={handleFleetTypeChange} />
         </div>
+        <div>
+          <Typography variant="caption" style={{ margin: 8 }}>
+            第一艦隊制空: {mainFleet.fighterPower} {combinedFleetFighterPowerLabel}
+          </Typography>
 
-        <Typography variant="caption" style={{ margin: 8 }}>
-          第一艦隊制空: {mainFleet.fighterPower} {combinedFleetFighterPowerLabel}
-        </Typography>
-
-        <FormControlLabel
-          control={
-            <Checkbox checked={settingStore.operationPage.visibleShipStats} onChange={handleVisibleShipStatsChange} />
-          }
-          label={<Typography variant="caption">ステータス表示</Typography>}
-        />
+          <FormControlLabel
+            control={
+              <Checkbox checked={settingStore.operationPage.visibleShipStats} onChange={handleVisibleShipStatsChange} />
+            }
+            label="ステータス表示"
+          />
+        </div>
         {/* <FormControlLabel
           control={<Checkbox checked={operation.side === Side.Enemy} onChange={handleSideChange} />}
           label={<Typography variant="caption">敵艦隊</Typography>}
@@ -139,7 +141,7 @@ const OperationPanel: React.FC<OperationPanelProps> = ({ operation }) => {
             }
             return <Tab key={`fleetTab${index}`} label={`${index + 1}`} />
           })}
-          <Tab label="基地航空隊" />
+          {operation.landBase.length > 0 && <Tab label="基地航空隊" />}
         </Tabs>
       </div>
 

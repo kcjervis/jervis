@@ -8,8 +8,8 @@ import Tabs from '@material-ui/core/Tabs'
 
 import { TEnemyFleet, TEventDifficulty } from 'maps'
 import maps from '../data/maps'
-import stores from '../stores'
 import EnemyFleetButton from './EnemyFleetButton'
+import MapsPanel from './MapsPanel'
 
 const worlds = [
   { id: 1, name: '鎮守府海域' },
@@ -67,6 +67,7 @@ class MapsPage extends React.Component<RouteComponentProps<{ operationId?: strin
     const { operationId } = this.props.match.params
     return (
       <div>
+        <MapsPanel />
         <div>
           <Tabs value={this.state.worldId} onChange={this.handleChangeWorld}>
             {worlds.map(({ id: worldId, name }) => (

@@ -9,6 +9,9 @@ const styles = createStyles({
     display: 'flex',
     flexDirection: 'column'
   },
+  bright: {
+    filter: 'drop-shadow(0 0 4px rgba(255,255,255,0.8))'
+  },
   brightButton: {
     cursor: 'pointer',
     '&:hover': {

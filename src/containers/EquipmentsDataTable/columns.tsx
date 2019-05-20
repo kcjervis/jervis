@@ -1,22 +1,13 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 
 import { equipmentStatKeys } from 'kc-calculator'
 import { ColumnProps } from 'react-virtualized'
 
 import StatIcon from '../../components/StatIcon'
-import EquipmentLabelCell from './EquipmentLabelCell'
+import EquipmentLabelCell, { EquipmentLabelCellProps } from './EquipmentLabelCell'
 import EquipmentStatsCell from './EquipmentStatsCell'
 import EquipmentVisibilityCell from './EquipmentVisibilityCell'
 import ListEquipmentDialog from './ListEquipmentDialog'
-
-const baseColumns: ColumnProps[] = [
-  {
-    dataKey: 'name',
-    label: '装備',
-    cellRenderer: props => <EquipmentLabelCell equipment={props.rowData} />,
-    width: 250
-  }
-]
 
 const statColumns: ColumnProps[] = equipmentStatKeys.map(dataKey => ({
   dataKey,
@@ -24,8 +15,7 @@ const statColumns: ColumnProps[] = equipmentStatKeys.map(dataKey => ({
   width: 20
 }))
 
-export const defaultModeColumns: ColumnProps[] = [
-  ...baseColumns,
+const defaultModeColumns: ColumnProps[] = [
   {
     dataKey: 'stats',
     label: 'ステータス',
@@ -42,9 +32,9 @@ export const defaultModeColumns: ColumnProps[] = [
   }
 ]
 
-export const sortModeColumns: ColumnProps[] = [...baseColumns, ...statColumns]
+const sortModeColumns: ColumnProps[] = statColumns
 
-export const settingModeColumns: ColumnProps[] = [
+const settingModeColumns: ColumnProps[] = [
   ...defaultModeColumns,
   {
     dataKey: 'visibility',
@@ -53,3 +43,23 @@ export const settingModeColumns: ColumnProps[] = [
     cellRenderer: props => <EquipmentVisibilityCell equipment={props.rowData} />
   }
 ]
+
+export const useColumns = (mode: string, onSelect: EquipmentLabelCellProps['onSelect']): ColumnProps[] => {
+  return useMemo(() => {
+    const baseColumns: ColumnProps[] = [
+      {
+        dataKey: 'name',
+        label: '装備',
+        cellRenderer: props => <EquipmentLabelCell equipment={props.rowData} onSelect={onSelect} />,
+        width: 250
+      }
+    ]
+
+    if (mode === 'sort') {
+      return baseColumns.concat(sortModeColumns)
+    } else if (mode === 'setting') {
+      return baseColumns.concat(settingModeColumns)
+    }
+    return baseColumns.concat(defaultModeColumns)
+  }, [mode, onSelect])
+}

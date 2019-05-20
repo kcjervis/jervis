@@ -54,6 +54,7 @@ const MasterShipCard: React.FC<MasterShipCardProps> = ({ ship }) => {
             const value = ship[statKey]
             return <StatChip key={statKey} statKey={statKey} value={value} />
           })}
+          <Typography>搭載 {ship.slotCapacities.toString()}</Typography>
         </CardContent>
 
         <ShipImage className={classes.shipImage} masterId={id} imageType="full" />

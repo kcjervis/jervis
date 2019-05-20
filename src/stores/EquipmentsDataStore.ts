@@ -4,18 +4,14 @@ import { persist } from 'mobx-persist'
 
 import EquipmentList from './EquipmentList'
 import kcObjectFactory, { masterData } from './kcObjectFactory'
-import ObservableLandBasedAirCorps from './ObservableLandBasedAirCorps'
-import ObservableShip from './ObservableShip'
 import { Store } from '../types'
 
-type Mode = 'default' | 'sort' | 'setting'
+type Mode = 'simple' | 'detail' | 'sort' | 'setting'
+
+type EquipmentFilter = (equipment: IEquipment) => boolean
 
 export default class EquipmentsDataStore implements Store {
-  @observable public parent?: ObservableShip | ObservableLandBasedAirCorps
-
-  @observable public index?: number
-
-  @observable public mode: Mode = 'default'
+  @observable public mode: Mode = 'simple'
 
   @observable public visibleAlly = true
 
@@ -39,24 +35,14 @@ export default class EquipmentsDataStore implements Store {
     return this.equipmentLists.find(list => list.id === this.activeEquipmentListId)
   }
 
-  public get label() {
-    const { parent } = this
-    if (parent instanceof ObservableShip) {
-      return `${parent.asKcObject.name} 選択中`
-    } else if (parent instanceof ObservableLandBasedAirCorps) {
-      return '基地航空隊 選択中'
-    }
-    return ''
-  }
-
   @computed public get equipmentsData() {
     return masterData.equipments
       .map(equip => kcObjectFactory.createEquipment({ masterId: equip.id }))
       .filter(nonNullable)
   }
 
-  @computed public get visibleEquipments() {
-    const { parent, index = 0, equipmentsData, visibleAlly, visibleAbysall, mode, activeEquipmentList } = this
+  public getVisibleEquipments = (...filters: EquipmentFilter[]) => {
+    const { equipmentsData, visibleAlly, visibleAbysall, mode, activeEquipmentList } = this
     const listEquipments = activeEquipmentList ? activeEquipmentList.asKcEquipments : equipmentsData
     const equipments = listEquipments.filter(({ masterId }) => {
       if (mode !== 'setting' && this.blackList.includes(masterId)) {
@@ -76,7 +62,7 @@ export default class EquipmentsDataStore implements Store {
       return equipments
     }
 
-    return equipments.filter(equip => parent.canEquip(equip, index))
+    return filters.reduce((prevEquips, filter) => prevEquips.filter(filter), equipments)
   }
 
   @action public toggleVisibleAlly = () => {
@@ -91,6 +77,7 @@ export default class EquipmentsDataStore implements Store {
     const newList = new EquipmentList()
     newList.name = name
     this.equipmentLists.push(newList)
+    return newList
   }
 
   @action public setEquipmentVisibility = (masterId: number, next: boolean) => {
@@ -106,35 +93,13 @@ export default class EquipmentsDataStore implements Store {
     }
   }
 
+  @action public setActiveEquipmentList = (list?: EquipmentList) => {
+    this.activeEquipmentListId = list && list.id
+  }
+
   @action public removeEquipmentList = (list: EquipmentList) => {
     const { equipmentLists } = this
     equipmentLists.splice(equipmentLists.indexOf(list), 1)
-  }
-
-  @action public setEquipment = (equipment: IEquipment) => {
-    const { parent, index } = this
-    if (!parent || typeof index !== 'number') {
-      return false
-    }
-    const { category, masterId } = equipment
-    let proficiency = 0
-    if (category.isAerialCombatAircraft) {
-      proficiency = 100
-    }
-    if (category.isReconnaissanceAircraft) {
-      proficiency = 120
-    }
-    if (masterId > 500 || category.is('LandBasedReconnaissanceAircraft')) {
-      proficiency = 0
-    }
-
-    parent.createEquipment(index, {
-      masterId: equipment.masterId,
-      proficiency,
-      improvement: equipment.improvement.value
-    })
-
-    return true
   }
 
   @action public initialize = () => {

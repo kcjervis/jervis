@@ -1,28 +1,25 @@
 import { IShipDataObject, MasterShip, IEquipmentDataObject } from 'kc-calculator'
-import React, { useState, useRef, useEffect, useCallback, useMemo } from 'react'
+import React, { useState, useRef, useMemo } from 'react'
 import { groupBy } from 'lodash-es'
 
-import Button from '@material-ui/core/Button'
-import Checkbox, { CheckboxProps } from '@material-ui/core/Checkbox'
+import Box from '@material-ui/core/Box'
+import Checkbox from '@material-ui/core/Checkbox'
 import Divider from '@material-ui/core/Divider'
 import Chip from '@material-ui/core/Chip'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import Input from '@material-ui/core/Input'
-import Tooltip from '@material-ui/core/Tooltip'
 import IconButton from '@material-ui/core/IconButton'
 import Typography from '@material-ui/core/Typography'
 import SearchIcon from '@material-ui/icons/Search'
 import { makeStyles, createStyles } from '@material-ui/styles'
 
-import { ShipImage, MasterShipCard, CloseButton } from '../../components'
-
 import { masterData } from '../../stores/kcObjectFactory'
+import { useCheck, useSelect } from '../../hooks'
+import ShipButton from './ShipButton'
+import { SelectButtons } from '../../components'
 
 const useStyles = makeStyles(
   createStyles({
-    root: {
-      margin: 8
-    },
     search: {}
   })
 )
@@ -58,15 +55,6 @@ const createMasterShipFilter = (
   return true
 }
 
-const useCheck = (initial = false) => {
-  const [checked, setChecked] = useState(initial)
-  const onChange = useCallback((event: React.ChangeEvent<HTMLInputElement>, checked: boolean) => setChecked(checked), [
-    setChecked
-  ])
-
-  return [checked, onChange] as [boolean, typeof onChange]
-}
-
 type ShipSelectPanelProps = {
   onSelect?: (data: IShipDataObject) => void
 }
@@ -76,18 +64,19 @@ const ShipSelectPanel: React.FC<ShipSelectPanelProps> = ({ onSelect }) => {
   const [searchText, setSearchText] = useState('')
   const searchRef = useRef<HTMLInputElement>()
 
-  const [visibleTypeIds, setVisibleTypeIds] = useState([7, 11, 18])
-  const [abysallChecked, handleAbysallChange] = useCheck()
-  const [preRemodelingChecked, handlePreRemodelingChange] = useCheck()
+  const categorySelect = useSelect(tabCategories)
+  const abysallCheck = useCheck()
+  const preRemodelingCheck = useCheck()
 
+  const visibleTypeIds = categorySelect.value.typeIds
   const visibleMasterShips = useMemo(() => {
     if (searchText !== '') {
       return masterData.ships.filter(({ name, id }) => name.includes(searchText) || id.toString() === searchText)
     }
 
-    const filter = createMasterShipFilter(visibleTypeIds, abysallChecked, preRemodelingChecked)
+    const filter = createMasterShipFilter(visibleTypeIds, abysallCheck.checked, preRemodelingCheck.checked)
     return masterData.ships.filter(filter)
-  }, [searchText, visibleTypeIds, abysallChecked, preRemodelingChecked])
+  }, [searchText, visibleTypeIds, abysallCheck.checked, preRemodelingCheck.checked])
 
   const classedMasterShips = groupBy(visibleMasterShips, masterShip => masterShip.shipClass.name)
 
@@ -98,7 +87,7 @@ const ShipSelectPanel: React.FC<ShipSelectPanelProps> = ({ onSelect }) => {
     }
   }
 
-  const handleShipClick = (masterShip: MasterShip) => () => {
+  const handleShipClick = (masterShip: MasterShip) => {
     if (!onSelect) {
       return
     }
@@ -123,10 +112,9 @@ const ShipSelectPanel: React.FC<ShipSelectPanelProps> = ({ onSelect }) => {
     onSelect({ masterId, level, slots, equipments })
   }
   return (
-    <div className={classes.root}>
+    <Box m={1}>
       <div>
         <Input
-          className={classes.search}
           endAdornment={
             <IconButton onClick={handleSearchClick}>
               <SearchIcon />
@@ -138,49 +126,30 @@ const ShipSelectPanel: React.FC<ShipSelectPanelProps> = ({ onSelect }) => {
       </div>
 
       {/*表示する艦娘のカテゴリー選択ボタン*/}
-      {tabCategories.map(tabCategory => (
-        <Button key={tabCategory.name} size="small" onClick={() => setVisibleTypeIds(tabCategory.typeIds)}>
-          {tabCategory.name}
-        </Button>
-      ))}
+      <SelectButtons {...categorySelect} buttonProps={{ size: 'small' }} />
 
       {/*深海棲艦表示切り替え*/}
-      <FormControlLabel
-        label="深海棲艦"
-        control={<Checkbox checked={abysallChecked} onChange={handleAbysallChange} />}
-      />
+      <FormControlLabel label="深海棲艦" control={<Checkbox {...abysallCheck} />} />
 
       {/*改造表示切り替え*/}
-      <FormControlLabel
-        label="未改造表示"
-        control={<Checkbox checked={preRemodelingChecked} onChange={handlePreRemodelingChange} />}
-      />
+      <FormControlLabel label="未改造表示" control={<Checkbox {...preRemodelingCheck} />} />
 
       {/*艦娘一覧を表示*/}
       {Object.entries(classedMasterShips).map(([shipClassName, masterShips]) => (
         <div key={shipClassName}>
           {/*深海棲艦なら艦型名は非表示*/}
-          {!abysallChecked && <Typography>{shipClassName}</Typography>}
+          {!abysallCheck.checked && (
+            <Typography variant="caption" component="div">
+              {shipClassName}
+            </Typography>
+          )}
           {masterShips.map(masterShip => (
-            <Tooltip
-              enterDelay={800}
-              TransitionProps={{ style: { maxWidth: 1000 } }}
-              key={masterShip.id}
-              title={<MasterShipCard ship={masterShip} />}
-            >
-              <Button style={{ display: 'inline' }} onClick={handleShipClick(masterShip)}>
-                <Typography variant="caption" align="left" component="div">
-                  ID:{masterShip.id} {masterShip.name}
-                </Typography>
-
-                <ShipImage imageType="banner" masterId={masterShip.id} />
-              </Button>
-            </Tooltip>
+            <ShipButton key={masterShip.id} ship={masterShip} onClick={handleShipClick} />
           ))}
           <Divider />
         </div>
       ))}
-    </div>
+    </Box>
   )
 }
 

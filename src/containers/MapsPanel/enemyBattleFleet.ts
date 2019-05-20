@@ -1,15 +1,16 @@
-import React, { useMemo } from 'react'
-import useReactRouter from 'use-react-router'
-
-import Button from '@material-ui/core/Button'
-import Divider from '@material-ui/core/Divider'
-
-import EnemyFleet from '../components/EnemyFleet'
-import { useOperationStore } from '../hooks'
 import { TEnemyFleet } from '*maps'
-import { ObservableOperation } from '../stores'
-import { Side, FleetTypeName, Formation, BattleFleet } from 'kc-calculator'
-import kcObjectFactory, { masterData } from '../stores/kcObjectFactory'
+import {
+  Side,
+  FleetTypeName,
+  Formation,
+  BattleFleet,
+  IShip,
+  IShipDataObject,
+  IEquipment,
+  IEquipmentDataObject
+} from 'kc-calculator'
+import kcObjectFactory, { masterData } from '../../stores/kcObjectFactory'
+import { ObservableOperation } from '../../stores'
 
 const masterIdToDataObject = (masterId: number) => {
   const master = masterData.findMasterShip(masterId)
@@ -45,7 +46,7 @@ const stringToFormation = (value: string, isCombinedFleet?: boolean) => {
   return formation || defaultFormation
 }
 
-const createEnemyBattleFleet = (enemy: TEnemyFleet) => {
+export const createEnemyBattleFleet = (enemy: TEnemyFleet) => {
   const { ships, formation: formationName } = enemy
   const mainFleet = masterIdsToFleet(ships.slice(0, 6))
   if (!mainFleet) {
@@ -61,58 +62,44 @@ const createEnemyBattleFleet = (enemy: TEnemyFleet) => {
   return battleFleet
 }
 
-export const enemyFleetToOperation = (enemyFleet: TEnemyFleet) => {
-  const { ships, formation: formationName } = enemyFleet
+const equipmentToDataObject = (equip?: IEquipment | undefined): IEquipmentDataObject | undefined =>
+  equip && { masterId: equip.masterId }
+
+const shipToDataObject = (ship?: IShip): IShipDataObject | undefined => {
+  if (!ship) {
+    return undefined
+  }
+  const { masterId, level, equipments, slots } = ship
+  return {
+    masterId,
+    level,
+    slots,
+    equipments: equipments.map(equipmentToDataObject)
+  }
+}
+
+export const battleFleetToOperation = (fleet: BattleFleet) => {
+  const { mainFleet, escortFleet, formation, isCombinedFleet } = fleet
   const name = '敵編成'
   const side = Side.Enemy
-  const isCombinedFleet = ships.length > 6
   const fleetType = isCombinedFleet ? FleetTypeName.Combined : FleetTypeName.Single
 
-  const mainFleet = { ships: ships.slice(0, 6).map(masterIdToDataObject) }
-  const escortFleet = { ships: ships.slice(6, 12).map(masterIdToDataObject) }
+  const fleets = [{ ships: mainFleet.ships.map(shipToDataObject) }]
+  if (escortFleet) {
+    fleets.push({ ships: escortFleet.ships.map(shipToDataObject) })
+  } else {
+    fleets.push({ ships: [] })
+  }
 
   const operation = ObservableOperation.create({
     name,
     side,
     fleetType,
-    fleets: [mainFleet, escortFleet],
+    fleets,
     landBase: []
   })
 
-  operation.temporaryFormation = stringToFormation(formationName, isCombinedFleet)
+  operation.temporaryFormation = formation
 
   return operation
 }
-
-type EnemyFleetButtonProps = { enemy: TEnemyFleet; operationId?: string }
-
-const EnemyFleetButton: React.FC<EnemyFleetButtonProps> = ({ enemy, operationId }) => {
-  const { getOperation } = useOperationStore()
-  const { history } = useReactRouter()
-  const handleClikc = () => {
-    if (!operationId) {
-      return
-    }
-    const operation = getOperation(operationId)
-    if (operation) {
-      operation.enemy = enemyFleetToOperation(enemy)
-      history.replace('/operation')
-    }
-  }
-
-  const battleFleet = createEnemyBattleFleet(enemy)
-  if (!battleFleet) {
-    return null
-  }
-
-  return (
-    <>
-      <Divider />
-      <Button onClick={handleClikc}>
-        <EnemyFleet battleFleet={battleFleet} difficulty={enemy.difficulty} />
-      </Button>
-    </>
-  )
-}
-
-export default EnemyFleetButton

@@ -1,33 +1,33 @@
 import { makeStyles } from '@material-ui/styles'
 import { sortBy as lodashSortBy } from 'lodash-es'
 import { observer } from 'mobx-react-lite'
-import React, { useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react'
-
+import React, { useCallback, useContext, useMemo } from 'react'
 import { IEquipment } from 'kc-calculator'
+import clsx from 'clsx'
 
-import Button from '@material-ui/core/Button'
+import Box from '@material-ui/core/Box'
 import Checkbox from '@material-ui/core/Checkbox'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import Input from '@material-ui/core/Input'
 import MenuItem from '@material-ui/core/MenuItem'
-import Paper from '@material-ui/core/Paper'
 import Select, { SelectProps } from '@material-ui/core/Select'
-import Tab from '@material-ui/core/Tab'
-import Tabs from '@material-ui/core/Tabs'
+import Button from '@material-ui/core/Button'
 
 import Typography from '@material-ui/core/Typography'
 import SearchIcon from '@material-ui/icons/Search'
 
 import DataTable, { Sort } from '../../components/DataTable'
 
-import DialogComponent from '../../components/DialogComponent'
 import { EquipmentsDataStoreContext } from '../../stores'
-import { defaultModeColumns, settingModeColumns, sortModeColumns } from './columns'
-import EquipmentListTabs from './EquipmentListTabs'
+import { useColumns } from './columns'
+import EquipmentListSelect from './EquipmentListSelect'
+import { SelectButtons, EquipmentLabel } from '../../components'
+import { useInput } from '../../hooks'
 
 type EquipmentFilter = (equip: IEquipment) => boolean
+type FilterButtonProps = { name: string; filter: EquipmentFilter }
 
-const filterButtons: Array<{ name: string; filter: EquipmentFilter }> = [
+const baseFilterButtons: FilterButtonProps[] = [
   {
     name: 'fighter',
     filter: ({ category }) => category.isFighter && !category.isLandBasedAircraft && !category.isSeaplane
@@ -57,66 +57,56 @@ const filterButtons: Array<{ name: string; filter: EquipmentFilter }> = [
   { name: 'landBased', filter: ({ category }) => category.isLandBasedAircraft }
 ]
 
-const useEquipmentFilter = () => {
-  const [filters, setFilters] = useState(new Array<EquipmentFilter>())
-  const equipmentFilter: EquipmentFilter = equip => filters.every(filter => filter(equip))
+const baseFilters = baseFilterButtons.map(({ filter }) => filter)
 
-  return { equipmentFilter, setFilters }
+const filterButtons: FilterButtonProps[] = [
+  { name: 'all', filter: () => true },
+  ...baseFilterButtons,
+  { name: 'other', filter: equip => !baseFilters.some(filter => filter(equip)) }
+]
+
+type EquipmentsDataTableProps = {
+  label?: string
+  filter?: (equipment: IEquipment) => boolean
+  onSelect?: (equipment: IEquipment) => void
 }
 
-const EquipmentsDataTable: React.FC = props => {
+const EquipmentsDataTable: React.FC<EquipmentsDataTableProps> = ({ label, filter, onSelect }) => {
   const equipmentsDataStore = useContext(EquipmentsDataStoreContext)
   const {
     equipmentsData,
-    visibleEquipments,
     mode,
     visibleAlly,
     visibleAbysall,
     toggleVisibleAlly,
     toggleVisibleAbysall,
-    filterName
+    filterName,
+    activeEquipmentList
   } = equipmentsDataStore
 
   const handleModeChange = useCallback((event: React.ChangeEvent<SelectProps>) => {
     equipmentsDataStore.mode = event.target.value as typeof mode
   }, [])
 
-  const handleChangeFilter = useCallback((event: React.ChangeEvent<SelectProps>) => {
-    const { value } = event.target
-    if (typeof value === 'string') {
-      equipmentsDataStore.filterName = value
+  const columns = useColumns(mode, onSelect)
+
+  const searchInput = useInput('')
+
+  const data = useMemo(() => {
+    if (searchInput.value !== '') {
+      return equipmentsData.filter(equip => equip.name.includes(searchInput.value))
     }
-  }, [])
 
-  const columns = useMemo(() => {
-    if (mode === 'sort') {
-      return sortModeColumns
-    } else if (mode === 'setting') {
-      return settingModeColumns
-    }
-    return defaultModeColumns
-  }, [mode])
-
-  const [data, setData] = useState(visibleEquipments)
-
-  useEffect(() => {
+    const filters: EquipmentFilter[] = []
     const found = filterButtons.find(({ name }) => name === filterName)
-    let categoryFilter: EquipmentFilter = equip => true
     if (found) {
-      categoryFilter = found.filter
-    } else if (filterName === 'other') {
-      const filters = filterButtons.map(({ filter }) => filter)
-      categoryFilter = equip => !filters.some(filter => filter(equip))
+      filters.push(found.filter)
     }
-    const filtered = visibleEquipments.filter(categoryFilter)
-    setData(filtered)
-  }, [filterName, visibleEquipments])
-
-  const searchRef = useRef({ value: '' })
-  const handleSearch = () => {
-    const newData = equipmentsData.filter(equip => equip.name.includes(searchRef.current.value))
-    setData(newData)
-  }
+    if (filter) {
+      filters.push(filter)
+    }
+    return equipmentsDataStore.getVisibleEquipments(...filters).sort((equip0, equip1) => equip0.iconId - equip1.iconId)
+  }, [activeEquipmentList, filterName, filter, visibleAlly, visibleAbysall, searchInput.value])
 
   const customSort: Sort<IEquipment> = params => {
     const { sortBy, defaultSort, data: currentData } = params
@@ -129,10 +119,22 @@ const EquipmentsDataTable: React.FC = props => {
     }
   }
 
+  let dataElement: React.ReactNode
+  if (mode === 'simple') {
+    dataElement = data.map(equip => (
+      <Button key={equip.masterId} onClick={() => onSelect && onSelect(equip)}>
+        <EquipmentLabel width={8 * 40} equipment={equip} />
+      </Button>
+    ))
+  } else {
+    dataElement = <DataTable height="60vh" columns={columns} data={data} sort={customSort} />
+  }
+
   return (
-    <Paper style={{ width: 'auto', margin: 8, padding: 8 }}>
+    <Box m={1} p={1} height="80vh">
+      <Typography color="secondary">{label}</Typography>
       <div style={{ display: 'flex', alignItems: 'center' }}>
-        <Input endAdornment={<SearchIcon />} inputRef={searchRef} onChange={handleSearch} />
+        <Input endAdornment={<SearchIcon />} {...searchInput} />
 
         <FormControlLabel label="味方装備" control={<Checkbox checked={visibleAlly} onClick={toggleVisibleAlly} />} />
         <FormControlLabel
@@ -141,45 +143,27 @@ const EquipmentsDataTable: React.FC = props => {
         />
 
         <Select value={mode} onChange={handleModeChange}>
-          <MenuItem value="default">通常</MenuItem>
+          <MenuItem value="simple">シンプル</MenuItem>
+          <MenuItem value="detail">詳細</MenuItem>
           <MenuItem value="sort">ステータスソート</MenuItem>
           <MenuItem value="setting">非表示装備を表示</MenuItem>
         </Select>
 
-        <Select value={filterName} onChange={handleChangeFilter} style={{ height: 32 }}>
-          <MenuItem value="all">
-            <img src={require(`../../images/equipmentFilterIcons/all.png`)} />
-          </MenuItem>
-          {filterButtons.map(({ name }) => (
-            <MenuItem key={name} value={name}>
-              <img src={require(`../../images/equipmentFilterIcons/${name}.png`)} />
-            </MenuItem>
-          ))}
-          <MenuItem value="other">
-            <img src={require(`../../images/equipmentFilterIcons/other.png`)} />
-          </MenuItem>
-        </Select>
-
-        <Typography color="secondary">{equipmentsDataStore.label}</Typography>
+        <EquipmentListSelect store={equipmentsDataStore} />
       </div>
 
-      {/* <Tabs value={filterName} onChange={handleChangeFilter}>
-        <Tab value="all" label={<img src={require(`../../images/equipmentFilterIcons/all.png`)} />} />
-        {filterButtons.map(({ name }) => (
-          <Tab key={name} value={name} label={<img src={require(`../../images/equipmentFilterIcons/${name}.png`)} />} />
-        ))}
-        <Tab value="other" label={<img src={require(`../../images/equipmentFilterIcons/other.png`)} />} />
-      </Tabs> */}
+      <Box mt={2}>
+        <SelectButtons
+          options={filterButtons.map(({ name }) => name)}
+          value={equipmentsDataStore.filterName}
+          onChange={name => (equipmentsDataStore.filterName = name)}
+          getOptionLabel={name => <img src={require(`../../images/equipmentFilterIcons/${name}.png`)} />}
+        />
+      </Box>
 
-      <EquipmentListTabs store={equipmentsDataStore} />
-
-      <div style={{ height: '70vh' }}>
-        <DataTable columns={columns} data={data} sort={customSort} />
-      </div>
-    </Paper>
+      {dataElement}
+    </Box>
   )
 }
 
-const Wrapped = observer(EquipmentsDataTable)
-
-export default () => <Wrapped />
+export default observer(EquipmentsDataTable)

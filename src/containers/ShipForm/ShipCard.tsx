@@ -1,9 +1,10 @@
 import { observer } from 'mobx-react-lite'
-import React, { useContext } from 'react'
+import React from 'react'
 import clsx from 'clsx'
 
 import Paper, { PaperProps } from '@material-ui/core/Paper'
 import Input from '@material-ui/core/Input'
+import Box from '@material-ui/core/Box'
 import InputAdornment from '@material-ui/core/InputAdornment'
 import Typography from '@material-ui/core/Typography'
 import Tooltip from '@material-ui/core/Tooltip'
@@ -18,19 +19,6 @@ import { ObservableShip } from '../../stores'
 import { useWorkspace } from '../../hooks'
 
 const useStyles = makeStyles({
-  top: {
-    display: 'flex',
-    justifyContent: 'space-between'
-  },
-  shipImage: {
-    display: 'flex',
-    justifyContent: 'space-around'
-  },
-  equipments: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center'
-  },
   equipment: {
     marginTop: 4,
     height: 8 * 4
@@ -54,7 +42,7 @@ const ShipCard: React.FC<ShipCardProps> = ({ ship, onUpdate, defaultStatsExpande
 
   return (
     <Paper {...paperProps}>
-      <div className={classes.top}>
+      <Box display="flex" justifyContent="space-between">
         <Tooltip title={`ID: ${ship.masterId}`}>
           <Typography variant="caption">
             {ship.index + 1} {ship.asKcObject.name}
@@ -65,9 +53,9 @@ const ShipCard: React.FC<ShipCardProps> = ({ ship, onUpdate, defaultStatsExpande
           {onUpdate && <UpdateButton title="艦娘を変更" size="small" onClick={onUpdate} />}
           <RemoveButton title="艦娘を削除" size="small" onClick={ship.remove} />
         </div>
-      </div>
+      </Box>
 
-      <div className={classes.shipImage}>
+      <Box display="flex" justifyContent="space-around">
         <ShipImage masterId={ship.masterId} imageType="banner" />
         <Input
           style={{ width: 70 }}
@@ -78,7 +66,7 @@ const ShipCard: React.FC<ShipCardProps> = ({ ship, onUpdate, defaultStatsExpande
           onChange={handleChange}
           inputProps={{ min: 1 }}
         />
-      </div>
+      </Box>
 
       <ShipStatsExpansionPanel ship={ship} defaultExpanded={defaultStatsExpanded} />
 

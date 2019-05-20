@@ -1,33 +1,31 @@
 import { observer } from 'mobx-react-lite'
-import React, { useContext } from 'react'
+import React from 'react'
 import clsx from 'clsx'
-import useReactRouter from 'use-react-router'
 
+import { Theme } from '@material-ui/core'
 import Button from '@material-ui/core/Button'
 import BuildIcon from '@material-ui/icons/Build'
 import AddIcon from '@material-ui/icons/Add'
-import Typography from '@material-ui/core/Typography'
-import { makeStyles } from '@material-ui/styles'
+import Dialog from '@material-ui/core/Dialog'
+import { makeStyles, createStyles } from '@material-ui/styles'
 
 import EquipmentFieldCard from './EquipmentFieldCard'
+import EquipmentsDataTable from '../EquipmentsDataTable'
 
-import {
-  EquipmentsDataStoreContext,
-  ObservableLandBasedAirCorps,
-  ObservableShip,
-  ObservableEquipment
-} from '../../stores'
-import { useDragAndDrop } from '../../hooks'
+import { ObservableLandBasedAirCorps, ObservableShip, ObservableEquipment } from '../../stores'
+import { useDragAndDrop, useOpen, useEquipmentSelect } from '../../hooks'
 import { swap } from '../../utils'
 
-const useStyles = makeStyles({
-  root: {
-    display: 'flex'
-  },
-  dragging: {
-    opacity: 0
-  }
-})
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    root: {
+      display: 'flex'
+    },
+    dragging: {
+      opacity: 0
+    }
+  })
+)
 
 export interface EquipmentFieldProps extends React.HTMLAttributes<HTMLDivElement> {
   store: ObservableShip | ObservableLandBasedAirCorps
@@ -38,8 +36,7 @@ export interface EquipmentFieldProps extends React.HTMLAttributes<HTMLDivElement
 const EquipmentField: React.FC<EquipmentFieldProps> = props => {
   const { equipment, store, index, className, style } = props
   const classes = useStyles()
-  const { history } = useReactRouter()
-  const equipmentsDataStore = useContext(EquipmentsDataStoreContext)
+
   const [{ isDragging }, dndRef] = useDragAndDrop({
     item: { type: 'Equipment', equipment, store, index },
     drop: dragItem => {
@@ -53,33 +50,47 @@ const EquipmentField: React.FC<EquipmentFieldProps> = props => {
 
   const slotSize = store.slots.concat()[index]
 
-  const toEquipmentsPage = () => {
-    equipmentsDataStore.parent = store
-    equipmentsDataStore.index = index
-    history.push(`/equipments`)
-  }
+  const { onOpen, ...dialogProps } = useOpen()
 
   const rootClassName = clsx(classes.root, { [classes.dragging]: isDragging }, className)
   const isExpansionSlot = typeof slotSize !== 'number'
 
+  const equipmentSelect = useEquipmentSelect(props)
+
+  const dialog = (
+    <Dialog fullWidth maxWidth="xl" {...dialogProps}>
+      <EquipmentsDataTable
+        {...equipmentSelect}
+        onSelect={equip => {
+          equipmentSelect.onSelect(equip)
+          dialogProps.onClose()
+        }}
+      />
+    </Dialog>
+  )
+
   if (!equipment || !equipment.isValid()) {
     return (
-      <div ref={dndRef} className={rootClassName} style={style}>
-        <Button
-          variant="outlined"
-          onClick={toEquipmentsPage}
-          fullWidth
-          style={{ padding: 0, display: 'flex', alignItems: 'center' }}
-        >
-          {isExpansionSlot ? (
-            <BuildIcon fontSize="small" />
-          ) : (
-            <>
-              <AddIcon fontSize="small" />({slotSize})
-            </>
-          )}
-        </Button>
-      </div>
+      <>
+        <div ref={dndRef} className={rootClassName} style={style}>
+          <Button
+            variant="outlined"
+            onClick={onOpen}
+            fullWidth
+            style={{ padding: 0, display: 'flex', alignItems: 'center' }}
+          >
+            {isExpansionSlot ? (
+              <BuildIcon fontSize="small" />
+            ) : (
+              <>
+                <AddIcon fontSize="small" />({slotSize})
+              </>
+            )}
+          </Button>
+        </div>
+
+        {dialog}
+      </>
     )
   }
 
@@ -87,20 +98,23 @@ const EquipmentField: React.FC<EquipmentFieldProps> = props => {
   const equipable = store.canEquip(equipment.asKcObject, index)
 
   return (
-    <div ref={dndRef}>
-      <EquipmentFieldCard
-        className={rootClassName}
-        style={style}
-        equipment={equipment.asKcObject}
-        slotSize={slotSize}
-        equipable={equipable}
-        onImprovementChange={equipment.changeImprovement}
-        onProficiencyChange={equipment.changeProficiency}
-        onSlotSizeChange={handleSlotSizeChange}
-        onRemove={equipment.remove}
-        onUpdate={toEquipmentsPage}
-      />
-    </div>
+    <>
+      <div ref={dndRef}>
+        <EquipmentFieldCard
+          className={rootClassName}
+          style={style}
+          equipment={equipment.asKcObject}
+          slotSize={slotSize}
+          equipable={equipable}
+          onImprovementChange={equipment.changeImprovement}
+          onProficiencyChange={equipment.changeProficiency}
+          onSlotSizeChange={handleSlotSizeChange}
+          onRemove={equipment.remove}
+          onUpdate={onOpen}
+        />
+      </div>
+      {dialog}
+    </>
   )
 }
 

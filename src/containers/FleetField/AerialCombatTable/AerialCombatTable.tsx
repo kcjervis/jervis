@@ -1,8 +1,9 @@
-import { IFleet, Side, FleetRole, nonNullable, BattleType, IOperation } from 'kc-calculator'
+import { IFleet, FleetRole, nonNullable, BattleType, IOperation, Formation } from 'kc-calculator'
 import { getCombinedFleetModifier } from 'kc-calculator/dist/Battle/AerialCombat/antiAir'
 import AntiAirCutin from 'kc-calculator/dist/Battle/AerialCombat/AntiAirCutin'
 import { fleetAntiAir as calcFleetAntiAir } from 'kc-calculator/dist/Battle/AerialCombat/antiAir'
-import React, { useState } from 'react'
+import React from 'react'
+import { union } from 'lodash-es'
 
 import Table from '@material-ui/core/Table'
 import TableBody from '@material-ui/core/TableBody'
@@ -10,42 +11,12 @@ import TableCell from '@material-ui/core/TableCell'
 import TableHead from '@material-ui/core/TableHead'
 import TableRow from '@material-ui/core/TableRow'
 import Typography from '@material-ui/core/Typography'
-import FormationSelect from '../../../components/FormationSelect'
 
-import MenuItem from '@material-ui/core/MenuItem'
-import Select, { SelectProps } from '@material-ui/core/Select'
-import InputLabel from '@material-ui/core/InputLabel'
-import FormControl from '@material-ui/core/FormControl'
-import { union } from 'lodash-es'
-import { useFormation } from '../../../hooks'
+import { Select } from '../../../components'
+import { useSelect } from '../../../hooks'
 import AerialCombatShipRow from './AerialCombatShipRow'
 import calcAntiAirCutinRates from './calcAntiAirCutinRate'
-import { toPercent } from '../ContactTable'
 import AntiAirCutinRatePieChart from './AntiAirCutinRatePieChart'
-
-const AntiAirCutInSelect: React.FC<{
-  antiAirCutins: AntiAirCutin[]
-  antiAirCutin?: AntiAirCutin
-  onChange: (aaci: AntiAirCutin | undefined) => void
-}> = ({ antiAirCutins, antiAirCutin, onChange }) => {
-  const handleChange = (event: React.ChangeEvent<SelectProps>) => {
-    onChange(AntiAirCutin.fromId(Number(event.target.value)))
-  }
-  const currentId = antiAirCutin ? antiAirCutin.id : 0
-  return (
-    <FormControl style={{ width: 120 }}>
-      <InputLabel>対空CI</InputLabel>
-      <Select variant="outlined" value={currentId} onChange={handleChange}>
-        <MenuItem value={0}>なし</MenuItem>
-        {antiAirCutins.map(aaci => (
-          <MenuItem key={aaci.id} value={aaci.id}>
-            {aaci.id}種(*{aaci.fixedAirDefenseModifier}+{aaci.minimumBonus})
-          </MenuItem>
-        ))}
-      </Select>
-    </FormControl>
-  )
-}
 
 type AerialCombatTableProps = {
   operation: IOperation
@@ -56,11 +27,11 @@ type AerialCombatTableProps = {
 }
 
 const AerialCombatTable: React.FC<AerialCombatTableProps> = ({ operation, fleet, isCombinedFleet, fleetRole }) => {
-  const { formation, setFormation } = useFormation()
-  const [antiAirCutin, setAntiAirCutin] = useState<AntiAirCutin | undefined>()
   const { side, mainFleet, escortFleet } = operation
 
-  const formationModifier = formation.fleetAntiAirModifier
+  const formationSelect = useSelect(Formation.values)
+  const formationModifier = formationSelect.value.modifier.fleetAntiAir
+
   let allShips = fleet.ships.filter(nonNullable)
   let fleetAntiAir = calcFleetAntiAir(fleet, side, formationModifier)
   let combinedFleetModifier: number | undefined
@@ -72,13 +43,19 @@ const AerialCombatTable: React.FC<AerialCombatTableProps> = ({ operation, fleet,
   }
 
   const antiAirCutins = union(...allShips.map(ship => AntiAirCutin.getPossibleAntiAirCutins(ship)))
+  const antiAirCutinSelect = useSelect(new Array<AntiAirCutin | undefined>(undefined).concat(antiAirCutins))
+
   const aaciRateData = calcAntiAirCutinRates(allShips)
 
   return (
     <>
       <div style={{ display: 'flex', alignItems: 'center' }}>
-        <FormationSelect formation={formation} onChange={setFormation} />
-        <AntiAirCutInSelect antiAirCutin={antiAirCutin} antiAirCutins={antiAirCutins} onChange={setAntiAirCutin} />
+        <Select label="陣形" {...formationSelect} />
+        <Select
+          label="対空CI"
+          {...antiAirCutinSelect}
+          getOptionLabel={option => (option ? `${option.id}種` : '不発')}
+        />
         <Typography color="primary">
           艦隊防空: {fleetAntiAir.toFixed(2)}
           {isCombinedFleet ? ` 連合艦隊補正: ${combinedFleetModifier}(通常戦固定)` : null}
@@ -104,7 +81,7 @@ const AerialCombatTable: React.FC<AerialCombatTableProps> = ({ operation, fleet,
               side={side}
               fleetAntiAir={fleetAntiAir}
               combinedFleetModifier={combinedFleetModifier}
-              antiAirCutin={antiAirCutin}
+              antiAirCutin={antiAirCutinSelect.value}
             />
           ))}
         </TableBody>

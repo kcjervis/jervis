@@ -13,6 +13,8 @@ import EquipmentField from './EquipmentField'
 
 import { ObservableLandBasedAirCorps } from '../stores'
 import { LandBasedAirCorpsMode } from '../stores/ObservableLandBasedAirCorps'
+import { useDragAndDrop } from '../hooks'
+import { swap } from '../utils'
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -32,6 +34,20 @@ interface LandBasedAirCorpsCard {
 
 const LandBasedAirCorpsCard: React.FC<LandBasedAirCorpsCard> = ({ landBasedAirCorps, index }) => {
   const classes = useStyles()
+  const [{ isDragging }, dndRef] = useDragAndDrop({
+    item: { type: 'LandBasedAirCorps', landBasedAirCorps, index },
+    drop: dragItem => {
+      const dropStore = landBasedAirCorps.store
+      const dropIndex = index
+      const dragStore = dragItem.landBasedAirCorps.store
+      const dragIndex = dragItem.index
+      if (!dropStore || !dragStore) {
+        return
+      }
+
+      swap(dropStore.landBase, dropIndex, dragStore.landBase, dragIndex)
+    }
+  })
   const { asKcObject: kcAirCorps } = landBasedAirCorps
   const { combatRadius, minCombatRadius, fighterPower, interceptionPower } = kcAirCorps
   const addedRadius = combatRadius - minCombatRadius
@@ -42,7 +58,7 @@ const LandBasedAirCorpsCard: React.FC<LandBasedAirCorpsCard> = ({ landBasedAirCo
   }
 
   return (
-    <div className={classes.root}>
+    <div ref={dndRef} className={classes.root} style={{ opacity: isDragging ? 0 : 1 }}>
       <Card>
         <div style={{ display: 'flex', justifyContent: 'space-around' }}>
           <Typography>{`第${index + 1}航空隊 行動半径${combatRadius}${addedRadiusLabel}`}</Typography>

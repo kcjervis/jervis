@@ -1,11 +1,12 @@
-import { FleetType, Formation, Side } from 'kc-calculator'
 import BattleFleet from 'kc-calculator/dist/Battle/BattleFleet'
 import React from 'react'
 
 import Typography from '@material-ui/core/Typography'
+import Divider from '@material-ui/core/Divider'
 
 import { TEventDifficulty } from '*maps'
-import ShipImage from './ShipImage'
+import ShipNameplate from './ShipNameplate'
+import { IShip } from 'kc-calculator'
 
 const difficultyToString = (difficulty: TEventDifficulty) => {
   switch (difficulty) {
@@ -19,6 +20,24 @@ const difficultyToString = (difficulty: TEventDifficulty) => {
       return '丁'
   }
 }
+
+const getFighterPowers = (fp: number) => {
+  if (fp <= 0) {
+    return ''
+  }
+  const gte = (multiplier: number) => Math.ceil(fp * multiplier)
+  const gt = (multiplier: number) => gte(multiplier) + 1
+  return `確保:${gte(3)} 優勢:${gte(1.5)} 均衡:${gt(2 / 3)} 劣勢:${gt(1 / 3)}`
+}
+
+const shipsRenderer = (ships: IShip[]) => (
+  <>
+    {ships.map((ship, shipIndex) => (
+      <ShipNameplate key={shipIndex} name={ship.name} masterId={ship.masterId} />
+    ))}
+    <Divider />
+  </>
+)
 
 export interface EnemyFleetProps {
   battleFleet: BattleFleet
@@ -36,20 +55,18 @@ const EnemyFleet: React.FC<EnemyFleetProps> = ({ battleFleet, difficulty }) => {
 
   return (
     <div>
-      <Typography align="left">
-        {difficulty && difficultyToString(difficulty)} {formation.name} 制空:{fighterPower} 基地戦:{lbasFighterPower}
+      {shipsRenderer(battleFleet.mainFleet.nonNullableShips)}
+      {escortFleet && shipsRenderer(escortFleet.nonNullableShips)}
+
+      <Typography>
+        {difficulty && difficultyToString(difficulty)} {formation.name}
       </Typography>
-      <div>
-        {battleFleet.mainFleet.nonNullableShips.map((ship, shipIndex) => (
-          <ShipImage key={shipIndex} imageType="banner" masterId={ship.masterId} />
-        ))}
-      </div>
-      <div>
-        {escortFleet &&
-          escortFleet.nonNullableShips.map((ship, shipIndex) => (
-            <ShipImage key={shipIndex} imageType="banner" masterId={ship.masterId} />
-          ))}
-      </div>
+      <Typography>
+        制空:{fighterPower} {getFighterPowers(fighterPower)}
+      </Typography>
+      <Typography>
+        基地戦:{lbasFighterPower} {getFighterPowers(lbasFighterPower)}
+      </Typography>
     </div>
   )
 }

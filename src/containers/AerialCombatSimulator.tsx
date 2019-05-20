@@ -18,8 +18,8 @@ import CombatInformation from 'kc-calculator/dist/Battle/CombatInformation'
 
 import { ObservableOperation } from '../stores'
 import { LandBasedAirCorpsMode } from '../stores/ObservableLandBasedAirCorps'
-import { toPercent } from './FleetField/ContactTable'
 import kcObjectFactory from '../stores/kcObjectFactory'
+import { toPercent } from '../utils'
 
 export const operationToBattleFleet = (operation: ObservableOperation, isEnemy?: boolean) => {
   const { side, fleetType, mainFleet, escortFleet, landBase } = kcObjectFactory.createOperation(operation)
@@ -32,7 +32,7 @@ export const operationToBattleFleet = (operation: ObservableOperation, isEnemy?:
 
 type AerialBattleResult = Array<{
   name: string
-  airControlState: '制空権確保' | '航空優勢' | '制空均衡' | '航空劣勢' | '制空権喪失'
+  airStateName: string
   fighterPower: number
 }>
 
@@ -75,7 +75,7 @@ class AerialCombatSimulator extends React.Component<AerialCombatSimulatorProps, 
       const initialSlots = airCorps.slots.concat()
       const result1 = {
         name: index + 1 + '-1',
-        airControlState: new LandBaseAerialSupport(combatInfo, airCorps).main().airControlState.name,
+        airStateName: new LandBaseAerialSupport(combatInfo, airCorps).main().airControlState.name,
         fighterPower: combatInfo.enemy.mainFleet.fighterPower
       }
 
@@ -87,7 +87,7 @@ class AerialCombatSimulator extends React.Component<AerialCombatSimulatorProps, 
         })
         const result2 = {
           name: index + 1 + '-2',
-          airControlState: new LandBaseAerialSupport(combatInfo, airCorps).main().airControlState.name,
+          airStateName: new LandBaseAerialSupport(combatInfo, airCorps).main().airControlState.name,
           fighterPower: combatInfo.enemy.mainFleet.fighterPower
         }
         results.push(result2)
@@ -97,7 +97,7 @@ class AerialCombatSimulator extends React.Component<AerialCombatSimulatorProps, 
     if (combatInfo.player.allShips.length > 0) {
       const resultMain = {
         name: 'main',
-        airControlState: new CarrierBasedAerialCombat(combatInfo).main().airControlState.name,
+        airStateName: new CarrierBasedAerialCombat(combatInfo).main().airControlState.name,
         fighterPower: combatInfo.enemy.mainFleet.fighterPower
       }
       results.push(resultMain)
@@ -112,9 +112,7 @@ class AerialCombatSimulator extends React.Component<AerialCombatSimulatorProps, 
       .filter(nonNullable)
       .flat()
     const mapper = ([name, battleResult]: [string, typeof battleResults]) => {
-      const count = mapValues(countBy(battleResult, result => result.airControlState), result =>
-        toPercent(result / times)
-      )
+      const count = mapValues(countBy(battleResult, result => result.airStateName), result => toPercent(result / times))
       const fighterPower95 = battleResult.map(({ fighterPower }) => fighterPower).sort((fp1, fp2) => fp2 - fp1)[
         Math.floor(times * 0.05)
       ]

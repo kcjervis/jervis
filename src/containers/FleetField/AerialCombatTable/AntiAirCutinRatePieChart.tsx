@@ -1,16 +1,12 @@
-import { IFleet, Side, FleetRole, nonNullable, BattleType, IOperation } from 'kc-calculator'
-import { getCombinedFleetModifier } from 'kc-calculator/dist/Battle/AerialCombat/antiAir'
-import AntiAirCutin from 'kc-calculator/dist/Battle/AerialCombat/AntiAirCutin'
-import { fleetAntiAir as calcFleetAntiAir } from 'kc-calculator/dist/Battle/AerialCombat/antiAir'
 import React, { useState } from 'react'
-import { PieChart, Pie, Label, Cell, ResponsiveContainer } from 'recharts'
+import { PieChart, Pie, Label, Cell } from 'recharts'
 
 import { blue, green, yellow, orange, pink, purple, blueGrey } from '@material-ui/core/colors'
 import { makeStyles, createStyles, useTheme } from '@material-ui/styles'
 import { Theme } from '@material-ui/core'
 
 import { AntiAirCutinRateDatum } from './calcAntiAirCutinRate'
-import { toPercent } from '../ContactTable'
+import { toPercent } from '../../../utils'
 
 const misfireColor = blueGrey[300]
 const cutinColors = [blue, green, yellow, orange, pink, purple].map(color => color[300])

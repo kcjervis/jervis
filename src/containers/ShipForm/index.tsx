@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme: Theme) =>
       width: 8 * 32
     },
     dialogPaper: {
-      background: theme.palette.grey[800]
+      minHeight: '80vh'
     }
   })
 )

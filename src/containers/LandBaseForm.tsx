@@ -10,8 +10,8 @@ import Typography from '@material-ui/core/Typography'
 import AerialCombatSimulator, { operationToBattleFleet } from './AerialCombatSimulator'
 import LandBasedAirCorpsCard from './LandBasedAirCorpsCard'
 
-import EnemyFleet from '../components/EnemyFleet'
-import ProficiencyDialog from '../components/ProficiencyDialog'
+import { EnemyFleet, EquipmentsSettingDialog } from '../components'
+import MapsPanel from './MapsPanel'
 import { ObservableOperation } from '../stores'
 import { useOpen, useOperationStore } from '../hooks'
 
@@ -20,24 +20,19 @@ interface LandBaseForm {
 }
 
 const LandBaseForm: React.FC<LandBaseForm> = ({ operation }) => {
+  const { onOpen: onMapOpen, ...mapDialogProps } = useOpen()
   const { onOpen, ...dialogProps } = useOpen()
   const { persistentOperationStore } = useOperationStore()
   const removeEnemy = () => {
     operation.enemy = undefined
   }
   const setEnemy = (enemyOperation: ObservableOperation) => {
+    mapDialogProps.onClose()
     dialogProps.onClose()
     operation.enemy = enemyOperation
   }
 
-  const handleProficiencyChange = (inter: number) => {
-    const equipments = operation.landBase.flatMap(airCorps => airCorps.equipments).filter(nonNullable)
-    equipments.forEach(equip => {
-      if (!equip.asKcObject.category.is('LandBasedReconnaissanceAircraft')) {
-        equip.proficiency = inter
-      }
-    })
-  }
+  const equipments = operation.landBase.flatMap(airCorps => airCorps.equipments).filter(nonNullable)
 
   const { mainFleet, escortFleet } = operation.asKcObject
   let combinedFleetFighterPower = mainFleet.fighterPower
@@ -55,7 +50,7 @@ const LandBaseForm: React.FC<LandBaseForm> = ({ operation }) => {
             第一艦隊制空: {mainFleet.fighterPower} {combinedFleetFighterPowerLabel}
           </Typography>
 
-          <ProficiencyDialog changeProficiency={handleProficiencyChange} />
+          <EquipmentsSettingDialog equipments={equipments} />
         </div>
 
         <div style={{ display: 'flex', justifyContent: 'center' }}>
@@ -73,13 +68,17 @@ const LandBaseForm: React.FC<LandBaseForm> = ({ operation }) => {
           </>
         ) : (
           <>
-            <Button href={`#/maps/${operation.id}`}>敵編成を選択</Button>
+            <Button onClick={onMapOpen}>敵編成を選択</Button>
             <Button onClick={onOpen}>編成一覧から選択</Button>
           </>
         )}
 
         <AerialCombatSimulator operation={operation} />
       </Paper>
+
+      <Dialog fullWidth maxWidth="xl" {...mapDialogProps}>
+        <MapsPanel onSelect={setEnemy} />
+      </Dialog>
 
       <Dialog {...dialogProps}>
         <div>

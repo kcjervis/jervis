@@ -9,11 +9,11 @@ import TableHead from '@material-ui/core/TableHead'
 import TableRow from '@material-ui/core/TableRow'
 import Typography from '@material-ui/core/Typography'
 
+import { toPercent } from '../../utils'
+
 interface ContactTableProps {
   planes: IPlane[]
 }
-
-export const toPercent = (value: number) => (value * 100).toFixed(1) + '%'
 
 export default class ContactTable extends React.Component<ContactTableProps> {
   public render() {
