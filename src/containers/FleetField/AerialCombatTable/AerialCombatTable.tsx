@@ -30,7 +30,7 @@ const AerialCombatTable: React.FC<AerialCombatTableProps> = ({ operation, fleet,
   const { side, mainFleet, escortFleet } = operation
 
   const formationSelect = useSelect(Formation.values)
-  const formationModifier = formationSelect.value.modifier.fleetAntiAir
+  const formationModifier = formationSelect.value.fleetAntiAirModifier
 
   let allShips = fleet.ships.filter(nonNullable)
   let fleetAntiAir = calcFleetAntiAir(fleet, side, formationModifier)

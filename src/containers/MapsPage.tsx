@@ -19,7 +19,8 @@ const worlds = [
   { id: 4, name: '西方海域' },
   { id: 5, name: '南方海域' },
   { id: 6, name: '中部海域' },
-  { id: 43, name: '邀撃！ブイン防衛作戦' }
+  { id: 43, name: '邀撃！ブイン防衛作戦' },
+  { id: 44, name: '発動！友軍救援「第二次ハワイ作戦」' }
 ]
 
 interface MapsPageState {

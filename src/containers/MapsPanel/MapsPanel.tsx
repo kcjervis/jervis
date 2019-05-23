@@ -32,7 +32,8 @@ const worlds = [
   { id: 4, name: '西方海域' },
   { id: 5, name: '南方海域' },
   { id: 6, name: '中部海域' },
-  { id: 43, name: '邀撃！ブイン防衛作戦' }
+  { id: 43, name: '邀撃！ブイン防衛作戦' },
+  { id: 44, name: '発動！友軍救援「第二次ハワイ作戦」' }
 ]
 
 const mapToLabel = ({ mapId }: { mapId: number }) => `${Math.floor(mapId / 10)} - ${mapId % 10}`
@@ -46,7 +47,7 @@ type MapsPanelProps = {
 const MapsPanel: React.FC<MapsPanelProps> = ({ onSelect }) => {
   const classes = useStyles()
 
-  const worldSelect = useSelect(worlds)
+  const worldSelect = useSelect(worlds, worlds[8])
   const worldMaps = maps.filter(({ mapId }) => Math.floor(mapId / 10) === worldSelect.value.id)
   const mapSelect = useSelect(worldMaps)
 
@@ -67,6 +68,13 @@ const MapsPanel: React.FC<MapsPanelProps> = ({ onSelect }) => {
     return enemies.map(createEnemyBattleFleet).filter(nonNullable)
   }, [cellSelect.value])
 
+  let mapImageSrc: string | undefined
+  try {
+    mapImageSrc = require(`../../images/maps/${mapSelect.value.mapId}.png`)
+  } catch {
+    console.warn(`map ${mapSelect.value.mapId} is not found`)
+  }
+
   return (
     <Box m={1}>
       <div>
@@ -74,7 +82,7 @@ const MapsPanel: React.FC<MapsPanelProps> = ({ onSelect }) => {
         <Select className={classes.select} {...mapSelect} getOptionLabel={mapToLabel} />
         {isEvent && <Select className={classes.select} {...difficultySelect} getOptionLabel={getDifficultyLabel} />}
       </div>
-      <img className={classes.img} src={require(`../../images/maps/${mapSelect.value.mapId}.png`)} />
+      <img className={classes.img} src={mapImageSrc} />
       <SelectButtons {...cellSelect} getOptionLabel={getCellLabel} buttonProps={{ size: 'large' }} />
 
       {enemyBattleFleets.map((battleFleet, index) => (

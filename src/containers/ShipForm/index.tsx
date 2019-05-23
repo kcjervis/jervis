@@ -1,5 +1,5 @@
 import { observer } from 'mobx-react-lite'
-import React, { useContext } from 'react'
+import React, { useContext, useMemo } from 'react'
 import { IShipDataObject } from 'kc-calculator'
 
 import { Theme } from '@material-ui/core'
@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme: Theme) =>
       width: 8 * 32
     },
     dialogPaper: {
-      minHeight: '80vh'
+      height: '80vh'
     }
   })
 )
@@ -41,7 +41,7 @@ const ShipForm: React.FC<ShipFormProps> = props => {
   const { onOpen, ...dialogProps } = useOpen()
   const [{ isDragging }, dndRef] = useDragAndDrop({
     item: { type: 'Ship', ship, store, index },
-    drop: dragItem => {
+    drop: (dragItem: any) => {
       store.set(index, dragItem.ship)
       dragItem.store.set(dragItem.index, ship)
     }
@@ -54,34 +54,31 @@ const ShipForm: React.FC<ShipFormProps> = props => {
     dialogProps.onClose()
   }
 
-  const dialog = (
-    <Dialog fullWidth maxWidth="xl" {...dialogProps} classes={{ paper: classes.dialogPaper }}>
-      <ShipSelectPanel onSelect={createShip} />
-    </Dialog>
-  )
-
+  let element: JSX.Element
   if (!ship) {
-    return (
-      <div className={classes.root} ref={dndRef} style={{ opacity }}>
-        <Button className={classes.width} variant="outlined" fullWidth size="large" onClick={onOpen}>
-          <Add />
-          艦娘{index + 1}
-        </Button>
-
-        {dialog}
-      </div>
+    element = (
+      <Button className={classes.width} variant="outlined" fullWidth size="large" onClick={onOpen}>
+        <Add />
+        艦娘{index + 1}
+      </Button>
     )
-  }
-
-  return (
-    <div className={classes.root} ref={dndRef} style={{ opacity }}>
+  } else {
+    element = (
       <ShipCard
         className={classes.width}
         ship={ship}
         defaultStatsExpanded={settingStore.operationPage.visibleShipStats}
         onUpdate={onOpen}
       />
-      {dialog}
+    )
+  }
+
+  return (
+    <div className={classes.root} ref={dndRef} style={{ opacity }}>
+      {element}
+      <Dialog fullWidth maxWidth="xl" classes={{ paper: classes.dialogPaper }} {...dialogProps}>
+        <ShipSelectPanel onSelect={createShip} />
+      </Dialog>
     </div>
   )
 }

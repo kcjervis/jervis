@@ -134,4 +134,4 @@ const writeMaps = async mapIds => {
 
 const createMapIds = ([worldId, length]) => _.range(worldId * 10 + 1, worldId * 10 + 1 + length)
 
-writeMaps([[1, 6], [2, 5], [3, 5], [4, 5], [5, 5], [6, 5], [7, 2], [43, 3]].flatMap(createMapIds))
+writeMaps([[1, 6], [2, 5], [3, 5], [4, 5], [5, 5], [6, 5], [7, 2], [44, 3]].flatMap(createMapIds))

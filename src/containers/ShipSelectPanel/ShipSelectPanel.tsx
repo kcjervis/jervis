@@ -125,13 +125,8 @@ const ShipSelectPanel: React.FC<ShipSelectPanelProps> = ({ onSelect }) => {
         {'' !== searchText && <Chip variant="outlined" label={searchText} onDelete={() => setSearchText('')} />}
       </div>
 
-      {/*表示する艦娘のカテゴリー選択ボタン*/}
       <SelectButtons {...categorySelect} buttonProps={{ size: 'small' }} />
-
-      {/*深海棲艦表示切り替え*/}
       <FormControlLabel label="深海棲艦" control={<Checkbox {...abysallCheck} />} />
-
-      {/*改造表示切り替え*/}
       <FormControlLabel label="未改造表示" control={<Checkbox {...preRemodelingCheck} />} />
 
       {/*艦娘一覧を表示*/}

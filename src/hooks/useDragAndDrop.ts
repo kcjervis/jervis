@@ -16,15 +16,16 @@ const useDragAndDrop = <DragObject extends DragObjectWithType, DropResult>(
   spec: DragAndDropSourceHookSpec<DragObject, DropResult>
 ) => {
   const { item, canDrag, drop } = spec
+
   const [dragCollectedProps, dragRef] = useDrag({
     item,
     canDrag,
     collect: monitor => ({ isDragging: monitor.isDragging() })
   })
 
-  const [dropCollectedProps, ref] = useDrop({ accept: item.type, ref: dragRef, drop })
+  const [dropCollectedProps, dndRef] = useDrop({ accept: item.type, ref: dragRef, drop })
 
-  return [dragCollectedProps, ref] as const
+  return [dragCollectedProps, dndRef] as const
 }
 
 export default useDragAndDrop
