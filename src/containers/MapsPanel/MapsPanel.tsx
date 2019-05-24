@@ -66,7 +66,7 @@ const MapsPanel: React.FC<MapsPanelProps> = ({ onSelect }) => {
       enemies = enemies.filter(enemy => enemy.difficulty === difficultySelect.value)
     }
     return enemies.map(createEnemyBattleFleet).filter(nonNullable)
-  }, [cellSelect.value])
+  }, [cellSelect.value, difficultySelect.value])
 
   let mapImageSrc: string | undefined
   try {

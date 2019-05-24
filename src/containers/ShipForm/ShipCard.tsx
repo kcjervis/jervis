@@ -1,5 +1,5 @@
 import { observer } from 'mobx-react-lite'
-import React from 'react'
+import React, { useState } from 'react'
 import clsx from 'clsx'
 
 import Paper, { PaperProps } from '@material-ui/core/Paper'
@@ -34,6 +34,7 @@ interface ShipCardProps extends PaperProps {
 const ShipCard: React.FC<ShipCardProps> = ({ ship, onUpdate, defaultStatsExpanded, ...paperProps }) => {
   const classes = useStyles()
   const { openShipCalculator } = useWorkspace()
+  const [visibleButtons, setVisibleButtons] = useState(false)
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     ship.level = Number(event.target.value)
@@ -41,14 +42,14 @@ const ShipCard: React.FC<ShipCardProps> = ({ ship, onUpdate, defaultStatsExpande
   }
 
   return (
-    <Paper {...paperProps}>
+    <Paper {...paperProps} onMouseOver={() => setVisibleButtons(true)} onMouseOut={() => setVisibleButtons(false)}>
       <Box display="flex" justifyContent="space-between">
         <Tooltip title={`ID: ${ship.masterId}`}>
           <Typography variant="caption">
             {ship.index + 1} {ship.asKcObject.name}
           </Typography>
         </Tooltip>
-        <div style={{ alignItems: 'right' }}>
+        <div style={{ alignItems: 'right', visibility: visibleButtons ? undefined : 'hidden' }}>
           {/* <InfoButton title="詳細" size="small" onClick={() => openShipCalculator(ship)} /> */}
           {onUpdate && <UpdateButton title="艦娘を変更" size="small" onClick={onUpdate} />}
           <RemoveButton title="艦娘を削除" size="small" onClick={ship.remove} />

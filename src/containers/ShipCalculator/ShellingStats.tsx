@@ -9,13 +9,21 @@ import Typography from '@material-ui/core/Typography'
 import { LabeledValue } from '../../components'
 
 const ShellingStats: React.FC<{ shellingPower: ShellingPowerInformation }> = ({ shellingPower }) => {
+  const { antiInstallationModifiers } = shellingPower
   const factors = [
     { label: '基本攻撃力', value: shellingPower.basicPower },
     { label: '連合艦隊補正', value: shellingPower.combinedFleetFactor },
+
+    { label: '艦種加算補正', value: antiInstallationModifiers.shipTypeAdditive },
+    { label: '陸上特効加算補正', value: antiInstallationModifiers.additive },
+    { label: '陸上特効乗算補正', value: antiInstallationModifiers.multiplicative },
+
     { label: '陣形補正', value: shellingPower.formationModifier },
     { label: '交戦形態補正', value: shellingPower.engagementModifier },
     { label: '巡洋艦フィット砲補正', value: shellingPower.cruiserFitBonus },
 
+    { label: '特殊攻撃補正', value: shellingPower.specialAttackModifier },
+    { label: '徹甲弾補正', value: shellingPower.apShellModifier },
     { label: 'クリティカル補正', value: shellingPower.criticalModifier },
     { label: '熟練度補正', value: shellingPower.proficiencyModifier }
   ]

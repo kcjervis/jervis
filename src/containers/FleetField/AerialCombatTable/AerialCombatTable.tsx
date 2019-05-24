@@ -4,6 +4,7 @@ import AntiAirCutin from 'kc-calculator/dist/Battle/AerialCombat/AntiAirCutin'
 import { fleetAntiAir as calcFleetAntiAir } from 'kc-calculator/dist/Battle/AerialCombat/antiAir'
 import React from 'react'
 import { union } from 'lodash-es'
+import { observer } from 'mobx-react-lite'
 
 import Table from '@material-ui/core/Table'
 import TableBody from '@material-ui/core/TableBody'
@@ -71,6 +72,7 @@ const AerialCombatTable: React.FC<AerialCombatTableProps> = ({ operation, fleet,
             <TableCell align="right">固定撃墜</TableCell>
             <TableCell align="right">最低保証</TableCell>
             <TableCell align="right">対空CI個艦発動率</TableCell>
+            <TableCell align="right">噴進弾幕発動率</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -93,4 +95,4 @@ const AerialCombatTable: React.FC<AerialCombatTableProps> = ({ operation, fleet,
   )
 }
 
-export default AerialCombatTable
+export default observer(AerialCombatTable)

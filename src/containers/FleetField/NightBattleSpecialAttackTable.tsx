@@ -16,6 +16,24 @@ import { toPercent } from '../../utils'
 
 const { calcPreModifierValue, calcBaseValue, getPossibleSpecialAttacks } = NightBattle.SpecialAttack
 
+const calcComplementaryProbability = (num: number) => 1 - (num > 1 ? 1 : num < 0 ? 0 : num)
+
+const calcAtLeastOne = (nums: number[]) =>
+  1 - nums.map(calcComplementaryProbability).reduce((prev, cur) => prev * cur, 1)
+
+const calcNightContactRate = (arg: IShip | IShip[]): number => {
+  if (!Array.isArray(arg)) {
+    const { level, planes } = arg
+    const probs = planes
+      .filter(plane => plane.slotSize > 0 && plane.equipment.masterId === 102)
+      .map(plane => Math.floor(Math.sqrt(plane.equipment.los) * Math.sqrt(level)) / 25)
+    return calcAtLeastOne(probs)
+  }
+
+  const probs = arg.map(calcNightContactRate)
+  return calcAtLeastOne(probs)
+}
+
 class NightBattleStore {
   public side = Side.Player
   public formation = Formation.LineAhead
@@ -87,6 +105,7 @@ interface NightBattleSpecialAttackTable {
 const NightBattleSpecialAttackTable: React.FC<NightBattleSpecialAttackTable> = props => {
   const { fleet } = props
   const nightBattleStore = useContext(NightBattleStoreContext)
+  const contactRate = calcNightContactRate(fleet.nonNullableShips)
   return (
     <>
       <FormControlLabel
@@ -109,6 +128,7 @@ const NightBattleSpecialAttackTable: React.FC<NightBattleSpecialAttackTable> = p
         }
         label="照明弾"
       />
+      <Typography>夜間触接率: {toPercent(contactRate)}</Typography>
       <Table>
         <TableHead>
           <TableRow>

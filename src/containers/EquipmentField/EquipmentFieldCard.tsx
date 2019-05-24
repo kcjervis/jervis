@@ -3,7 +3,7 @@ import { IEquipment } from 'kc-calculator'
 import clsx from 'clsx'
 
 import { Theme } from '@material-ui/core'
-import Paper, { PaperProps } from '@material-ui/core/Paper'
+import Paper from '@material-ui/core/Paper'
 import Popover from '@material-ui/core/Popover'
 import { makeStyles } from '@material-ui/styles'
 import BuildIcon from '@material-ui/icons/Build'
@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   }
 }))
 
-interface EquipmentFieldCardProps extends PaperProps {
+type EquipmentFieldCardProps = {
   equipment: IEquipment
   slotSize?: number
   equipable?: boolean
@@ -32,7 +32,7 @@ interface EquipmentFieldCardProps extends PaperProps {
   onSlotSizeChange?: (value: number) => void
   onRemove?: () => void
   onUpdate?: () => void
-}
+} & React.HTMLAttributes<HTMLDivElement>
 
 const EquipmentFieldCard: React.FC<EquipmentFieldCardProps> = ({
   equipment,

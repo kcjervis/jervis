@@ -38,7 +38,9 @@ const useBattleStateForm = () => {
     airControlState: useSelect(AirControlState.values),
     isFlagship: useCheck(),
     fleetLosModifier: useInput(0),
-    isValidApShell: useCheck()
+    isValidApShell: useCheck(),
+
+    specialMultiplicative: useInput(1)
   }
 
   const state = {
@@ -48,7 +50,9 @@ const useBattleStateForm = () => {
     airControlState: form.airControlState.value,
     isFlagship: form.isFlagship.checked,
     fleetLosModifier: form.fleetLosModifier.value,
-    isValidApShell: form.isValidApShell.checked
+    isValidApShell: form.isValidApShell.checked,
+
+    specialMultiplicative: form.specialMultiplicative.value
   }
 
   return { form, state }
@@ -60,7 +64,16 @@ interface ShipCalculatorProps {
 
 const ShipCalculator: React.FC<ShipCalculatorProps> = ({ ship }) => {
   const { form, state } = useBattleStateForm()
-  const { fleetType, formation, role, airControlState, isFlagship, fleetLosModifier, isValidApShell } = state
+  const {
+    fleetType,
+    formation,
+    role,
+    airControlState,
+    isFlagship,
+    fleetLosModifier,
+    isValidApShell,
+    specialMultiplicative
+  } = state
 
   const getShelling = (
     engagement = Engagement.Parallel,
@@ -68,7 +81,16 @@ const ShipCalculator: React.FC<ShipCalculatorProps> = ({ ship }) => {
     specialAttack?: DayCombatSpecialAttack
   ) => {
     const combinedFleetFactors = { power: 0, accuracy: 0 }
-    return new Shelling(ship.asKcObject, role, formation, engagement, specialAttack, combinedFleetFactors, isCritical)
+    return new Shelling(
+      ship.asKcObject,
+      role,
+      formation,
+      engagement,
+      specialAttack,
+      combinedFleetFactors,
+      isCritical,
+      specialMultiplicative
+    )
   }
 
   const specialAttackRate = DayCombatSpecialAttack.calcRate(
@@ -100,6 +122,10 @@ const ShipCalculator: React.FC<ShipCalculatorProps> = ({ ship }) => {
             <FormControlLabel label="旗艦" control={<Checkbox {...form.isFlagship} />} />
             {visibleRoleSelect && <RadioGroup {...form.role} />}
             <FormControlLabel label={`徹甲弾補正`} control={<Checkbox {...form.isValidApShell} />} />
+          </Box>
+
+          <Box display="flex" m={1}>
+            <TextField label="a6特殊乗算補正" {...form.specialMultiplicative} inputProps={{ min: 0 }} />
           </Box>
         </div>
         <ShipCard style={{ width: 320 }} ship={ship} defaultStatsExpanded={true} />

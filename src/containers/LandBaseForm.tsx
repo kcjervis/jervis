@@ -76,7 +76,7 @@ const LandBaseForm: React.FC<LandBaseForm> = ({ operation }) => {
         <AerialCombatSimulator operation={operation} />
       </Paper>
 
-      <Dialog fullWidth maxWidth="xl" {...mapDialogProps}>
+      <Dialog PaperProps={{ style: { height: '80vh' } }} fullWidth maxWidth="xl" {...mapDialogProps}>
         <MapsPanel onSelect={setEnemy} />
       </Dialog>
 
