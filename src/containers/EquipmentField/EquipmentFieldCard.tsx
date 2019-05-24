@@ -26,6 +26,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 type EquipmentFieldCardProps = {
   equipment: IEquipment
   slotSize?: number
+  maxSlotSize?: number
   equipable?: boolean
   onImprovementChange?: (value: number) => void
   onProficiencyChange?: (value: number) => void
@@ -37,6 +38,7 @@ type EquipmentFieldCardProps = {
 const EquipmentFieldCard: React.FC<EquipmentFieldCardProps> = ({
   equipment,
   slotSize,
+  maxSlotSize,
   equipable = true,
   onImprovementChange,
   onProficiencyChange,
@@ -51,13 +53,14 @@ const EquipmentFieldCard: React.FC<EquipmentFieldCardProps> = ({
   const { anchorEl, onClick, onClose } = useAnchorEl()
   const classes = useStyles()
   const baseClasses = useBaseStyles()
+
   return (
     <Paper className={clsx(baseClasses.flexbox, className)} elevation={1} {...paperProps}>
       <div style={{ width: 16, textAlign: 'right' }}>
-        {slotSize === undefined ? (
+        {slotSize === undefined || maxSlotSize === undefined ? (
           <BuildIcon color="action" style={{ fontSize: '0.875rem', verticalAlign: 'middle' }} />
         ) : (
-          onSlotSizeChange && <SlotSizePopover value={slotSize} onChange={onSlotSizeChange} />
+          onSlotSizeChange && <SlotSizePopover value={slotSize} max={maxSlotSize} onChange={onSlotSizeChange} />
         )}
       </div>
       <EquipmentLabel

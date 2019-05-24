@@ -49,6 +49,7 @@ const EquipmentField: React.FC<EquipmentFieldProps> = props => {
   })
 
   const slotSize = store.slots.concat()[index]
+  const maxSlotSize = store.slotCapacities[index]
 
   const { onOpen, ...dialogProps } = useOpen()
 
@@ -105,6 +106,7 @@ const EquipmentField: React.FC<EquipmentFieldProps> = props => {
           style={style}
           equipment={equipment.asKcObject}
           slotSize={slotSize}
+          maxSlotSize={maxSlotSize}
           equipable={equipable}
           onImprovementChange={equipment.changeImprovement}
           onProficiencyChange={equipment.changeProficiency}

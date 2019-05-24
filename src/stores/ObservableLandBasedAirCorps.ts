@@ -20,6 +20,7 @@ export default class ObservableLandBasedAirCorps
     const airCorps = kcObjectFactory.createLandBasedAirCorps(this)
     return airCorps
   }
+
   public static create = (airCorpsData: ILandBasedAirCorpsDataObject) => {
     const observableLandBasedAirCorps = new ObservableLandBasedAirCorps()
     airCorpsData.equipments.forEach(
@@ -28,6 +29,8 @@ export default class ObservableLandBasedAirCorps
 
     return observableLandBasedAirCorps
   }
+
+  public slotCapacities = [18, 18, 18, 18]
 
   public store?: ObservableOperation
 

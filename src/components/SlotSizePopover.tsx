@@ -1,5 +1,6 @@
 import React, { useCallback } from 'react'
 
+import Box from '@material-ui/core/Box'
 import Typography from '@material-ui/core/Typography'
 import TextField from '@material-ui/core/TextField'
 import Tooltip from '@material-ui/core/Tooltip'
@@ -7,15 +8,17 @@ import IconButton from '@material-ui/core/IconButton'
 import Popover from '@material-ui/core/Popover'
 import ExposurePlus1Icon from '@material-ui/icons/ExposurePlus1'
 import ExposureNeg1Icon from '@material-ui/icons/ExposureNeg1'
+import Slider from '@material-ui/lab/Slider'
 import { makeStyles } from '@material-ui/styles'
 import { useAnchorEl, useBaseStyles } from '../hooks'
 
-interface SlotSizePopoverProps {
+type SlotSizePopoverProps = {
   value: number
+  max: number
   onChange: (value: number) => void
 }
 
-const SlotSizePopover: React.FC<SlotSizePopoverProps> = ({ value, onChange }) => {
+const SlotSizePopover: React.FC<SlotSizePopoverProps> = ({ value, max, onChange }) => {
   const { anchorEl, onClick, onClose } = useAnchorEl()
   const classes = useBaseStyles()
   const handleChange = useCallback(
@@ -48,6 +51,9 @@ const SlotSizePopover: React.FC<SlotSizePopoverProps> = ({ value, onChange }) =>
         onClose={onClose}
       >
         <TextField style={{ margin: 8 }} label="slot size" value={value} onChange={handleChange} type="number" />
+        <Box m={1}>
+          <Slider value={value} onChange={(event, value) => onChange(value)} min={0} max={max} step={1} />
+        </Box>
         <div style={{ display: 'flex', justifyContent: 'space-around' }}>
           <IconButton onClick={handleDecrementClick}>
             <ExposureNeg1Icon />

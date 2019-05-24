@@ -4,7 +4,7 @@ import { persist } from 'mobx-persist'
 import uuid from 'uuid'
 import { range } from 'lodash-es'
 
-import kcObjectFactory from './kcObjectFactory'
+import kcObjectFactory, { masterData } from './kcObjectFactory'
 import ObservableEquipment, { ObservableEquipmentStore } from './ObservableEquipment'
 
 import { StoreItem } from '../types'
@@ -78,6 +78,14 @@ export default class ObservableShip implements IShipDataObject, ObservableEquipm
   public get index() {
     const { store } = this
     return store ? store.ships.indexOf(this) : -1
+  }
+
+  public get slotCapacities() {
+    const found = masterData.findMasterShip(this.masterId)
+    if (found) {
+      return found.slotCapacities
+    }
+    return []
   }
 
   public canEquip(equipment: IEquipment, slotIndex: number) {
