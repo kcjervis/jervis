@@ -10,8 +10,8 @@ const useStyles = makeStyles({
   background: {
     background: `linear-gradient(
       180deg,
-      rgba(0, 52, 119, 0.8),
-      rgba(139, 49, 67, 0.9)
+      rgba(0, 25, 50, 0.6),
+      rgba(50, 40, 60, 0.9)
     )`,
     height: 'calc(100vh + 16px)',
     width: 'calc(100vw + 16px)',
@@ -20,7 +20,7 @@ const useStyles = makeStyles({
     top: -8,
     left: -8,
     textAlign: 'right',
-    filter: 'blur(4px)',
+    filter: 'blur(6px)',
     '&:before': {
       content: '""',
       position: 'fixed',

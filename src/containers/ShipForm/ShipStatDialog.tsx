@@ -25,7 +25,8 @@ import ShipStatLabel, { useShipStat } from './ShipStatLabel'
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     button: {
-      justifyContent: 'start'
+      justifyContent: 'start',
+      padding: 4
     }
   })
 )

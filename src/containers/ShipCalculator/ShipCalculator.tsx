@@ -128,7 +128,7 @@ const ShipCalculator: React.FC<ShipCalculatorProps> = ({ ship }) => {
             <TextField label="a6特殊乗算補正" {...form.specialMultiplicative} inputProps={{ min: 0 }} />
           </Box>
         </div>
-        <ShipCard style={{ width: 320 }} ship={ship} defaultStatsExpanded={true} />
+        <ShipCard ship={ship} defaultStatsExpanded={true} disableButton />
       </Box>
 
       <Box m={1}>

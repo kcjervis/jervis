@@ -5,7 +5,7 @@ import clsx from 'clsx'
 
 import { Theme } from '@material-ui/core'
 import ExpansionPanel from '@material-ui/core/ExpansionPanel'
-import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails'
+import Typography from '@material-ui/core/Typography'
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary'
 import Box from '@material-ui/core/Box'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
@@ -40,11 +40,36 @@ interface ShipStatsExpansionPanelProps {
 const ShipStatsExpansionPanel: React.FC<ShipStatsExpansionPanelProps> = ({ ship, defaultExpanded = false }) => {
   const [expanded, setExpanded] = useState(defaultExpanded)
   const toggle = useCallback(() => setExpanded(value => !value), [])
+
   useEffect(() => {
     setExpanded(defaultExpanded)
   }, [defaultExpanded])
+
   const classes = useStyles()
   const summaryStatKeys: ShipStatKey[] = ['hp', 'asw', 'luck']
+
+  const shipStatRenderer = (statKey: ShipStatKey) => {
+    if (statKey === 'antiAir') {
+      return (
+        <React.Fragment key={statKey}>
+          <Grid item={true} xs={6} key={statKey}>
+            <ShipStatDialog statKey={statKey} ship={ship} />
+          </Grid>
+          <Grid item={true} xs={6}>
+            <Typography variant="subtitle2" style={{ padding: 4 }}>
+              制空: {ship.asKcObject.fighterPower}
+            </Typography>
+          </Grid>
+        </React.Fragment>
+      )
+    }
+    return (
+      <Grid item={true} xs={6} key={statKey}>
+        <ShipStatDialog statKey={statKey} ship={ship} />
+      </Grid>
+    )
+  }
+
   return (
     <ExpansionPanel style={{ margin: 0 }} expanded={expanded} elevation={0}>
       <ExpansionPanelSummary className={classes.summary} onClick={toggle} expandIcon={<ExpandMoreIcon />}>
@@ -57,13 +82,7 @@ const ShipStatsExpansionPanel: React.FC<ShipStatsExpansionPanelProps> = ({ ship,
 
       <HealthBarDialog ship={ship} />
 
-      <Grid container={true}>
-        {shipStatKeys.map(statKey => (
-          <Grid item={true} xs={6} key={statKey}>
-            <ShipStatDialog statKey={statKey} ship={ship} />
-          </Grid>
-        ))}
-      </Grid>
+      <Grid container={true}>{shipStatKeys.map(shipStatRenderer)}</Grid>
     </ExpansionPanel>
   )
 }

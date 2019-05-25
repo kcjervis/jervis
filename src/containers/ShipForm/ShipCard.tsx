@@ -20,10 +20,15 @@ import LevelChangeButton from './LevelChangeButton'
 import { ObservableShip } from '../../stores'
 import { useWorkspace } from '../../hooks'
 
+const statsWidth = 8 * 27
+
 const useStyles = makeStyles({
+  stats: {
+    width: statsWidth
+  },
   equipment: {
-    marginTop: 4,
-    height: 8 * 4
+    height: 8 * 3 * 6,
+    width: `calc(100% - ${statsWidth}px)`
   }
 })
 
@@ -31,9 +36,10 @@ interface ShipCardProps extends PaperProps {
   ship: ObservableShip
   defaultStatsExpanded?: boolean
   onUpdate?: () => void
+  disableButton?: boolean
 }
 
-const ShipCard: React.FC<ShipCardProps> = ({ ship, onUpdate, defaultStatsExpanded, ...paperProps }) => {
+const ShipCard: React.FC<ShipCardProps> = ({ ship, onUpdate, defaultStatsExpanded, disableButton, ...paperProps }) => {
   const classes = useStyles()
   const { openShipCalculator } = useWorkspace()
   const [visibleButtons, setVisibleButtons] = useState(false)
@@ -45,6 +51,8 @@ const ShipCard: React.FC<ShipCardProps> = ({ ship, onUpdate, defaultStatsExpande
     }
   }
 
+  const visibility = !disableButton && visibleButtons ? undefined : 'hidden'
+
   return (
     <Paper
       {...paperProps}
@@ -52,7 +60,7 @@ const ShipCard: React.FC<ShipCardProps> = ({ ship, onUpdate, defaultStatsExpande
       onMouseOver={() => setVisibleButtons(true)}
       onMouseOut={() => setVisibleButtons(false)}
     >
-      <div>
+      <div className={classes.stats}>
         <Box display="flex" alignItems="center" justifyContent="space-between" mr={2}>
           <Tooltip title={`ID: ${ship.masterId}`}>
             <Typography variant="caption">
@@ -60,7 +68,7 @@ const ShipCard: React.FC<ShipCardProps> = ({ ship, onUpdate, defaultStatsExpande
             </Typography>
           </Tooltip>
           <LevelChangeButton value={ship.level} onInput={handleLevelChange} />
-          <div style={{ alignItems: 'right', visibility: visibleButtons ? undefined : 'hidden' }}>
+          <div style={{ alignItems: 'right', visibility }}>
             {/* <InfoButton title="詳細" size="small" onClick={() => openShipCalculator(ship)} /> */}
             {onUpdate && <UpdateButton title="艦娘を変更" size="small" onClick={onUpdate} />}
             <RemoveButton title="艦娘を削除" size="small" onClick={ship.remove} />
@@ -72,7 +80,7 @@ const ShipCard: React.FC<ShipCardProps> = ({ ship, onUpdate, defaultStatsExpande
         <ShipStatsExpansionPanel ship={ship} defaultExpanded={defaultStatsExpanded} />
       </div>
 
-      <Box width={256} height={8 * 3 * 6} flexShrink={0}>
+      <Box className={classes.equipment}>
         <EquipmentForm store={ship} />
       </Box>
     </Paper>
