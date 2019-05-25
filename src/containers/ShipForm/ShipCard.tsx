@@ -12,8 +12,10 @@ import { makeStyles } from '@material-ui/styles'
 
 import { ShipImage, InfoButton, RemoveButton, UpdateButton } from '../../components'
 import EquipmentField from '../EquipmentField'
+import EquipmentForm from '../EquipmentForm'
 
 import ShipStatsExpansionPanel from './ShipStatsExpansionPanel'
+import LevelChangeButton from './LevelChangeButton'
 
 import { ObservableShip } from '../../stores'
 import { useWorkspace } from '../../hooks'
@@ -36,44 +38,43 @@ const ShipCard: React.FC<ShipCardProps> = ({ ship, onUpdate, defaultStatsExpande
   const { openShipCalculator } = useWorkspace()
   const [visibleButtons, setVisibleButtons] = useState(false)
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    ship.level = Number(event.target.value)
-    ship.nowHp = ship.asKcObject.health.maxHp
+  const handleLevelChange = (value: number) => {
+    ship.level = value
+    if (ship.nowHp > ship.asKcObject.health.maxHp) {
+      ship.nowHp = ship.asKcObject.health.maxHp
+    }
   }
 
   return (
-    <Paper {...paperProps} onMouseOver={() => setVisibleButtons(true)} onMouseOut={() => setVisibleButtons(false)}>
-      <Box display="flex" justifyContent="space-between">
-        <Tooltip title={`ID: ${ship.masterId}`}>
-          <Typography variant="caption">
-            {ship.index + 1} {ship.asKcObject.name}
-          </Typography>
-        </Tooltip>
-        <div style={{ alignItems: 'right', visibility: visibleButtons ? undefined : 'hidden' }}>
-          {/* <InfoButton title="詳細" size="small" onClick={() => openShipCalculator(ship)} /> */}
-          {onUpdate && <UpdateButton title="艦娘を変更" size="small" onClick={onUpdate} />}
-          <RemoveButton title="艦娘を削除" size="small" onClick={ship.remove} />
-        </div>
-      </Box>
+    <Paper
+      {...paperProps}
+      style={{ display: 'flex', padding: 4 }}
+      onMouseOver={() => setVisibleButtons(true)}
+      onMouseOut={() => setVisibleButtons(false)}
+    >
+      <div>
+        <Box display="flex" alignItems="center" justifyContent="space-between" mr={2}>
+          <Tooltip title={`ID: ${ship.masterId}`}>
+            <Typography variant="caption">
+              {ship.index + 1} {ship.asKcObject.name}
+            </Typography>
+          </Tooltip>
+          <LevelChangeButton value={ship.level} onInput={handleLevelChange} />
+          <div style={{ alignItems: 'right', visibility: visibleButtons ? undefined : 'hidden' }}>
+            {/* <InfoButton title="詳細" size="small" onClick={() => openShipCalculator(ship)} /> */}
+            {onUpdate && <UpdateButton title="艦娘を変更" size="small" onClick={onUpdate} />}
+            <RemoveButton title="艦娘を削除" size="small" onClick={ship.remove} />
+          </div>
+        </Box>
 
-      <Box display="flex" justifyContent="space-around">
         <ShipImage masterId={ship.masterId} imageType="banner" />
-        <Input
-          style={{ width: 70 }}
-          startAdornment={<InputAdornment position="start">Lv</InputAdornment>}
-          value={ship.level}
-          type="number"
-          disableUnderline={true}
-          onChange={handleChange}
-          inputProps={{ min: 1 }}
-        />
+
+        <ShipStatsExpansionPanel ship={ship} defaultExpanded={defaultStatsExpanded} />
+      </div>
+
+      <Box width={256} height={8 * 3 * 6} flexShrink={0}>
+        <EquipmentForm store={ship} />
       </Box>
-
-      <ShipStatsExpansionPanel ship={ship} defaultExpanded={defaultStatsExpanded} />
-
-      {ship.equipments.map((equip, index) => (
-        <EquipmentField key={index} className={classes.equipment} store={ship} index={index} equipment={equip} />
-      ))}
     </Paper>
   )
 }

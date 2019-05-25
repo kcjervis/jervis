@@ -21,6 +21,7 @@ const improvementValueToString = (value: number) => {
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
+    color: 'rgba(150, 150, 180, 0.6)',
     width: 8 * 3
   },
   improvementColor: {
@@ -66,7 +67,7 @@ const ImprovementSelect: React.FC<ImprovementSelectProps> = ({ value, onChange }
     <>
       <Tooltip title="改修値選択">
         <Typography
-          className={clsx({ [classes.improvementColor]: value !== 0 }, classes.root, baseClasses.brightButton)}
+          className={clsx(classes.root, { [classes.improvementColor]: value !== 0 }, baseClasses.brightButton)}
           onClick={onClick}
           variant="subtitle2"
         >

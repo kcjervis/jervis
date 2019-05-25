@@ -61,13 +61,9 @@ const EquipmentCard: React.FC<EquipmentCardProps> = ({ equipment, onRemove, onUp
         </Typography>
 
         <div>
-          {onRemove && (
-            <RemoveButton title="装備を削除" tooltipProps={{ placement: 'top' }} size="small" onClick={onRemove} />
-          )}
-          {onUpdate && (
-            <UpdateButton title="装備を変更" tooltipProps={{ placement: 'top' }} size="small" onClick={onUpdate} />
-          )}
-          {onClose && <CloseButton title="閉じる" tooltipProps={{ placement: 'top' }} size="small" onClick={onClose} />}
+          {onRemove && <RemoveButton title="装備を削除" tooltipProps={{ placement: 'top' }} onClick={onRemove} />}
+          {onUpdate && <UpdateButton title="装備を変更" tooltipProps={{ placement: 'top' }} onClick={onUpdate} />}
+          {onClose && <CloseButton title="閉じる" tooltipProps={{ placement: 'top' }} onClick={onClose} />}
         </div>
       </div>
 

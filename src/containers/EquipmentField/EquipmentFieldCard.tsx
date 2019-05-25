@@ -63,6 +63,7 @@ const EquipmentFieldCard: React.FC<EquipmentFieldCardProps> = ({
           onSlotSizeChange && <SlotSizePopover value={slotSize} max={maxSlotSize} onChange={onSlotSizeChange} />
         )}
       </div>
+
       <EquipmentLabel
         className={baseClasses.brightButton}
         flexGrow={1}

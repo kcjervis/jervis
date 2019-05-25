@@ -15,7 +15,9 @@ const useStyles = makeStyles({
   },
   name: {
     lineHeight: 1,
-    fontSize: '0.75rem'
+    fontSize: '0.75rem',
+    overflow: 'hidden',
+    whiteSpace: 'nowrap'
   }
 })
 
@@ -31,7 +33,7 @@ const EquipmentLabel: React.FC<EquipmentLabelProps> = ({ equipment, slotSize, eq
   return (
     <Box display="flex" alignItems="center" {...boxProps}>
       <EquipmentIcon className={classes.icon} iconId={equipment.iconId} />
-      <Typography className={classes.name} color={equipable ? 'initial' : 'secondary'}>
+      <Typography className={classes.name} noWrap color={equipable ? 'initial' : 'secondary'}>
         {equipment.name}
       </Typography>
     </Box>

@@ -16,10 +16,9 @@ import ShipSelectPanel from '../ShipSelectPanel'
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
-      margin: 4
-    },
-    width: {
-      width: 8 * 32
+      margin: 4,
+      boxSizing: 'border-box',
+      width: 8 * 60
     },
     dialogPaper: {
       height: '80vh'
@@ -57,19 +56,14 @@ const ShipForm: React.FC<ShipFormProps> = props => {
   let element: JSX.Element
   if (!ship) {
     element = (
-      <Button className={classes.width} variant="outlined" fullWidth size="large" onClick={onOpen}>
+      <Button variant="outlined" fullWidth style={{ height: '100%' }} size="large" onClick={onOpen}>
         <Add />
         艦娘{index + 1}
       </Button>
     )
   } else {
     element = (
-      <ShipCard
-        className={classes.width}
-        ship={ship}
-        defaultStatsExpanded={settingStore.operationPage.visibleShipStats}
-        onUpdate={onOpen}
-      />
+      <ShipCard ship={ship} defaultStatsExpanded={settingStore.operationPage.visibleShipStats} onUpdate={onOpen} />
     )
   }
 
