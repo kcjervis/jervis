@@ -13,7 +13,10 @@ const theme = createMuiTheme({
     background: {
       paper: clearBackground
     },
-    primary: blue
+    primary: blue,
+    action: {
+      disabled: 'rgba(180, 180, 216, 0.5)'
+    }
   },
   overrides: {
     MuiTypography: {

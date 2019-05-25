@@ -5,7 +5,7 @@ export { default as EquipmentIcon } from './EquipmentIcon'
 export { default as EquipmentImage } from './EquipmentImage'
 export { default as EquipmentLabel } from './EquipmentLabel'
 export { default as EquipmentsSettingDialog } from './EquipmentsSettingDialog'
-
+export { default as FlexBox } from './FlexBox'
 export { default as HorizontalScrollbar } from './HorizontalScrollbar'
 export { default as ImprovementSelect } from './ImprovementSelect'
 export { default as ItemLabel } from './ItemLabel'

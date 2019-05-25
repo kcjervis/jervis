@@ -21,7 +21,7 @@ const improvementValueToString = (value: number) => {
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
-    color: 'rgba(150, 150, 180, 0.6)',
+    color: theme.palette.action.disabled,
     width: 8 * 3
   },
   improvementColor: {

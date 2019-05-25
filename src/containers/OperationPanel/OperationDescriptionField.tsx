@@ -21,15 +21,17 @@ const EditButton = withIconButton(EditIcon)
 const useStyles = makeStyles({
   root: {
     display: 'flex',
+    justifyContent: 'center',
+    width: '100%',
     margin: 8,
     marginTop: 8 * 3,
-    width: 800,
     minHeight: 8 * 41
   },
   markdown: {
     color: 'white',
     margin: 8,
     padding: '8px 24px',
+    maxWidth: 8 * 125,
     width: '100%'
   }
 })
@@ -55,29 +57,27 @@ const OperationDescriptionField: React.FC<OperationDescriptionFieldProps> = ({ o
       <ReactMarkdown className={classes.markdown} source={markdown.replace(/[ ]*(\r\n|\n|\r)/g, '  \n')} />
     )
   return (
-    <>
-      <div className={clsx(classes.root, className)} {...divProps}>
-        <div>
-          <EditButton title="編集" tooltipProps={{ placement: 'top' }} onClick={onOpen} />
-        </div>
-
-        <Paper className={classes.markdown}>
-          {open ? (
-            <ClickAwayListener onClickAway={onClose}>
-              <ReactMde
-                onTabChange={setTab}
-                selectedTab={tab}
-                value={description}
-                onChange={handleChange}
-                generateMarkdownPreview={generateMarkdownPreview}
-              />
-            </ClickAwayListener>
-          ) : (
-            <ReactMarkdown source={description.replace(/[ ]*(\r\n|\n|\r)/g, '  \n')} />
-          )}
-        </Paper>
+    <div className={clsx(classes.root, className)} {...divProps}>
+      <div>
+        <EditButton title="編集" tooltipProps={{ placement: 'top' }} onClick={onOpen} />
       </div>
-    </>
+
+      <Paper className={classes.markdown}>
+        {open ? (
+          <ClickAwayListener onClickAway={onClose}>
+            <ReactMde
+              onTabChange={setTab}
+              selectedTab={tab}
+              value={description}
+              onChange={handleChange}
+              generateMarkdownPreview={generateMarkdownPreview}
+            />
+          </ClickAwayListener>
+        ) : (
+          <ReactMarkdown source={description.replace(/[ ]*(\r\n|\n|\r)/g, '  \n')} />
+        )}
+      </Paper>
+    </div>
   )
 }
 

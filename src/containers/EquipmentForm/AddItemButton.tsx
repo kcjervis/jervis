@@ -11,7 +11,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   root: {
     padding: 0,
     height: '100%',
-    color: theme.palette.action.hover,
+    color: theme.palette.action.disabled,
     '&:hover': {
       color: theme.palette.action.active
     }
