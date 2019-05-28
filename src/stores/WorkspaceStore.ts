@@ -5,15 +5,8 @@ import WorkspaceItem, { WorkspaceItemObject } from './WorkspaceItem'
 export default class WorkspaceStore {
   @observable public items = observable<WorkspaceItem>([])
 
-  @observable private activeItemId?: string
-
-  @action public setActiveItem = (item: WorkspaceItem | undefined) => {
-    this.activeItemId = item && item.id
-  }
-
-  public get activeItem() {
-    const { items, activeItemId } = this
-    return items.find(item => item.id === activeItemId)
+  @computed public get activeItem() {
+    return this.items.find(item => item.isActive)
   }
 
   @action public createItem = ({ type, id }: WorkspaceItemObject) => {

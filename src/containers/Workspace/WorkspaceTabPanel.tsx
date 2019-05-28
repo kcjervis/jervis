@@ -19,15 +19,16 @@ const WorkspaceTabPanel: React.FC<WorkspaceTabPanelProps> = ({ item }) => {
   const { itemSelector } = useWorkspace()
   const state = itemSelector(item)
 
+  const display = item.isActive ? undefined : ('none' as const)
+  let element: JSX.Element = <Redirect to="operations" />
+
   if (state instanceof ObservableOperation) {
-    return <OperationPanel operation={state} />
+    element = <OperationPanel operation={state} />
+  } else if (state instanceof ObservableShip) {
+    element = <ShipCalculator ship={state} />
   }
 
-  if (state instanceof ObservableShip) {
-    return <ShipCalculator ship={state} />
-  }
-
-  return <Redirect to="operations" />
+  return <div style={{ display }}>{element}</div>
 }
 
 export default WorkspaceTabPanel

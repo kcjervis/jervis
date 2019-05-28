@@ -2,8 +2,8 @@ import blue from '@material-ui/core/colors/blue'
 import grey from '@material-ui/core/colors/grey'
 import { createMuiTheme } from '@material-ui/core/styles'
 
-const clearBackground = 'rgba( 20, 20, 20, 0.1 )'
-const darkBackground = 'rgba(10, 10, 15, 0.95)'
+const clearBackground = 'rgba(20, 20, 20, 0.1)'
+const darkBackground = 'rgba(15, 20, 20, 0.9)'
 const dialogPaperBackground = 'rgba(66, 66, 77, 0.95)'
 const darkPaper = { paper: { background: darkBackground } }
 
@@ -53,6 +53,7 @@ const theme = createMuiTheme({
     MuiPopover: darkPaper,
     MuiTooltip: {
       tooltip: {
+        maxWidth: 8 * 17 * 3,
         backgroundColor: darkBackground
       }
     },
@@ -103,12 +104,18 @@ const theme = createMuiTheme({
         }
       }
     },
+
     MuiFormControlLabel: {
       root: {
         marginLeft: 8
       }
     },
     MuiCheckbox: {
+      root: {
+        padding: 4
+      }
+    },
+    MuiRadio: {
       root: {
         padding: 4
       }

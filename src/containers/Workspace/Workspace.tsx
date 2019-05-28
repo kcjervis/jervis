@@ -71,7 +71,14 @@ const Workspace: React.FC<{ children?: React.ReactNode }> = ({ children }) => {
   const classes = useStyles()
   const { open, onOpen, onClose } = useOpen()
   const { workspaceStore: store, visiblePanel } = useWorkspace()
-  const { activeItem } = store
+
+  let element: React.ReactNode = store.items.map(item => <WorkspaceTabPanel key={item.id} item={item} />)
+  if (store.items.length === 0) {
+    element = <Redirect to="operations" />
+  }
+  if (!visiblePanel) {
+    element = children
+  }
   return (
     <>
       <Drawer variant="persistent" open={open} className={classes.drawer} classes={{ paper: classes.drawer }}>
@@ -84,9 +91,7 @@ const Workspace: React.FC<{ children?: React.ReactNode }> = ({ children }) => {
       >
         <FolderButton title="編成一覧" size="small" color="primary" onClick={onOpen} />
       </WorkspaceBar>
-      <div className={clsx(classes.content, open && classes.contentShift)}>
-        {visiblePanel ? activeItem ? <WorkspaceTabPanel item={activeItem} /> : <Redirect to="operations" /> : children}
-      </div>
+      <div className={clsx(classes.content, open && classes.contentShift)}>{element}</div>
     </>
   )
 }

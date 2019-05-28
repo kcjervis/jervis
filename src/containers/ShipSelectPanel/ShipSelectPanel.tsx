@@ -55,17 +55,18 @@ const createMasterShipFilter = (
   return true
 }
 
-type ShipSelectPanelProps = {
+export type ShipSelectPanelProps = {
   onSelect?: (data: IShipDataObject) => void
+  abysall?: boolean
 }
 
-const ShipSelectPanel: React.FC<ShipSelectPanelProps> = ({ onSelect }) => {
+const ShipSelectPanel: React.FC<ShipSelectPanelProps> = ({ onSelect, abysall }) => {
   const classes = useStyles()
   const [searchText, setSearchText] = useState('')
   const searchRef = useRef<HTMLInputElement>()
 
   const categorySelect = useSelect(tabCategories)
-  const abysallCheck = useCheck()
+  const abysallCheck = useCheck(abysall)
   const preRemodelingCheck = useCheck()
 
   const visibleTypeIds = categorySelect.value.typeIds
@@ -112,7 +113,7 @@ const ShipSelectPanel: React.FC<ShipSelectPanelProps> = ({ onSelect }) => {
     onSelect({ masterId, level, slots, equipments })
   }
   return (
-    <Box m={1}>
+    <Box m={1} minHeight="80vh">
       <div>
         <Input
           endAdornment={

@@ -38,7 +38,7 @@ const FleetDetail: React.FC<FleetDetailProps> = props => {
   const { activeTab } = fleetDetailStore
 
   return (
-    <Paper style={{ padding: 8, minHeight: 8 * 35, alignSelf: 'center' }}>
+    <Paper style={{ padding: 8, maxWidth: 8 * 125, minWidth: 8 * 80, minHeight: 8 * 35 }}>
       <div className={classes.flexbox}>
         <Tabs value={fleetDetailStore.activeTab} onChange={handleChangeTab}>
           <Tab label="弾着&戦爆発動率" />

@@ -1,6 +1,6 @@
 const axios = require('axios')
 const fs = require('fs')
-const _ = require('lodash')
+const lodash = require('lodash')
 
 const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
 const getPoiEnemyFleets = async (mapId, point, difficulty) => {
@@ -27,7 +27,7 @@ const getPoiEnemyFleets = async (mapId, point, difficulty) => {
 
   dropEnemyObjects.forEach(dropEnemyObject => {
     Object.entries(dropEnemyObject).forEach(([enemyName, countObject]) => {
-      const totalCount = _.sum(countObject.count)
+      const totalCount = lodash.sum(countObject.count)
       const enemyCount = enemyCountMap.get(enemyName)
       if (enemyCount) {
         enemyCountMap.set(enemyName, enemyCount + totalCount)
@@ -73,10 +73,16 @@ const getPoiEventCell = async (mapId, point) => {
 
 const indexToChar = index => {
   const initialCode = 'A'.charCodeAt(0)
-  if (index <= 25) {
-    return String.fromCharCode(initialCode + index)
+  if (index > 35) {
+    return 'Q' + (index - 35)
   }
-  return 'Z' + (index - 25 + 1)
+  if (index > 30) {
+    return 'P' + (index - 30)
+  }
+  if (index > 25) {
+    return 'Z' + (index - 25)
+  }
+  return String.fromCharCode(initialCode + index)
 }
 
 const getPoiNormalMap = async mapId => {
@@ -84,7 +90,8 @@ const getPoiNormalMap = async mapId => {
     mapId,
     cells: []
   }
-  const points = Array.from({ length: 30 }, (_, index) => indexToChar(index))
+
+  const points = lodash.times(30).map(indexToChar)
   for (const point of points) {
     const enemies = await getPoiEnemyFleets(mapId, point)
     if (enemies && enemies !== 404) {
@@ -102,7 +109,7 @@ const getPoiEventMap = async mapId => {
     mapId,
     cells: []
   }
-  const points = Array.from({ length: 30 }, (_, index) => indexToChar(index))
+  const points = lodash.times(30).map(indexToChar)
   for (const point of points) {
     const cell = await getPoiEventCell(mapId, point)
     if (cell !== 404) {
@@ -132,6 +139,6 @@ const writeMaps = async mapIds => {
   return null
 }
 
-const createMapIds = ([worldId, length]) => _.range(worldId * 10 + 1, worldId * 10 + 1 + length)
+const createMapIds = ([worldId, length]) => lodash.range(worldId * 10 + 1, worldId * 10 + 1 + length)
 
-writeMaps([[1, 6], [2, 5], [3, 5], [4, 5], [5, 5], [6, 5], [7, 2], [44, 3]].flatMap(createMapIds))
+writeMaps([[1, 6], [2, 5], [3, 5], [4, 5], [5, 5], [6, 5], [7, 2], [44, 5]].flatMap(createMapIds))

@@ -1,25 +1,19 @@
 import { create } from 'mobx-persist'
 import { createContext } from 'react'
 
-import EquipmentsDataStore from './EquipmentsDataStore'
-import ObservableEquipment from './ObservableEquipment'
-import ObservableFleet from './ObservableFleet'
-import ObservableLandBasedAirCorps from './ObservableLandBasedAirCorps'
-import ObservableOperation from './ObservableOperation'
-import ObservableShip from './ObservableShip'
 import OperationStore from './OperationStore'
+
+import EnemyShipStore from './EnemyShipStore'
+import EquipmentsDataStore from './EquipmentsDataStore'
+
 import SettingStore from './SettingStore'
-import ShipsPageStore from './ShipsPageStore'
 import WorkspaceStore from './WorkspaceStore'
 
 const hydrate = create()
 
-const workspaceStore = new WorkspaceStore()
-
 const operationStore = new OperationStore()
 const temporaryOperationStore = new OperationStore()
 const settingStore = new SettingStore()
-const shipsPageStore = new ShipsPageStore()
 
 const equipmentsDataStore = new EquipmentsDataStore()
 
@@ -31,34 +25,23 @@ export const loadStores = async () => {
   equipmentsDataStore.initialize()
 }
 
-const WorkspaceStoreContext = createContext(workspaceStore)
+export const SettingStoreContext = createContext(settingStore)
+export const WorkspaceStoreContext = createContext(new WorkspaceStore())
 
-const OperationStoreContext = createContext(operationStore)
-const TemporaryOperationStoreContext = createContext(temporaryOperationStore)
-const SettingStoreContext = createContext(settingStore)
-const EquipmentsDataStoreContext = createContext(equipmentsDataStore)
+export const OperationStoreContext = createContext(operationStore)
+export const TemporaryOperationStoreContext = createContext(temporaryOperationStore)
 
-export {
-  OperationStore,
-  ObservableEquipment,
-  ObservableShip,
-  ObservableFleet,
-  ObservableLandBasedAirCorps,
-  ObservableOperation,
-  SettingStore,
-  ShipsPageStore,
-  WorkspaceStore,
-  WorkspaceStoreContext,
-  SettingStoreContext,
-  OperationStoreContext,
-  TemporaryOperationStoreContext,
-  EquipmentsDataStoreContext
-}
+export const EquipmentsDataStoreContext = createContext(equipmentsDataStore)
+export const EnemyShipStoreContext = createContext(new EnemyShipStore())
+
+export { OperationStore, SettingStore, WorkspaceStore, EnemyShipStore }
+
+export { default as ObservableEquipment } from './ObservableEquipment'
+export { default as ObservableShip } from './ObservableShip'
+export { default as ObservableFleet } from './ObservableFleet'
+export { default as ObservableLandBasedAirCorps } from './ObservableLandBasedAirCorps'
+export { default as ObservableOperation } from './ObservableOperation'
 
 export { default as WorkspaceItem } from './WorkspaceItem'
 
-export default {
-  operationStore,
-  settingStore,
-  shipsPageStore
-}
+export default { operationStore, settingStore }

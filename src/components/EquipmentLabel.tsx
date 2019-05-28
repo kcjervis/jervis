@@ -14,7 +14,6 @@ const useStyles = makeStyles({
     marginRight: 4
   },
   name: {
-    lineHeight: 1,
     fontSize: '0.75rem',
     overflow: 'hidden',
     whiteSpace: 'nowrap'

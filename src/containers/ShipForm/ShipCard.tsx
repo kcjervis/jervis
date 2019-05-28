@@ -23,6 +23,10 @@ import { useWorkspace } from '../../hooks'
 const statsWidth = 8 * 27
 
 const useStyles = makeStyles({
+  root: {
+    display: 'flex',
+    padding: 4
+  },
   stats: {
     width: statsWidth
   },
@@ -39,13 +43,24 @@ interface ShipCardProps extends PaperProps {
   disableButton?: boolean
 }
 
-const ShipCard: React.FC<ShipCardProps> = ({ ship, onUpdate, defaultStatsExpanded, disableButton, ...paperProps }) => {
+const ShipCard: React.FC<ShipCardProps> = ({
+  ship,
+  onUpdate,
+  defaultStatsExpanded,
+  disableButton,
+  className,
+  ...paperProps
+}) => {
   const classes = useStyles()
   const { openShipCalculator } = useWorkspace()
   const [visibleButtons, setVisibleButtons] = useState(false)
 
-  const handleLevelChange = (value: number) => {
-    ship.level = value
+  const handleLevelChange = (next: number) => {
+    const prev = ship.level
+    ship.level = next
+    if (prev <= 99 && next >= 100) {
+      ship.nowHp = ship.asKcObject.health.maxHp
+    }
     if (ship.nowHp > ship.asKcObject.health.maxHp) {
       ship.nowHp = ship.asKcObject.health.maxHp
     }
@@ -56,7 +71,7 @@ const ShipCard: React.FC<ShipCardProps> = ({ ship, onUpdate, defaultStatsExpande
   return (
     <Paper
       {...paperProps}
-      style={{ display: 'flex', padding: 4 }}
+      className={clsx(classes.root, className)}
       onMouseOver={() => setVisibleButtons(true)}
       onMouseOut={() => setVisibleButtons(false)}
     >
@@ -69,7 +84,7 @@ const ShipCard: React.FC<ShipCardProps> = ({ ship, onUpdate, defaultStatsExpande
           </Tooltip>
           <LevelChangeButton value={ship.level} onInput={handleLevelChange} />
           <div style={{ alignItems: 'right', visibility }}>
-            {/* <InfoButton title="詳細" size="small" onClick={() => openShipCalculator(ship)} /> */}
+            <InfoButton title="詳細" size="small" onClick={() => openShipCalculator(ship)} />
             {onUpdate && <UpdateButton title="艦娘を変更" size="small" onClick={onUpdate} />}
             <RemoveButton title="艦娘を削除" size="small" onClick={ship.remove} />
           </div>

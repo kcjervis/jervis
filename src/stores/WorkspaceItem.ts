@@ -18,17 +18,11 @@ export default class WorkspaceItem {
 
   public store?: WorkspaceStore
 
-  public get isActive() {
-    if (this.store) {
-      return this.store.activeItem === this
-    }
-    return false
-  }
+  public isActive: boolean = false
 
   @action public setActive = () => {
-    if (this.store) {
-      this.store.setActiveItem(this)
-    }
+    this.store && this.store.items.forEach(item => (item.isActive = false))
+    this.isActive = true
   }
 
   @action public remove = () => {

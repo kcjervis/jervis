@@ -20,13 +20,16 @@ const ShellingStats: React.FC<{ shellingPower: ShellingPowerInformation }> = ({ 
 
     { label: '陣形補正', value: shellingPower.formationModifier },
     { label: '交戦形態補正', value: shellingPower.engagementModifier },
+    { label: '損害補正', value: shellingPower.healthModifier },
     { label: '巡洋艦フィット砲補正', value: shellingPower.cruiserFitBonus },
 
+    { label: '集積地キャップ後補正', value: shellingPower.antiSupplyDepotPostCapModifier },
+    { label: 'a6補正', value: shellingPower.specialMultiplicative },
     { label: '特殊攻撃補正', value: shellingPower.specialAttackModifier },
     { label: '徹甲弾補正', value: shellingPower.apShellModifier },
     { label: 'クリティカル補正', value: shellingPower.criticalModifier },
     { label: '熟練度補正', value: shellingPower.proficiencyModifier }
-  ]
+  ].map(factor => ({ ...factor, value: round(factor.value, 4) }))
 
   return (
     <>

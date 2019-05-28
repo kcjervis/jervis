@@ -9,18 +9,20 @@ import ObservableEquipment, { ObservableEquipmentStore } from './ObservableEquip
 
 import { StoreItem } from '../types'
 import ObservableFleet from './ObservableFleet'
+import EnemyShipStore from './EnemyShipStore'
 
-export default class ObservableShip implements IShipDataObject, ObservableEquipmentStore, StoreItem<ObservableFleet> {
+type StoreType = ObservableFleet | EnemyShipStore
+
+export default class ObservableShip implements IShipDataObject, ObservableEquipmentStore, StoreItem<StoreType> {
   @computed public get asKcObject() {
     const ship = kcObjectFactory.createShip(this)
     if (!ship) {
-      this.isVisible = false
       throw console.error(`masterId: ${this.masterId} ship is undefined`)
     }
     return ship
   }
 
-  public static create(data: IShipDataObject, store: ObservableFleet) {
+  public static create = (data: IShipDataObject, store: StoreType) => {
     const { masterId, level, slots, equipments, nowHp, increased } = data
     const observableShip = new ObservableShip()
     observableShip.masterId = masterId
@@ -51,7 +53,7 @@ export default class ObservableShip implements IShipDataObject, ObservableEquipm
     return observableShip
   }
 
-  public store?: ObservableFleet
+  public store?: StoreType
 
   @persist public id = uuid()
 
@@ -67,8 +69,6 @@ export default class ObservableShip implements IShipDataObject, ObservableEquipm
 
   @persist('object') @observable public increased: NonNullable<IShipDataObject['increased']> = {}
 
-  @observable public isVisible = true
-
   @observable public visibleEquipments = true
 
   public get name() {
@@ -82,10 +82,7 @@ export default class ObservableShip implements IShipDataObject, ObservableEquipm
 
   public get slotCapacities() {
     const found = masterData.findMasterShip(this.masterId)
-    if (found) {
-      return found.slotCapacities
-    }
-    return []
+    return found ? found.slotCapacities : []
   }
 
   public canEquip(equipment: IEquipment, slotIndex: number) {
@@ -93,9 +90,7 @@ export default class ObservableShip implements IShipDataObject, ObservableEquipm
   }
 
   @action public remove = () => {
-    if (this.store) {
-      this.store.removeShip(this)
-    }
+    this.store && this.store.removeShip(this)
   }
 
   @action public set = (index: number, equipment?: ObservableEquipment) => {
@@ -110,9 +105,9 @@ export default class ObservableShip implements IShipDataObject, ObservableEquipm
       return
     }
 
-    // if (prevEquipment && prevEquipment.asKcObject.category.is('LargeFlyingBoat')) {
-    //   this.setSlotSize(index, this.asKcObject.slotCap[index])
-    // }
+    if (prevEquipment && prevEquipment.asKcObject.category.is('LargeFlyingBoat')) {
+      this.setSlotSize(index, this.slotCapacities[index])
+    }
 
     if (equipment && equipment.asKcObject.category.is('LargeFlyingBoat')) {
       this.setSlotSize(index, 1)
@@ -134,7 +129,7 @@ export default class ObservableShip implements IShipDataObject, ObservableEquipm
     }
   }
 
-  @action public initialize = (store: ObservableFleet) => {
+  @action public initialize = (store: StoreType) => {
     this.store = store
     this.equipments.forEach(equip => equip && equip.initialize(this))
   }

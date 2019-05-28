@@ -1,26 +1,29 @@
 import { observer } from 'mobx-react-lite'
-import React from 'react'
+import React, { useContext } from 'react'
 import {
   AirControlState,
   Formation,
   ShipRole,
   FleetType,
-  Engagement,
-  Shelling,
-  DayCombatSpecialAttack
+  DayCombatSpecialAttack,
+  ShipInformation,
+  Side
 } from 'kc-calculator'
 
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import Checkbox from '@material-ui/core/Checkbox'
 import Box from '@material-ui/core/Box'
+import Typography from '@material-ui/core/Typography'
 import TextField from '@material-ui/core/TextField'
 
-import ShipShellingCalculator from './ShipShellingCalculator'
-import { Select, RadioGroup } from '../../components'
-import { ObservableShip } from '../../stores'
+import ShipShellingStatusCard from './ShipShellingStatusCard'
+import { Select, RadioGroup, Dialog } from '../../components'
+import { ObservableShip, EnemyShipStoreContext } from '../../stores'
 
 import ShipCard from '../ShipForm/ShipCard'
 import { useSelect, useInput, useCheck } from '../../hooks'
+import ShipForm from '../ShipForm'
+import { ShipSelectPanelStateContext } from '../ShipSelectPanel'
 
 const getRoleLabel = (role: ShipRole) => (role === 'Main' ? '主力艦' : '護衛艦')
 
@@ -37,10 +40,7 @@ const useBattleStateForm = () => {
     role: { ...roleSelect, getOptionLabel: getRoleLabel },
     airControlState: useSelect(AirControlState.values),
     isFlagship: useCheck(),
-    fleetLosModifier: useInput(0),
-    isValidApShell: useCheck(),
-
-    specialMultiplicative: useInput(1)
+    fleetLosModifier: useInput(0)
   }
 
   const state = {
@@ -49,10 +49,7 @@ const useBattleStateForm = () => {
     role: form.role.value,
     airControlState: form.airControlState.value,
     isFlagship: form.isFlagship.checked,
-    fleetLosModifier: form.fleetLosModifier.value,
-    isValidApShell: form.isValidApShell.checked,
-
-    specialMultiplicative: form.specialMultiplicative.value
+    fleetLosModifier: form.fleetLosModifier.value
   }
 
   return { form, state }
@@ -63,35 +60,13 @@ interface ShipCalculatorProps {
 }
 
 const ShipCalculator: React.FC<ShipCalculatorProps> = ({ ship }) => {
+  const shipSelect = useContext(ShipSelectPanelStateContext)
+  const enemyShipStore = useContext(EnemyShipStoreContext)
   const { form, state } = useBattleStateForm()
-  const {
-    fleetType,
-    formation,
-    role,
-    airControlState,
-    isFlagship,
-    fleetLosModifier,
-    isValidApShell,
-    specialMultiplicative
-  } = state
+  const { fleetType, formation, role, airControlState, isFlagship, fleetLosModifier } = state
 
-  const getShelling = (
-    engagement = Engagement.Parallel,
-    isCritical = false,
-    specialAttack?: DayCombatSpecialAttack
-  ) => {
-    const combinedFleetFactors = { power: 0, accuracy: 0 }
-    return new Shelling(
-      ship.asKcObject,
-      role,
-      formation,
-      engagement,
-      specialAttack,
-      combinedFleetFactors,
-      isCritical,
-      specialMultiplicative
-    )
-  }
+  const side = Side.Player
+  const attacker = { ship: ship.asKcObject, side, isFlagship, fleetType, role, formation }
 
   const specialAttackRate = DayCombatSpecialAttack.calcRate(
     ship.asKcObject,
@@ -103,36 +78,31 @@ const ShipCalculator: React.FC<ShipCalculatorProps> = ({ ship }) => {
   const visibleRoleSelect = fleetType.isCombined || formation === Formation.Vanguard
 
   return (
-    <Box m={1}>
-      <Box display="flex">
-        <div>
-          <Box display="flex" alignItems="end" m={1}>
-            <Select {...form.fleetType} />
-            <Select {...form.formation} />
-            <Select {...form.airControlState} />
-            <TextField
-              label="艦隊索敵補正"
-              style={{ width: 8 * 15 }}
-              {...form.fleetLosModifier}
-              inputProps={{ min: 0 }}
-            />
-          </Box>
+    <Box display="flex" justifyContent="center">
+      <Typography variant="caption" color="secondary">
+        お試し
+      </Typography>
+      <Box m={1} maxWidth={8 * 125} width="100%">
+        <Box display="flex" alignItems="end" m={1}>
+          <Select {...form.fleetType} />
+          <Select {...form.formation} />
+          <Select {...form.airControlState} />
+          <TextField
+            label="艦隊索敵補正"
+            style={{ width: 8 * 15 }}
+            {...form.fleetLosModifier}
+            inputProps={{ min: 0 }}
+          />
+          <FormControlLabel label="旗艦" control={<Checkbox {...form.isFlagship} />} />
+          {visibleRoleSelect && <RadioGroup {...form.role} />}
+        </Box>
+        <Box display="flex" flexWrap="wrap" justifyContent="space-between">
+          <ShipCard style={{ maxWidth: 8 * 60 }} ship={ship} defaultStatsExpanded={true} disableButton />
 
-          <Box display="flex" alignItems="center" m={1}>
-            <FormControlLabel label="旗艦" control={<Checkbox {...form.isFlagship} />} />
-            {visibleRoleSelect && <RadioGroup {...form.role} />}
-            <FormControlLabel label={`徹甲弾補正`} control={<Checkbox {...form.isValidApShell} />} />
+          <Box maxWidth={8 * 65}>
+            <ShipShellingStatusCard shipInformation={attacker} specialAttackRate={specialAttackRate} />
           </Box>
-
-          <Box display="flex" m={1}>
-            <TextField label="a6特殊乗算補正" {...form.specialMultiplicative} inputProps={{ min: 0 }} />
-          </Box>
-        </div>
-        <ShipCard ship={ship} defaultStatsExpanded={true} disableButton />
-      </Box>
-
-      <Box m={1}>
-        <ShipShellingCalculator getShelling={getShelling} specialAttackRate={specialAttackRate} />
+        </Box>
       </Box>
     </Box>
   )

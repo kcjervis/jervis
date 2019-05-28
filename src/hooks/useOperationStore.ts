@@ -13,9 +13,9 @@ const useOperationStore = () => {
   const persistentOperationStore = useContext(OperationStoreContext)
   const temporaryOperationStore = useContext(TemporaryOperationStoreContext)
 
-  const { activeItem } = useContext(WorkspaceStoreContext)
-
   const baseDeps = [persistentOperationStore, temporaryOperationStore, workspaceStore]
+
+  const { activeItem } = workspaceStore
 
   const activeOperation = useMemo(() => {
     if (!activeItem) {

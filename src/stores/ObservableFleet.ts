@@ -6,9 +6,10 @@ import uuid from 'uuid'
 import kcObjectFactory from './kcObjectFactory'
 import ObservableShip from './ObservableShip'
 import ObservableOperation from './ObservableOperation'
-import { StoreItem } from '../types'
+import { StoreItem, ShipStore } from '../types'
 
-export default class ObservableFleet implements IFleetDataObject, StoreItem<ObservableOperation> {
+export default class ObservableFleet
+  implements IFleetDataObject, ShipStore<ObservableShip | undefined>, StoreItem<ObservableOperation> {
   @computed public get asKcObject() {
     return kcObjectFactory.createFleet(this)
   }
@@ -26,11 +27,15 @@ export default class ObservableFleet implements IFleetDataObject, StoreItem<Obse
   @persist('list', ObservableShip) @observable public ships = observable<ObservableShip | undefined>(new Array(6))
 
   @action public set = (index: number, ship?: ObservableShip) => {
+    if (index < 0) {
+      return false
+    }
     if (ship) {
       ship.remove()
       ship.store = this
     }
     this.ships[index] = ship
+    return true
   }
 
   @action public createShip = (index: number, data: IShipDataObject) => {
@@ -40,8 +45,9 @@ export default class ObservableFleet implements IFleetDataObject, StoreItem<Obse
 
   @action public removeShip = (ship: ObservableShip) => {
     const { ships } = this
-    console.log(ships.indexOf(ship))
-    ships[ships.indexOf(ship)] = undefined
+    if (ships.includes(ship)) {
+      ships[ship.index] = undefined
+    }
   }
 
   @action public initialize = (store: ObservableOperation) => {

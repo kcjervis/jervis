@@ -18,6 +18,11 @@ export type EquipmentStore<EquipmentType> = {
   set: (index: number, equipment: EquipmentType | undefined) => void
 } & Store<EquipmentType>
 
+export type ShipStore<ShipType> = {
+  ships: IObservableArray<ShipType>
+  removeShip: (ship: NonNullable<ShipType>) => void
+}
+
 export interface OperationStoreInterface extends Store {
   initialize: () => void
 }

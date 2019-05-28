@@ -4,11 +4,12 @@ import React from 'react'
 
 import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
+import Grid from '@material-ui/core/Grid'
 import Add from '@material-ui/icons/Add'
 import Remove from '@material-ui/icons/Remove'
 import Tooltip from '@material-ui/core/Tooltip'
-import { Theme } from '@material-ui/core'
-import { makeStyles, createStyles } from '@material-ui/styles'
+import Box from '@material-ui/core/Box'
+import { Theme, makeStyles, createStyles } from '@material-ui/core/styles'
 
 import { StatIcon, EquipmentsSettingDialog, FlexBox } from '../../components'
 import ShipForm from '../ShipForm'
@@ -24,6 +25,7 @@ const useStyles = makeStyles((theme: Theme) =>
     ships: {
       display: 'flex',
       flexWrap: 'wrap',
+      alignItems: 'space-between',
       maxWidth: 8 * 125
     },
     bottomControl: {
@@ -76,7 +78,7 @@ const FleetField: React.FC<FleetFieldProps> = ({ fleet, operation }) => {
 
   return (
     <FlexBox justifyContent="center">
-      <div style={{ width: 1000 }}>
+      <div>
         <FlexBox>
           <FlexBox flexGrow={1}>
             <Typography>制空: {fleet.asKcObject.fighterPower}</Typography>
@@ -102,19 +104,23 @@ const FleetField: React.FC<FleetFieldProps> = ({ fleet, operation }) => {
           </div>
         </FlexBox>
 
-        <div className={classes.ships}>
-          {ships.map((ship, index) => (
-            <ShipForm key={index} store={fleet} index={index} ship={ship} />
-          ))}
-        </div>
+        <Box maxWidth={8 * 125}>
+          <Grid container spacing={1}>
+            {ships.map((ship, index) => (
+              <Grid key={index} item xs={6} style={{ minWidth: 8 * 60 }}>
+                <ShipForm key={index} store={fleet} index={index} ship={ship} />
+              </Grid>
+            ))}
+          </Grid>
 
-        <FleetDetail
-          operation={operation.asKcObject}
-          fleet={fleet.asKcObject}
-          fleetRole={fleetRole}
-          isCombinedFleet={isCombinedFleet}
-          combinedFleetPlanes={combinedFleetPlanes}
-        />
+          <FleetDetail
+            operation={operation.asKcObject}
+            fleet={fleet.asKcObject}
+            fleetRole={fleetRole}
+            isCombinedFleet={isCombinedFleet}
+            combinedFleetPlanes={combinedFleetPlanes}
+          />
+        </Box>
       </div>
     </FlexBox>
   )
