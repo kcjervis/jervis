@@ -11,7 +11,7 @@ const getPoiEnemyFleets = async (mapId, point, difficulty) => {
       console.log(err)
     }
   })
-  await sleep(100)
+  await sleep(50)
 
   if (!res) {
     console.log(`${url} is not found`)
