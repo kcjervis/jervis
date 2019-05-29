@@ -8,40 +8,57 @@ import {
   InstallationType
 } from 'kc-calculator'
 import { round } from 'lodash-es'
+import clsx from 'clsx'
 
 import Box from '@material-ui/core/Box'
-import Paper from '@material-ui/core/Paper'
+import Paper, { PaperProps } from '@material-ui/core/Paper'
 import Typography from '@material-ui/core/Typography'
 import Tooltip from '@material-ui/core/Tooltip'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import Checkbox from '@material-ui/core/Checkbox'
 import TextField from '@material-ui/core/TextField'
+import { makeStyles, createStyles } from '@material-ui/core/styles'
 
 import { toPercent } from '../../utils'
 import { Select, Table, FlexBox } from '../../components'
 import { useSelect, useInput, useCheck } from '../../hooks'
 import ShellingStats from './ShellingStats'
 
+const useStyles = makeStyles(
+  createStyles({
+    root: {
+      padding: 4
+    }
+  })
+)
+
 const installationTypes: InstallationType[] = ['None', 'SoftSkinned', 'Pillbox', 'IsolatedIsland', 'SupplyDepot']
 const installationTypeToJp = (type: InstallationType) =>
   ({ None: '水上艦', SoftSkinned: 'ソフトスキン', Pillbox: '砲台', IsolatedIsland: '離島', SupplyDepot: '集積' }[type])
 
-type ShipShellingStatusCardProps = {
-  shipInformation: ShipInformation
-  specialAttackRate: ReturnType<typeof DayCombatSpecialAttack.calcRate>
+export const useInstallationTypeSelect = (init?: InstallationType) => {
+  const select = useSelect(installationTypes, init)
+  const getOptionLabel = installationTypeToJp
+  return { ...select, getOptionLabel }
 }
 
+type ShipShellingStatusCardProps = {
+  shipInformation: ShipInformation
+  combinedFleetFactor: number
+  specialAttackRate: ReturnType<typeof DayCombatSpecialAttack.calcRate>
+} & PaperProps
+
 const ShipShellingStatusCard: React.FC<ShipShellingStatusCardProps> = props => {
-  const { shipInformation, specialAttackRate } = props
+  const classes = useStyles()
+  const { shipInformation, combinedFleetFactor, specialAttackRate, className, ...paperProps } = props
   const { ship } = shipInformation
   const status = new ShipShellingStatus(ship)
 
   const options = new Array<DayCombatSpecialAttack | undefined>(undefined).concat(specialAttackRate.attacks)
   const specialAttackSelect = useSelect(options)
-  const apShellCheck = useCheck()
-  const installationTypeSelect = useSelect<InstallationType>(installationTypes)
+  const apCheck = useCheck()
+  const installationTypeSelect = useInstallationTypeSelect()
 
-  const combinedFleetFactorInput = useInput(0)
   const specialMultiplicativeInput = useInput(1)
 
   const createCellRenderer = (isCritical = false) => (engagement: Engagement) => {
@@ -49,9 +66,9 @@ const ShipShellingStatusCard: React.FC<ShipShellingStatusCardProps> = props => {
       ...shipInformation,
       isCritical,
       engagement,
-      combinedFleetFactor: combinedFleetFactorInput.value,
+      combinedFleetFactor,
       specialAttack: specialAttackSelect.value,
-      apShell: apShellCheck.checked,
+      isArmorPiercing: apCheck.checked,
       installationType: installationTypeSelect.value,
       specialMultiplicative: specialMultiplicativeInput.value
     })
@@ -68,26 +85,19 @@ const ShipShellingStatusCard: React.FC<ShipShellingStatusCardProps> = props => {
   const visibleAp = ship.hasEquipmentCategory('ArmorPiercingShell') && ship.hasEquipmentCategory(cate => cate.isMainGun)
 
   return (
-    <Paper>
-      <FlexBox>
-        <Typography>砲撃戦(簡易)</Typography>
+    <Paper className={clsx(className, classes.root)} {...paperProps}>
+      <Typography variant="subtitle2">砲撃戦(簡易)</Typography>
+
+      <Box display="flex" alignItems="end" mt={1}>
         <Select
           style={{ minWidth: 80, marginLeft: 8 }}
           {...specialAttackSelect}
           getOptionLabel={option => (option ? option.name : '単発')}
         />
-      </FlexBox>
 
-      <Box display="flex" alignItems="end" mt={1}>
-        <TextField label="連合艦隊補正" style={{ width: 8 * 15 }} {...combinedFleetFactorInput} />
+        <Select label="敵種別" style={{ minWidth: 80, marginLeft: 8 }} {...installationTypeSelect} />
+        {visibleAp && <FormControlLabel label={`徹甲弾補正`} control={<Checkbox {...apCheck} />} />}
         <TextField label="a6特殊乗算補正" style={{ width: 8 * 15 }} {...specialMultiplicativeInput} />
-        <Select
-          label="敵種別"
-          style={{ minWidth: 80, marginLeft: 8 }}
-          {...installationTypeSelect}
-          getOptionLabel={installationTypeToJp}
-        />
-        {visibleAp && <FormControlLabel label={`徹甲弾補正`} control={<Checkbox {...apShellCheck} />} />}
       </Box>
 
       <Typography>攻撃力</Typography>

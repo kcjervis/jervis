@@ -1,5 +1,5 @@
 import { observer } from 'mobx-react-lite'
-import React, { useContext } from 'react'
+import React, { useContext, useCallback } from 'react'
 import {
   AirControlState,
   Formation,
@@ -15,15 +15,17 @@ import Checkbox from '@material-ui/core/Checkbox'
 import Box from '@material-ui/core/Box'
 import Typography from '@material-ui/core/Typography'
 import TextField from '@material-ui/core/TextField'
+import Button from '@material-ui/core/Button'
 
 import ShipShellingStatusCard from './ShipShellingStatusCard'
-import { Select, RadioGroup, Dialog } from '../../components'
+import WarfareStatusCard from './WarfareStatusCard'
+import { Select, RadioGroup } from '../../components'
 import { ObservableShip, EnemyShipStoreContext } from '../../stores'
-
 import ShipCard from '../ShipForm/ShipCard'
 import { useSelect, useInput, useCheck } from '../../hooks'
 import ShipForm from '../ShipForm'
 import { ShipSelectPanelStateContext } from '../ShipSelectPanel'
+import { mapValues } from 'lodash-es'
 
 const getRoleLabel = (role: ShipRole) => (role === 'Main' ? '主力艦' : '護衛艦')
 
@@ -31,7 +33,6 @@ const useBattleStateForm = () => {
   const fleetTypeSelect = useSelect(FleetType.values)
 
   const roleSelect = useSelect<ShipRole>(['Main', 'Escort'])
-
   const form = {
     fleetType: fleetTypeSelect,
     formation: useSelect(
@@ -40,7 +41,9 @@ const useBattleStateForm = () => {
     role: { ...roleSelect, getOptionLabel: getRoleLabel },
     airControlState: useSelect(AirControlState.values),
     isFlagship: useCheck(),
-    fleetLosModifier: useInput(0)
+    fleetLosModifier: useInput(0),
+    combinedFleetFactorInput: useInput(0),
+    remainingAmmoModifierInput: useInput(1)
   }
 
   const state = {
@@ -49,7 +52,9 @@ const useBattleStateForm = () => {
     role: form.role.value,
     airControlState: form.airControlState.value,
     isFlagship: form.isFlagship.checked,
-    fleetLosModifier: form.fleetLosModifier.value
+    fleetLosModifier: form.fleetLosModifier.value,
+    combinedFleetFactor: form.combinedFleetFactorInput.value,
+    remainingAmmoModifier: form.remainingAmmoModifierInput.value
   }
 
   return { form, state }
@@ -77,10 +82,17 @@ const ShipCalculator: React.FC<ShipCalculatorProps> = ({ ship }) => {
 
   const visibleRoleSelect = fleetType.isCombined || formation === Formation.Vanguard
 
+  const handleAddEnemyClick = useCallback(
+    () => shipSelect.onOpen({ onSelect: enemyShipStore.pushShip, abysall: true }),
+    [shipSelect, enemyShipStore]
+  )
+
+  const attacks = new Array<DayCombatSpecialAttack | undefined>(undefined).concat(specialAttackRate.attacks)
+
   return (
     <Box display="flex" justifyContent="center">
-      <Typography variant="caption" color="secondary">
-        お試し
+      <Typography variant="caption" color="error">
+        攻撃可否未実装
       </Typography>
       <Box m={1} maxWidth={8 * 125} width="100%">
         <Box display="flex" alignItems="end" m={1}>
@@ -96,13 +108,33 @@ const ShipCalculator: React.FC<ShipCalculatorProps> = ({ ship }) => {
           <FormControlLabel label="旗艦" control={<Checkbox {...form.isFlagship} />} />
           {visibleRoleSelect && <RadioGroup {...form.role} />}
         </Box>
-        <Box display="flex" flexWrap="wrap" justifyContent="space-between">
-          <ShipCard style={{ maxWidth: 8 * 60 }} ship={ship} defaultStatsExpanded={true} disableButton />
-
-          <Box maxWidth={8 * 65}>
-            <ShipShellingStatusCard shipInformation={attacker} specialAttackRate={specialAttackRate} />
-          </Box>
+        <Box>
+          <TextField label="連合艦隊補正" style={{ width: 8 * 15 }} {...form.combinedFleetFactorInput} />
+          <TextField label="弾薬量補正" style={{ width: 8 * 15 }} {...form.remainingAmmoModifierInput} />
         </Box>
+        <Box display="flex" flexWrap="wrap" justifyContent="space-between">
+          <ShipCard style={{ width: 8 * 60 }} ship={ship} defaultStatsExpanded={true} disableButton />
+
+          <ShipShellingStatusCard
+            style={{ width: 8 * 60 }}
+            shipInformation={attacker}
+            combinedFleetFactor={state.combinedFleetFactor}
+            specialAttackRate={specialAttackRate}
+          />
+        </Box>
+
+        {enemyShipStore.ships.map(enemy => (
+          <Box key={enemy.id} mt={1} display="flex" flexWrap="wrap" justifyContent="space-between">
+            <ShipCard style={{ width: 8 * 60 }} ship={enemy} visibleInfo={false} defaultStatsExpanded={true} />
+            <WarfareStatusCard
+              attacker={attacker}
+              defender={{ ship: enemy.asKcObject, side, isFlagship, fleetType, role, formation }}
+              attacks={attacks}
+              remainingAmmoModifier={state.remainingAmmoModifier}
+            />
+          </Box>
+        ))}
+        <Button onClick={handleAddEnemyClick}>ダメージ計算</Button>
       </Box>
     </Box>
   )

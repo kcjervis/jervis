@@ -26,11 +26,16 @@ const useWorkspace = () => {
 
   const itemSelector = useCallback(
     (item: WorkspaceItem) => {
+      let result: ObservableOperation | ObservableShip | undefined
       if (item.type === 'Operation') {
-        return getOperation(item.id)
+        result = getOperation(item.id)
+      } else {
+        result = getShip(item.id)
       }
-
-      return getShip(item.id)
+      if (!result) {
+        item.remove()
+      }
+      return result
     },
     [getOperation, getShip]
   )

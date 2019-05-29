@@ -41,6 +41,7 @@ interface ShipCardProps extends PaperProps {
   defaultStatsExpanded?: boolean
   onUpdate?: () => void
   disableButton?: boolean
+  visibleInfo?: boolean
 }
 
 const ShipCard: React.FC<ShipCardProps> = ({
@@ -48,6 +49,7 @@ const ShipCard: React.FC<ShipCardProps> = ({
   onUpdate,
   defaultStatsExpanded,
   disableButton,
+  visibleInfo = true,
   className,
   ...paperProps
 }) => {
@@ -84,7 +86,7 @@ const ShipCard: React.FC<ShipCardProps> = ({
           </Tooltip>
           <LevelChangeButton value={ship.level} onInput={handleLevelChange} />
           <div style={{ alignItems: 'right', visibility }}>
-            <InfoButton title="詳細" size="small" onClick={() => openShipCalculator(ship)} />
+            {visibleInfo && <InfoButton title="詳細" size="small" onClick={() => openShipCalculator(ship)} />}
             {onUpdate && <UpdateButton title="艦娘を変更" size="small" onClick={onUpdate} />}
             <RemoveButton title="艦娘を削除" size="small" onClick={ship.remove} />
           </div>

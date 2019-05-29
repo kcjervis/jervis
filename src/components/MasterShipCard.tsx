@@ -10,15 +10,10 @@ import Typography from '@material-ui/core/Typography'
 
 import ShipImage from './ShipImage'
 import StatChip from './StatChip'
+import FlexBox from './FlexBox'
 
 const useStyles = makeStyles((theme: Theme) => ({
-  root: {
-    background: 'rgba(0, 0, 0, 0.9)'
-  },
-  details: {
-    display: 'flex',
-    alignItems: 'center'
-  },
+  root: {},
   stats: {
     display: 'flex',
     flexDirection: 'column'
@@ -31,7 +26,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   }
 }))
 
-interface MasterShipCardProps {
+type MasterShipCardProps = {
   ship: MasterShip
 }
 
@@ -39,15 +34,15 @@ const MasterShipCard: React.FC<MasterShipCardProps> = ({ ship }) => {
   const classes = useStyles()
   const { id, name, shipType } = ship
   return (
-    <Card className={classes.root} elevation={12}>
-      <div className={classes.details}>
+    <div className={classes.root}>
+      <FlexBox>
         <Typography align="center">
           ID {id} {shipType.name}
         </Typography>
         <Typography variant="h5"> {name}</Typography>
-      </div>
+      </FlexBox>
 
-      <div className={classes.details}>
+      <FlexBox>
         {/* ステータス一覧 */}
         <CardContent className={classes.stats}>
           {shipStatKeys.map(statKey => {
@@ -58,8 +53,8 @@ const MasterShipCard: React.FC<MasterShipCardProps> = ({ ship }) => {
         </CardContent>
 
         <ShipImage className={classes.shipImage} masterId={id} imageType="full" />
-      </div>
-    </Card>
+      </FlexBox>
+    </div>
   )
 }
 

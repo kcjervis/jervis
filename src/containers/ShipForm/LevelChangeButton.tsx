@@ -1,5 +1,5 @@
 import { observer } from 'mobx-react-lite'
-import React, { useState, useCallback } from 'react'
+import React, { useState, useCallback, useEffect } from 'react'
 
 import { ShipStatKey } from 'kc-calculator'
 
@@ -34,6 +34,10 @@ const LevelChangeButton: React.FC<LevelChangeButtonProps> = ({ value: init, onIn
   const classes = useStyles()
   const { anchorEl, onClick, onClose } = useAnchorEl()
   const [value, setValue] = useState(init)
+
+  useEffect(() => {
+    setValue(init)
+  }, [init])
 
   const handleInput = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
