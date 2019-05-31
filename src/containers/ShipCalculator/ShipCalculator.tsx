@@ -7,7 +7,8 @@ import {
   FleetType,
   DayCombatSpecialAttack,
   ShipInformation,
-  Side
+  Side,
+  Shelling
 } from 'kc-calculator'
 
 import FormControlLabel from '@material-ui/core/FormControlLabel'
@@ -30,20 +31,29 @@ import { mapValues } from 'lodash-es'
 const getRoleLabel = (role: ShipRole) => (role === 'Main' ? '主力艦' : '護衛艦')
 
 const useBattleStateForm = () => {
+  const { singleFleetFormations, combinedFleetFormations } = Formation
   const fleetTypeSelect = useSelect(FleetType.values)
-
   const roleSelect = useSelect<ShipRole>(['Main', 'Escort'])
+  const formationSelect = useSelect(fleetTypeSelect.value.isCombined ? combinedFleetFormations : singleFleetFormations)
+
+  const enemyFleetTypeSelect = useSelect([FleetType.Single, FleetType.Combined])
+  const enemyRoleSelect = useSelect<ShipRole>(['Main', 'Escort'])
+  const enemyFormationSelect = useSelect(
+    enemyFleetTypeSelect.value.isCombined ? combinedFleetFormations : singleFleetFormations
+  )
+
   const form = {
     fleetType: fleetTypeSelect,
-    formation: useSelect(
-      fleetTypeSelect.value.isCombined ? Formation.combinedFleetFormations : Formation.singleFleetFormations
-    ),
+    formation: formationSelect,
     role: { ...roleSelect, getOptionLabel: getRoleLabel },
     airControlState: useSelect(AirControlState.values),
     isFlagship: useCheck(),
     fleetLosModifier: useInput(0),
-    combinedFleetFactorInput: useInput(0),
-    remainingAmmoModifierInput: useInput(1)
+    remainingAmmoModifierInput: useInput(1),
+
+    enemyFleetType: enemyFleetTypeSelect,
+    enemyRole: { ...enemyRoleSelect, getOptionLabel: getRoleLabel },
+    enemyFormation: enemyFormationSelect
   }
 
   const state = {
@@ -53,8 +63,11 @@ const useBattleStateForm = () => {
     airControlState: form.airControlState.value,
     isFlagship: form.isFlagship.checked,
     fleetLosModifier: form.fleetLosModifier.value,
-    combinedFleetFactor: form.combinedFleetFactorInput.value,
-    remainingAmmoModifier: form.remainingAmmoModifierInput.value
+    remainingAmmoModifier: form.remainingAmmoModifierInput.value,
+
+    enemyFleetType: form.enemyFleetType.value,
+    enemyRole: form.enemyRole.value,
+    enemyFormation: form.enemyFormation.value
   }
 
   return { form, state }
@@ -81,6 +94,7 @@ const ShipCalculator: React.FC<ShipCalculatorProps> = ({ ship }) => {
   )
 
   const visibleRoleSelect = fleetType.isCombined || formation === Formation.Vanguard
+  const visibleEnemyRoleSelect = state.enemyFleetType.isCombined || state.enemyFormation === Formation.Vanguard
 
   const handleAddEnemyClick = useCallback(
     () => shipSelect.onOpen({ onSelect: enemyShipStore.pushShip, abysall: true }),
@@ -89,13 +103,21 @@ const ShipCalculator: React.FC<ShipCalculatorProps> = ({ ship }) => {
 
   const attacks = new Array<DayCombatSpecialAttack | undefined>(undefined).concat(specialAttackRate.attacks)
 
+  const combinedFleetFactor = Shelling.getCombinedFleetFactor(attacker, {
+    side: Side.Enemy,
+    fleetType: state.enemyFleetType,
+    formation: state.enemyFormation,
+    role: state.enemyRole
+  })
+
   return (
     <Box display="flex" justifyContent="center">
       <Typography variant="caption" color="error">
         攻撃可否未実装
       </Typography>
+
       <Box m={1} maxWidth={8 * 125} width="100%">
-        <Box display="flex" alignItems="end" m={1}>
+        <Box display="flex" alignItems="end">
           <Select {...form.fleetType} />
           <Select {...form.formation} />
           <Select {...form.airControlState} />
@@ -106,11 +128,13 @@ const ShipCalculator: React.FC<ShipCalculatorProps> = ({ ship }) => {
             inputProps={{ min: 0 }}
           />
           <FormControlLabel label="旗艦" control={<Checkbox {...form.isFlagship} />} />
+
           {visibleRoleSelect && <RadioGroup {...form.role} />}
         </Box>
+
         <Box>
-          <TextField label="連合艦隊補正" style={{ width: 8 * 15 }} {...form.combinedFleetFactorInput} />
           <TextField label="弾薬量補正" style={{ width: 8 * 15 }} {...form.remainingAmmoModifierInput} />
+          <Select label="敵艦隊種別" style={{ width: 8 * 15 }} {...form.enemyFleetType} />
         </Box>
         <Box display="flex" flexWrap="wrap" justifyContent="space-between">
           <ShipCard style={{ width: 8 * 60 }} ship={ship} defaultStatsExpanded={true} disableButton />
@@ -118,7 +142,7 @@ const ShipCalculator: React.FC<ShipCalculatorProps> = ({ ship }) => {
           <ShipShellingStatusCard
             style={{ width: 8 * 60 }}
             shipInformation={attacker}
-            combinedFleetFactor={state.combinedFleetFactor}
+            combinedFleetFactor={combinedFleetFactor}
             specialAttackRate={specialAttackRate}
           />
         </Box>
@@ -128,7 +152,14 @@ const ShipCalculator: React.FC<ShipCalculatorProps> = ({ ship }) => {
             <ShipCard style={{ width: 8 * 60 }} ship={enemy} visibleInfo={false} defaultStatsExpanded={true} />
             <WarfareStatusCard
               attacker={attacker}
-              defender={{ ship: enemy.asKcObject, side, isFlagship, fleetType, role, formation }}
+              defender={{
+                ship: enemy.asKcObject,
+                side: Side.Enemy,
+                isFlagship: false,
+                fleetType: state.enemyFleetType,
+                role: state.enemyRole,
+                formation: state.enemyFormation
+              }}
               attacks={attacks}
               remainingAmmoModifier={state.remainingAmmoModifier}
             />
