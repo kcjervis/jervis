@@ -26,7 +26,7 @@ const getFighterPowers = (fp: number) => {
     return ''
   }
   const gte = (multiplier: number) => Math.ceil(fp * multiplier)
-  const gt = (multiplier: number) => gte(multiplier) + 1
+  const gt = (multiplier: number) => Math.floor(fp * multiplier) + 1
   return `確保:${gte(3)} 優勢:${gte(1.5)} 均衡:${gt(2 / 3)} 劣勢:${gt(1 / 3)}`
 }
 
