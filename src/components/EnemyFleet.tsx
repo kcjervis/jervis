@@ -46,10 +46,13 @@ export interface EnemyFleetProps {
 
 const EnemyFleet: React.FC<EnemyFleetProps> = ({ battleFleet, difficulty }) => {
   const { escortFleet, formation } = battleFleet
+
   const allPlanes = battleFleet.allShips.flatMap(ship => ship.planes)
   const fighterPower = allPlanes
     .filter(({ category }) => !category.isReconnaissanceAircraft)
     .reduce((value, plane) => value + plane.fighterPower, 0)
+
+  const isUnknown = battleFleet.allShips.flatMap(ship => ship.slots).some(size => size < 0)
 
   const lbasFighterPower = allPlanes.reduce((value, plane) => value + plane.interceptionPower, 0)
 
@@ -61,12 +64,18 @@ const EnemyFleet: React.FC<EnemyFleetProps> = ({ battleFleet, difficulty }) => {
       <Typography>
         {difficulty && difficultyToString(difficulty)} {formation.name}
       </Typography>
-      <Typography>
-        制空:{fighterPower} {getFighterPowers(fighterPower)}
-      </Typography>
-      <Typography>
-        基地戦:{lbasFighterPower} {getFighterPowers(lbasFighterPower)}
-      </Typography>
+      {isUnknown ? (
+        <Typography>不明</Typography>
+      ) : (
+        <>
+          <Typography>
+            制空:{fighterPower} {getFighterPowers(fighterPower)}
+          </Typography>
+          <Typography>
+            基地戦:{lbasFighterPower} {getFighterPowers(lbasFighterPower)}
+          </Typography>
+        </>
+      )}
     </div>
   )
 }
