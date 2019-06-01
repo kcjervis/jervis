@@ -73,11 +73,14 @@ const getPoiEventCell = async (mapId, point) => {
 
 const indexToChar = index => {
   const initialCode = 'A'.charCodeAt(0)
+  if (index > 40) {
+    return 'Q' + (index - 40)
+  }
   if (index > 35) {
-    return 'Q' + (index - 35)
+    return 'P' + (index - 35)
   }
   if (index > 30) {
-    return 'P' + (index - 30)
+    return 'O' + (index - 30)
   }
   if (index > 25) {
     return 'Z' + (index - 25)
@@ -109,7 +112,7 @@ const getPoiEventMap = async mapId => {
     mapId,
     cells: []
   }
-  const points = lodash.times(30).map(indexToChar)
+  const points = lodash.times(45).map(indexToChar)
   for (const point of points) {
     const cell = await getPoiEventCell(mapId, point)
     if (cell !== 404) {
@@ -122,9 +125,6 @@ const getPoiEventMap = async mapId => {
 const writeMaps = async mapIds => {
   const maps = require('../src/data/maps')
   for (const mapId of mapIds) {
-    if (maps.some(map => map.mapId === mapId)) {
-      continue
-    }
     if (mapId < 100) {
       const map = await getPoiNormalMap(mapId)
       maps.push(map)
@@ -140,5 +140,4 @@ const writeMaps = async mapIds => {
 }
 
 const createMapIds = ([worldId, length]) => lodash.range(worldId * 10 + 1, worldId * 10 + 1 + length)
-
 writeMaps([[1, 6], [2, 5], [3, 5], [4, 5], [5, 5], [6, 5], [7, 2], [44, 5]].flatMap(createMapIds))
