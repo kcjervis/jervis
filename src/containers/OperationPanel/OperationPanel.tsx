@@ -65,12 +65,6 @@ const OperationPanel: React.FC<OperationPanelProps> = ({ operation }) => {
     operation.fleetType = fleetType
   }
 
-  const handleSideChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { checked } = event.target
-    const side = checked ? Side.Enemy : Side.Player
-    operation.side = side
-  }
-
   const handleVisibleShipStatsChange = () => {
     const { operationPage } = settingStore
     operationPage.visibleShipStats = !operationPage.visibleShipStats
@@ -82,6 +76,12 @@ const OperationPanel: React.FC<OperationPanelProps> = ({ operation }) => {
 
   const handleHqLevelChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     operation.hqLevel = Number(event.target.value)
+  }
+
+  const handleSideChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { checked } = event.target
+    const side = checked ? Side.Enemy : Side.Player
+    operation.side = side
   }
 
   const { activeFleetIndex } = operation
@@ -122,10 +122,10 @@ const OperationPanel: React.FC<OperationPanelProps> = ({ operation }) => {
             label="ステータス表示"
           />
         </div>
-        {/* <FormControlLabel
+        <FormControlLabel
           control={<Checkbox checked={operation.side === Side.Enemy} onChange={handleSideChange} />}
-          label={<Typography variant="caption">敵艦隊</Typography>}
-        /> */}
+          label="敵艦隊"
+        />
 
         <ShareButton title="共有URLの生成、デッキビルダー、編成画像出力が使えます" onClick={onShareOpen} />
         <OperationShareDialog operation={operation} {...shareProps} />

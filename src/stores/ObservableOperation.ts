@@ -10,13 +10,18 @@ import toNishikuma from './toNishikuma'
 import OperationStore from './OperationStore'
 import { StoreItem } from '../types'
 
+type OperationData = IOperationDataObject & { name?: string; hqLevel?: number; description?: string }
+
 export default class ObservableOperation implements IOperationDataObject, StoreItem<OperationStore> {
-  public static create = (operationData: IOperationDataObject & { name?: string; description?: string }) => {
+  public static create = (operationData: OperationData) => {
     const observableOperation = new ObservableOperation()
 
-    const { name, description } = operationData
+    const { name, description, hqLevel } = operationData
     if (name) {
       observableOperation.name = name
+    }
+    if (hqLevel) {
+      observableOperation.hqLevel = hqLevel
     }
     if (description) {
       observableOperation.description = description

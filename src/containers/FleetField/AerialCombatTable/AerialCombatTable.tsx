@@ -1,7 +1,5 @@
-import { IFleet, FleetRole, nonNullable, BattleType, IOperation, Formation } from 'kc-calculator'
-import { getCombinedFleetModifier } from 'kc-calculator/dist/Battle/AerialCombat/antiAir'
-import AntiAirCutin from 'kc-calculator/dist/Battle/AerialCombat/AntiAirCutin'
-import { fleetAntiAir as calcFleetAntiAir } from 'kc-calculator/dist/Battle/AerialCombat/antiAir'
+import { IFleet, FleetRole, nonNullable, BattleType, IOperation, Formation, Side } from 'kc-calculator'
+import { AntiAirCutin, FleetAntiAir } from 'kc-calculator/dist/Battle/AerialCombat'
 import React from 'react'
 import { union } from 'lodash-es'
 import { observer } from 'mobx-react-lite'
@@ -18,6 +16,8 @@ import { useSelect } from '../../../hooks'
 import AerialCombatShipRow from './AerialCombatShipRow'
 import calcAntiAirCutinRates from './calcAntiAirCutinRate'
 import AntiAirCutinRatePieChart from './AntiAirCutinRatePieChart'
+
+const { calcFleetAntiAir, getCombinedFleetModifier } = FleetAntiAir
 
 type AerialCombatTableProps = {
   operation: IOperation
@@ -40,7 +40,7 @@ const AerialCombatTable: React.FC<AerialCombatTableProps> = ({ operation, fleet,
     allShips = mainFleet.ships.concat(escortFleet.ships).filter(nonNullable)
     fleetAntiAir =
       calcFleetAntiAir(mainFleet, side, formationModifier) + calcFleetAntiAir(escortFleet, side, formationModifier)
-    combinedFleetModifier = getCombinedFleetModifier(BattleType.NormalBattle, fleetRole)
+    combinedFleetModifier = getCombinedFleetModifier(fleetRole, BattleType.NormalBattle)
   }
 
   const antiAirCutins = union(...allShips.map(ship => AntiAirCutin.getPossibleAntiAirCutins(ship)))
@@ -50,7 +50,7 @@ const AerialCombatTable: React.FC<AerialCombatTableProps> = ({ operation, fleet,
 
   return (
     <>
-      <div style={{ display: 'flex', alignItems: 'center' }}>
+      <div style={{ display: 'flex', alignItems: 'end' }}>
         <Select label="陣形" {...formationSelect} />
         <Select
           label="対空CI"
@@ -61,6 +61,11 @@ const AerialCombatTable: React.FC<AerialCombatTableProps> = ({ operation, fleet,
           艦隊防空: {fleetAntiAir.toFixed(2)}
           {isCombinedFleet ? ` 連合艦隊補正: ${combinedFleetModifier}(通常戦固定)` : null}
         </Typography>
+        {side === Side.Enemy && (
+          <Typography style={{ marginLeft: 8 }} color="secondary">
+            敵側式
+          </Typography>
+        )}
       </div>
 
       <Table>

@@ -1,11 +1,6 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { IShip, Side, AerialCombat } from 'kc-calculator'
-import {
-  fleetAntiAir as calcFleetAntiAir,
-  shipAdjustedAntiAir as calcShipAdjustedAntiAir,
-  fixedShotdownNumber,
-  proportionalShotdownRate
-} from 'kc-calculator/dist/Battle/AerialCombat/antiAir'
+import { ShipAntiAir } from 'kc-calculator/dist/Battle/AerialCombat'
 import { observer } from 'mobx-react-lite'
 
 import calcAntiAirCutinRates from './calcAntiAirCutinRate'
@@ -15,17 +10,6 @@ import TableRow from '@material-ui/core/TableRow'
 import Typography from '@material-ui/core/Typography'
 
 import { toPercent } from '../../../utils'
-
-const calcAntiAirPropellantBarrageChance = (ship: IShip, adjustedAntiAir: number) => {
-  const count = ship.countEquipment(274)
-  if (!count) {
-    return 0
-  }
-  const equipmentBonus = 40 + 30 * count
-  const shipClassBonus = ship.shipClass.is('IseClass') ? 70 : 0
-  const numerator = 400 - (48 + equipmentBonus + shipClassBonus)
-  return (adjustedAntiAir + 0.9 * ship.stats.luck) / numerator
-}
 
 type AerialCombatShipRowProps = {
   ship: IShip
@@ -42,20 +26,25 @@ const AerialCombatShipRow: React.FC<AerialCombatShipRowProps> = ({
   combinedFleetModifier,
   antiAirCutin
 }) => {
+  const shipAntiAir = new ShipAntiAir(ship, side, fleetAntiAir, combinedFleetModifier, antiAirCutin)
+  const {
+    adjustedAntiAir,
+    proportionalShotdownRate,
+    fixedShotdownNumber,
+    minimumBonus,
+    antiAirPropellantBarrageChance
+  } = shipAntiAir
   const aaciRates = calcAntiAirCutinRates(ship)
-  const adjustedAntiAir = calcShipAdjustedAntiAir(ship, side)
-  const propellantBarrageChance = calcAntiAirPropellantBarrageChance(ship, adjustedAntiAir)
+
   return (
     <TableRow>
       <TableCell component="th" scope="row">
         {ship.name}
       </TableCell>
       <TableCell align="right">{adjustedAntiAir}</TableCell>
-      <TableCell align="right">{proportionalShotdownRate(ship, side, combinedFleetModifier).toFixed(4)}</TableCell>
-      <TableCell align="right">
-        {fixedShotdownNumber(ship, side, fleetAntiAir, combinedFleetModifier, antiAirCutin)}
-      </TableCell>
-      <TableCell align="right">{antiAirCutin ? antiAirCutin.minimumBonus : 1}</TableCell>
+      <TableCell align="right">{proportionalShotdownRate.toFixed(4)}</TableCell>
+      <TableCell align="right">{fixedShotdownNumber}</TableCell>
+      <TableCell align="right">{minimumBonus}</TableCell>
       <TableCell align="right">
         {aaciRates.map(({ cutin, rate }) => (
           <Typography key={cutin.id}>
@@ -63,7 +52,9 @@ const AerialCombatShipRow: React.FC<AerialCombatShipRowProps> = ({
           </Typography>
         ))}
       </TableCell>
-      <TableCell align="right">{toPercent(propellantBarrageChance)}</TableCell>
+      <TableCell align="right">
+        {antiAirPropellantBarrageChance !== 0 ? toPercent(antiAirPropellantBarrageChance) : '不可'}
+      </TableCell>
     </TableRow>
   )
 }

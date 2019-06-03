@@ -63,7 +63,6 @@ const createEnemyBattleFleet = (enemy: TEnemyFleet) => {
 
 export const enemyFleetToOperation = (enemyFleet: TEnemyFleet) => {
   const { ships, formation: formationName } = enemyFleet
-  const name = '敵編成'
   const side = Side.Enemy
   const isCombinedFleet = ships.length > 6
   const fleetType = isCombinedFleet ? FleetTypeName.Combined : FleetTypeName.Single

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { PieChart, Pie, Label, Cell } from 'recharts'
 
 import { blue, green, yellow, orange, pink, purple, blueGrey } from '@material-ui/core/colors'

@@ -57,6 +57,10 @@ const MapsPanel: React.FC<MapsPanelProps> = ({ onSelect }) => {
 
   const isEvent = mapSelect.value.mapId > 100
 
+  const { mapId } = mapSelect.value
+  const { point } = cellSelect.value
+  const pointName = `${mapId} ${point} ${isEvent ? getDifficultyLabel(difficultySelect.value) : ''}`
+
   const enemyBattleFleets = useMemo(() => {
     let { enemies } = cellSelect.value
     if (!enemies) {
@@ -86,7 +90,7 @@ const MapsPanel: React.FC<MapsPanelProps> = ({ onSelect }) => {
       <SelectButtons {...cellSelect} getOptionLabel={getCellLabel} buttonProps={{ size: 'large' }} />
 
       {enemyBattleFleets.map((battleFleet, index) => (
-        <EnemyFleetCard key={index} fleet={battleFleet} onSelect={onSelect} />
+        <EnemyFleetCard key={index} fleet={battleFleet} onSelect={onSelect} name={pointName} />
       ))}
     </Box>
   )
