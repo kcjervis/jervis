@@ -10,7 +10,7 @@ import Typography from '@material-ui/core/Typography'
 import Tooltip from '@material-ui/core/Tooltip'
 import { makeStyles } from '@material-ui/styles'
 
-import { ShipImage, InfoButton, RemoveButton, UpdateButton } from '../../components'
+import { ShipImage, InfoButton, ClearButton, UpdateButton } from '../../components'
 import EquipmentField from '../EquipmentField'
 import EquipmentForm from '../EquipmentForm'
 
@@ -87,8 +87,8 @@ const ShipCard: React.FC<ShipCardProps> = ({
           <LevelChangeButton value={ship.level} onInput={handleLevelChange} />
           <div style={{ alignItems: 'right', visibility }}>
             {visibleInfo && <InfoButton title="詳細" size="small" onClick={() => openShipCalculator(ship)} />}
-            {onUpdate && <UpdateButton title="艦娘を変更" size="small" onClick={onUpdate} />}
-            <RemoveButton title="艦娘を削除" size="small" onClick={ship.remove} />
+            {onUpdate && <UpdateButton title="変更" size="small" onClick={onUpdate} />}
+            <ClearButton title="削除" size="small" onClick={ship.remove} />
           </div>
         </Box>
 

@@ -1,4 +1,4 @@
-import { IFleet, FleetRole, nonNullable, BattleType, IOperation, Formation, Side } from 'kc-calculator'
+import { IFleet, FleetRole, nonNullable, BattleType, IOperation, Formation, Side, IShip } from 'kc-calculator'
 import { AntiAirCutin, FleetAntiAir } from 'kc-calculator/dist/Battle/AerialCombat'
 import React from 'react'
 import { union } from 'lodash-es'
@@ -19,6 +19,9 @@ import AntiAirCutinRatePieChart from './AntiAirCutinRatePieChart'
 
 const { calcFleetAntiAir, getCombinedFleetModifier } = FleetAntiAir
 
+const mainFleetModifier = getCombinedFleetModifier(FleetRole.MainFleet, BattleType.NormalBattle)
+const escortFleetModifier = getCombinedFleetModifier(FleetRole.EscortFleet, BattleType.NormalBattle)
+
 type AerialCombatTableProps = {
   operation: IOperation
 
@@ -35,18 +38,36 @@ const AerialCombatTable: React.FC<AerialCombatTableProps> = ({ operation, fleet,
 
   let allShips = fleet.ships.filter(nonNullable)
   let fleetAntiAir = calcFleetAntiAir(fleet, side, formationModifier)
-  let combinedFleetModifier: number | undefined
   if (isCombinedFleet && escortFleet) {
     allShips = mainFleet.ships.concat(escortFleet.ships).filter(nonNullable)
     fleetAntiAir =
       calcFleetAntiAir(mainFleet, side, formationModifier) + calcFleetAntiAir(escortFleet, side, formationModifier)
-    combinedFleetModifier = getCombinedFleetModifier(fleetRole, BattleType.NormalBattle)
   }
 
   const antiAirCutins = union(...allShips.map(ship => AntiAirCutin.getPossibleAntiAirCutins(ship)))
   const antiAirCutinSelect = useSelect(new Array<AntiAirCutin | undefined>(undefined).concat(antiAirCutins))
 
   const aaciRateData = calcAntiAirCutinRates(allShips)
+
+  let combinedFleetTable: undefined | React.ReactNode
+  if (isCombinedFleet && escortFleet) {
+    const getShipRowRenderer = (combinedFleetModifier: number) => (ship: IShip, index: number) => (
+      <AerialCombatShipRow
+        key={index}
+        ship={ship}
+        side={side}
+        fleetAntiAir={fleetAntiAir}
+        combinedFleetModifier={combinedFleetModifier}
+        antiAirCutin={antiAirCutinSelect.value}
+      />
+    )
+    combinedFleetTable = (
+      <>
+        {mainFleet.nonNullableShips.map(getShipRowRenderer(mainFleetModifier))}
+        {escortFleet.nonNullableShips.map(getShipRowRenderer(escortFleetModifier))}
+      </>
+    )
+  }
 
   return (
     <>
@@ -57,10 +78,7 @@ const AerialCombatTable: React.FC<AerialCombatTableProps> = ({ operation, fleet,
           {...antiAirCutinSelect}
           getOptionLabel={option => (option ? `${option.id}種` : '不発')}
         />
-        <Typography color="primary">
-          艦隊防空: {fleetAntiAir.toFixed(2)}
-          {isCombinedFleet ? ` 連合艦隊補正: ${combinedFleetModifier}(通常戦固定)` : null}
-        </Typography>
+        <Typography color="primary">艦隊防空: {fleetAntiAir.toFixed(2)}</Typography>
         {side === Side.Enemy && (
           <Typography style={{ marginLeft: 8 }} color="secondary">
             敵側式
@@ -81,16 +99,17 @@ const AerialCombatTable: React.FC<AerialCombatTableProps> = ({ operation, fleet,
           </TableRow>
         </TableHead>
         <TableBody>
-          {allShips.map((ship, index) => (
-            <AerialCombatShipRow
-              key={index}
-              ship={ship}
-              side={side}
-              fleetAntiAir={fleetAntiAir}
-              combinedFleetModifier={combinedFleetModifier}
-              antiAirCutin={antiAirCutinSelect.value}
-            />
-          ))}
+          {isCombinedFleet
+            ? combinedFleetTable
+            : allShips.map((ship, index) => (
+                <AerialCombatShipRow
+                  key={index}
+                  ship={ship}
+                  side={side}
+                  fleetAntiAir={fleetAntiAir}
+                  antiAirCutin={antiAirCutinSelect.value}
+                />
+              ))}
         </TableBody>
       </Table>
 

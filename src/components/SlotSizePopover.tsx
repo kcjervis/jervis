@@ -27,6 +27,13 @@ const SlotSizePopover: React.FC<SlotSizePopoverProps> = ({ value, max, onChange 
     },
     [onChange]
   )
+
+  const handleSliderChange = (event: unknown, value: number | number[]) => {
+    if (typeof value === 'number') {
+      onChange(value)
+    }
+  }
+
   const handleIncrementClick = useCallback(() => {
     onChange(value + 1)
   }, [value, onChange])
@@ -58,7 +65,7 @@ const SlotSizePopover: React.FC<SlotSizePopoverProps> = ({ value, max, onChange 
       >
         <TextField style={{ margin: 8 }} label="slot size" value={value} onChange={handleChange} type="number" />
         <Box m={1}>
-          <Slider value={value} onChange={(event, value) => onChange(value)} min={0} max={max} step={1} />
+          <Slider value={value} onChange={handleSliderChange} min={0} max={max} step={1} />
         </Box>
         <div style={{ display: 'flex', justifyContent: 'space-around' }}>
           <IconButton onClick={handleDecrementClick}>

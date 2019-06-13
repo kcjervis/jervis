@@ -165,7 +165,7 @@ const ShipCalculator: React.FC<ShipCalculatorProps> = ({ ship }) => {
             />
           </Box>
         ))}
-        <Button onClick={handleAddEnemyClick}>ダメージ計算</Button>
+        <Button onClick={handleAddEnemyClick}>敵と比較</Button>
       </Box>
     </Box>
   )

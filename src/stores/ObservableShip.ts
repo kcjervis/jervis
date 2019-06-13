@@ -17,19 +17,35 @@ export default class ObservableShip implements IShipDataObject, ObservableEquipm
   @computed public get asKcObject() {
     const ship = kcObjectFactory.createShip(this)
     if (!ship) {
-      throw console.error(`masterId: ${this.masterId} ship is undefined`)
+      throw new Error(`masterId: ${this.masterId} ship is undefined`)
     }
     return ship
   }
 
   public static create = (data: IShipDataObject, store: StoreType) => {
-    const { masterId, level, slots, equipments, nowHp, increased } = data
+    const { masterId, level, slots, equipments = [], nowHp, increased } = data
     const observableShip = new ObservableShip()
     observableShip.masterId = masterId
-    observableShip.level = level
-    observableShip.slots = slots.concat()
+
+    const masterShip = masterData.findMasterShip(masterId)
+    if (!masterShip) {
+      throw new Error(`masterId: ${masterId} ship is undefined`)
+    }
+
+    if (level) {
+      observableShip.level = level
+    } else {
+      observableShip.level = masterShip.isAbyssal ? 1 : 99
+    }
+
+    if (slots) {
+      observableShip.slots = slots.concat()
+    } else {
+      observableShip.slots = masterShip.slotCapacities.concat()
+    }
+
     observableShip.equipments = observable(
-      range(slots.length + 1).map(index => {
+      range(observableShip.slots.length + 1).map(index => {
         const equip = equipments[index]
         if (!equip || equip.masterId <= 0) {
           return undefined

@@ -46,6 +46,12 @@ const LevelChangeButton: React.FC<LevelChangeButtonProps> = ({ value: init, onIn
     [setValue]
   )
 
+  const handleSliderChange = (event: unknown, value: number | number[]) => {
+    if (typeof value === 'number') {
+      setValue(value)
+    }
+  }
+
   const set1 = useCallback(() => setValue(1), [setValue])
   const set99 = useCallback(() => setValue(99), [setValue])
   const set175 = useCallback(() => setValue(175), [setValue])
@@ -72,7 +78,7 @@ const LevelChangeButton: React.FC<LevelChangeButtonProps> = ({ value: init, onIn
           <Input {...baseProps} onChange={handleInput} type="number" />
 
           <Box m={1}>
-            <Slider {...baseProps} onChange={(event, next) => setValue(next)} step={1} />
+            <Slider {...baseProps} onChange={handleSliderChange} step={1} />
           </Box>
 
           <Box display="flex" justifyContent="space-between">

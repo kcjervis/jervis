@@ -4,12 +4,13 @@ import CopyToClipboard from 'react-copy-to-clipboard'
 import { Omit } from '@material-ui/core'
 import IconButton, { IconButtonProps } from '@material-ui/core/IconButton'
 import Add from '@material-ui/icons/Add'
+import ClearIcon from '@material-ui/icons/Clear'
 import CloseIcon from '@material-ui/icons/Close'
 import Delete from '@material-ui/icons/Delete'
 import FileCopyIcon from '@material-ui/icons/FileCopy'
 import LinkIcon from '@material-ui/icons/Link'
 import MoreVert from '@material-ui/icons/MoreVert'
-import RefreshIcon from '@material-ui/icons/Refresh'
+import CachedIcon from '@material-ui/icons/Cached'
 import InfoIcon from '@material-ui/icons/Info'
 import SaveIcon from '@material-ui/icons/Save'
 import ShareIcon from '@material-ui/icons/Share'
@@ -20,9 +21,10 @@ import withIconButton, { WithIconButtonProps } from '../hocs/withIconButton'
 
 export const AddButton = withIconButton(Add)
 export const CloseButton = withIconButton(CloseIcon)
+export const ClearButton = withIconButton(ClearIcon)
 export const MoreVertButton = withIconButton(MoreVert)
 export const RemoveButton = withIconButton(Delete)
-export const UpdateButton = withIconButton(RefreshIcon)
+export const UpdateButton = withIconButton(CachedIcon)
 export const LinkButton = withIconButton(LinkIcon)
 export const ShareButton = withIconButton(ShareIcon)
 export const SaveButton = withIconButton(SaveIcon)

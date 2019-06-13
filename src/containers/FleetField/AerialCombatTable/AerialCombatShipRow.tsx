@@ -8,6 +8,7 @@ import calcAntiAirCutinRates from './calcAntiAirCutinRate'
 import TableCell from '@material-ui/core/TableCell'
 import TableRow from '@material-ui/core/TableRow'
 import Typography from '@material-ui/core/Typography'
+import Tooltip from '@material-ui/core/Tooltip'
 
 import { toPercent } from '../../../utils'
 
@@ -23,7 +24,7 @@ const AerialCombatShipRow: React.FC<AerialCombatShipRowProps> = ({
   ship,
   side,
   fleetAntiAir,
-  combinedFleetModifier,
+  combinedFleetModifier = 1,
   antiAirCutin
 }) => {
   const shipAntiAir = new ShipAntiAir(ship, side, fleetAntiAir, combinedFleetModifier, antiAirCutin)
@@ -38,9 +39,11 @@ const AerialCombatShipRow: React.FC<AerialCombatShipRowProps> = ({
 
   return (
     <TableRow>
-      <TableCell component="th" scope="row">
-        {ship.name}
-      </TableCell>
+      <Tooltip title={`連合艦隊補正${combinedFleetModifier}`}>
+        <TableCell component="th" scope="row">
+          {ship.name}
+        </TableCell>
+      </Tooltip>
       <TableCell align="right">{adjustedAntiAir}</TableCell>
       <TableCell align="right">{proportionalShotdownRate.toFixed(4)}</TableCell>
       <TableCell align="right">{fixedShotdownNumber}</TableCell>

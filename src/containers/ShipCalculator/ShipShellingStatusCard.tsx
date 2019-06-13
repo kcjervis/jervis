@@ -20,7 +20,7 @@ import TextField from '@material-ui/core/TextField'
 import { makeStyles, createStyles } from '@material-ui/core/styles'
 
 import { toPercent } from '../../utils'
-import { Select, Table, FlexBox } from '../../components'
+import { Select, Table } from '../../components'
 import { useSelect, useInput, useCheck } from '../../hooks'
 import ShellingStats from './ShellingStats'
 
@@ -59,7 +59,7 @@ const ShipShellingStatusCard: React.FC<ShipShellingStatusCardProps> = props => {
   const apCheck = useCheck()
   const installationTypeSelect = useInstallationTypeSelect()
 
-  const specialMultiplicativeInput = useInput(1)
+  const eventMapModifier = useInput(1)
 
   const createCellRenderer = (isCritical = false) => (engagement: Engagement) => {
     const shellingPower = status.calcPower({
@@ -70,7 +70,7 @@ const ShipShellingStatusCard: React.FC<ShipShellingStatusCardProps> = props => {
       specialAttack: specialAttackSelect.value,
       isArmorPiercing: apCheck.checked,
       installationType: installationTypeSelect.value,
-      specialMultiplicative: specialMultiplicativeInput.value
+      eventMapModifier: eventMapModifier.value
     })
     const color = shellingPower.isCapped ? 'secondary' : 'inherit'
     return (
@@ -97,7 +97,7 @@ const ShipShellingStatusCard: React.FC<ShipShellingStatusCardProps> = props => {
 
         <Select label="敵種別" style={{ minWidth: 80, marginLeft: 8 }} {...installationTypeSelect} />
         {visibleAp && <FormControlLabel label={`徹甲弾補正`} control={<Checkbox {...apCheck} />} />}
-        <TextField label="a6特殊乗算補正" style={{ width: 8 * 15 }} {...specialMultiplicativeInput} />
+        <TextField label="イベント特効(a11)" style={{ width: 8 * 17 }} {...eventMapModifier} />
       </Box>
 
       <Typography>攻撃力</Typography>

@@ -4,37 +4,16 @@ import clsx from 'clsx'
 
 import { Theme } from '@material-ui/core'
 import Box from '@material-ui/core/Box'
-import Popover from '@material-ui/core/Popover'
 import Dialog from '@material-ui/core/Dialog'
 import { makeStyles } from '@material-ui/styles'
-import BuildIcon from '@material-ui/icons/Build'
 
 import AddItemButton from './AddItemButton'
+import EquipmentItemControlLabel from './EquipmentItemControlLabel'
 import EquipmentsDataTable from '../EquipmentsDataTable'
 
-import { EquipmentCard, EquipmentLabel, ImprovementSelect, ProficiencySelect, SlotSizePopover } from '../../components'
 import { useAnchorEl, useDragAndDrop, useOpen, useEquipmentSelect } from '../../hooks'
 import { ObservableLandBasedAirCorps, ObservableShip } from '../../stores'
 import { swap } from '../../utils'
-
-const useStyles = makeStyles((theme: Theme) => ({
-  slotSize: {
-    color: theme.palette.grey[500],
-    width: 16,
-    paddingRight: 2,
-    textAlign: 'right',
-    flexShrink: 0
-  },
-  label: {
-    cursor: 'pointer',
-    '&:hover': {
-      filter: 'drop-shadow(0 0 4px rgba(255,255,255,0.8))'
-    }
-  },
-  proficiency: {
-    marginRight: 4
-  }
-}))
 
 type EquipmentItemFormProps = {
   index: number
@@ -68,15 +47,8 @@ const useEquipmentItemState = (props: EquipmentItemFormProps) => {
   }
 
   const equipable = store.canEquip(equipItem.asKcObject, index)
-  const onImprovementChange = (value: number) => {
-    equipItem.improvement = value
-  }
-  const onProficiencyChange = (value: number) => {
-    equipItem.proficiency = value
-  }
-  const onRemove = equipItem.remove
 
-  return { ...base, item: equipItem, equipable, onImprovementChange, onProficiencyChange, onRemove }
+  return { ...base, item: equipItem, equipable }
 }
 
 const EquipmentItemForm: React.FC<EquipmentItemFormProps> = props => {
@@ -84,52 +56,18 @@ const EquipmentItemForm: React.FC<EquipmentItemFormProps> = props => {
   const { slotSize, maxSlotSize, onSlotSizeChange, dndRef, isDragging, selectProps } = state
   const cardProps = useAnchorEl()
   const dialogProps = useOpen()
-  const classes = useStyles()
 
   let element: JSX.Element = <AddItemButton slotSize={slotSize} onClick={dialogProps.onOpen} />
   if ('item' in state) {
-    const { item, equipable, onImprovementChange, onProficiencyChange, onRemove } = state
-    const { improvement, proficiency } = item
-    const kcItem = item.asKcObject
-    const visibleProficiency = kcItem.category.isAerialCombatAircraft
+    const { item } = state
     element = (
-      <Box height="100%" display="flex" alignItems="center" justifyContent="space-between">
-        <div className={classes.slotSize}>
-          {slotSize === undefined || maxSlotSize === undefined ? (
-            <BuildIcon style={{ fontSize: '0.875rem', verticalAlign: 'middle' }} />
-          ) : (
-            onSlotSizeChange && <SlotSizePopover value={slotSize} max={maxSlotSize} onChange={onSlotSizeChange} />
-          )}
-        </div>
-
-        <EquipmentLabel
-          className={classes.label}
-          width={`calc(100% - ${visibleProficiency ? 64 : 40}px)`}
-          equipment={kcItem}
-          equipable={equipable}
-          onClick={cardProps.onClick}
-        />
-
-        <Box display="flex" alignItems="center">
-          {visibleProficiency && (
-            <div className={classes.proficiency}>
-              <ProficiencySelect internal={proficiency} onChange={onProficiencyChange} />
-            </div>
-          )}
-          <div>
-            <ImprovementSelect value={improvement} onChange={onImprovementChange} />
-          </div>
-        </Box>
-
-        <Popover open={Boolean(cardProps.anchorEl)} anchorEl={cardProps.anchorEl} onClose={cardProps.onClose}>
-          <EquipmentCard
-            equipment={kcItem}
-            onRemove={onRemove}
-            onUpdate={dialogProps.onOpen}
-            onClose={cardProps.onClose}
-          />
-        </Popover>
-      </Box>
+      <EquipmentItemControlLabel
+        item={item}
+        onUpdateClick={dialogProps.onOpen}
+        slotSize={slotSize}
+        maxSlotSize={maxSlotSize}
+        onSlotSizeChange={onSlotSizeChange}
+      />
     )
   }
 

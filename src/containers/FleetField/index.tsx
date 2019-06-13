@@ -11,7 +11,7 @@ import Tooltip from '@material-ui/core/Tooltip'
 import Box from '@material-ui/core/Box'
 import { Theme, makeStyles, createStyles } from '@material-ui/core/styles'
 
-import { StatIcon, EquipmentsSettingDialog, FlexBox } from '../../components'
+import { StatIcon, EquipmentsSettingDialog, Flexbox } from '../../components'
 import ShipForm from '../ShipForm'
 import FleetDetail from './FleetDetail'
 
@@ -77,21 +77,21 @@ const FleetField: React.FC<FleetFieldProps> = ({ fleet, operation }) => {
   }
 
   return (
-    <FlexBox justifyContent="center">
+    <Flexbox justifyContent="center">
       <div>
-        <FlexBox>
-          <FlexBox flexGrow={1}>
+        <Flexbox>
+          <Flexbox flexGrow={1}>
             <Typography>制空: {fleet.asKcObject.fighterPower}</Typography>
             <Typography style={{ marginLeft: 8 }}>マップ索敵: </Typography>
             {range(1, 6).map(nodeDivaricatedFactor => (
               <Tooltip key={nodeDivaricatedFactor} title={`分岐点係数${nodeDivaricatedFactor}`}>
-                <FlexBox ml={1}>
+                <Flexbox ml={1}>
                   <StatIcon statKey="los" label={nodeDivaricatedFactor} />
                   <Typography variant="caption">{getEffectiveLos(nodeDivaricatedFactor).toFixed(2)}</Typography>
-                </FlexBox>
+                </Flexbox>
               </Tooltip>
             ))}
-          </FlexBox>
+          </Flexbox>
           <EquipmentsSettingDialog equipments={ships.flatMap(ship => ship && ship.equipments).filter(nonNullable)} />
 
           <div className={classes.bottomControl}>
@@ -102,7 +102,7 @@ const FleetField: React.FC<FleetFieldProps> = ({ fleet, operation }) => {
               <Remove />
             </Button>
           </div>
-        </FlexBox>
+        </Flexbox>
 
         <Box maxWidth={8 * 125}>
           <Grid container spacing={1}>
@@ -122,7 +122,7 @@ const FleetField: React.FC<FleetFieldProps> = ({ fleet, operation }) => {
           />
         </Box>
       </div>
-    </FlexBox>
+    </Flexbox>
   )
 }
 

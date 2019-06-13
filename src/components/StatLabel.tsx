@@ -23,6 +23,7 @@ interface StatLabelProps extends React.HTMLAttributes<HTMLDivElement> {
   increased?: number
   bonus?: number
   disableTooltip?: boolean
+  visibleStatName?: boolean
 }
 
 const rangeValueToName = (range: number) => {
@@ -51,7 +52,10 @@ const valueToString = (value: number | undefined) => {
 
 const StatLabel: React.FC<StatLabelProps> = props => {
   const classes = useStyles()
-  const { statKey, stat, increased, bonus, disableTooltip, className, ...rest } = props
+  const { statKey, stat, increased, bonus, disableTooltip, visibleStatName, className, ...rest } = props
+
+  const statData = statKeys.find(statData => statData.key === statKey)
+  const statName = statData && statData.name
 
   let displayValue: number | string = stat
   let visibleBonus = Boolean(increased || bonus)
@@ -66,7 +70,7 @@ const StatLabel: React.FC<StatLabelProps> = props => {
 
   const label = (
     <div className={clsx(classes.root, className)} {...rest}>
-      <StatIcon statKey={statKey} />
+      <StatIcon statKey={statKey} label={visibleStatName ? statName : undefined} />
       <Typography variant="subtitle2" style={{ lineHeight: undefined }}>
         {displayValue}
       </Typography>
@@ -88,10 +92,8 @@ const StatLabel: React.FC<StatLabelProps> = props => {
   if (disableTooltip) {
     return label
   }
-  const statData = statKeys.find(statData => statData.key === statKey)
-  const title = statData && statData.name
 
-  return <Tooltip title={title}>{label}</Tooltip>
+  return <Tooltip title={statName}>{label}</Tooltip>
 }
 
 export default StatLabel
