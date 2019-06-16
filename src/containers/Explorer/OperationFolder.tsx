@@ -1,5 +1,6 @@
 import React, { useCallback } from 'react'
 import { observer } from 'mobx-react-lite'
+import { useDrop } from 'react-dnd'
 
 import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
@@ -14,9 +15,6 @@ import { AddButton } from '../../components/IconButtons'
 
 import { OperationStore, WorkspaceStore, ObservableOperation } from '../../stores'
 import { useOpen, useOperationStore } from '../../hooks'
-
-import { __EXPERIMENTAL_DND_HOOKS_THAT_MAY_CHANGE_AND_BREAK_MY_BUILD__ as dnd } from 'react-dnd'
-const { useDrop } = dnd
 
 const useStyles = makeStyles(
   createStyles({

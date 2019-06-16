@@ -1,10 +1,11 @@
 import {
-  __EXPERIMENTAL_DND_HOOKS_THAT_MAY_CHANGE_AND_BREAK_MY_BUILD__ as dnd,
+  useDrag,
+  useDrop,
   DragObjectWithType,
   DropTargetMonitor,
-  DragSourceMonitor
+  DragSourceMonitor,
+  DragElementWrapper
 } from 'react-dnd'
-const { useDrag, useDrop } = dnd
 
 interface DragAndDropSourceHookSpec<DragObject extends DragObjectWithType, DropResult> {
   item: DragObject
@@ -23,7 +24,9 @@ const useDragAndDrop = <DragObject extends DragObjectWithType, DropResult>(
     collect: monitor => ({ isDragging: monitor.isDragging() })
   })
 
-  const [dropCollectedProps, dndRef] = useDrop({ accept: item.type, ref: dragRef, drop })
+  const [dropCollectedProps, dropRef] = useDrop({ accept: item.type, drop })
+
+  const dndRef: DragElementWrapper<any> = element => dragRef(dropRef(element))
 
   return [dragCollectedProps, dndRef] as const
 }
