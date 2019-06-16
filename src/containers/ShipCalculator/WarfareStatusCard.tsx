@@ -20,7 +20,7 @@ const getInstallationType = (ship: IShip): InstallationType => {
   if (!ship.isInstallation) {
     return 'None'
   }
-  if (ship.name.includes('砲台子鬼')) {
+  if (ship.name.includes('砲台')) {
     return 'Pillbox'
   }
   if (ship.name.includes('離島') || ship.name.includes('中枢')) {
