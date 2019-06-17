@@ -18,6 +18,7 @@ import { swap } from '../../utils'
 type EquipmentItemFormProps = {
   index: number
   store: ObservableShip | ObservableLandBasedAirCorps
+  removable?: boolean
 } & React.HTMLAttributes<HTMLDivElement>
 
 const useEquipmentItemState = (props: EquipmentItemFormProps) => {
@@ -59,7 +60,7 @@ const EquipmentItemForm: React.FC<EquipmentItemFormProps> = props => {
 
   let element: JSX.Element = <AddItemButton slotSize={slotSize} onClick={dialogProps.onOpen} />
   if ('item' in state) {
-    const { item } = state
+    const { item, equipable } = state
     element = (
       <EquipmentItemControlLabel
         item={item}
@@ -67,6 +68,8 @@ const EquipmentItemForm: React.FC<EquipmentItemFormProps> = props => {
         slotSize={slotSize}
         maxSlotSize={maxSlotSize}
         onSlotSizeChange={onSlotSizeChange}
+        equipable={equipable}
+        removable={props.removable}
       />
     )
   }

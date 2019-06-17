@@ -8,6 +8,7 @@ import { makeStyles, createStyles } from '@material-ui/styles'
 
 import EquipmentItemForm from './EquipmentItemForm'
 import { ObservableLandBasedAirCorps, ObservableShip } from '../../stores'
+import { useHover } from '../../hooks'
 
 type EquipmentFormProps = {
   store: ObservableShip | ObservableLandBasedAirCorps
@@ -15,12 +16,13 @@ type EquipmentFormProps = {
 
 const EquipmentForm: React.FC<EquipmentFormProps> = props => {
   const { store } = props
+  const [isHovered, hoverRef] = useHover()
   return (
-    <Box>
+    <div ref={hoverRef}>
       {store.equipments.map((item, index) => (
-        <EquipmentItemForm key={index} store={store} index={index} />
+        <EquipmentItemForm key={index} store={store} index={index} removable={isHovered} />
       ))}
-    </Box>
+    </div>
   )
 }
 

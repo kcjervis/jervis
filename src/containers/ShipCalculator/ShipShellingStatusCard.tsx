@@ -117,6 +117,9 @@ const ShipShellingStatusCard: React.FC<ShipShellingStatusCardProps> = props => {
         </Typography>
       ))}
       <Typography>合計 {toPercent(specialAttackRate.total)}</Typography>
+      <Typography>
+        装備命中 {ship.totalEquipmentStats(equip => equip.accuracy + equip.improvement.shellingAccuracyModifier)}
+      </Typography>
     </Paper>
   )
 }

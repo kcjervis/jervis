@@ -18,9 +18,17 @@ import {
   EquipmentItemTooltip
 } from '../../components'
 import { ObservableEquipment } from '../../stores'
+import { useHover } from '../../hooks'
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
+    root: {
+      height: '100%',
+      justifyContent: 'space-between',
+      '&:hover': {
+        background: 'rgba(200, 200, 200, 0.1)'
+      }
+    },
     slotSize: {
       color: theme.palette.grey[500],
       width: 16,
@@ -50,6 +58,7 @@ type EquipmentItemControlLabelProps = {
   onSlotSizeChange?: (value: number) => void
   onUpdateClick?: () => void
   equipable?: boolean
+  removable?: boolean
 } & BoxProps
 
 const EquipmentItemControlLabel: React.FC<EquipmentItemControlLabelProps> = ({
@@ -59,19 +68,14 @@ const EquipmentItemControlLabel: React.FC<EquipmentItemControlLabelProps> = ({
   maxSlotSize,
   onSlotSizeChange,
   equipable = true,
+  removable = true,
   ...boxProps
 }) => {
   const classes = useStyles()
-  const [isMouseOver, setIsMouseOver] = useState(false)
+  const [isHovered, hoverRef] = useHover()
   const visibleProficiency = item.asKcObject.category.isAerialCombatAircraft
   return (
-    <Box
-      height="100%"
-      display="flex"
-      alignItems="center"
-      justifyContent="space-between"
-      style={{ background: isMouseOver ? 'rgba(200, 200, 200, 0.1)' : undefined }}
-    >
+    <Flexbox className={classes.root}>
       <div className={classes.slotSize}>
         {slotSize === undefined || maxSlotSize === undefined ? (
           <BuildIcon style={{ fontSize: '0.875rem', verticalAlign: 'middle' }} />
@@ -80,18 +84,11 @@ const EquipmentItemControlLabel: React.FC<EquipmentItemControlLabelProps> = ({
         )}
       </div>
 
-      <Box
-        display="flex"
-        alignItems="center"
-        width={`calc(100% - ${visibleProficiency ? 64 : 40}px)`}
-        height="100%"
-        onMouseEnter={() => setIsMouseOver(true)}
-        onMouseLeave={() => setIsMouseOver(false)}
-      >
+      <Flexbox ref={hoverRef} height="100%" width={`calc(100% - ${visibleProficiency ? 64 : 40}px)`}>
         <EquipmentItemTooltip item={item.asKcObject}>
           <EquipmentIcon className={classes.icon} iconId={item.asKcObject.iconId} />
         </EquipmentItemTooltip>
-        {isMouseOver ? (
+        {isHovered && removable ? (
           <>
             <UpdateButton title="変更" tooltipProps={{ placement: 'top' }} size="small" onClick={onUpdateClick} />
             <ClearButton title="削除" tooltipProps={{ placement: 'top' }} size="small" onClick={item.remove} />
@@ -101,7 +98,7 @@ const EquipmentItemControlLabel: React.FC<EquipmentItemControlLabelProps> = ({
             {item.asKcObject.name}
           </Typography>
         )}
-      </Box>
+      </Flexbox>
 
       <Box display="flex" alignItems="center">
         {visibleProficiency && (
@@ -111,7 +108,7 @@ const EquipmentItemControlLabel: React.FC<EquipmentItemControlLabelProps> = ({
         )}
         <ImprovementSelect value={item.improvement} onChange={item.changeImprovement} />
       </Box>
-    </Box>
+    </Flexbox>
   )
 }
 
