@@ -16,11 +16,10 @@ type EquipmentFormProps = {
 
 const EquipmentForm: React.FC<EquipmentFormProps> = props => {
   const { store } = props
-  const [isHovered, hoverRef] = useHover()
   return (
-    <div ref={hoverRef}>
+    <div>
       {store.equipments.map((item, index) => (
-        <EquipmentItemForm key={index} store={store} index={index} removable={isHovered} />
+        <EquipmentItemForm key={index} store={store} index={index} />
       ))}
     </div>
   )

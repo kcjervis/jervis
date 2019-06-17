@@ -58,7 +58,6 @@ type EquipmentItemControlLabelProps = {
   onSlotSizeChange?: (value: number) => void
   onUpdateClick?: () => void
   equipable?: boolean
-  removable?: boolean
 } & BoxProps
 
 const EquipmentItemControlLabel: React.FC<EquipmentItemControlLabelProps> = ({
@@ -68,7 +67,6 @@ const EquipmentItemControlLabel: React.FC<EquipmentItemControlLabelProps> = ({
   maxSlotSize,
   onSlotSizeChange,
   equipable = true,
-  removable = true,
   ...boxProps
 }) => {
   const classes = useStyles()
@@ -88,16 +86,17 @@ const EquipmentItemControlLabel: React.FC<EquipmentItemControlLabelProps> = ({
         <EquipmentItemTooltip item={item.asKcObject}>
           <EquipmentIcon className={classes.icon} iconId={item.asKcObject.iconId} />
         </EquipmentItemTooltip>
-        {isHovered && removable ? (
-          <>
-            <UpdateButton title="変更" tooltipProps={{ placement: 'top' }} size="small" onClick={onUpdateClick} />
-            <ClearButton title="削除" tooltipProps={{ placement: 'top' }} size="small" onClick={item.remove} />
-          </>
-        ) : (
-          <Typography className={classes.name} color={equipable ? 'initial' : 'secondary'}>
-            {item.asKcObject.name}
-          </Typography>
-        )}
+        <div style={{ display: isHovered ? undefined : 'none' }}>
+          <UpdateButton title="変更" tooltipProps={{ placement: 'top' }} size="small" onClick={onUpdateClick} />
+          <ClearButton title="削除" tooltipProps={{ placement: 'top' }} size="small" onClick={item.remove} />
+        </div>
+        <Typography
+          className={classes.name}
+          style={{ display: isHovered ? 'none' : undefined }}
+          color={equipable ? 'initial' : 'secondary'}
+        >
+          {item.asKcObject.name}
+        </Typography>
       </Flexbox>
 
       <Box display="flex" alignItems="center">
