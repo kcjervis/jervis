@@ -7,22 +7,22 @@ import Dialog from '@material-ui/core/Dialog'
 import { makeStyles, Theme } from '@material-ui/core/styles'
 
 import AddItemButton from './AddItemButton'
-import EquipmentItemControlLabel from './EquipmentItemControlLabel'
+import GearControlLabel from './GearControlLabel'
 import EquipmentsDataTable from '../EquipmentsDataTable'
 
 import { useAnchorEl, useDragAndDrop, useOpen, useEquipmentSelect } from '../../hooks'
 import { ObservableLandBasedAirCorps, ObservableShip } from '../../stores'
 import { swap } from '../../utils'
 
-export type EquipmentItemFormSize = 'small' | 'medium'
+export type GearFormSize = 'small' | 'medium'
 
-type EquipmentItemFormProps = {
+type GearFormProps = {
   index: number
   store: ObservableShip | ObservableLandBasedAirCorps
-  size?: EquipmentItemFormSize
+  size?: GearFormSize
 } & React.HTMLAttributes<HTMLDivElement>
 
-const useEquipmentItemState = (props: EquipmentItemFormProps) => {
+const useGearState = (props: GearFormProps) => {
   const { index, store } = props
   const equipItem = store.equipments.concat()[index]
 
@@ -53,8 +53,8 @@ const useEquipmentItemState = (props: EquipmentItemFormProps) => {
   return { ...base, item: equipItem, equipable }
 }
 
-const EquipmentItemForm: React.FC<EquipmentItemFormProps> = props => {
-  const state = useEquipmentItemState(props)
+const GearForm: React.FC<GearFormProps> = props => {
+  const state = useGearState(props)
   const { slotSize, maxSlotSize, onSlotSizeChange, dndRef, selectProps } = state
   const cardProps = useAnchorEl()
   const dialogProps = useOpen()
@@ -65,7 +65,7 @@ const EquipmentItemForm: React.FC<EquipmentItemFormProps> = props => {
   if ('item' in state) {
     const { item, equipable } = state
     element = (
-      <EquipmentItemControlLabel
+      <GearControlLabel
         item={item}
         onUpdateClick={dialogProps.onOpen}
         slotSize={slotSize}
@@ -96,4 +96,4 @@ const EquipmentItemForm: React.FC<EquipmentItemFormProps> = props => {
   )
 }
 
-export default observer(EquipmentItemForm)
+export default observer(GearForm)

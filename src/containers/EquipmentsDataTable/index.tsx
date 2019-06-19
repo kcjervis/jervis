@@ -21,7 +21,7 @@ import DataTable, { Sort } from '../../components/DataTable'
 import { EquipmentsDataStoreContext } from '../../stores'
 import { useColumns } from './columns'
 import EquipmentListSelect from './EquipmentListSelect'
-import { SelectButtons, EquipmentLabel, EquipmentItemTooltip } from '../../components'
+import { SelectButtons, EquipmentLabel, GearTooltip } from '../../components'
 import { useInput } from '../../hooks'
 
 type EquipmentFilter = (equip: IEquipment) => boolean
@@ -122,11 +122,11 @@ const EquipmentsDataTable: React.FC<EquipmentsDataTableProps> = ({ label, filter
   let dataElement: React.ReactNode
   if (mode === 'simple') {
     dataElement = data.map(equip => (
-      <EquipmentItemTooltip key={equip.masterId} item={equip}>
+      <GearTooltip key={equip.masterId} item={equip}>
         <Button onClick={() => onSelect && onSelect(equip)}>
           <EquipmentLabel width={8 * 40} equipment={equip} />
         </Button>
-      </EquipmentItemTooltip>
+      </GearTooltip>
     ))
   } else {
     dataElement = <DataTable height="60vh" columns={columns} data={data} sort={customSort} />

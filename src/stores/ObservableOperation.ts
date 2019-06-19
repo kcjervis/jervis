@@ -56,7 +56,9 @@ export default class ObservableOperation implements IOperationDataObject, StoreI
   @observable
   public landBase = observable(Array.from(Array(3), () => new ObservableLandBasedAirCorps()))
 
-  @observable public enemy?: ObservableOperation
+  @persist('object', ObservableOperation)
+  @observable
+  public enemy?: ObservableOperation
 
   @observable public temporaryFormation: Formation = Formation.LineAhead
 
@@ -115,6 +117,7 @@ export default class ObservableOperation implements IOperationDataObject, StoreI
     const dataObject = { ...this, version: 1 }
     delete dataObject.store
     delete dataObject.activeFleetIndex
+    delete dataObject.enemy
     return dataObject
   }
 }

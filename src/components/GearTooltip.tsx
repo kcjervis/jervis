@@ -16,12 +16,12 @@ import StatLabel from './StatLabel'
 import Flexbox from './Flexbox'
 import EquipmentLabel from './EquipmentLabel'
 
-type EquipmentItemTooltipProps = {
+type GearTooltipProps = {
   item: IEquipment
   children: React.ReactElement
 }
 
-const EquipmentItemTooltip: React.FC<EquipmentItemTooltipProps> = ({ item, ...rest }) => {
+const GearTooltip: React.FC<GearTooltipProps> = ({ item, ...rest }) => {
   const stats = equipmentStatKeys.map(key => [key, item[key]] as const).filter(([key, stat]) => stat !== 0)
   const statElements = stats.map(([key, stat]) => (
     <Flexbox key={key}>
@@ -42,4 +42,4 @@ const EquipmentItemTooltip: React.FC<EquipmentItemTooltipProps> = ({ item, ...re
   )
 }
 
-export default EquipmentItemTooltip
+export default GearTooltip

@@ -15,7 +15,7 @@ import {
   ImprovementSelect,
   UpdateButton,
   ClearButton,
-  EquipmentItemTooltip
+  GearTooltip
 } from '../../components'
 import { ObservableEquipment } from '../../stores'
 import { useHover } from '../../hooks'
@@ -51,7 +51,7 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 )
 
-type EquipmentItemControlLabelProps = {
+type GearControlLabelProps = {
   item: ObservableEquipment
   slotSize?: number
   maxSlotSize?: number
@@ -60,7 +60,7 @@ type EquipmentItemControlLabelProps = {
   equipable?: boolean
 } & BoxProps
 
-const EquipmentItemControlLabel: React.FC<EquipmentItemControlLabelProps> = ({
+const GearControlLabel: React.FC<GearControlLabelProps> = ({
   item,
   onUpdateClick,
   slotSize,
@@ -83,9 +83,9 @@ const EquipmentItemControlLabel: React.FC<EquipmentItemControlLabelProps> = ({
       </div>
 
       <Flexbox ref={hoverRef} height="100%" width={`calc(100% - ${visibleProficiency ? 64 : 40}px)`}>
-        <EquipmentItemTooltip item={item.asKcObject}>
+        <GearTooltip item={item.asKcObject}>
           <EquipmentIcon className={classes.icon} iconId={item.asKcObject.iconId} />
-        </EquipmentItemTooltip>
+        </GearTooltip>
         <div style={{ display: isHovered ? undefined : 'none' }}>
           <UpdateButton title="変更" tooltipProps={{ placement: 'top' }} size="small" onClick={onUpdateClick} />
           <ClearButton title="削除" tooltipProps={{ placement: 'top' }} size="small" onClick={item.remove} />
@@ -111,4 +111,4 @@ const EquipmentItemControlLabel: React.FC<EquipmentItemControlLabelProps> = ({
   )
 }
 
-export default EquipmentItemControlLabel
+export default GearControlLabel
