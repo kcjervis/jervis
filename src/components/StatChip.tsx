@@ -2,8 +2,8 @@ import React from 'react'
 
 import Avatar from '@material-ui/core/Avatar'
 import Chip from '@material-ui/core/Chip'
-import { Theme } from '@material-ui/core'
-import { makeStyles } from '@material-ui/styles'
+
+import { makeStyles, Theme } from '@material-ui/core/styles'
 
 import statKeys from '../data/statKeys'
 

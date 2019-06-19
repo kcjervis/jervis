@@ -2,13 +2,12 @@ import clsx from 'clsx'
 import { range } from 'lodash-es'
 import React from 'react'
 
-import { Theme } from '@material-ui/core'
 import Button from '@material-ui/core/Button'
 import Tooltip from '@material-ui/core/Tooltip'
 import cyan from '@material-ui/core/colors/cyan'
 import Popover from '@material-ui/core/Popover'
 import Typography from '@material-ui/core/Typography'
-import { makeStyles } from '@material-ui/styles'
+import { makeStyles, Theme } from '@material-ui/core/styles'
 
 import { useAnchorEl, useBaseStyles } from '../hooks'
 

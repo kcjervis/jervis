@@ -1,8 +1,7 @@
 import React from 'react'
 
-import { Theme } from '@material-ui/core'
 import Button, { ButtonProps } from '@material-ui/core/Button'
-import { makeStyles, createStyles } from '@material-ui/styles'
+import { makeStyles, createStyles, Theme } from '@material-ui/core/styles'
 
 import { BaseSelectProps, getDefaultOptionLabel } from './Select'
 import clsx from 'clsx'

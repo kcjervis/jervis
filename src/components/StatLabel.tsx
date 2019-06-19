@@ -4,7 +4,7 @@ import clsx from 'clsx'
 
 import Typography from '@material-ui/core/Typography'
 import Tooltip from '@material-ui/core/Tooltip'
-import { makeStyles } from '@material-ui/styles'
+import { makeStyles, Theme } from '@material-ui/core/styles'
 
 import StatIcon from './StatIcon'
 

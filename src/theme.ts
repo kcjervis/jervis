@@ -7,7 +7,7 @@ const darkBackground = 'rgba(15, 20, 20, 0.9)'
 const dialogPaperBackground = 'rgba(66, 66, 77, 0.95)'
 const darkPaper = { paper: { background: darkBackground } }
 
-const theme = createMuiTheme({
+export default createMuiTheme({
   palette: {
     type: 'dark',
     background: {
@@ -122,5 +122,3 @@ const theme = createMuiTheme({
     }
   }
 })
-
-export default theme

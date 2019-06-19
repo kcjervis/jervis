@@ -1,9 +1,6 @@
 import React, { useRef } from 'react'
 import Scrollbars, { ScrollbarProps } from 'react-custom-scrollbars'
-import clsx from 'clsx'
-import { makeStyles, createStyles } from '@material-ui/styles'
-import { Theme } from '@material-ui/core'
-import Box from '@material-ui/core/Box'
+import { makeStyles, createStyles, Theme } from '@material-ui/core/styles'
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({

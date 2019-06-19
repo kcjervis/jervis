@@ -10,8 +10,8 @@ import DialogContent from '@material-ui/core/DialogContent'
 import Grid from '@material-ui/core/Grid'
 import TextField from '@material-ui/core/TextField'
 import Typography from '@material-ui/core/Typography'
-import { makeStyles, createStyles } from '@material-ui/styles'
-import { Theme } from '@material-ui/core'
+import { makeStyles, createStyles, Theme } from '@material-ui/core/styles'
+
 import Tooltip from '@material-ui/core/Tooltip'
 
 import StatLabel from '../../components/StatLabel'

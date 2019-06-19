@@ -1,4 +1,4 @@
-import { makeStyles } from '@material-ui/styles'
+import { makeStyles, Theme } from '@material-ui/core/styles'
 import { sortBy as lodashSortBy } from 'lodash-es'
 import { observer } from 'mobx-react-lite'
 import React, { useCallback, useContext, useMemo } from 'react'

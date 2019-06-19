@@ -5,7 +5,7 @@ import { observer } from 'mobx-react-lite'
 import Button from '@material-ui/core/Button'
 import Divider from '@material-ui/core/Divider'
 import AddIcon from '@material-ui/icons/Add'
-import { makeStyles, createStyles } from '@material-ui/styles'
+import { makeStyles, createStyles, Theme } from '@material-ui/core/styles'
 
 import { OperationStoreContext, WorkspaceStore, TemporaryOperationStoreContext } from '../../stores'
 

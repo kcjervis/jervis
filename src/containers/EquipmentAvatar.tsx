@@ -2,7 +2,7 @@ import React from 'react'
 
 import Avatar from '@material-ui/core/Avatar'
 import Grid from '@material-ui/core/Grid'
-import { makeStyles } from '@material-ui/styles'
+import { makeStyles, Theme } from '@material-ui/core/styles'
 
 import { EquipmentIcon } from '../components'
 

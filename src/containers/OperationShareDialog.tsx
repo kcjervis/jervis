@@ -12,7 +12,7 @@ import Typography from '@material-ui/core/Typography'
 import green from '@material-ui/core/colors/green'
 import Snackbar from '@material-ui/core/Snackbar'
 import CheckCircleIcon from '@material-ui/icons/CheckCircle'
-import { makeStyles } from '@material-ui/styles'
+import { makeStyles, Theme } from '@material-ui/core/styles'
 
 import { CopyButton } from '../components/IconButtons'
 import { useOpen } from '../hooks'

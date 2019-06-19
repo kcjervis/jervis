@@ -10,8 +10,8 @@ import Popover from '@material-ui/core/Popover'
 import Slider from '@material-ui/lab/Slider'
 import DialogActions from '@material-ui/core/DialogActions'
 import Box from '@material-ui/core/Box'
-import { makeStyles, createStyles } from '@material-ui/styles'
-import { Theme } from '@material-ui/core'
+import { makeStyles, createStyles, Theme } from '@material-ui/core/styles'
+
 import Tooltip from '@material-ui/core/Tooltip'
 
 import { useOpen, useBaseStyles, useInput, useAnchorEl } from '../../hooks'

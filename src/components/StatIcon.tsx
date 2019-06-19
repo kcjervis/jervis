@@ -2,7 +2,7 @@ import React from 'react'
 
 import { EquipmentStatKey, ShipStatKey } from 'kc-calculator'
 
-import { makeStyles } from '@material-ui/styles'
+import { makeStyles, Theme } from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography'
 
 const useStyles = makeStyles({

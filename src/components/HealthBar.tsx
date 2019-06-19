@@ -8,7 +8,7 @@ import yellow from '@material-ui/core/colors/yellow'
 import LinearProgress from '@material-ui/core/LinearProgress'
 import Typography from '@material-ui/core/Typography'
 
-import { makeStyles } from '@material-ui/styles'
+import { makeStyles, Theme } from '@material-ui/core/styles'
 
 export const useBackgroundColorStyles = makeStyles({
   lessColor: {

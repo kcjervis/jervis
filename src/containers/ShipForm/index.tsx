@@ -1,11 +1,10 @@
 import { observer } from 'mobx-react-lite'
 import React, { useContext } from 'react'
 
-import { Theme } from '@material-ui/core'
 import Box from '@material-ui/core/Box'
 import Button from '@material-ui/core/Button'
 import Add from '@material-ui/icons/Add'
-import { makeStyles, createStyles } from '@material-ui/styles'
+import { makeStyles, createStyles, Theme } from '@material-ui/core/styles'
 
 import { ObservableFleet, ObservableShip, SettingStoreContext, EnemyShipStore } from '../../stores'
 import ShipCard from './ShipCard'

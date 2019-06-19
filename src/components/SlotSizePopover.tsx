@@ -9,7 +9,7 @@ import Popover from '@material-ui/core/Popover'
 import ExposurePlus1Icon from '@material-ui/icons/ExposurePlus1'
 import ExposureNeg1Icon from '@material-ui/icons/ExposureNeg1'
 import Slider from '@material-ui/lab/Slider'
-import { makeStyles } from '@material-ui/styles'
+import { makeStyles, Theme } from '@material-ui/core/styles'
 import { useAnchorEl, useBaseStyles } from '../hooks'
 
 type SlotSizePopoverProps = {

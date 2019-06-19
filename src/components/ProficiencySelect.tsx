@@ -5,7 +5,7 @@ import Button from '@material-ui/core/Button'
 import Tooltip from '@material-ui/core/Tooltip'
 import Popover from '@material-ui/core/Popover'
 import Input from '@material-ui/core/Input'
-import { makeStyles } from '@material-ui/styles'
+import { makeStyles, Theme } from '@material-ui/core/styles'
 
 import ProficiencyIcon from './ProficiencyIcon'
 

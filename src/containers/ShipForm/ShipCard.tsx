@@ -8,7 +8,7 @@ import Box from '@material-ui/core/Box'
 import InputAdornment from '@material-ui/core/InputAdornment'
 import Typography from '@material-ui/core/Typography'
 import Tooltip from '@material-ui/core/Tooltip'
-import { makeStyles } from '@material-ui/styles'
+import { makeStyles } from '@material-ui/core/styles'
 
 import { ShipImage, InfoButton, ClearButton, UpdateButton } from '../../components'
 import EquipmentField from '../EquipmentField'

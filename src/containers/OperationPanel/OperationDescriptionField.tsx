@@ -11,10 +11,9 @@ import EditIcon from '@material-ui/icons/Edit'
 import ClickAwayListener from '@material-ui/core/ClickAwayListener'
 
 import { ObservableOperation } from '../../stores'
-import { makeStyles } from '@material-ui/styles'
+import { makeStyles, Theme } from '@material-ui/core/styles'
 import { useOpen } from '../../hooks'
 import withIconButton from '../../hocs/withIconButton'
-import { Theme } from '@material-ui/core'
 
 const EditButton = withIconButton(EditIcon)
 

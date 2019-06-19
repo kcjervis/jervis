@@ -3,7 +3,7 @@ import maps from '../../data/maps'
 import { nonNullable } from 'kc-calculator'
 
 import Box from '@material-ui/core/Box'
-import { makeStyles, createStyles } from '@material-ui/styles'
+import { makeStyles, createStyles, Theme } from '@material-ui/core/styles'
 
 import { createEnemyBattleFleet } from './enemyBattleFleet'
 import EnemyFleetCard from './EnemyFleetCard'

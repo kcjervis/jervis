@@ -3,7 +3,7 @@ import clsx from 'clsx'
 import { IEquipment } from 'kc-calculator'
 
 import Box, { BoxProps } from '@material-ui/core/Box'
-import { makeStyles } from '@material-ui/styles'
+import { makeStyles, Theme } from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography'
 
 import EquipmentIcon from './EquipmentIcon'

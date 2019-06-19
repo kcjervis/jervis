@@ -2,8 +2,7 @@ import React from 'react'
 import { PieChart, Pie, Label, Cell } from 'recharts'
 
 import { blue, green, yellow, orange, pink, purple, blueGrey } from '@material-ui/core/colors'
-import { makeStyles, createStyles, useTheme } from '@material-ui/styles'
-import { Theme } from '@material-ui/core'
+import { useTheme } from '@material-ui/core/styles'
 
 import { AntiAirCutinRateDatum } from './calcAntiAirCutinRate'
 import { toPercent } from '../../../utils'
@@ -14,7 +13,7 @@ const cutinColors = [blue, green, yellow, orange, pink, purple].map(color => col
 type AntiAirCutinRatePieChartProps = { data: AntiAirCutinRateDatum[] }
 
 const AntiAirCutinRatePieChart: React.FC<AntiAirCutinRatePieChartProps> = ({ data }) => {
-  const theme = useTheme<Theme>()
+  const theme = useTheme()
   const totalRate = data.reduce((total, datum) => total + datum.rate, 0)
   const displayedData = data.map(({ cutin, rate }) => ({ name: cutin.id + '種', rate }))
   displayedData.push({ name: '不発', rate: 1 - totalRate })

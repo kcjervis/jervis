@@ -3,7 +3,7 @@ import clsx from 'clsx'
 
 import Card from '@material-ui/core/Card'
 import Typography from '@material-ui/core/Typography'
-import { makeStyles } from '@material-ui/styles'
+import { makeStyles, Theme } from '@material-ui/core/styles'
 
 const toCssPosition = ([left, top, width, height]: number[]) => `${top}px ${left + width}px ${top + height}px ${left}px`
 

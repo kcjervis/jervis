@@ -3,8 +3,7 @@ import React from 'react'
 import clsx from 'clsx'
 
 import Typography from '@material-ui/core/Typography'
-import { makeStyles, createStyles } from '@material-ui/styles'
-import { Theme } from '@material-ui/core'
+import { makeStyles, createStyles, Theme } from '@material-ui/core/styles'
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({

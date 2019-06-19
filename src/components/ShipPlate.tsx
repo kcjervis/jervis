@@ -4,8 +4,8 @@ import { IShip, shipStatKeys } from 'kc-calculator'
 
 import Card from '@material-ui/core/Card'
 import CardContent from '@material-ui/core/CardContent'
-import { Theme } from '@material-ui/core'
-import { makeStyles } from '@material-ui/styles'
+
+import { makeStyles, Theme } from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography'
 
 import ShipImage from './ShipImage'

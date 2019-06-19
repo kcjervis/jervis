@@ -2,10 +2,9 @@ import React from 'react'
 import { IEquipment } from 'kc-calculator'
 import clsx from 'clsx'
 
-import { Theme } from '@material-ui/core'
 import Paper from '@material-ui/core/Paper'
 import Popover from '@material-ui/core/Popover'
-import { makeStyles } from '@material-ui/styles'
+import { makeStyles, Theme } from '@material-ui/core/styles'
 import BuildIcon from '@material-ui/icons/Build'
 
 import { EquipmentCard, EquipmentLabel, ImprovementSelect, ProficiencySelect, SlotSizePopover } from '../../components'

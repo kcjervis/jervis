@@ -1,11 +1,10 @@
 import React from 'react'
 import { observer } from 'mobx-react-lite'
 
-import { Theme } from '@material-ui/core'
 import Button from '@material-ui/core/Button'
 import ClickAwayListener from '@material-ui/core/ClickAwayListener'
 import Popover from '@material-ui/core/Popover'
-import { makeStyles, createStyles } from '@material-ui/styles'
+import { makeStyles, createStyles, Theme } from '@material-ui/core/styles'
 import MenuList from '@material-ui/core/MenuList'
 import MenuItem from '@material-ui/core/MenuItem'
 import ListItemIcon from '@material-ui/core/ListItemIcon'

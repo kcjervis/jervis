@@ -1,7 +1,7 @@
 import clsx from 'clsx'
 import React, { useMemo, useState } from 'react'
 
-import { makeStyles } from '@material-ui/styles'
+import { makeStyles, Theme } from '@material-ui/core/styles'
 
 import Box, { BoxProps } from '@material-ui/core/Box'
 import TableCell, { TableCellProps } from '@material-ui/core/TableCell'

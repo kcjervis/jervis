@@ -1,9 +1,8 @@
 import React from 'react'
 import clsx from 'clsx'
 
-import { Theme } from '@material-ui/core'
 import Button from '@material-ui/core/Button'
-import { makeStyles } from '@material-ui/styles'
+import { makeStyles, Theme } from '@material-ui/core/styles'
 import BuildIcon from '@material-ui/icons/Build'
 import AddIcon from '@material-ui/icons/Add'
 

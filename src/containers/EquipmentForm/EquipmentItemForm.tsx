@@ -2,10 +2,9 @@ import React from 'react'
 import { observer } from 'mobx-react-lite'
 import clsx from 'clsx'
 
-import { Theme } from '@material-ui/core'
 import Box from '@material-ui/core/Box'
 import Dialog from '@material-ui/core/Dialog'
-import { makeStyles } from '@material-ui/styles'
+import { makeStyles, Theme } from '@material-ui/core/styles'
 
 import AddItemButton from './AddItemButton'
 import EquipmentItemControlLabel from './EquipmentItemControlLabel'

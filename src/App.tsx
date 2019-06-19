@@ -1,4 +1,4 @@
-import { ThemeProvider } from '@material-ui/styles'
+import { MuiThemeProvider } from '@material-ui/core/styles'
 import React, { Component } from 'react'
 import { DragDropContext } from 'react-dnd'
 import HTML5Backend from 'react-dnd-html5-backend'
@@ -29,7 +29,7 @@ export default class App extends Component {
   public render() {
     return (
       <MobXProvider {...stores}>
-        <ThemeProvider theme={theme}>
+        <MuiThemeProvider theme={theme}>
           <Background />
           <HashRouter>
             <DataLoader>
@@ -46,7 +46,7 @@ export default class App extends Component {
               </Workspace>
             </DataLoader>
           </HashRouter>
-        </ThemeProvider>
+        </MuiThemeProvider>
       </MobXProvider>
     )
   }

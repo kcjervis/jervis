@@ -11,7 +11,7 @@ import Input from '@material-ui/core/Input'
 import IconButton from '@material-ui/core/IconButton'
 import Typography from '@material-ui/core/Typography'
 import SearchIcon from '@material-ui/icons/Search'
-import { makeStyles, createStyles } from '@material-ui/styles'
+import { makeStyles, createStyles, Theme } from '@material-ui/core/styles'
 
 import { masterData } from '../../stores/kcObjectFactory'
 import { useCheck, useSelect } from '../../hooks'

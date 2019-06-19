@@ -2,8 +2,7 @@ import React from 'react'
 import clsx from 'clsx'
 import { Redirect } from 'react-router-dom'
 
-import { makeStyles, createStyles } from '@material-ui/styles'
-import { Theme } from '@material-ui/core'
+import { makeStyles, createStyles } from '@material-ui/core/styles'
 
 import { CloseButton } from '../../components/IconButtons'
 import { ItemLabel } from '../../components'

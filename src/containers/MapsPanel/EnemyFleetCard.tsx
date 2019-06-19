@@ -3,7 +3,7 @@ import { BattleFleet } from 'kc-calculator'
 
 import Button from '@material-ui/core/Button'
 import Paper from '@material-ui/core/Paper'
-import { makeStyles, createStyles } from '@material-ui/styles'
+import { makeStyles, createStyles, Theme } from '@material-ui/core/styles'
 
 import { EnemyFleet, SaveButton, InfoButton } from '../../components'
 import { battleFleetToOperation } from './enemyBattleFleet'

@@ -3,8 +3,8 @@ import { observer } from 'mobx-react-lite'
 
 import AppBar, { AppBarProps } from '@material-ui/core/AppBar'
 import Button from '@material-ui/core/Button'
-import { makeStyles, createStyles } from '@material-ui/styles'
-import { Theme } from '@material-ui/core'
+import { makeStyles, createStyles, Theme } from '@material-ui/core/styles'
+
 import Box from '@material-ui/core/Box'
 
 import WorkspaceTab from './WorkspaceTab'

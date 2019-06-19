@@ -2,10 +2,9 @@ import React from 'react'
 
 import { equipmentStatKeys, IEquipment } from 'kc-calculator'
 
-import { Theme } from '@material-ui/core'
 import Card, { CardProps } from '@material-ui/core/Card'
 import CardContent from '@material-ui/core/CardContent'
-import { makeStyles } from '@material-ui/styles'
+import { makeStyles, Theme } from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography'
 
 import EquipmentIcon from './EquipmentIcon'

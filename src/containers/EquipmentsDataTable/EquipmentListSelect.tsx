@@ -1,4 +1,4 @@
-import { makeStyles } from '@material-ui/styles'
+import { makeStyles, Theme } from '@material-ui/core/styles'
 import { observer } from 'mobx-react-lite'
 import React, { useCallback, useState } from 'react'
 

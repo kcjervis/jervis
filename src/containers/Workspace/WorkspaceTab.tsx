@@ -2,8 +2,8 @@ import React, { useState, useCallback, useMemo } from 'react'
 import clsx from 'clsx'
 import useReactRouter from 'use-react-router'
 
-import { makeStyles, createStyles } from '@material-ui/styles'
-import { Theme } from '@material-ui/core'
+import { makeStyles, createStyles, Theme } from '@material-ui/core/styles'
+
 import ShipIcon from '@material-ui/icons/AssignmentInd'
 
 import { CloseButton } from '../../components/IconButtons'

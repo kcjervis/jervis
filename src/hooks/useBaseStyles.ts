@@ -1,4 +1,4 @@
-import { makeStyles, createStyles } from '@material-ui/styles'
+import { makeStyles, createStyles, Theme } from '@material-ui/core/styles'
 
 const styles = createStyles({
   flexbox: {

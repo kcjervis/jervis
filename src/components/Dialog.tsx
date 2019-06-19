@@ -3,7 +3,7 @@ import React, { useCallback, useState } from 'react'
 import Button, { ButtonProps } from '@material-ui/core/Button'
 import MuiDialog, { DialogProps as MuiDialogProps } from '@material-ui/core/Dialog'
 
-import { makeStyles } from '@material-ui/styles'
+import { makeStyles, Theme } from '@material-ui/core/styles'
 
 import { CloseButton } from './IconButtons'
 import { Omit } from '@material-ui/core'

@@ -1,12 +1,11 @@
 import { observer } from 'mobx-react-lite'
 import React from 'react'
 
-import { Theme } from '@material-ui/core'
 import Card from '@material-ui/core/Card'
 import FormControl from '@material-ui/core/FormControl'
 import MenuItem from '@material-ui/core/MenuItem'
 import Select, { SelectProps } from '@material-ui/core/Select'
-import { makeStyles } from '@material-ui/styles'
+import { makeStyles, Theme } from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography'
 
 import { ObservableLandBasedAirCorps } from '../stores'

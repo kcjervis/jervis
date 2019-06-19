@@ -2,9 +2,8 @@ import { observer } from 'mobx-react-lite'
 import React from 'react'
 import clsx from 'clsx'
 
-import { Theme } from '@material-ui/core'
 import Box from '@material-ui/core/Box'
-import { makeStyles, createStyles } from '@material-ui/styles'
+import { makeStyles, createStyles, Theme } from '@material-ui/core/styles'
 
 import EquipmentItemForm from './EquipmentItemForm'
 import { ObservableLandBasedAirCorps, ObservableShip } from '../../stores'

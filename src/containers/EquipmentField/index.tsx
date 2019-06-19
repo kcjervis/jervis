@@ -2,12 +2,11 @@ import { observer } from 'mobx-react-lite'
 import React from 'react'
 import clsx from 'clsx'
 
-import { Theme } from '@material-ui/core'
 import Button from '@material-ui/core/Button'
 import BuildIcon from '@material-ui/icons/Build'
 import AddIcon from '@material-ui/icons/Add'
 import Dialog from '@material-ui/core/Dialog'
-import { makeStyles, createStyles } from '@material-ui/styles'
+import { makeStyles, createStyles, Theme } from '@material-ui/core/styles'
 
 import EquipmentFieldCard from './EquipmentFieldCard'
 import EquipmentsDataTable from '../EquipmentsDataTable'
