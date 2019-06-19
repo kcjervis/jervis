@@ -14,9 +14,12 @@ import { useAnchorEl, useDragAndDrop, useOpen, useEquipmentSelect } from '../../
 import { ObservableLandBasedAirCorps, ObservableShip } from '../../stores'
 import { swap } from '../../utils'
 
+export type EquipmentItemFormSize = 'small' | 'medium'
+
 type EquipmentItemFormProps = {
   index: number
   store: ObservableShip | ObservableLandBasedAirCorps
+  size?: EquipmentItemFormSize
 } & React.HTMLAttributes<HTMLDivElement>
 
 const useEquipmentItemState = (props: EquipmentItemFormProps) => {
@@ -56,6 +59,8 @@ const EquipmentItemForm: React.FC<EquipmentItemFormProps> = props => {
   const cardProps = useAnchorEl()
   const dialogProps = useOpen()
 
+  const height = props.size === 'medium' ? 8 * 4 : 8 * 3
+
   let element: JSX.Element = <AddItemButton slotSize={slotSize} onClick={dialogProps.onOpen} />
   if ('item' in state) {
     const { item, equipable } = state
@@ -73,7 +78,7 @@ const EquipmentItemForm: React.FC<EquipmentItemFormProps> = props => {
 
   return (
     <>
-      <div ref={dndRef} style={{ height: 24 }}>
+      <div ref={dndRef} style={{ height }}>
         {element}
       </div>
 

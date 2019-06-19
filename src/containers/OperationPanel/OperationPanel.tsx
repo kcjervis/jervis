@@ -10,6 +10,7 @@ import Tab from '@material-ui/core/Tab'
 import Tabs from '@material-ui/core/Tabs'
 import TextField from '@material-ui/core/TextField'
 import Typography from '@material-ui/core/Typography'
+import Box from '@material-ui/core/Box'
 import { makeStyles, Theme } from '@material-ui/core/styles'
 
 import FleetTypeSelect from '../../components/FleetTypeSelect'
@@ -147,10 +148,12 @@ const OperationPanel: React.FC<OperationPanelProps> = ({ operation }) => {
 
       <Divider />
 
-      {activeFleet && <FleetField fleet={activeFleet} operation={operation} />}
-      {!activeFleet && <LandBaseForm operation={operation} />}
+      <Box margin="auto" maxWidth={8 * 125}>
+        {activeFleet && <FleetField fleet={activeFleet} operation={operation} />}
+        {!activeFleet && <LandBaseForm operation={operation} />}
 
-      <OperationDescriptionField operation={operation} />
+        <OperationDescriptionField operation={operation} />
+      </Box>
     </div>
   )
 }

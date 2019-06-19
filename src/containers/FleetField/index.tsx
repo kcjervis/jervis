@@ -77,52 +77,50 @@ const FleetField: React.FC<FleetFieldProps> = ({ fleet, operation }) => {
   }
 
   return (
-    <Flexbox justifyContent="center">
-      <div>
-        <Flexbox>
-          <Flexbox flexGrow={1}>
-            <Typography>制空: {fleet.asKcObject.fighterPower}</Typography>
-            <Typography style={{ marginLeft: 8 }}>マップ索敵: </Typography>
-            {range(1, 6).map(nodeDivaricatedFactor => (
-              <Tooltip key={nodeDivaricatedFactor} title={`分岐点係数${nodeDivaricatedFactor}`}>
-                <Flexbox ml={1}>
-                  <StatIcon statKey="los" label={nodeDivaricatedFactor} />
-                  <Typography variant="caption">{getEffectiveLos(nodeDivaricatedFactor).toFixed(2)}</Typography>
-                </Flexbox>
-              </Tooltip>
-            ))}
-          </Flexbox>
-          <EquipmentsSettingDialog equipments={ships.flatMap(ship => ship && ship.equipments).filter(nonNullable)} />
-
-          <div className={classes.bottomControl}>
-            <Button title="艦娘枠を増やす" onClick={addShipForm}>
-              <Add />
-            </Button>
-            <Button title="艦娘枠を減らす" onClick={removeShipForm}>
-              <Remove />
-            </Button>
-          </div>
+    <>
+      <Flexbox>
+        <Flexbox flexGrow={1}>
+          <Typography>制空: {fleet.asKcObject.fighterPower}</Typography>
+          <Typography style={{ marginLeft: 8 }}>マップ索敵: </Typography>
+          {range(1, 6).map(nodeDivaricatedFactor => (
+            <Tooltip key={nodeDivaricatedFactor} title={`分岐点係数${nodeDivaricatedFactor}`}>
+              <Flexbox ml={1}>
+                <StatIcon statKey="los" label={nodeDivaricatedFactor} />
+                <Typography variant="caption">{getEffectiveLos(nodeDivaricatedFactor).toFixed(2)}</Typography>
+              </Flexbox>
+            </Tooltip>
+          ))}
         </Flexbox>
+        <EquipmentsSettingDialog equipments={ships.flatMap(ship => ship && ship.equipments).filter(nonNullable)} />
 
-        <Box maxWidth={8 * 125}>
-          <Grid container spacing={1}>
-            {ships.map((ship, index) => (
-              <Grid key={index} item xs={6} style={{ minWidth: 8 * 60 }}>
-                <ShipForm key={index} store={fleet} index={index} ship={ship} />
-              </Grid>
-            ))}
-          </Grid>
+        <div className={classes.bottomControl}>
+          <Button title="艦娘枠を増やす" onClick={addShipForm}>
+            <Add />
+          </Button>
+          <Button title="艦娘枠を減らす" onClick={removeShipForm}>
+            <Remove />
+          </Button>
+        </div>
+      </Flexbox>
 
-          <FleetDetail
-            operation={operation.asKcObject}
-            fleet={fleet.asKcObject}
-            fleetRole={fleetRole}
-            isCombinedFleet={isCombinedFleet}
-            combinedFleetPlanes={combinedFleetPlanes}
-          />
-        </Box>
-      </div>
-    </Flexbox>
+      <Box>
+        <Grid container spacing={1}>
+          {ships.map((ship, index) => (
+            <Grid key={index} item xs={6} style={{ minWidth: 8 * 60 }}>
+              <ShipForm key={index} store={fleet} index={index} ship={ship} />
+            </Grid>
+          ))}
+        </Grid>
+
+        <FleetDetail
+          operation={operation.asKcObject}
+          fleet={fleet.asKcObject}
+          fleetRole={fleetRole}
+          isCombinedFleet={isCombinedFleet}
+          combinedFleetPlanes={combinedFleetPlanes}
+        />
+      </Box>
+    </>
   )
 }
 

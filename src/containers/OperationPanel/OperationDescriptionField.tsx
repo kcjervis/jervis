@@ -30,7 +30,6 @@ const useStyles = makeStyles({
     color: 'white',
     margin: 8,
     padding: '8px 24px',
-    maxWidth: 8 * 125,
     width: '100%'
   }
 })

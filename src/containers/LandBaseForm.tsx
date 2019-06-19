@@ -2,6 +2,7 @@ import { nonNullable } from 'kc-calculator'
 import React from 'react'
 import { observer } from 'mobx-react-lite'
 
+import Box from '@material-ui/core/Box'
 import Button from '@material-ui/core/Button'
 import Paper from '@material-ui/core/Paper'
 import Dialog from '@material-ui/core/Dialog'
@@ -44,37 +45,33 @@ const LandBaseForm: React.FC<LandBaseForm> = ({ operation }) => {
 
   return (
     <>
-      <Paper style={{ margin: 8, padding: 8 }}>
-        <div style={{ display: 'flex' }}>
-          <Typography variant="caption" style={{ margin: 8 }}>
-            第一艦隊制空: {mainFleet.fighterPower} {combinedFleetFighterPowerLabel}
-          </Typography>
+      <Flexbox>
+        <Typography variant="caption" style={{ margin: 8 }}>
+          第一艦隊制空: {mainFleet.fighterPower} {combinedFleetFighterPowerLabel}
+        </Typography>
 
-          <EquipmentsSettingDialog equipments={equipments} />
-        </div>
+        <EquipmentsSettingDialog equipments={equipments} />
+      </Flexbox>
 
-        <Flexbox>
-          {operation.landBase.map((airCorps, index) => (
-            <LandBasedAirCorpsCard key={index} landBasedAirCorps={airCorps} index={index} />
-          ))}
-        </Flexbox>
-      </Paper>
+      <Flexbox justifyContent="center">
+        {operation.landBase.map((airCorps, index) => (
+          <LandBasedAirCorpsCard key={index} landBasedAirCorps={airCorps} index={index} />
+        ))}
+      </Flexbox>
 
-      <Paper style={{ margin: 8, padding: 8 }}>
-        {operation.enemy ? (
-          <>
-            <Button onClick={removeEnemy}>敵編成を削除</Button>
-            <EnemyFleet battleFleet={operationToBattleFleet(operation.enemy)} />
-          </>
-        ) : (
-          <>
-            <Button onClick={onMapOpen}>敵編成を選択</Button>
-            <Button onClick={onOpen}>編成一覧から選択</Button>
-          </>
-        )}
+      {operation.enemy ? (
+        <>
+          <Button onClick={removeEnemy}>敵編成を削除</Button>
+          <EnemyFleet battleFleet={operationToBattleFleet(operation.enemy)} />
+        </>
+      ) : (
+        <>
+          <Button onClick={onMapOpen}>敵編成を選択</Button>
+          <Button onClick={onOpen}>編成一覧から選択</Button>
+        </>
+      )}
 
-        <AerialCombatSimulator operation={operation} />
-      </Paper>
+      <AerialCombatSimulator operation={operation} />
 
       <Dialog PaperProps={{ style: { height: '80vh' } }} fullWidth maxWidth="xl" {...mapDialogProps}>
         <MapsPanel onSelect={setEnemy} />

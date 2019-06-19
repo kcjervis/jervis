@@ -1,10 +1,8 @@
 import { observer } from 'mobx-react-lite'
 import React from 'react'
+import clsx from 'clsx'
 
-import Card from '@material-ui/core/Card'
-import FormControl from '@material-ui/core/FormControl'
-import MenuItem from '@material-ui/core/MenuItem'
-import Select, { SelectProps } from '@material-ui/core/Select'
+import Card, { CardProps } from '@material-ui/core/Card'
 import { makeStyles, Theme } from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography'
 
@@ -13,20 +11,37 @@ import { LandBasedAirCorpsMode } from '../stores/ObservableLandBasedAirCorps'
 import { useDragAndDrop } from '../hooks'
 import { swap } from '../utils'
 import EquipmentForm from './EquipmentForm'
+import { Select } from '../components'
+
+const getModeLabel = (mode: LandBasedAirCorpsMode) => {
+  switch (mode) {
+    case LandBasedAirCorpsMode.Standby:
+      return '待機'
+    case LandBasedAirCorpsMode.Sortie1:
+      return '分散'
+    case LandBasedAirCorpsMode.Sortie2:
+      return '集中'
+  }
+}
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
     margin: theme.spacing(1),
-    width: 400
+    width: 8 * 40
   }
 }))
 
-interface LandBasedAirCorpsCard {
+type LandBasedAirCorpsCard = {
   landBasedAirCorps: ObservableLandBasedAirCorps
   index: number
-}
+} & CardProps
 
-const LandBasedAirCorpsCard: React.FC<LandBasedAirCorpsCard> = ({ landBasedAirCorps, index }) => {
+const LandBasedAirCorpsCard: React.FC<LandBasedAirCorpsCard> = ({
+  landBasedAirCorps,
+  index,
+  className,
+  ...cardProps
+}) => {
   const classes = useStyles()
   const [dndProps, dndRef] = useDragAndDrop({
     item: { type: 'LandBasedAirCorps', landBasedAirCorps, index },
@@ -43,28 +58,29 @@ const LandBasedAirCorpsCard: React.FC<LandBasedAirCorpsCard> = ({ landBasedAirCo
     }
   })
 
+  const modeOptions = [LandBasedAirCorpsMode.Standby, LandBasedAirCorpsMode.Sortie1, LandBasedAirCorpsMode.Sortie2]
+
   const { asKcObject: kcAirCorps } = landBasedAirCorps
   const { combatRadius, minCombatRadius, fighterPower, interceptionPower } = kcAirCorps
   const addedRadius = combatRadius - minCombatRadius
   const addedRadiusLabel = addedRadius > 0 ? `(${minCombatRadius}+${addedRadius})` : ''
 
-  const handleModeChange = (event: React.ChangeEvent<SelectProps>) => {
-    landBasedAirCorps.mode = Number(event.target.value)
+  const handleModeChange = (mode: LandBasedAirCorpsMode) => {
+    landBasedAirCorps.mode = mode
   }
 
   return (
-    <Card ref={dndRef} className={classes.root}>
+    <Card ref={dndRef} className={clsx(classes.root, className)} {...cardProps}>
       <div style={{ display: 'flex', justifyContent: 'space-around' }}>
         <Typography>{`第${index + 1}航空隊 行動半径${combatRadius}${addedRadiusLabel}`}</Typography>
-        <FormControl variant="outlined">
-          <Select value={landBasedAirCorps.mode} onChange={handleModeChange}>
-            <MenuItem value={LandBasedAirCorpsMode.Standby}>待機</MenuItem>
-            <MenuItem value={LandBasedAirCorpsMode.Sortie1}>分散</MenuItem>
-            <MenuItem value={LandBasedAirCorpsMode.Sortie2}>集中</MenuItem>
-          </Select>
-        </FormControl>
+        <Select
+          options={modeOptions}
+          value={landBasedAirCorps.mode}
+          getOptionLabel={getModeLabel}
+          onChange={handleModeChange}
+        />
       </div>
-      <EquipmentForm store={landBasedAirCorps} />
+      <EquipmentForm store={landBasedAirCorps} size="medium" />
 
       <Typography>{`制空 出撃:${fighterPower} 防空:${interceptionPower}`}</Typography>
     </Card>
