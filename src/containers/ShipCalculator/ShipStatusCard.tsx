@@ -140,8 +140,6 @@ const ShipShellingStatusCard: React.FC<ShipStatusCardProps> = props => {
         ))}
         <Typography variant="caption">合計 {toPercent(specialAttackRate.total)}</Typography>
       </Flexbox>
-
-      <Typography>攻撃力</Typography>
       <Table
         data={Engagement.values}
         columns={[
@@ -151,8 +149,8 @@ const ShipShellingStatusCard: React.FC<ShipStatusCardProps> = props => {
         ]}
       />
 
+      <Flexbox mt={1} />
       <Typography variant="subtitle2">夜戦</Typography>
-      <Typography>攻撃力</Typography>
       <Table
         data={nightAttacks}
         columns={[

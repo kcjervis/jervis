@@ -139,7 +139,7 @@ const ShipCalculator: React.FC<ShipCalculatorProps> = ({ ship }) => {
           {visibleRoleSelect && <RadioGroup {...form.role} />}
         </Box>
 
-        <Box>
+        <Box display="flex" alignItems="end">
           <TextField label="弾薬量補正" style={{ width: 8 * 15 }} {...form.remainingAmmoModifierInput} />
           <Select label="敵艦隊種別" style={{ width: 8 * 15 }} {...form.enemyFleetType} />
           <FormControlLabel label="夜間触接" control={<Checkbox {...nightContactCheck} />} />

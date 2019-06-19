@@ -128,6 +128,7 @@ const WarfareStatusCard: React.FC<WarfareStatusCardProps> = props => {
         ]}
       />
 
+      <Flexbox mt={1} />
       <Typography>夜戦</Typography>
       <Table
         data={nightAttacks}
