@@ -52,7 +52,7 @@ const useStyles = makeStyles((theme: Theme) =>
 )
 
 type GearControlLabelProps = {
-  item: ObservableEquipment
+  gear: ObservableEquipment
   slotSize?: number
   maxSlotSize?: number
   onSlotSizeChange?: (value: number) => void
@@ -61,7 +61,7 @@ type GearControlLabelProps = {
 } & BoxProps
 
 const GearControlLabel: React.FC<GearControlLabelProps> = ({
-  item,
+  gear,
   onUpdateClick,
   slotSize,
   maxSlotSize,
@@ -71,7 +71,7 @@ const GearControlLabel: React.FC<GearControlLabelProps> = ({
 }) => {
   const classes = useStyles()
   const [isHovered, hoverRef] = useHover()
-  const visibleProficiency = item.asKcObject.category.isAerialCombatAircraft
+  const visibleProficiency = gear.asKcObject.category.isAerialCombatAircraft
   return (
     <Flexbox className={classes.root}>
       <div className={classes.slotSize}>
@@ -83,29 +83,29 @@ const GearControlLabel: React.FC<GearControlLabelProps> = ({
       </div>
 
       <Flexbox ref={hoverRef} height="100%" width={`calc(100% - ${visibleProficiency ? 64 : 40}px)`}>
-        <GearTooltip item={item.asKcObject}>
-          <EquipmentIcon className={classes.icon} iconId={item.asKcObject.iconId} />
+        <GearTooltip item={gear.asKcObject}>
+          <EquipmentIcon className={classes.icon} iconId={gear.asKcObject.iconId} />
         </GearTooltip>
         <div style={{ display: isHovered ? undefined : 'none' }}>
           <UpdateButton title="変更" tooltipProps={{ placement: 'top' }} size="small" onClick={onUpdateClick} />
-          <ClearButton title="削除" tooltipProps={{ placement: 'top' }} size="small" onClick={item.remove} />
+          <ClearButton title="削除" tooltipProps={{ placement: 'top' }} size="small" onClick={gear.remove} />
         </div>
         <Typography
           className={classes.name}
           style={{ display: isHovered ? 'none' : undefined }}
           color={equipable ? 'initial' : 'secondary'}
         >
-          {item.asKcObject.name}
+          {gear.asKcObject.name}
         </Typography>
       </Flexbox>
 
       <Flexbox>
         {visibleProficiency && (
           <div className={classes.proficiency}>
-            <ProficiencySelect internal={item.proficiency} onChange={item.changeProficiency} />
+            <ProficiencySelect internal={gear.proficiency} onChange={gear.changeProficiency} />
           </div>
         )}
-        <ImprovementSelect value={item.improvement} onChange={item.changeImprovement} />
+        <ImprovementSelect value={gear.improvement} onChange={gear.changeImprovement} />
       </Flexbox>
     </Flexbox>
   )

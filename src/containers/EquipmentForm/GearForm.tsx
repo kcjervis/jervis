@@ -66,7 +66,7 @@ const GearForm: React.FC<GearFormProps> = props => {
     const { item, equipable } = state
     element = (
       <GearControlLabel
-        item={item}
+        gear={item}
         onUpdateClick={dialogProps.onOpen}
         slotSize={slotSize}
         maxSlotSize={maxSlotSize}

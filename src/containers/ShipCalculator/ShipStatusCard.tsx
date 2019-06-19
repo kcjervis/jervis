@@ -5,7 +5,9 @@ import {
   Engagement,
   DayCombatSpecialAttack,
   ShipShellingStatus,
-  InstallationType
+  InstallationType,
+  NightBattleSpecialAttack,
+  ShipNightAttackStatus
 } from 'kc-calculator'
 import { round } from 'lodash-es'
 import clsx from 'clsx'
@@ -20,7 +22,7 @@ import TextField from '@material-ui/core/TextField'
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles'
 
 import { toPercent } from '../../utils'
-import { Select, Table } from '../../components'
+import { Select, Table, Flexbox } from '../../components'
 import { useSelect, useInput, useCheck } from '../../hooks'
 import ShellingStats from './ShellingStats'
 
@@ -42,27 +44,37 @@ export const useInstallationTypeSelect = (init?: InstallationType) => {
   return { ...select, getOptionLabel }
 }
 
-type ShipShellingStatusCardProps = {
+type ShipStatusCardProps = {
   shipInformation: ShipInformation
   combinedFleetFactor: number
   specialAttackRate: ReturnType<typeof DayCombatSpecialAttack.calcRate>
+
+  nightAttacks: Array<NightBattleSpecialAttack | undefined>
+  nightContactModifier: number
 } & PaperProps
 
-const ShipShellingStatusCard: React.FC<ShipShellingStatusCardProps> = props => {
+const ShipShellingStatusCard: React.FC<ShipStatusCardProps> = props => {
   const classes = useStyles()
-  const { shipInformation, combinedFleetFactor, specialAttackRate, className, ...paperProps } = props
+  const {
+    shipInformation,
+    combinedFleetFactor,
+    specialAttackRate,
+    nightAttacks,
+    nightContactModifier,
+    className,
+    ...paperProps
+  } = props
   const { ship } = shipInformation
-  const status = new ShipShellingStatus(ship)
+  const shellingstatus = new ShipShellingStatus(ship)
 
   const options = new Array<DayCombatSpecialAttack | undefined>(undefined).concat(specialAttackRate.attacks)
   const specialAttackSelect = useSelect(options)
   const apCheck = useCheck()
   const installationTypeSelect = useInstallationTypeSelect()
-
   const eventMapModifier = useInput(1)
 
-  const createCellRenderer = (isCritical = false) => (engagement: Engagement) => {
-    const shellingPower = status.calcPower({
+  const createShellingCellRenderer = (isCritical = false) => (engagement: Engagement) => {
+    const shellingPower = shellingstatus.calcPower({
       ...shipInformation,
       isCritical,
       engagement,
@@ -82,44 +94,74 @@ const ShipShellingStatusCard: React.FC<ShipShellingStatusCardProps> = props => {
     )
   }
 
+  const nightStatus = new ShipNightAttackStatus(ship)
+
+  const createNightCellRenderer = (isCritical = false) => (specialAttack: NightBattleSpecialAttack | undefined) => {
+    const nightAttackPower = nightStatus.calcPower({
+      ...shipInformation,
+      nightContactModifier,
+      installationType: installationTypeSelect.value,
+      specialAttack,
+      isCritical,
+      eventMapModifier: eventMapModifier.value
+    })
+    const color = nightAttackPower.isCapped ? 'secondary' : 'inherit'
+
+    return (
+      <Typography variant="inherit" color={color}>
+        {round(nightAttackPower.value, 4)}
+      </Typography>
+    )
+  }
+
   const visibleAp = ship.hasEquipmentCategory('ArmorPiercingShell') && ship.hasEquipmentCategory(cate => cate.isMainGun)
 
   return (
     <Paper className={clsx(className, classes.root)} {...paperProps}>
-      <Typography variant="subtitle2">砲撃戦(簡易)</Typography>
+      <Flexbox mt={1}>
+        <Typography variant="subtitle2">簡易計算機</Typography>
+        <Select label="敵種別" style={{ minWidth: 80, marginLeft: 8 }} {...installationTypeSelect} />
+        {visibleAp && <FormControlLabel label={`徹甲弾補正`} control={<Checkbox {...apCheck} />} />}
+        <TextField label="イベント特効(a11)" style={{ width: 8 * 17 }} {...eventMapModifier} />
+      </Flexbox>
 
-      <Box display="flex" alignItems="end" mt={1}>
+      <Flexbox mt={1}>
+        <Typography variant="subtitle2">砲撃戦</Typography>
         <Select
           style={{ minWidth: 80, marginLeft: 8 }}
           {...specialAttackSelect}
           getOptionLabel={option => (option ? option.name : '単発')}
         />
 
-        <Select label="敵種別" style={{ minWidth: 80, marginLeft: 8 }} {...installationTypeSelect} />
-        {visibleAp && <FormControlLabel label={`徹甲弾補正`} control={<Checkbox {...apCheck} />} />}
-        <TextField label="イベント特効(a11)" style={{ width: 8 * 17 }} {...eventMapModifier} />
-      </Box>
+        {Array.from(specialAttackRate.rateMap).map(([specialAttack, rate]) => (
+          <Typography key={specialAttack.id} variant="caption">
+            {specialAttack.name} {toPercent(rate)}
+          </Typography>
+        ))}
+        <Typography variant="caption">合計 {toPercent(specialAttackRate.total)}</Typography>
+      </Flexbox>
 
       <Typography>攻撃力</Typography>
       <Table
         data={Engagement.values}
         columns={[
           { label: '交戦形態', getValue: engagement => engagement.name, align: 'left' },
-          { label: '最終攻撃力', getValue: createCellRenderer() },
-          { label: 'クリティカル', getValue: createCellRenderer(true) }
+          { label: '最終攻撃力', getValue: createShellingCellRenderer() },
+          { label: 'クリティカル', getValue: createShellingCellRenderer(true) }
         ]}
       />
 
-      <Typography>特殊攻撃</Typography>
-      {Array.from(specialAttackRate.rateMap).map(([specialAttack, rate]) => (
-        <Typography key={specialAttack.id}>
-          {specialAttack.name} {toPercent(rate)}
-        </Typography>
-      ))}
-      <Typography>合計 {toPercent(specialAttackRate.total)}</Typography>
-      <Typography>
-        装備命中 {ship.totalEquipmentStats(equip => equip.accuracy + equip.improvement.shellingAccuracyModifier)}
-      </Typography>
+      <Typography variant="subtitle2">夜戦</Typography>
+      <Typography>攻撃力</Typography>
+      <Table
+        data={nightAttacks}
+        columns={[
+          { label: '攻撃種別', getValue: attack => (attack ? attack.name : '単発'), align: 'left' },
+          { label: '最終攻撃力', getValue: createNightCellRenderer(false) },
+          { label: 'クリティカル', getValue: createNightCellRenderer(true) }
+        ]}
+      />
+      <Typography>装備命中 {ship.totalEquipmentStats(equip => equip.accuracy)}</Typography>
     </Paper>
   )
 }

@@ -1,4 +1,5 @@
-import { Formation, IFleet, IShip, Side, NightBattle } from 'kc-calculator'
+import { Formation, IFleet, IShip, Side } from 'kc-calculator'
+import NightBattleSpecialAttack from 'kc-calculator/dist/Battle/NightAttack/NightBattleSpecialAttack'
 import { observable } from 'mobx'
 import { observer } from 'mobx-react-lite'
 import React, { createContext, useContext } from 'react'
@@ -14,7 +15,7 @@ import Typography from '@material-ui/core/Typography'
 
 import { toPercent } from '../../utils'
 
-const { calcPreModifierValue, calcBaseValue, getPossibleSpecialAttacks } = NightBattle.SpecialAttack
+const { calcPreModifierValue, calcBaseValue, getPossibleSpecialAttacks } = NightBattleSpecialAttack
 
 const calcComplementaryProbability = (num: number) => 1 - (num > 1 ? 1 : num < 0 ? 0 : num)
 
@@ -69,7 +70,7 @@ const ShipRow: React.FC<ShipRowProps> = observer(props => {
   const baseValue = calcBaseValue(ship, isFlagship, battleState, enemyBattleState)
 
   const cis = getPossibleSpecialAttacks(ship)
-  const cutinRates = new Array<{ ci: NightBattle.SpecialAttack; rate: number }>()
+  const cutinRates = new Array<{ ci: NightBattleSpecialAttack; rate: number }>()
   const totalRate = cis.reduce((acc, curCutin) => {
     let currentRate = (1 - acc) * curCutin.calcRate(baseValue)
     if (currentRate > 1) {

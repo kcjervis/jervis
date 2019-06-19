@@ -1,5 +1,15 @@
 import React, { useMemo } from 'react'
-import { IShip, Shelling, ShipInformation, InstallationType, Engagement, DayCombatSpecialAttack } from 'kc-calculator'
+import {
+  IShip,
+  Shelling,
+  ShipInformation,
+  InstallationType,
+  Engagement,
+  DayCombatSpecialAttack,
+  NightAttack,
+  NightBattleSpecialAttack,
+  Damage
+} from 'kc-calculator'
 import { round } from 'lodash-es'
 
 import Box from '@material-ui/core/Box'
@@ -11,10 +21,10 @@ import Checkbox from '@material-ui/core/Checkbox'
 import TextField from '@material-ui/core/TextField'
 
 import { toPercent } from '../../utils'
-import { Select, Table } from '../../components'
+import { Select, Table, Flexbox } from '../../components'
 import { useSelect, useInput } from '../../hooks'
 import ShellingStats from './ShellingStats'
-import { useInstallationTypeSelect } from './ShipShellingStatusCard'
+import { useInstallationTypeSelect } from './ShipStatusCard'
 
 const getInstallationType = (ship: IShip): InstallationType => {
   if (!ship.isInstallation) {
@@ -32,21 +42,47 @@ const getInstallationType = (ship: IShip): InstallationType => {
   return 'SoftSkinned'
 }
 
+const damageToText = (damage: Damage, isDeadly?: boolean) => {
+  if (damage.max === 0) {
+    return '確定割合'
+  }
+  const min = damage.min === 0 ? `(割合${toPercent(damage.scratchDamageProbability)})` : damage.min
+  return `${min} - ${damage.max}${isDeadly ? '(確殺)' : ''}`
+}
+
 type WarfareStatusCardProps = {
   attacker: ShipInformation
   defender: ShipInformation
 
-  attacks: Array<DayCombatSpecialAttack | undefined>
+  nightContactModifier: number
   remainingAmmoModifier: number
+
+  attacks: Array<DayCombatSpecialAttack | undefined>
+  nightAttacks: Array<NightBattleSpecialAttack | undefined>
 }
 
 const WarfareStatusCard: React.FC<WarfareStatusCardProps> = props => {
-  const { attacker, defender, attacks, remainingAmmoModifier } = props
+  const { attacker, defender, attacks, nightContactModifier, remainingAmmoModifier, nightAttacks } = props
 
   const specialAttackSelect = useSelect(attacks)
-  const specialMultiplicativeInput = useInput(1)
+  const eventMapModifierInput = useInput(1)
 
   const installationTypeSelect = useInstallationTypeSelect(getInstallationType(defender.ship))
+
+  const createNightAttackCellRenderer = (isCritical = false) => (specialAttack?: NightBattleSpecialAttack) => {
+    const { damage } = new NightAttack(
+      attacker,
+      defender,
+      specialAttack,
+      isCritical,
+      nightContactModifier,
+      eventMapModifierInput.value,
+      remainingAmmoModifier,
+      installationTypeSelect.value
+    )
+    const text = damageToText(damage, damage.min >= defender.ship.health.maxHp)
+    return text
+  }
 
   const createCellRenderer = (isCritical = false) => (engagement: Engagement) => {
     const { damage, power } = new Shelling(
@@ -55,18 +91,12 @@ const WarfareStatusCard: React.FC<WarfareStatusCardProps> = props => {
       engagement,
       specialAttackSelect.value,
       isCritical,
-      specialMultiplicativeInput.value,
+      eventMapModifierInput.value,
       remainingAmmoModifier,
       installationTypeSelect.value
     )
 
-    const isDeadly = damage.min >= defender.ship.health.maxHp
-
-    const min = damage.min === 0 ? `(割合${toPercent(damage.scratchDamageProbability)})` : damage.min
-    let text = `${min} - ${damage.max}${isDeadly ? '(確殺)' : ''}`
-    if (damage.max === 0) {
-      text = '確定割合'
-    }
+    const text = damageToText(damage, damage.min >= defender.ship.health.maxHp)
     return (
       <Tooltip title={<ShellingStats shellingPower={power} />}>
         <div>{text}</div>
@@ -76,24 +106,35 @@ const WarfareStatusCard: React.FC<WarfareStatusCardProps> = props => {
 
   return (
     <Paper style={{ width: 8 * 60 }}>
-      <Typography variant="subtitle2">砲撃戦</Typography>
       <Box display="flex" alignItems="end">
+        <Select label="敵種別" style={{ minWidth: 80, marginLeft: 8 }} {...installationTypeSelect} />
+        <TextField label="イベント特効(a11)" style={{ width: 8 * 17 }} {...eventMapModifierInput} />
+      </Box>
+
+      <Flexbox>
+        <Typography>砲撃戦</Typography>
         <Select
           style={{ minWidth: 80, marginLeft: 8 }}
           {...specialAttackSelect}
           getOptionLabel={option => (option ? option.name : '単発')}
         />
-        <Select label="敵種別" style={{ minWidth: 80, marginLeft: 8 }} {...installationTypeSelect} />
-        <TextField label="a6特殊乗算補正" {...specialMultiplicativeInput} />
-      </Box>
-
-      <Typography>ダメージ</Typography>
+      </Flexbox>
       <Table
         data={Engagement.values}
         columns={[
           { label: '交戦形態', getValue: engagement => engagement.name, align: 'left' },
           { label: 'ダメージ', getValue: createCellRenderer() },
           { label: 'クリティカル', getValue: createCellRenderer(true) }
+        ]}
+      />
+
+      <Typography>夜戦</Typography>
+      <Table
+        data={nightAttacks}
+        columns={[
+          { label: '攻撃種別', getValue: attack => (attack ? attack.name : '単発'), align: 'left' },
+          { label: 'ダメージ', getValue: createNightAttackCellRenderer(false) },
+          { label: 'クリティカル', getValue: createNightAttackCellRenderer(true) }
         ]}
       />
     </Paper>

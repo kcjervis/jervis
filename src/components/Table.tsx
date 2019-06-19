@@ -13,7 +13,7 @@ type ColumnProps<Datum> = {
 } & MuiTableCellProps
 
 type TableClellProps<Datum> = {
-  datum?: Datum
+  datum: Datum
   column: ColumnProps<Datum>
 }
 
@@ -22,7 +22,7 @@ function TableClell<Datum>({ datum, column }: TableClellProps<Datum>) {
 
   return (
     <MuiTableCell align="right" {...rest}>
-      {datum && getValue(datum)}
+      {getValue(datum)}
     </MuiTableCell>
   )
 }

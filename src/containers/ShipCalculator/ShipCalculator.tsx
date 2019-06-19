@@ -8,7 +8,8 @@ import {
   DayCombatSpecialAttack,
   ShipInformation,
   Side,
-  Shelling
+  Shelling,
+  NightBattleSpecialAttack
 } from 'kc-calculator'
 
 import FormControlLabel from '@material-ui/core/FormControlLabel'
@@ -18,7 +19,7 @@ import Typography from '@material-ui/core/Typography'
 import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
 
-import ShipShellingStatusCard from './ShipShellingStatusCard'
+import ShipStatusCard from './ShipStatusCard'
 import WarfareStatusCard from './WarfareStatusCard'
 import { Select, RadioGroup } from '../../components'
 import { ObservableShip, EnemyShipStoreContext } from '../../stores'
@@ -110,10 +111,16 @@ const ShipCalculator: React.FC<ShipCalculatorProps> = ({ ship }) => {
     role: state.enemyRole
   })
 
+  const nightAttacks = new Array<NightBattleSpecialAttack | undefined>(undefined).concat(
+    NightBattleSpecialAttack.getPossibleSpecialAttacks(attacker.ship)
+  )
+  const nightContactCheck = useCheck()
+  const nightContactModifier = nightContactCheck.checked ? 5 : 0
+
   return (
     <Box display="flex" justifyContent="center">
       <Typography variant="caption" color="error">
-        攻撃可否未実装
+        攻撃可否未実装(陸上にFBAや魚雷CIはできないので注意)
       </Typography>
 
       <Box m={1} maxWidth={8 * 125} width="100%">
@@ -135,15 +142,18 @@ const ShipCalculator: React.FC<ShipCalculatorProps> = ({ ship }) => {
         <Box>
           <TextField label="弾薬量補正" style={{ width: 8 * 15 }} {...form.remainingAmmoModifierInput} />
           <Select label="敵艦隊種別" style={{ width: 8 * 15 }} {...form.enemyFleetType} />
+          <FormControlLabel label="夜間触接" control={<Checkbox {...nightContactCheck} />} />
         </Box>
         <Box display="flex" flexWrap="wrap" justifyContent="space-between">
           <ShipCard style={{ width: 8 * 60 }} ship={ship} defaultStatsExpanded={true} disableButton />
 
-          <ShipShellingStatusCard
+          <ShipStatusCard
             style={{ width: 8 * 60 }}
             shipInformation={attacker}
             combinedFleetFactor={combinedFleetFactor}
+            nightContactModifier={nightContactModifier}
             specialAttackRate={specialAttackRate}
+            nightAttacks={nightAttacks}
           />
         </Box>
 
@@ -160,8 +170,10 @@ const ShipCalculator: React.FC<ShipCalculatorProps> = ({ ship }) => {
                 role: state.enemyRole,
                 formation: state.enemyFormation
               }}
-              attacks={attacks}
               remainingAmmoModifier={state.remainingAmmoModifier}
+              nightContactModifier={nightContactModifier}
+              attacks={attacks}
+              nightAttacks={nightAttacks}
             />
           </Box>
         ))}
