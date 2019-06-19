@@ -73,12 +73,7 @@ const OperationLabel: React.FC<OperationLabelProps> = ({ operation, temporary })
 
   return (
     <>
-      <div
-        ref={dndRef}
-        className={classes.root}
-        style={{ opacity: collectedProps.isDragging ? 0 : 1 }}
-        onContextMenu={handleContextMenu}
-      >
+      <div ref={dndRef} className={classes.root} onContextMenu={handleContextMenu}>
         <div className={classes.item} onClick={handleClick}>
           <ItemLabel icon={<OperationIcon temporary={temporary} />} text={operation.name} />
         </div>

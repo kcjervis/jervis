@@ -99,14 +99,14 @@ const EquipmentItemControlLabel: React.FC<EquipmentItemControlLabelProps> = ({
         </Typography>
       </Flexbox>
 
-      <Box display="flex" alignItems="center">
+      <Flexbox>
         {visibleProficiency && (
           <div className={classes.proficiency}>
             <ProficiencySelect internal={item.proficiency} onChange={item.changeProficiency} />
           </div>
         )}
         <ImprovementSelect value={item.improvement} onChange={item.changeImprovement} />
-      </Box>
+      </Flexbox>
     </Flexbox>
   )
 }

@@ -37,7 +37,7 @@ const OperationCard: React.FC<OperationCardProps> = ({ operation }) => {
   const classes = useStyles()
   const { onOpen, ...dialogProps } = useOpen()
   const { openOperation } = useWorkspace()
-  const [{ isDragging }, dndRef] = useDragAndDrop({
+  const [dndProps, dndRef] = useDragAndDrop({
     item: { type: 'OperationCard', operation },
     drop: item => item.operation.swap(operation)
   })
@@ -47,7 +47,7 @@ const OperationCard: React.FC<OperationCardProps> = ({ operation }) => {
   }
   const handleOpen = () => openOperation(operation)
   return (
-    <Card className={classes.root} style={{ opacity: isDragging ? 0 : 1 }} innerRef={dndRef}>
+    <Card className={classes.root} innerRef={dndRef}>
       <div>
         {operation.fleets[0].ships.map(
           ship => ship && <ShipImage key={ship.id} imageType="banner" masterId={ship.masterId} />

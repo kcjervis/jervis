@@ -6,6 +6,8 @@ import {
   DragSourceMonitor,
   DragElementWrapper
 } from 'react-dnd'
+import { useRef, useEffect } from 'react'
+import { setRef } from '@material-ui/core/utils'
 
 interface DragAndDropSourceHookSpec<DragObject extends DragObjectWithType, DropResult> {
   item: DragObject
@@ -26,9 +28,28 @@ const useDragAndDrop = <DragObject extends DragObjectWithType, DropResult>(
 
   const [dropCollectedProps, dropRef] = useDrop({ accept: item.type, drop })
 
-  const dndRef: DragElementWrapper<any> = element => dragRef(dropRef(element))
+  const { isDragging } = dragCollectedProps
 
-  return [dragCollectedProps, dndRef] as const
+  const ref = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    const node = ref.current
+    if (!node) {
+      return
+    }
+
+    dragRef(node)
+    dropRef(node)
+    const init = node.style.visibility
+    if (isDragging) {
+      node.style.visibility = 'hidden'
+    }
+    return () => {
+      node.style.visibility = init
+    }
+  }, [isDragging, ref.current, dragRef, dropRef])
+
+  return [dragCollectedProps, ref] as const
 }
 
 export default useDragAndDrop

@@ -9,21 +9,16 @@ import Select, { SelectProps } from '@material-ui/core/Select'
 import { makeStyles } from '@material-ui/styles'
 import Typography from '@material-ui/core/Typography'
 
-import EquipmentField from './EquipmentField'
-
 import { ObservableLandBasedAirCorps } from '../stores'
 import { LandBasedAirCorpsMode } from '../stores/ObservableLandBasedAirCorps'
 import { useDragAndDrop } from '../hooks'
 import { swap } from '../utils'
+import EquipmentForm from './EquipmentForm'
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
-    margin: theme.spacing(1)
-  },
-  equipment: {
-    margin: theme.spacing(1) * 0.5,
-    height: 8 * 5,
-    width: 8 * 30
+    margin: theme.spacing(1),
+    width: 400
   }
 }))
 
@@ -34,7 +29,7 @@ interface LandBasedAirCorpsCard {
 
 const LandBasedAirCorpsCard: React.FC<LandBasedAirCorpsCard> = ({ landBasedAirCorps, index }) => {
   const classes = useStyles()
-  const [{ isDragging }, dndRef] = useDragAndDrop({
+  const [dndProps, dndRef] = useDragAndDrop({
     item: { type: 'LandBasedAirCorps', landBasedAirCorps, index },
     drop: dragItem => {
       const dropStore = landBasedAirCorps.store
@@ -59,34 +54,18 @@ const LandBasedAirCorpsCard: React.FC<LandBasedAirCorpsCard> = ({ landBasedAirCo
   }
 
   return (
-    <Card ref={dndRef} className={classes.root} style={{ display: isDragging ? 'none' : undefined }}>
+    <Card ref={dndRef} className={classes.root}>
       <div style={{ display: 'flex', justifyContent: 'space-around' }}>
         <Typography>{`第${index + 1}航空隊 行動半径${combatRadius}${addedRadiusLabel}`}</Typography>
         <FormControl variant="outlined">
-          <Select
-            value={landBasedAirCorps.mode}
-            onChange={handleModeChange}
-            MenuProps={{
-              MenuListProps: {
-                style: { background: 'rgba(0, 0, 0, 0.9)' }
-              }
-            }}
-          >
+          <Select value={landBasedAirCorps.mode} onChange={handleModeChange}>
             <MenuItem value={LandBasedAirCorpsMode.Standby}>待機</MenuItem>
             <MenuItem value={LandBasedAirCorpsMode.Sortie1}>分散</MenuItem>
             <MenuItem value={LandBasedAirCorpsMode.Sortie2}>集中</MenuItem>
           </Select>
         </FormControl>
       </div>
-      {landBasedAirCorps.equipments.map((equip, equipIndex) => (
-        <EquipmentField
-          key={equipIndex}
-          className={classes.equipment}
-          store={landBasedAirCorps}
-          index={equipIndex}
-          equipment={equip}
-        />
-      ))}
+      <EquipmentForm store={landBasedAirCorps} />
 
       <Typography>{`制空 出撃:${fighterPower} 防空:${interceptionPower}`}</Typography>
     </Card>

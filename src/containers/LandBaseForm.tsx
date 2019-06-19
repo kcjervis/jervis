@@ -10,7 +10,7 @@ import Typography from '@material-ui/core/Typography'
 import AerialCombatSimulator, { operationToBattleFleet } from './AerialCombatSimulator'
 import LandBasedAirCorpsCard from './LandBasedAirCorpsCard'
 
-import { EnemyFleet, EquipmentsSettingDialog } from '../components'
+import { EnemyFleet, EquipmentsSettingDialog, Flexbox } from '../components'
 import MapsPanel from './MapsPanel'
 import { ObservableOperation } from '../stores'
 import { useOpen, useOperationStore } from '../hooks'
@@ -53,11 +53,11 @@ const LandBaseForm: React.FC<LandBaseForm> = ({ operation }) => {
           <EquipmentsSettingDialog equipments={equipments} />
         </div>
 
-        <div style={{ display: 'flex', justifyContent: 'center' }}>
+        <Flexbox>
           {operation.landBase.map((airCorps, index) => (
-            <LandBasedAirCorpsCard key={airCorps.id} landBasedAirCorps={airCorps} index={index} />
+            <LandBasedAirCorpsCard key={index} landBasedAirCorps={airCorps} index={index} />
           ))}
-        </div>
+        </Flexbox>
       </Paper>
 
       <Paper style={{ margin: 8, padding: 8 }}>

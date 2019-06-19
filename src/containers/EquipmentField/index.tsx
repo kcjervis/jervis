@@ -20,9 +20,6 @@ const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
       display: 'flex'
-    },
-    dragging: {
-      opacity: 0
     }
   })
 )
@@ -37,7 +34,7 @@ const EquipmentField: React.FC<EquipmentFieldProps> = props => {
   const { equipment, store, index, className, style } = props
   const classes = useStyles()
 
-  const [{ isDragging }, dndRef] = useDragAndDrop({
+  const [dndProps, dndRef] = useDragAndDrop({
     item: { type: 'Equipment', equipment, store, index },
     drop: dragItem => {
       store.set(index, dragItem.equipment)
@@ -53,7 +50,7 @@ const EquipmentField: React.FC<EquipmentFieldProps> = props => {
 
   const { onOpen, ...dialogProps } = useOpen()
 
-  const rootClassName = clsx(classes.root, { [classes.dragging]: isDragging }, className)
+  const rootClassName = clsx(classes.root, className)
   const isExpansionSlot = typeof slotSize !== 'number'
 
   const equipmentSelect = useEquipmentSelect(props)

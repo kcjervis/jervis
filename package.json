@@ -26,13 +26,13 @@
     "lodash-es": "^4.17.11",
     "mobx": "^5.10.1",
     "mobx-persist": "^0.4.1",
-    "mobx-react": "^6.0.3",
+    "mobx-react": "^6.0.4",
     "mobx-react-lite": "^1.4.0",
     "react": "^16.8.6",
     "react-copy-to-clipboard": "^5.0.1",
     "react-custom-scrollbars": "^4.2.1",
-    "react-dnd": "8.0.0",
-    "react-dnd-html5-backend": "^8.0.0",
+    "react-dnd": "8.0.2",
+    "react-dnd-html5-backend": "^8.0.2",
     "react-dom": "^16.8.6",
     "react-draggable": "^3.3.0",
     "react-markdown": "^4.0.8",
@@ -92,6 +92,6 @@
     "webpack": "^4.34.0",
     "webpack-bundle-analyzer": "^3.3.2",
     "webpack-cli": "^3.3.4",
-    "webpack-dev-server": "^3.7.1"
+    "webpack-dev-server": "^3.7.2"
   }
 }

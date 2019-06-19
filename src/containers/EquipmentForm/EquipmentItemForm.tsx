@@ -24,7 +24,7 @@ const useEquipmentItemState = (props: EquipmentItemFormProps) => {
   const { index, store } = props
   const equipItem = store.equipments.concat()[index]
 
-  const [{ isDragging }, dndRef] = useDragAndDrop({
+  const [dndProps, dndRef] = useDragAndDrop({
     item: { type: 'Equipment', store, index, equipItem },
     drop: dragItem => {
       store.set(index, dragItem.equipItem)
@@ -40,7 +40,7 @@ const useEquipmentItemState = (props: EquipmentItemFormProps) => {
   const onSlotSizeChange = (value: number) => store.setSlotSize(index, value)
 
   const selectProps = useEquipmentSelect(props)
-  const base = { isDragging, dndRef, slotSize, maxSlotSize, onSlotSizeChange, selectProps }
+  const base = { dndRef, slotSize, maxSlotSize, onSlotSizeChange, selectProps }
 
   if (!equipItem) {
     return base
@@ -53,7 +53,7 @@ const useEquipmentItemState = (props: EquipmentItemFormProps) => {
 
 const EquipmentItemForm: React.FC<EquipmentItemFormProps> = props => {
   const state = useEquipmentItemState(props)
-  const { slotSize, maxSlotSize, onSlotSizeChange, dndRef, isDragging, selectProps } = state
+  const { slotSize, maxSlotSize, onSlotSizeChange, dndRef, selectProps } = state
   const cardProps = useAnchorEl()
   const dialogProps = useOpen()
 
@@ -74,7 +74,7 @@ const EquipmentItemForm: React.FC<EquipmentItemFormProps> = props => {
 
   return (
     <>
-      <div ref={dndRef} style={{ height: 24, visibility: isDragging ? 'hidden' : undefined }}>
+      <div ref={dndRef} style={{ height: 24 }}>
         {element}
       </div>
 

@@ -30,15 +30,13 @@ const ShipForm: React.FC<ShipFormProps> = props => {
   const settingStore = useContext(SettingStoreContext)
 
   const classes = useStyles()
-  const [{ isDragging }, dndRef] = useDragAndDrop({
+  const [dndProps, dndRef] = useDragAndDrop({
     item: { type: 'Ship', ship, store, index },
     drop: dragItem => {
       store.set(index, dragItem.ship)
       dragItem.store.set(dragItem.index, ship)
     }
   })
-
-  const visibility = isDragging ? 'hidden' : undefined
 
   const handleOpen = () =>
     shipSelect.onOpen({
@@ -60,7 +58,7 @@ const ShipForm: React.FC<ShipFormProps> = props => {
   }
 
   return (
-    <div ref={dndRef} className={classes.root} style={{ visibility }}>
+    <div ref={dndRef} className={classes.root}>
       {element}
     </div>
   )
