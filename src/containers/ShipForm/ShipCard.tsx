@@ -80,7 +80,7 @@ const ShipCard: React.FC<ShipCardProps> = ({
       <div className={classes.stats}>
         <Box display="flex" alignItems="center" justifyContent="space-between" mr={2}>
           <Tooltip title={`ID: ${ship.masterId}`}>
-            <Typography variant="caption">
+            <Typography variant="caption" noWrap style={{ maxWidth: 8 * 11 }}>
               {ship.index + 1} {ship.asKcObject.name}
             </Typography>
           </Tooltip>

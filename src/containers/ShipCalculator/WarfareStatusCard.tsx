@@ -108,7 +108,12 @@ const WarfareStatusCard: React.FC<WarfareStatusCardProps> = props => {
     <Paper style={{ width: 8 * 60 }}>
       <Box display="flex" alignItems="end">
         <Select label="敵種別" style={{ minWidth: 80, marginLeft: 8 }} {...installationTypeSelect} />
-        <TextField label="イベント特効(a11)" style={{ width: 8 * 17 }} {...eventMapModifierInput} />
+        <TextField
+          label="イベント特効(a11)"
+          style={{ width: 8 * 17 }}
+          inputProps={{ step: 0.1 }}
+          {...eventMapModifierInput}
+        />
       </Box>
 
       <Flexbox>

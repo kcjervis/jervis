@@ -1,11 +1,10 @@
-import { FleetTypeName, Side } from 'kc-calculator'
+import { FleetTypeName, Side, FleetType } from 'kc-calculator'
 import { observer } from 'mobx-react-lite'
 import React, { useContext, useCallback } from 'react'
 
 import Checkbox from '@material-ui/core/Checkbox'
 import Divider from '@material-ui/core/Divider'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
-import Input from '@material-ui/core/Input'
 import Tab from '@material-ui/core/Tab'
 import Tabs from '@material-ui/core/Tabs'
 import TextField from '@material-ui/core/TextField'
@@ -13,13 +12,11 @@ import Typography from '@material-ui/core/Typography'
 import Box from '@material-ui/core/Box'
 import { makeStyles, Theme } from '@material-ui/core/styles'
 
-import FleetTypeSelect from '../../components/FleetTypeSelect'
-
-import { SaveButton, ShareButton } from '../../components/IconButtons'
 import FleetField from '../FleetField'
 import LandBaseForm from '../LandBaseForm'
 import OperationShareDialog from '../OperationShareDialog'
 import OperationDescriptionField from './OperationDescriptionField'
+import { SaveButton, ShareButton, FleetTypeSelect, NumberInput } from '../../components'
 
 import { ObservableOperation, SettingStoreContext } from '../../stores'
 import { useOpen, useOperationStore } from '../../hooks'
@@ -75,8 +72,8 @@ const OperationPanel: React.FC<OperationPanelProps> = ({ operation }) => {
     operation.name = event.target.value
   }
 
-  const handleHqLevelChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    operation.hqLevel = Number(event.target.value)
+  const handleHqLevelChange = (value: number) => {
+    operation.hqLevel = value
   }
 
   const handleSideChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -101,12 +98,11 @@ const OperationPanel: React.FC<OperationPanelProps> = ({ operation }) => {
       <div className={classes.menu}>
         <div className={classes.form}>
           <TextField label="編成名" className={classes.name} value={operation.name} onChange={handleChangeName} />
-          <TextField
+          <NumberInput
             className={classes.hqLevel}
             label="司令部Lv"
-            type="number"
-            inputProps={{ min: 1 }}
             value={operation.hqLevel}
+            min={1}
             onChange={handleHqLevelChange}
           />
           <FleetTypeSelect fleetType={operation.fleetType} onChange={handleFleetTypeChange} />

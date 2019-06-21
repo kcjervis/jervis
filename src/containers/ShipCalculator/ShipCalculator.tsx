@@ -118,12 +118,12 @@ const ShipCalculator: React.FC<ShipCalculatorProps> = ({ ship }) => {
   const nightContactModifier = nightContactCheck.checked ? 5 : 0
 
   return (
-    <Box display="flex" justifyContent="center">
+    <Box>
       <Typography variant="caption" color="error">
         攻撃可否未実装(陸上にFBAや魚雷CIはできないので注意)
       </Typography>
 
-      <Box m={1} maxWidth={8 * 125} width="100%">
+      <Box m={1} maxWidth={8 * 125} width="100%" margin="auto">
         <Box display="flex" alignItems="end">
           <Select {...form.fleetType} />
           <Select {...form.formation} />
