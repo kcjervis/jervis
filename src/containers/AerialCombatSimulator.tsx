@@ -96,7 +96,7 @@ class AerialCombatSimulator extends React.Component<AerialCombatSimulatorProps, 
 
     if (combatInfo.player.allShips.length > 0) {
       const resultMain = {
-        name: 'main',
+        name: '本隊',
         airStateName: new CarrierBasedAerialCombat(combatInfo).main().airControlState.name,
         fighterPower: combatInfo.enemy.mainFleet.fighterPower
       }
