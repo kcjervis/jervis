@@ -37,6 +37,7 @@ const WorkspaceBar: React.FC<WorkspaceBarPorps> = ({ workspaceStore, children, .
     { label: '海域', path: '/maps' },
     { label: 'Apps', path: '/apps' }
   ]
+
   return (
     <AppBar {...appBarProps}>
       <div className={classes.bar}>

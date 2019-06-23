@@ -74,8 +74,7 @@ module.exports = (env, argv) => {
                 experimentalWatchApi: true
               }
             }
-          ],
-          exclude: /node_modules/
+          ]
         },
         {
           test: /\.css$/,

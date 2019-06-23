@@ -6,6 +6,7 @@
 .env.test.local
 .env.production.local
 
+report.html
 cors.json
 *.tsbuildinfo
 
