@@ -1,4 +1,4 @@
-import { IEquipment, IEquipmentDataObject, ILandBasedAirCorpsDataObject } from 'kc-calculator'
+import { IEquipment, IEquipmentDataObject, ILandBasedAirCorpsDataObject, nonNullable } from 'kc-calculator'
 import { action, computed, observable } from 'mobx'
 import { persist } from 'mobx-persist'
 import uuid from 'uuid'
@@ -81,6 +81,17 @@ export default class ObservableLandBasedAirCorps
     if (typeof this.slots[index] === 'number' && value >= 0) {
       this.slots[index] = value
     }
+  }
+
+  @action public restoreSlotSize = () => {
+    this.equipments.forEach((gear, index) => {
+      if (!gear) {
+        this.setSlotSize(index, 18)
+        return
+      }
+      const capacity = gear.asKcObject.category.isReconnaissanceAircraft ? 4 : 18
+      this.setSlotSize(index, capacity)
+    })
   }
 
   @action public initialize = (store: ObservableOperation) => {

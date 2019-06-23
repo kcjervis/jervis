@@ -33,6 +33,7 @@ const useGearState = (props: GearFormProps) => {
       dragItem.store.set(dragItem.index, equipItem)
       if (store instanceof ObservableLandBasedAirCorps && dragItem.store instanceof ObservableLandBasedAirCorps) {
         swap(store.slots, index, dragItem.store.slots, dragItem.index)
+        swap(store.slotCapacities, index, dragItem.store.slotCapacities, dragItem.index)
       }
     }
   })

@@ -91,7 +91,14 @@ const FleetField: React.FC<FleetFieldProps> = ({ fleet, operation }) => {
             </Tooltip>
           ))}
         </Flexbox>
-        <EquipmentsSettingDialog equipments={ships.flatMap(ship => ship && ship.equipments).filter(nonNullable)} />
+        <EquipmentsSettingDialog
+          equipments={ships.flatMap(ship => ship && ship.equipments).filter(nonNullable)}
+          restoreSlotSize={() =>
+            ships.filter(nonNullable).forEach(ship => {
+              ship.slots = ship.slotCapacities.concat()
+            })
+          }
+        />
 
         <div className={classes.bottomControl}>
           <Button title="艦娘枠を増やす" onClick={addShipForm}>

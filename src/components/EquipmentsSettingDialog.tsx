@@ -15,9 +15,10 @@ import { useOpen } from '../hooks'
 
 type EquipmentsSettingDialogProps = {
   equipments: ObservableEquipment[]
+  restoreSlotSize?: () => void
 }
 
-const EquipmentsSettingDialog: React.FC<EquipmentsSettingDialogProps> = ({ equipments }) => {
+const EquipmentsSettingDialog: React.FC<EquipmentsSettingDialogProps> = ({ equipments, restoreSlotSize }) => {
   const { onOpen, ...dialogProps } = useOpen()
 
   const handleImprovementChange = (value: number) => {
@@ -48,14 +49,15 @@ const EquipmentsSettingDialog: React.FC<EquipmentsSettingDialogProps> = ({ equip
       <Dialog {...dialogProps}>
         <DialogTitle>一括設定</DialogTitle>
         <DialogContent>
+          <ImprovementButtons onClick={handleImprovementChange} />
           <div>
-            <ImprovementButtons onClick={handleImprovementChange} />
+            {Proficiency.internalBounds.concat(120).map(inter => (
+              <Button key={inter} onClick={handleProficiencyChange(inter)}>
+                <ProficiencyIcon internal={inter} />
+              </Button>
+            ))}
           </div>
-          {Proficiency.internalBounds.concat(120).map(inter => (
-            <Button key={inter} onClick={handleProficiencyChange(inter)}>
-              <ProficiencyIcon internal={inter} />
-            </Button>
-          ))}
+          {restoreSlotSize && <Button onClick={restoreSlotSize}>機数を戻す</Button>}
         </DialogContent>
       </Dialog>
     </div>

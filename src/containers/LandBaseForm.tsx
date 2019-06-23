@@ -50,7 +50,10 @@ const LandBaseForm: React.FC<LandBaseForm> = ({ operation }) => {
           第一艦隊制空: {mainFleet.fighterPower} {combinedFleetFighterPowerLabel}
         </Typography>
 
-        <EquipmentsSettingDialog equipments={equipments} />
+        <EquipmentsSettingDialog
+          equipments={equipments}
+          restoreSlotSize={() => operation.landBase.forEach(airCorps => airCorps.restoreSlotSize())}
+        />
       </Flexbox>
 
       <Flexbox justifyContent="center">
