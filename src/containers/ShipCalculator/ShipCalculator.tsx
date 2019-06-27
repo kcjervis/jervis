@@ -6,7 +6,6 @@ import {
   ShipRole,
   FleetType,
   DayCombatSpecialAttack,
-  ShipInformation,
   Side,
   Shelling,
   NightBattleSpecialAttack
@@ -25,9 +24,7 @@ import { Select, RadioGroup } from '../../components'
 import { ObservableShip, EnemyShipStoreContext } from '../../stores'
 import ShipCard from '../ShipForm/ShipCard'
 import { useSelect, useInput, useCheck } from '../../hooks'
-import ShipForm from '../ShipForm'
 import { ShipSelectPanelStateContext } from '../ShipSelectPanel'
-import { mapValues } from 'lodash-es'
 
 const getRoleLabel = (role: ShipRole) => (role === 'Main' ? '主力艦' : '護衛艦')
 
@@ -86,6 +83,8 @@ const ShipCalculator: React.FC<ShipCalculatorProps> = ({ ship }) => {
 
   const side = Side.Player
   const attacker = { ship: ship.asKcObject, side, isFlagship, fleetType, role, formation }
+
+  ship.increased.firepower
 
   const specialAttackRate = DayCombatSpecialAttack.calcRate(
     ship.asKcObject,

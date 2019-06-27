@@ -10,7 +10,7 @@ import {
   NightBattleSpecialAttack,
   Damage
 } from 'kc-calculator'
-import { round } from 'lodash-es'
+import { observer } from 'mobx-react-lite'
 
 import Box from '@material-ui/core/Box'
 import Paper from '@material-ui/core/Paper'
@@ -147,4 +147,4 @@ const WarfareStatusCard: React.FC<WarfareStatusCardProps> = props => {
   )
 }
 
-export default WarfareStatusCard
+export default observer(WarfareStatusCard)

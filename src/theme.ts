@@ -1,5 +1,6 @@
 import blue from '@material-ui/core/colors/blue'
 import grey from '@material-ui/core/colors/grey'
+import pink from '@material-ui/core/colors/pink'
 import { createMuiTheme } from '@material-ui/core/styles'
 
 const clearBackground = 'rgba(20, 20, 20, 0.1)'
@@ -13,7 +14,14 @@ export default createMuiTheme({
     background: {
       paper: clearBackground
     },
-    primary: blue,
+    primary: {
+      ...blue,
+      main: blue[400]
+    },
+    secondary: {
+      ...pink,
+      main: pink[400]
+    },
     action: {
       disabled: 'rgba(180, 180, 216, 0.5)'
     }
