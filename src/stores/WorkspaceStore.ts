@@ -21,4 +21,6 @@ export default class WorkspaceStore {
     this.items.push(newItem)
     return newItem
   }
+
+  @action public setInactive = () => this.items.forEach(item => (item.isActive = false))
 }

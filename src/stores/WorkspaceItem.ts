@@ -16,9 +16,9 @@ export default class WorkspaceItem {
 
   public type: WorkspaceItemType = 'Operation'
 
-  public store?: WorkspaceStore
+  @observable public store?: WorkspaceStore
 
-  public isActive: boolean = false
+  @observable public isActive: boolean = false
 
   @action public setActive = () => {
     this.store && this.store.items.forEach(item => (item.isActive = false))
@@ -26,6 +26,17 @@ export default class WorkspaceItem {
   }
 
   @action public remove = () => {
-    this.store && this.store.items.remove(this)
+    const items = this.store && this.store.items
+    if (!items) {
+      return
+    }
+    if (this.isActive) {
+      const index = items.indexOf(this)
+      const next: WorkspaceItem | undefined = items.toJS()[index + 1]
+      const prev: WorkspaceItem | undefined = items.toJS()[index - 1]
+      prev && prev.setActive()
+      next && next.setActive()
+    }
+    items.remove(this)
   }
 }

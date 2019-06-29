@@ -11,7 +11,7 @@ const useWorkspace = () => {
 
   const openOperation = useCallback(
     (operation: ObservableOperation) => {
-      const item = workspaceStore.createItem({ type: 'Operation', id: operation.id }).setActive()
+      workspaceStore.createItem({ type: 'Operation', id: operation.id }).setActive()
       history.push('operation')
     },
     [workspaceStore]
