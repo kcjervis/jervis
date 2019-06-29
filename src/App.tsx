@@ -10,7 +10,7 @@ import stores from './stores'
 import Background from './Background'
 
 import MapsPanel from './containers/MapsPanel'
-import { ShipSelectPanel, Dialogs } from './containers'
+import { ShipSelectPanel, Dialogs, Home } from './containers'
 
 import OperationPage from './containers/OperationPage'
 import OperationsPage from './containers/OperationsPage'
