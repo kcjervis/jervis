@@ -17,6 +17,7 @@ import { masterData } from '../../stores/kcObjectFactory'
 import { useCheck, useSelect } from '../../hooks'
 import ShipButton from './ShipButton'
 import { SelectButtons } from '../../components'
+import { ShipFilter } from './ShipSelectPanelStateContext'
 
 const useStyles = makeStyles(
   createStyles({
@@ -24,60 +25,70 @@ const useStyles = makeStyles(
   })
 )
 
-const tabCategories = [
-  { name: '戦艦級', typeIds: [8, 9, 10, 12] },
-  { name: '航空母艦', typeIds: [7, 11, 18] },
-  { name: '重巡級', typeIds: [5, 6] },
-  { name: '軽巡級', typeIds: [3, 4, 21] },
-  { name: '駆逐艦', typeIds: [2] },
-  { name: '海防艦', typeIds: [1] },
-  { name: '潜水艦', typeIds: [13, 14] },
-  { name: '補助艦艇', typeIds: [15, 16, 17, 19, 20, 22] }
+const shipTypeFilters: ShipFilter[] = [
+  { name: '戦艦級', filter: ship => ship.shipType.isBattleshipClass },
+  { name: '航空母艦', filter: ship => ship.shipType.isAircraftCarrierClass },
+  { name: '重巡級', filter: ship => ship.shipType.isHeavyCruiserClass },
+  { name: '軽巡級', filter: ship => ship.shipType.isLightCruiserClass },
+  { name: '駆逐艦', filter: ship => ship.shipType.isDestroyer },
+  { name: '海防艦', filter: ship => ship.shipType.is('CoastalDefenseShip') },
+  { name: '潜水艦', filter: ship => ship.shipType.isSubmarineClass },
+  {
+    name: '補助艦艇',
+    filter: ship =>
+      ship.shipType.either(
+        'Transport',
+        'SeaplaneTender',
+        'AmphibiousAssaultShip',
+        'RepairShip',
+        'SubmarineTender',
+        'FleetOiler'
+      )
+  }
 ]
 
-const createMasterShipFilter = (
-  visibleTypeIds: number[] = [],
-  visibleAbysall = false,
-  visiblePreRemodeling = false
-) => (masterShip: MasterShip) => {
-  if (!visibleTypeIds.includes(masterShip.shipType.id)) {
-    return false
-  }
-  if (visibleAbysall !== masterShip.isAbyssal) {
-    return false
-  }
-  if (!visiblePreRemodeling) {
-    if (!masterShip.canConvert && masterShip.canRemodel) {
-      return false
-    }
-  }
-
-  return true
-}
-
 export type ShipSelectPanelProps = {
-  onSelect?: (data: IShipDataObject) => void
+  className?: string
+  style?: React.CSSProperties
   abysall?: boolean
+  defaultFilter?: ShipFilter
+  onSelect?: (data: IShipDataObject) => void
+  onFilterChange?: (filter: ShipFilter) => void
 }
 
-const ShipSelectPanel: React.FC<ShipSelectPanelProps> = ({ onSelect, abysall }) => {
-  const classes = useStyles()
+const ShipSelectPanel: React.FC<ShipSelectPanelProps> = ({
+  className,
+  style,
+  abysall,
+  defaultFilter,
+  onSelect,
+  onFilterChange
+}) => {
   const [searchText, setSearchText] = useState('')
   const searchRef = useRef<HTMLInputElement>()
 
-  const categorySelect = useSelect(tabCategories)
+  const typeFilterSelect = useSelect(shipTypeFilters, defaultFilter)
   const abysallCheck = useCheck(abysall)
   const preRemodelingCheck = useCheck()
 
-  const visibleTypeIds = categorySelect.value.typeIds
   const visibleMasterShips = useMemo(() => {
     if (searchText !== '') {
       return masterData.ships.filter(({ name, id }) => name.includes(searchText) || id.toString() === searchText)
     }
 
-    const filter = createMasterShipFilter(visibleTypeIds, abysallCheck.checked, preRemodelingCheck.checked)
+    const filter = (masterShip: MasterShip) => {
+      if (abysallCheck.checked !== masterShip.isAbyssal) {
+        return false
+      }
+      if (!preRemodelingCheck.checked) {
+        if (!masterShip.canConvert && masterShip.canRemodel) {
+          return false
+        }
+      }
+      return typeFilterSelect.value.filter(masterShip)
+    }
     return masterData.ships.filter(filter)
-  }, [searchText, visibleTypeIds, abysallCheck.checked, preRemodelingCheck.checked])
+  }, [searchText, typeFilterSelect.value, abysallCheck.checked, preRemodelingCheck.checked])
 
   const classedMasterShips = groupBy(visibleMasterShips, masterShip => masterShip.shipClass.name)
 
@@ -112,8 +123,14 @@ const ShipSelectPanel: React.FC<ShipSelectPanelProps> = ({ onSelect, abysall }) 
     }
     onSelect({ masterId, level, slots, equipments })
   }
+
+  const handleFilterChange = (filter: ShipFilter) => {
+    typeFilterSelect.onChange(filter)
+    onFilterChange && onFilterChange(filter)
+  }
+
   return (
-    <Box m={1} minHeight="80vh">
+    <Box className={className} style={style} m={1} height="100%">
       <div>
         <Input
           endAdornment={
@@ -126,7 +143,7 @@ const ShipSelectPanel: React.FC<ShipSelectPanelProps> = ({ onSelect, abysall }) 
         {'' !== searchText && <Chip variant="outlined" label={searchText} onDelete={() => setSearchText('')} />}
       </div>
 
-      <SelectButtons {...categorySelect} buttonProps={{ size: 'small' }} />
+      <SelectButtons {...typeFilterSelect} onChange={handleFilterChange} buttonProps={{ size: 'small' }} />
       <FormControlLabel label="深海棲艦" control={<Checkbox {...abysallCheck} />} />
       <FormControlLabel label="未改造表示" control={<Checkbox {...preRemodelingCheck} />} />
 

@@ -4,8 +4,12 @@ const useSelect = <OptionType>(options: OptionType[], defaultOption: OptionType 
   const [value, onChange] = useState(defaultOption)
 
   useEffect(() => {
-    onChange(defaultOption)
-  }, [options.includes(value)])
+    if (!options.includes(value)) {
+      onChange(defaultOption)
+    }
+  }, [options])
+
+  useEffect(() => onChange(defaultOption), [defaultOption])
 
   return { options, value, onChange }
 }

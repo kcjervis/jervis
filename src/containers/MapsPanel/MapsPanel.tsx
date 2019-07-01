@@ -47,7 +47,7 @@ type MapsPanelProps = {
 const MapsPanel: React.FC<MapsPanelProps> = ({ onSelect }) => {
   const classes = useStyles()
 
-  const worldSelect = useSelect(worlds, worlds[8])
+  const worldSelect = useSelect(worlds, worlds[6])
   const worldMaps = maps.filter(({ mapId }) => Math.floor(mapId / 10) === worldSelect.value.id)
   const mapSelect = useSelect(worldMaps)
 

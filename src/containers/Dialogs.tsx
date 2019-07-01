@@ -10,7 +10,7 @@ const Dialogs: React.FC = () => {
   return (
     <>
       <Dialog fullWidth maxWidth="xl" open={shipSelectPanelState.open} onClose={shipSelectPanelState.onClose}>
-        <ShipSelectPanel {...shipSelectPanelState.props} />
+        <ShipSelectPanel {...shipSelectPanelState.props} style={{ height: '80vh' }} />
       </Dialog>
     </>
   )
