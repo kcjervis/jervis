@@ -1,5 +1,5 @@
 import { observer } from 'mobx-react-lite'
-import React, { useContext, useCallback } from 'react'
+import React, { useContext, useCallback, useState } from 'react'
 import {
   AirControlState,
   Formation,
@@ -8,7 +8,8 @@ import {
   DayCombatSpecialAttack,
   Side,
   Shelling,
-  NightBattleSpecialAttack
+  NightBattleSpecialAttack,
+  ShipShellingStatus
 } from 'kc-calculator'
 
 import FormControlLabel from '@material-ui/core/FormControlLabel'
@@ -20,8 +21,8 @@ import Button from '@material-ui/core/Button'
 
 import ShipStatusCard from './ShipStatusCard'
 import WarfareStatusCard from './WarfareStatusCard'
-import { Select, RadioGroup } from '../../components'
-import { ObservableShip, EnemyShipStoreContext } from '../../stores'
+import { Select, RadioGroup, NumberInput } from '../../components'
+import { ObservableShip, EnemyShipStoreContext, SettingStoreContext } from '../../stores'
 import ShipCard from '../ShipForm/ShipCard'
 import { useSelect, useInput, useCheck } from '../../hooks'
 import { ShipSelectPanelStateContext } from '../ShipSelectPanel'
@@ -116,6 +117,9 @@ const ShipCalculator: React.FC<ShipCalculatorProps> = ({ ship }) => {
   const nightContactCheck = useCheck()
   const nightContactModifier = nightContactCheck.checked ? 5 : 0
 
+  const [fitGunBonus, setFitGunBonus] = useState(0)
+  const isExperiment = useContext(SettingStoreContext).experiment
+
   return (
     <Box>
       <Typography variant="caption" color="error">
@@ -142,6 +146,7 @@ const ShipCalculator: React.FC<ShipCalculatorProps> = ({ ship }) => {
           <TextField label="弾薬量補正" style={{ width: 8 * 15 }} {...form.remainingAmmoModifierInput} />
           <Select label="敵艦隊種別" style={{ width: 8 * 15 }} {...form.enemyFleetType} />
           <FormControlLabel label="夜間触接" control={<Checkbox {...nightContactCheck} />} />
+          {isExperiment && <NumberInput label="フィット砲補正" value={fitGunBonus} onChange={setFitGunBonus} />}
         </Box>
         <Box display="flex" flexWrap="wrap" justifyContent="space-between">
           <ShipCard style={{ width: 8 * 60 }} ship={ship} defaultStatsExpanded={true} disableButton />
@@ -173,6 +178,8 @@ const ShipCalculator: React.FC<ShipCalculatorProps> = ({ ship }) => {
               nightContactModifier={nightContactModifier}
               attacks={attacks}
               nightAttacks={nightAttacks}
+              fitGunBonus={fitGunBonus}
+              isExperiment={isExperiment}
             />
           </Box>
         ))}

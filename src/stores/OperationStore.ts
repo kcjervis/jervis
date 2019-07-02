@@ -17,16 +17,6 @@ const switchArrayItems = <T>(array1: T[], index1: number, array2: T[], index2: n
   array2[index2] = item1
 }
 
-interface DraggableEquipmentProps {
-  parent: ObservableShip | ObservableLandBasedAirCorps
-  index: number
-}
-
-interface DraggableShipProps {
-  fleet: ObservableFleet
-  index: number
-}
-
 export default class OperationStore implements Store<ObservableOperation> {
   @persist('list', ObservableOperation) @observable public operations = observable<ObservableOperation>([])
 

@@ -24,9 +24,7 @@ import { toPercent } from '../utils'
 export const operationToBattleFleet = (operation: ObservableOperation, isEnemy?: boolean) => {
   const { side, fleetType, mainFleet, escortFleet, landBase } = kcObjectFactory.createOperation(operation)
   const battleFleet = new BattleFleet(isEnemy ? Side.Enemy : side, fleetType, landBase, mainFleet, escortFleet)
-  if (operation.temporaryFormation) {
-    battleFleet.formation = operation.temporaryFormation
-  }
+  battleFleet.formation = operation.formation
   return battleFleet
 }
 

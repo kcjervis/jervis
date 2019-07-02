@@ -65,7 +65,7 @@ const ShipShellingStatusCard: React.FC<ShipStatusCardProps> = props => {
     ...paperProps
   } = props
   const { ship } = shipInformation
-  const shellingstatus = new ShipShellingStatus(ship)
+  const shellingStatus = new ShipShellingStatus(ship)
 
   const options = new Array<DayCombatSpecialAttack | undefined>(undefined).concat(specialAttackRate.attacks)
   const specialAttackSelect = useSelect(options)
@@ -74,7 +74,7 @@ const ShipShellingStatusCard: React.FC<ShipStatusCardProps> = props => {
   const eventMapModifier = useInput(1)
 
   const createShellingCellRenderer = (isCritical = false) => (engagement: Engagement) => {
-    const shellingPower = shellingstatus.calcPower({
+    const shellingPower = shellingStatus.calcPower({
       ...shipInformation,
       isCritical,
       engagement,

@@ -17,12 +17,12 @@ import Flexbox from './Flexbox'
 import EquipmentLabel from './EquipmentLabel'
 
 type GearTooltipProps = {
-  item: IEquipment
+  gear: IEquipment
   children: React.ReactElement
 }
 
-const GearTooltip: React.FC<GearTooltipProps> = ({ item, ...rest }) => {
-  const stats = equipmentStatKeys.map(key => [key, item[key]] as const).filter(([key, stat]) => stat !== 0)
+const GearTooltip: React.FC<GearTooltipProps> = ({ gear, ...rest }) => {
+  const stats = equipmentStatKeys.map(key => [key, gear[key]] as const).filter(([key, stat]) => stat !== 0)
   const statElements = stats.map(([key, stat]) => (
     <Flexbox key={key}>
       <StatLabel statKey={key} stat={stat} visibleStatName />
@@ -33,7 +33,8 @@ const GearTooltip: React.FC<GearTooltipProps> = ({ item, ...rest }) => {
       enterDelay={300}
       title={
         <Box>
-          <EquipmentLabel equipment={item} />
+          <EquipmentLabel equipment={gear} />
+          <Typography variant="caption">id: {gear.masterId}</Typography>
           {statElements}
         </Box>
       }

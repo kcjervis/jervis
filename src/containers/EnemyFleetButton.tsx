@@ -78,7 +78,7 @@ export const enemyFleetToOperation = (enemyFleet: TEnemyFleet) => {
     landBase: []
   })
 
-  operation.temporaryFormation = stringToFormation(formationName, isCombinedFleet)
+  operation.setFormation(stringToFormation(formationName, isCombinedFleet))
 
   return operation
 }

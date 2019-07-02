@@ -7,4 +7,6 @@ export default class SettingStore {
   public operationPage = {
     visibleShipStats: true
   }
+
+  @persist @observable public experiment = false
 }

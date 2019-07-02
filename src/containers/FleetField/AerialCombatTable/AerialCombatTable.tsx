@@ -26,14 +26,21 @@ type AerialCombatTableProps = {
   operation: IOperation
 
   fleet: IFleet
-  isCombinedFleet?: boolean
   fleetRole: FleetRole
+  isCombinedFleet?: boolean
+  defaultFormation?: Formation
 }
 
-const AerialCombatTable: React.FC<AerialCombatTableProps> = ({ operation, fleet, isCombinedFleet, fleetRole }) => {
+const AerialCombatTable: React.FC<AerialCombatTableProps> = ({
+  operation,
+  fleet,
+  isCombinedFleet,
+  fleetRole,
+  defaultFormation
+}) => {
   const { side, mainFleet, escortFleet } = operation
 
-  const formationSelect = useSelect(Formation.values)
+  const formationSelect = useSelect(Formation.values, defaultFormation)
   const formationModifier = formationSelect.value.fleetAntiAirModifier
 
   let allShips = fleet.ships.filter(nonNullable)

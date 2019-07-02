@@ -83,7 +83,7 @@ const GearControlLabel: React.FC<GearControlLabelProps> = ({
       </div>
 
       <Flexbox ref={hoverRef} height="100%" width={`calc(100% - ${visibleProficiency ? 64 : 40}px)`}>
-        <GearTooltip item={gear.asKcObject}>
+        <GearTooltip gear={gear.asKcObject}>
           <EquipmentIcon className={classes.icon} iconId={gear.asKcObject.iconId} />
         </GearTooltip>
         <div style={{ display: isHovered ? undefined : 'none' }}>

@@ -2,6 +2,7 @@ import { FleetTypeName, IOperationDataObject, Side, Formation } from 'kc-calcula
 import { action, computed, observable } from 'mobx'
 import { persist } from 'mobx-persist'
 import uuid from 'uuid'
+import { times } from 'lodash-es'
 
 import kcObjectFactory from './kcObjectFactory'
 import ObservableFleet from './ObservableFleet'
@@ -10,7 +11,13 @@ import toNishikuma from './toNishikuma'
 import OperationStore from './OperationStore'
 import { StoreItem } from '../types'
 
-type OperationData = IOperationDataObject & { name?: string; hqLevel?: number; description?: string }
+type OperationData = IOperationDataObject & {
+  version?: number
+  id?: string
+  name?: string
+  hqLevel?: number
+  description?: string
+}
 
 export default class ObservableOperation implements IOperationDataObject, StoreItem<OperationStore> {
   public static create = (operationData: OperationData) => {
@@ -48,19 +55,32 @@ export default class ObservableOperation implements IOperationDataObject, StoreI
 
   @persist @observable public fleetType = FleetTypeName.Single
 
+  @persist @observable private formationId = 0
+
+  public get formation(): Formation {
+    const res = Formation.fromId(this.formationId)
+    return res || Formation.LineAhead
+  }
+
+  public setFormation = (arg: number | Formation) => {
+    if (typeof arg === 'number') {
+      this.formationId = arg
+    } else {
+      this.formationId = arg.id
+    }
+  }
+
   @persist('list', ObservableFleet)
   @observable
-  public fleets = observable(Array.from(Array(4), () => new ObservableFleet()))
+  public fleets = observable(times(4, () => new ObservableFleet()))
 
   @persist('list', ObservableLandBasedAirCorps)
   @observable
-  public landBase = observable(Array.from(Array(3), () => new ObservableLandBasedAirCorps()))
+  public landBase = observable(times(3, () => new ObservableLandBasedAirCorps()))
 
   @persist('object', ObservableOperation)
   @observable
   public enemy?: ObservableOperation
-
-  @observable public temporaryFormation: Formation = Formation.LineAhead
 
   @observable public activeFleetIndex: number = 0
 
@@ -113,11 +133,9 @@ export default class ObservableOperation implements IOperationDataObject, StoreI
     this.landBase.forEach(airCorps => airCorps.initialize(this))
   }
 
-  private toJSON() {
-    const dataObject = { ...this, version: 1 }
-    delete dataObject.store
-    delete dataObject.activeFleetIndex
-    delete dataObject.enemy
-    return dataObject
+  private toJSON(): OperationData {
+    const { id, name, description, hqLevel, side, fleetType, fleets, landBase } = this
+    const version = 1
+    return { version, id, name, description, hqLevel, side, fleetType, fleets, landBase }
   }
 }

@@ -122,7 +122,7 @@ const EquipmentsDataTable: React.FC<EquipmentsDataTableProps> = ({ label, filter
   let dataElement: React.ReactNode
   if (mode === 'simple') {
     dataElement = data.map(equip => (
-      <GearTooltip key={equip.masterId} item={equip}>
+      <GearTooltip key={equip.masterId} gear={equip}>
         <Button onClick={() => onSelect && onSelect(equip)}>
           <EquipmentLabel width={8 * 40} equipment={equip} />
         </Button>

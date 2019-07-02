@@ -1,4 +1,4 @@
-import { FleetRole, IFleet, BattleType, IOperation, IPlane } from 'kc-calculator'
+import { FleetRole, IFleet, BattleType, IOperation, IPlane, Formation } from 'kc-calculator'
 import { getCombinedFleetModifier } from 'kc-calculator/dist/Battle/AerialCombat/antiAir'
 import { observable } from 'mobx'
 import { observer } from 'mobx-react-lite'
@@ -23,6 +23,7 @@ interface FleetDetailProps {
 
   isCombinedFleet?: boolean
   combinedFleetPlanes?: IPlane[]
+  defaultFormation?: Formation
 }
 
 const FleetDetailContext = createContext(observable({ activeTab: 0 }))
@@ -34,7 +35,7 @@ const FleetDetail: React.FC<FleetDetailProps> = props => {
     fleetDetailStore.activeTab = next
   }
 
-  const { operation, fleet, fleetRole, isCombinedFleet, combinedFleetPlanes } = props
+  const { operation, fleet, fleetRole, isCombinedFleet, combinedFleetPlanes, defaultFormation } = props
   const { activeTab } = fleetDetailStore
 
   return (
@@ -72,6 +73,7 @@ const FleetDetail: React.FC<FleetDetailProps> = props => {
           fleet={fleet}
           isCombinedFleet={isCombinedFleet}
           fleetRole={fleetRole}
+          defaultFormation={defaultFormation}
         />
       )}
     </Paper>

@@ -10,7 +10,7 @@ import stores from './stores'
 import Background from './Background'
 
 import MapsPanel from './containers/MapsPanel'
-import { ShipSelectPanel, Dialogs, Home } from './containers'
+import { ShipSelectPanel, Dialogs, Home, SettingPanel } from './containers'
 
 import OperationPage from './containers/OperationPage'
 import OperationsPage from './containers/OperationsPage'
@@ -43,6 +43,8 @@ export default class App extends Component {
 
                   <Route exact={true} path="/apps" component={AppsPage} />
                   <Route exact={true} path="/url-shortener" component={UrlShortener} />
+
+                  <Route exact={true} path="/setting" component={SettingPanel} />
                 </Workspace>
               </DataLoader>
             </HashRouter>

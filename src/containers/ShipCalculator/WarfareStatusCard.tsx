@@ -59,10 +59,21 @@ type WarfareStatusCardProps = {
 
   attacks: Array<DayCombatSpecialAttack | undefined>
   nightAttacks: Array<NightBattleSpecialAttack | undefined>
+  fitGunBonus: number
+  isExperiment: boolean
 }
 
 const WarfareStatusCard: React.FC<WarfareStatusCardProps> = props => {
-  const { attacker, defender, attacks, nightContactModifier, remainingAmmoModifier, nightAttacks } = props
+  const {
+    attacker,
+    defender,
+    attacks,
+    nightContactModifier,
+    remainingAmmoModifier,
+    nightAttacks,
+    fitGunBonus,
+    isExperiment
+  } = props
 
   const specialAttackSelect = useSelect(attacks)
   const eventMapModifierInput = useInput(1)
@@ -85,7 +96,7 @@ const WarfareStatusCard: React.FC<WarfareStatusCardProps> = props => {
   }
 
   const createCellRenderer = (isCritical = false) => (engagement: Engagement) => {
-    const { damage, power } = new Shelling(
+    const { damage, power, accuracy } = new Shelling(
       attacker,
       defender,
       engagement,
@@ -93,7 +104,8 @@ const WarfareStatusCard: React.FC<WarfareStatusCardProps> = props => {
       isCritical,
       eventMapModifierInput.value,
       remainingAmmoModifier,
-      installationTypeSelect.value
+      installationTypeSelect.value,
+      fitGunBonus
     )
 
     const text = damageToText(damage, damage.min >= defender.ship.health.maxHp)
@@ -103,6 +115,18 @@ const WarfareStatusCard: React.FC<WarfareStatusCardProps> = props => {
       </Tooltip>
     )
   }
+
+  const { accuracy } = new Shelling(
+    attacker,
+    defender,
+    Engagement.Parallel,
+    specialAttackSelect.value,
+    false,
+    eventMapModifierInput.value,
+    remainingAmmoModifier,
+    installationTypeSelect.value,
+    fitGunBonus
+  )
 
   return (
     <Paper style={{ width: 8 * 60 }}>
@@ -132,6 +156,8 @@ const WarfareStatusCard: React.FC<WarfareStatusCardProps> = props => {
           { label: 'クリティカル', getValue: createCellRenderer(true) }
         ]}
       />
+
+      {isExperiment && <Typography>昼砲撃命中項: {accuracy.value}</Typography>}
 
       <Flexbox mt={1} />
       <Typography>夜戦</Typography>

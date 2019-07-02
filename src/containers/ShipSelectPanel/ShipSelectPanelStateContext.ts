@@ -26,7 +26,7 @@ class ShipSelectPanelState {
     }
 
     const { defaultFilter, setDefaultFilter } = this
-    this.props = { defaultFilter, onSelect, onFilterChange: setDefaultFilter, ...props }
+    this.props = { defaultFilter, onFilterChange: setDefaultFilter, ...props, onSelect }
   }
 
   @action public onClose = () => {

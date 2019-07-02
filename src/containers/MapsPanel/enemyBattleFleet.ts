@@ -99,7 +99,7 @@ export const battleFleetToOperation = (fleet: BattleFleet) => {
     landBase: []
   })
 
-  operation.temporaryFormation = formation
+  operation.setFormation(formation)
 
   return operation
 }

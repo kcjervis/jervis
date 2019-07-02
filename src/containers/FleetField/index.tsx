@@ -125,6 +125,7 @@ const FleetField: React.FC<FleetFieldProps> = ({ fleet, operation }) => {
           fleetRole={fleetRole}
           isCombinedFleet={isCombinedFleet}
           combinedFleetPlanes={combinedFleetPlanes}
+          defaultFormation={operation.formation}
         />
       </Box>
     </>
