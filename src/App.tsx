@@ -1,6 +1,6 @@
 import { MuiThemeProvider } from '@material-ui/core/styles'
 import React, { Component } from 'react'
-import { DragDropContext, DndProvider } from 'react-dnd'
+import { DndProvider } from 'react-dnd'
 import HTML5Backend from 'react-dnd-html5-backend'
 import { HashRouter, Route } from 'react-router-dom'
 

@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import React, { useMemo, useState } from 'react'
 import {
   IShip,
   Shelling,
@@ -21,7 +21,7 @@ import Checkbox from '@material-ui/core/Checkbox'
 import TextField from '@material-ui/core/TextField'
 
 import { toPercent } from '../../utils'
-import { Select, Table, Flexbox } from '../../components'
+import { Select, Table, Flexbox, NumberInput } from '../../components'
 import { useSelect, useInput } from '../../hooks'
 import ShellingStats from './ShellingStats'
 import { useInstallationTypeSelect } from './ShipStatusCard'
@@ -76,7 +76,7 @@ const WarfareStatusCard: React.FC<WarfareStatusCardProps> = props => {
   } = props
 
   const specialAttackSelect = useSelect(attacks)
-  const eventMapModifierInput = useInput(1)
+  const [eventMapModifier, setEventMapModifier] = useState(1)
 
   const installationTypeSelect = useInstallationTypeSelect(getInstallationType(defender.ship))
 
@@ -87,7 +87,7 @@ const WarfareStatusCard: React.FC<WarfareStatusCardProps> = props => {
       specialAttack,
       isCritical,
       nightContactModifier,
-      eventMapModifierInput.value,
+      eventMapModifier,
       remainingAmmoModifier,
       installationTypeSelect.value
     )
@@ -96,13 +96,13 @@ const WarfareStatusCard: React.FC<WarfareStatusCardProps> = props => {
   }
 
   const createCellRenderer = (isCritical = false) => (engagement: Engagement) => {
-    const { damage, power, accuracy } = new Shelling(
+    const { damage, power } = new Shelling(
       attacker,
       defender,
       engagement,
       specialAttackSelect.value,
       isCritical,
-      eventMapModifierInput.value,
+      eventMapModifier,
       remainingAmmoModifier,
       installationTypeSelect.value,
       fitGunBonus
@@ -122,7 +122,7 @@ const WarfareStatusCard: React.FC<WarfareStatusCardProps> = props => {
     Engagement.Parallel,
     specialAttackSelect.value,
     false,
-    eventMapModifierInput.value,
+    eventMapModifier,
     remainingAmmoModifier,
     installationTypeSelect.value,
     fitGunBonus
@@ -132,11 +132,12 @@ const WarfareStatusCard: React.FC<WarfareStatusCardProps> = props => {
     <Paper style={{ width: 8 * 60 }}>
       <Box display="flex" alignItems="end">
         <Select label="敵種別" style={{ minWidth: 80, marginLeft: 8 }} {...installationTypeSelect} />
-        <TextField
+        <NumberInput
           label="イベント特効(a11)"
           style={{ width: 8 * 17 }}
-          inputProps={{ step: 0.1 }}
-          {...eventMapModifierInput}
+          step={0.1}
+          value={eventMapModifier}
+          onChange={setEventMapModifier}
         />
       </Box>
 

@@ -6,6 +6,8 @@ import ShipImage from './components/ShipImage'
 
 import { masterData } from './stores/kcObjectFactory'
 
+const blur = 8
+
 const useStyles = makeStyles({
   background: {
     background: `linear-gradient(
@@ -13,14 +15,14 @@ const useStyles = makeStyles({
       rgba(25, 50, 75, 0.6),
       rgba(50, 40, 60, 0.8)
     )`,
-    height: 'calc(100vh + 16px)',
-    width: 'calc(100vw + 16px)',
+    height: `calc(100vh + ${blur * 4}px)`,
+    width: `calc(100vw + ${blur * 4}px)`,
     zIndex: -10000,
     position: 'fixed',
-    top: -8,
-    left: -8,
+    top: -blur * 2,
+    left: -blur * 2,
     textAlign: 'right',
-    filter: 'blur(8px)',
+    filter: `blur(${blur}px)`,
     '&:before': {
       content: '""',
       position: 'fixed',

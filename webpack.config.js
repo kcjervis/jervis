@@ -50,20 +50,20 @@ module.exports = (env, argv) => {
     },
     module: {
       rules: [
-        {
-          test: /\.tsx?$/,
-          enforce: 'pre',
-          use: [
-            {
-              loader: 'eslint-loader',
-              options: {
-                fix: true,
-                formatter: 'codeFrame'
-              }
-            }
-          ],
-          exclude: /node_modules/
-        },
+        // {
+        //   test: /\.tsx?$/,
+        //   enforce: 'pre',
+        //   use: [
+        //     {
+        //       loader: 'eslint-loader',
+        //       options: {
+        //         fix: true,
+        //         formatter: 'codeFrame'
+        //       }
+        //     }
+        //   ],
+        //   exclude: /node_modules/
+        // },
         {
           test: /\.(j|t)sx?$/,
           use: [

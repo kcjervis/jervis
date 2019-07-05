@@ -3,7 +3,8 @@ import CopyToClipboard from 'react-copy-to-clipboard'
 
 import { Omit } from '@material-ui/core'
 import IconButton, { IconButtonProps } from '@material-ui/core/IconButton'
-import Add from '@material-ui/icons/Add'
+import AddIcon from '@material-ui/icons/Add'
+import RemoveIcon from '@material-ui/icons/Remove'
 import ClearIcon from '@material-ui/icons/Clear'
 import CloseIcon from '@material-ui/icons/Close'
 import Delete from '@material-ui/icons/Delete'
@@ -19,7 +20,9 @@ import VisibilityOffIcon from '@material-ui/icons/VisibilityOff'
 
 import withIconButton, { WithIconButtonProps } from '../hocs/withIconButton'
 
-export const AddButton = withIconButton(Add)
+export const AddButton = withIconButton(AddIcon)
+export const IncreaseButton = AddButton
+export const DecreaseButton = withIconButton(RemoveIcon)
 export const CloseButton = withIconButton(CloseIcon)
 export const ClearButton = withIconButton(ClearIcon)
 export const MoreVertButton = withIconButton(MoreVert)

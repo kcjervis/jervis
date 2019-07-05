@@ -122,7 +122,12 @@ const ShipShellingStatusCard: React.FC<ShipStatusCardProps> = props => {
         <Typography variant="subtitle2">簡易計算機</Typography>
         <Select label="敵種別" style={{ minWidth: 80, marginLeft: 8 }} {...installationTypeSelect} />
         {visibleAp && <FormControlLabel label={`徹甲弾補正`} control={<Checkbox {...apCheck} />} />}
-        <TextField label="イベント特効(a11)" style={{ width: 8 * 17 }} {...eventMapModifier} />
+        <TextField
+          label="イベント特効(a11)"
+          style={{ width: 8 * 17 }}
+          inputProps={{ step: 0.1 }}
+          {...eventMapModifier}
+        />
       </Flexbox>
 
       <Flexbox mt={1}>

@@ -1,6 +1,6 @@
 import { FleetTypeName, Side, FleetType } from 'kc-calculator'
 import { observer } from 'mobx-react-lite'
-import React, { useContext, useCallback } from 'react'
+import React, { useContext, useCallback, useState } from 'react'
 
 import Checkbox from '@material-ui/core/Checkbox'
 import Divider from '@material-ui/core/Divider'
@@ -103,6 +103,7 @@ const OperationPanel: React.FC<OperationPanelProps> = ({ operation }) => {
             label="司令部Lv"
             value={operation.hqLevel}
             min={1}
+            max={120}
             onChange={handleHqLevelChange}
           />
           <FleetTypeSelect fleetType={operation.fleetType} onChange={handleFleetTypeChange} />
