@@ -8,7 +8,8 @@ import {
   DayCombatSpecialAttack,
   NightAttack,
   NightBattleSpecialAttack,
-  Damage
+  Damage,
+  calcDeadlyPower
 } from 'kc-calculator'
 import { observer } from 'mobx-react-lite'
 
@@ -158,7 +159,12 @@ const WarfareStatusCard: React.FC<WarfareStatusCardProps> = props => {
         ]}
       />
 
-      {isExperiment && <Typography>昼砲撃命中項: {accuracy.value}</Typography>}
+      {isExperiment && (
+        <>
+          <Typography>確殺攻撃力: {calcDeadlyPower(defender.ship)}</Typography>
+          <Typography>昼砲撃命中項: {accuracy.value}</Typography>
+        </>
+      )}
 
       <Flexbox mt={1} />
       <Typography>夜戦</Typography>

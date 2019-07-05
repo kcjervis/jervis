@@ -47,8 +47,6 @@ const useBattleStateForm = () => {
     role: { ...roleSelect, getOptionLabel: getRoleLabel },
     airControlState: useSelect(AirControlState.values),
     isFlagship: useCheck(),
-    fleetLosModifier: useInput(0),
-    remainingAmmoModifierInput: useInput(1),
 
     enemyFleetType: enemyFleetTypeSelect,
     enemyRole: { ...enemyRoleSelect, getOptionLabel: getRoleLabel },
@@ -61,8 +59,6 @@ const useBattleStateForm = () => {
     role: form.role.value,
     airControlState: form.airControlState.value,
     isFlagship: form.isFlagship.checked,
-    fleetLosModifier: form.fleetLosModifier.value,
-    remainingAmmoModifier: form.remainingAmmoModifierInput.value,
 
     enemyFleetType: form.enemyFleetType.value,
     enemyRole: form.enemyRole.value,
@@ -80,7 +76,10 @@ const ShipCalculator: React.FC<ShipCalculatorProps> = ({ ship }) => {
   const shipSelect = useContext(ShipSelectPanelStateContext)
   const enemyShipStore = useContext(EnemyShipStoreContext)
   const { form, state } = useBattleStateForm()
-  const { fleetType, formation, role, airControlState, isFlagship, fleetLosModifier } = state
+  const [fleetLosModifier, setFleetLosModifier] = useState(0)
+  const [fitGunBonus, setFitGunBonus] = useState(0)
+  const [remainingAmmoModifier, setRemainingAmmoModifier] = useState(1)
+  const { fleetType, formation, role, airControlState, isFlagship } = state
 
   const side = Side.Player
   const attacker = { ship: ship.asKcObject, side, isFlagship, fleetType, role, formation }
@@ -117,7 +116,6 @@ const ShipCalculator: React.FC<ShipCalculatorProps> = ({ ship }) => {
   const nightContactCheck = useCheck()
   const nightContactModifier = nightContactCheck.checked ? 5 : 0
 
-  const [fitGunBonus, setFitGunBonus] = useState(0)
   const isExperiment = useContext(SettingStoreContext).experiment
 
   return (
@@ -131,19 +129,20 @@ const ShipCalculator: React.FC<ShipCalculatorProps> = ({ ship }) => {
           <Select {...form.fleetType} />
           <Select {...form.formation} />
           <Select {...form.airControlState} />
-          <TextField
-            label="艦隊索敵補正"
-            style={{ width: 8 * 15 }}
-            {...form.fleetLosModifier}
-            inputProps={{ min: 0 }}
-          />
           <FormControlLabel label="旗艦" control={<Checkbox {...form.isFlagship} />} />
-
           {visibleRoleSelect && <RadioGroup {...form.role} />}
         </Box>
 
-        <Box display="flex" alignItems="end">
-          <TextField label="弾薬量補正" style={{ width: 8 * 15 }} {...form.remainingAmmoModifierInput} />
+        <Box display="flex" alignItems="flex-end" mt={1}>
+          <NumberInput label="艦隊索敵補正" value={fleetLosModifier} onChange={setFleetLosModifier} min={0} />
+          <NumberInput
+            label="弾薬量補正"
+            value={remainingAmmoModifier}
+            onChange={setRemainingAmmoModifier}
+            min={0}
+            max={1}
+            step={0.1}
+          />
           <Select label="敵艦隊種別" style={{ width: 8 * 15 }} {...form.enemyFleetType} />
           <FormControlLabel label="夜間触接" control={<Checkbox {...nightContactCheck} />} />
           {isExperiment && <NumberInput label="フィット砲補正" value={fitGunBonus} onChange={setFitGunBonus} />}
@@ -174,7 +173,7 @@ const ShipCalculator: React.FC<ShipCalculatorProps> = ({ ship }) => {
                 role: state.enemyRole,
                 formation: state.enemyFormation
               }}
-              remainingAmmoModifier={state.remainingAmmoModifier}
+              remainingAmmoModifier={remainingAmmoModifier}
               nightContactModifier={nightContactModifier}
               attacks={attacks}
               nightAttacks={nightAttacks}

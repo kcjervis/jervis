@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { observer } from 'mobx-react-lite'
 import {
   ShipInformation,
@@ -22,7 +22,7 @@ import TextField from '@material-ui/core/TextField'
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles'
 
 import { toPercent } from '../../utils'
-import { Select, Table, Flexbox } from '../../components'
+import { Select, Table, Flexbox, NumberInput } from '../../components'
 import { useSelect, useInput, useCheck } from '../../hooks'
 import ShellingStats from './ShellingStats'
 
@@ -71,7 +71,7 @@ const ShipShellingStatusCard: React.FC<ShipStatusCardProps> = props => {
   const specialAttackSelect = useSelect(options)
   const apCheck = useCheck()
   const installationTypeSelect = useInstallationTypeSelect()
-  const eventMapModifier = useInput(1)
+  const [eventMapModifier, setEventMapModifier] = useState(1)
 
   const createShellingCellRenderer = (isCritical = false) => (engagement: Engagement) => {
     const shellingPower = shellingStatus.calcPower({
@@ -82,7 +82,7 @@ const ShipShellingStatusCard: React.FC<ShipStatusCardProps> = props => {
       specialAttack: specialAttackSelect.value,
       isArmorPiercing: apCheck.checked,
       installationType: installationTypeSelect.value,
-      eventMapModifier: eventMapModifier.value
+      eventMapModifier
     })
     const color = shellingPower.isCapped ? 'secondary' : 'inherit'
     return (
@@ -103,7 +103,7 @@ const ShipShellingStatusCard: React.FC<ShipStatusCardProps> = props => {
       installationType: installationTypeSelect.value,
       specialAttack,
       isCritical,
-      eventMapModifier: eventMapModifier.value
+      eventMapModifier
     })
     const color = nightAttackPower.isCapped ? 'secondary' : 'inherit'
 
@@ -122,11 +122,12 @@ const ShipShellingStatusCard: React.FC<ShipStatusCardProps> = props => {
         <Typography variant="subtitle2">簡易計算機</Typography>
         <Select label="敵種別" style={{ minWidth: 80, marginLeft: 8 }} {...installationTypeSelect} />
         {visibleAp && <FormControlLabel label={`徹甲弾補正`} control={<Checkbox {...apCheck} />} />}
-        <TextField
+        <NumberInput
           label="イベント特効(a11)"
           style={{ width: 8 * 17 }}
-          inputProps={{ step: 0.1 }}
-          {...eventMapModifier}
+          step={0.1}
+          value={eventMapModifier}
+          onChange={setEventMapModifier}
         />
       </Flexbox>
 

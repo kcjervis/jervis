@@ -97,8 +97,8 @@ export default function NumberInput({ value, onChange, min, max, step = 1, ...te
 
   const changeValue = useCallback(
     (next: number) => {
-      next = min ? Math.max(next, min) : next
-      next = max ? Math.min(next, max) : next
+      next = typeof min === 'number' ? Math.max(next, min) : next
+      next = typeof max === 'number' ? Math.min(next, max) : next
       onChange(next)
     },
     [min, max, onChange]
@@ -115,7 +115,7 @@ export default function NumberInput({ value, onChange, min, max, step = 1, ...te
       value={inputValue}
       onChange={handleChange}
       onBlur={handleBlur}
-      style={{ overflow: undefined }}
+      style={{ overflow: undefined, width: 8 * 15 }}
       InputProps={{
         endAdornment: (
           <InputAdornment position="end" style={{ visibility: isHovered ? undefined : 'hidden' }}>

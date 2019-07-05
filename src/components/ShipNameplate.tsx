@@ -13,24 +13,23 @@ type ShipNameplateProps = {
   name: string
 }
 
-const ShipNameplate: React.FC<ShipNameplateProps> = ({ masterId, name }) => {
+const ShipNameplate = React.forwardRef<HTMLDivElement, ShipNameplateProps>((props, ref) => {
+  const { masterId, name } = props
   return (
-    <>
-      <Box width={8 * 30} display="inline-flex" alignItems="center">
-        <ShipImage style={{ width: 8 * 15, flexShrink: 0 }} imageType="banner" masterId={masterId} />
-        <Box ml={1}>
-          {masterId > 1500 && (
-            <Typography variant="caption" component="div">
-              ID:{masterId}
-            </Typography>
-          )}
+    <div ref={ref} style={{ display: 'inline-flex', alignItems: 'center', width: 8 * 30 }}>
+      <ShipImage style={{ width: 8 * 15, flexShrink: 0 }} imageType="banner" masterId={masterId} />
+      <Box ml={1}>
+        {masterId > 1500 && (
           <Typography variant="caption" component="div">
-            {name}
+            ID:{masterId}
           </Typography>
-        </Box>
+        )}
+        <Typography variant="caption" component="div">
+          {name}
+        </Typography>
       </Box>
-    </>
+    </div>
   )
-}
+})
 
 export default ShipNameplate

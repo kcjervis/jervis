@@ -37,7 +37,7 @@ const useStyles = makeStyles({
   },
   form: {
     display: 'flex',
-    alignItems: 'end'
+    alignItems: 'flex-end'
   }
 })
 

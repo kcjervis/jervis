@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { BattleFleet } from 'kc-calculator'
 
 import Button from '@material-ui/core/Button'
@@ -8,7 +8,7 @@ import { makeStyles, createStyles, Theme } from '@material-ui/core/styles'
 import { EnemyFleet, SaveButton, InfoButton } from '../../components'
 import { battleFleetToOperation } from './enemyBattleFleet'
 import { useOperationStore, useWorkspace } from '../../hooks'
-import { ObservableOperation } from '../../stores'
+import { ObservableOperation, SettingStoreContext } from '../../stores'
 
 type EnemyFleetCardProps = {
   fleet: BattleFleet
@@ -19,6 +19,7 @@ type EnemyFleetCardProps = {
 const EnemyFleetCard: React.FC<EnemyFleetCardProps> = ({ fleet, name, onSelect }) => {
   const { persistentOperationStore, temporaryOperationStore } = useOperationStore()
   const { openOperation } = useWorkspace()
+  const setting = useContext(SettingStoreContext)
   const handleOpen = () => {
     const operation = battleFleetToOperation(fleet)
     operation.name = name
@@ -41,7 +42,7 @@ const EnemyFleetCard: React.FC<EnemyFleetCardProps> = ({ fleet, name, onSelect }
       {onSelect && <Button onClick={handleSelect}>編成を選択</Button>}
       <InfoButton title="開く" size="small" onClick={handleOpen} />
       <SaveButton title="編成を保存" size="small" onClick={handleClick} />
-      <EnemyFleet battleFleet={fleet} />
+      <EnemyFleet battleFleet={fleet} disableTooltip={!setting.experiment} />
     </Paper>
   )
 }

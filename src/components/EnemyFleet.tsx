@@ -3,10 +3,11 @@ import React from 'react'
 
 import Typography from '@material-ui/core/Typography'
 import Divider from '@material-ui/core/Divider'
+import Tooltip from '@material-ui/core/Tooltip'
 
 import { TEventDifficulty } from '*maps'
 import ShipNameplate from './ShipNameplate'
-import { IShip } from 'kc-calculator'
+import { IShip, calcDeadlyPower } from 'kc-calculator'
 
 const difficultyToString = (difficulty: TEventDifficulty) => {
   switch (difficulty) {
@@ -30,10 +31,14 @@ const getFighterPowers = (fp: number) => {
   return `確保:${gte(3)} 優勢:${gte(1.5)} 均衡:${gt(2 / 3)} 劣勢:${gt(1 / 3)}`
 }
 
-const shipsRenderer = (ships: IShip[]) => (
+const shipsRenderer = (ships: IShip[], disableTooltip: boolean) => (
   <>
     {ships.map((ship, shipIndex) => (
-      <ShipNameplate key={shipIndex} name={ship.name} masterId={ship.masterId} />
+      <Tooltip key={shipIndex} disableHoverListener={disableTooltip} title={`確殺攻撃力: ${calcDeadlyPower(ship)}`}>
+        <span>
+          <ShipNameplate name={ship.name} masterId={ship.masterId} />
+        </span>
+      </Tooltip>
     ))}
     <Divider />
   </>
@@ -41,10 +46,11 @@ const shipsRenderer = (ships: IShip[]) => (
 
 export interface EnemyFleetProps {
   battleFleet: BattleFleet
+  disableTooltip?: boolean
   difficulty?: TEventDifficulty
 }
 
-const EnemyFleet: React.FC<EnemyFleetProps> = ({ battleFleet, difficulty }) => {
+const EnemyFleet: React.FC<EnemyFleetProps> = ({ battleFleet, difficulty, disableTooltip = true }) => {
   const { escortFleet, formation } = battleFleet
 
   const allPlanes = battleFleet.allShips.flatMap(ship => ship.planes)
@@ -58,8 +64,8 @@ const EnemyFleet: React.FC<EnemyFleetProps> = ({ battleFleet, difficulty }) => {
 
   return (
     <div>
-      {shipsRenderer(battleFleet.mainFleet.nonNullableShips)}
-      {escortFleet && shipsRenderer(escortFleet.nonNullableShips)}
+      {shipsRenderer(battleFleet.mainFleet.nonNullableShips, disableTooltip)}
+      {escortFleet && shipsRenderer(escortFleet.nonNullableShips, disableTooltip)}
 
       <Typography>
         {difficulty && difficultyToString(difficulty)} {formation.name}
