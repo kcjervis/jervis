@@ -20,7 +20,7 @@ import LevelChangeButton from './LevelChangeButton'
 import { ObservableShip } from '../../stores'
 import { useWorkspace } from '../../hooks'
 
-const statsWidth = 8 * 27
+const statsWidth = 8 * 28
 
 const useStyles = makeStyles({
   root: {

@@ -15,6 +15,7 @@ import { makeStyles, createStyles, Theme } from '@material-ui/core/styles'
 import Tooltip from '@material-ui/core/Tooltip'
 
 import { useOpen, useBaseStyles, useInput, useAnchorEl } from '../../hooks'
+import { NumberInput } from '../../components'
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -55,8 +56,6 @@ const LevelChangeButton: React.FC<LevelChangeButtonProps> = ({ value: init, onIn
   const set1 = useCallback(() => setValue(1), [setValue])
   const set99 = useCallback(() => setValue(99), [setValue])
   const set175 = useCallback(() => setValue(175), [setValue])
-  const increase = useCallback(() => setValue(val => val + 1), [setValue])
-  const decrease = useCallback(() => setValue(val => val - 1), [setValue])
 
   const handleClose = useCallback(() => {
     onClose()
@@ -75,31 +74,15 @@ const LevelChangeButton: React.FC<LevelChangeButtonProps> = ({ value: init, onIn
 
       <Popover open={Boolean(anchorEl)} anchorEl={anchorEl} onClose={handleClose}>
         <Box m={2}>
-          <Input {...baseProps} onChange={handleInput} type="number" />
-
+          <NumberInput fullWidth value={value} onChange={setValue} />
           <Box m={1}>
             <Slider {...baseProps} onChange={handleSliderChange} step={1} />
           </Box>
 
           <Box display="flex" justifyContent="space-between">
-            <Button fullWidth onClick={decrease}>
-              -1
-            </Button>
-            <Button fullWidth onClick={increase}>
-              +1
-            </Button>
-          </Box>
-
-          <Box display="flex" justifyContent="space-between">
-            <Button fullWidth onClick={set1}>
-              Lv 1
-            </Button>
-            <Button fullWidth onClick={set99}>
-              Lv 99
-            </Button>
-            <Button fullWidth onClick={set175}>
-              Lv 175
-            </Button>
+            <Button onClick={set1}>Lv 1</Button>
+            <Button onClick={set99}>Lv 99</Button>
+            <Button onClick={set175}>Lv 175</Button>
           </Box>
         </Box>
       </Popover>
