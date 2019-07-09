@@ -9,7 +9,8 @@ import {
   NightAttack,
   NightBattleSpecialAttack,
   Damage,
-  calcDeadlyPower
+  calcDeadlyPower,
+  calcEvasionValue
 } from 'kc-calculator'
 import { observer } from 'mobx-react-lite'
 
@@ -117,7 +118,7 @@ const WarfareStatusCard: React.FC<WarfareStatusCardProps> = props => {
     )
   }
 
-  const { accuracy } = new Shelling(
+  const attackerShellingAccuracy = new Shelling(
     attacker,
     defender,
     Engagement.Parallel,
@@ -127,6 +128,11 @@ const WarfareStatusCard: React.FC<WarfareStatusCardProps> = props => {
     remainingAmmoModifier,
     installationTypeSelect.value,
     fitGunBonus
+  ).accuracy.value
+
+  const defenderEvasionValue = calcEvasionValue(
+    defender.ship,
+    defender.formation.getModifiersWithRole(defender.role).shelling.evasion
   )
 
   return (
@@ -162,7 +168,8 @@ const WarfareStatusCard: React.FC<WarfareStatusCardProps> = props => {
       {isExperiment && (
         <>
           <Typography>確殺攻撃力: {calcDeadlyPower(defender.ship)}</Typography>
-          <Typography>昼砲撃命中項: {accuracy.value}</Typography>
+          <Typography>攻撃側昼砲撃命中項: {attackerShellingAccuracy}</Typography>
+          <Typography>防御側昼砲撃回避項: {defenderEvasionValue}</Typography>
         </>
       )}
 
