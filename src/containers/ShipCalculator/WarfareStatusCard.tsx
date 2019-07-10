@@ -118,7 +118,7 @@ const WarfareStatusCard: React.FC<WarfareStatusCardProps> = props => {
     )
   }
 
-  const attackerShellingAccuracy = new Shelling(
+  const { accuracy, defenderEvasionValue, hitRate } = new Shelling(
     attacker,
     defender,
     Engagement.Parallel,
@@ -128,11 +128,6 @@ const WarfareStatusCard: React.FC<WarfareStatusCardProps> = props => {
     remainingAmmoModifier,
     installationTypeSelect.value,
     fitGunBonus
-  ).accuracy.value
-
-  const defenderEvasionValue = calcEvasionValue(
-    defender.ship,
-    defender.formation.getModifiersWithRole(defender.role).shelling.evasion
   )
 
   return (
@@ -168,8 +163,9 @@ const WarfareStatusCard: React.FC<WarfareStatusCardProps> = props => {
       {isExperiment && (
         <>
           <Typography>確殺攻撃力: {calcDeadlyPower(defender.ship)}</Typography>
-          <Typography>攻撃側昼砲撃命中項: {attackerShellingAccuracy}</Typography>
+          <Typography>攻撃側昼砲撃命中項: {accuracy.value}</Typography>
           <Typography>防御側昼砲撃回避項: {defenderEvasionValue}</Typography>
+          <Typography>命中率: {toPercent(hitRate)}</Typography>
         </>
       )}
 

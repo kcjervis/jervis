@@ -83,6 +83,8 @@ export default class ObservableShip implements IShipDataObject, ObservableEquipm
 
   @persist @observable public nowHp = -1
 
+  @persist @observable public morale = 49
+
   @persist('object') @observable public increased: NonNullable<IShipDataObject['increased']> = {}
 
   @observable public visibleEquipments = true
@@ -151,10 +153,13 @@ export default class ObservableShip implements IShipDataObject, ObservableEquipm
   }
 
   private toJSON(): IShipDataObject {
-    const { masterId, level, slots, equipments, nowHp, increased } = this
+    const { masterId, level, slots, equipments, nowHp, morale, increased } = this
     const dataObject: IShipDataObject = { masterId, level, slots, equipments }
     if (nowHp !== this.asKcObject.health.maxHp) {
       dataObject.nowHp = nowHp
+    }
+    if (morale !== 49) {
+      dataObject.morale = morale
     }
 
     shipStatKeys.forEach(statKey => {

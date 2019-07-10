@@ -5,6 +5,7 @@ import clsx from 'clsx'
 
 import ExpansionPanel from '@material-ui/core/ExpansionPanel'
 import Typography from '@material-ui/core/Typography'
+import Button from '@material-ui/core/Button'
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary'
 import Box from '@material-ui/core/Box'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
@@ -16,6 +17,7 @@ import HealthBarDialog from './HealthBarDialog'
 import ShipStatLabel from './ShipStatLabel'
 
 import { ObservableShip } from '../../stores'
+import { MoraleBar, MoraleDialog } from '../../components'
 
 const useStyles = makeStyles(
   createStyles({
@@ -69,6 +71,11 @@ const ShipStatsExpansionPanel: React.FC<ShipStatsExpansionPanelProps> = ({ ship,
     )
   }
 
+  const { morale } = ship.asKcObject
+  const handleMoraleChange = (value: number) => {
+    ship.morale = value
+  }
+
   return (
     <ExpansionPanel style={{ margin: 0 }} expanded={expanded} elevation={0}>
       <ExpansionPanelSummary className={classes.summary} onClick={toggle} expandIcon={<ExpandMoreIcon />}>
@@ -80,6 +87,15 @@ const ShipStatsExpansionPanel: React.FC<ShipStatsExpansionPanelProps> = ({ ship,
       </ExpansionPanelSummary>
 
       <HealthBarDialog ship={ship} />
+      <MoraleDialog
+        button={
+          <Button fullWidth>
+            <MoraleBar value={morale.value} />
+          </Button>
+        }
+        value={morale.value}
+        onChange={handleMoraleChange}
+      />
 
       <Grid container={true}>{shipStatKeys.map(shipStatRenderer)}</Grid>
     </ExpansionPanel>

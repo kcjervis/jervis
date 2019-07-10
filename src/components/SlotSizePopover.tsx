@@ -8,7 +8,7 @@ import IconButton from '@material-ui/core/IconButton'
 import Popover from '@material-ui/core/Popover'
 import ExposurePlus1Icon from '@material-ui/icons/ExposurePlus1'
 import ExposureNeg1Icon from '@material-ui/icons/ExposureNeg1'
-import Slider from '@material-ui/lab/Slider'
+import Slider from '@material-ui/core/Slider'
 import { makeStyles, Theme } from '@material-ui/core/styles'
 import { useAnchorEl, useBaseStyles } from '../hooks'
 
