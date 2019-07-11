@@ -28,22 +28,6 @@ import { useSelect, useInput } from '../../hooks'
 import ShellingStats from './ShellingStats'
 import { useInstallationTypeSelect } from './ShipStatusCard'
 
-const getInstallationType = (ship: IShip): InstallationType => {
-  if (!ship.isInstallation) {
-    return 'None'
-  }
-  if (ship.name.includes('砲台')) {
-    return 'Pillbox'
-  }
-  if (ship.name.includes('離島') || ship.name.includes('中枢')) {
-    return 'IsolatedIsland'
-  }
-  if (ship.name.includes('集積')) {
-    return 'SupplyDepot'
-  }
-  return 'SoftSkinned'
-}
-
 const damageToText = (damage: Damage, isDeadly?: boolean) => {
   if (damage.max === 0) {
     return '確定割合'
@@ -80,7 +64,7 @@ const WarfareStatusCard: React.FC<WarfareStatusCardProps> = props => {
   const specialAttackSelect = useSelect(attacks)
   const [eventMapModifier, setEventMapModifier] = useState(1)
 
-  const installationTypeSelect = useInstallationTypeSelect(getInstallationType(defender.ship))
+  const installationTypeSelect = useInstallationTypeSelect(defender.ship.installationType)
 
   const createNightAttackCellRenderer = (isCritical = false) => (specialAttack?: NightBattleSpecialAttack) => {
     const { damage } = new NightAttack(
@@ -98,7 +82,7 @@ const WarfareStatusCard: React.FC<WarfareStatusCardProps> = props => {
   }
 
   const createCellRenderer = (isCritical = false) => (engagement: Engagement) => {
-    const { damage, power } = new Shelling(
+    const { damage, power, isDeadly } = new Shelling(
       attacker,
       defender,
       engagement,
@@ -109,11 +93,9 @@ const WarfareStatusCard: React.FC<WarfareStatusCardProps> = props => {
       installationTypeSelect.value,
       fitGunBonus
     )
-
-    const text = damageToText(damage, damage.min >= defender.ship.health.maxHp)
     return (
       <Tooltip title={<ShellingStats shellingPower={power} />}>
-        <div>{text}</div>
+        <div>{damageToText(damage, isDeadly)}</div>
       </Tooltip>
     )
   }
@@ -131,7 +113,7 @@ const WarfareStatusCard: React.FC<WarfareStatusCardProps> = props => {
   )
 
   return (
-    <Paper style={{ width: 8 * 60 }}>
+    <Paper style={{ width: 8 * 60, padding: 8 }}>
       <Box display="flex" alignItems="end">
         <Select label="敵種別" style={{ minWidth: 80, marginLeft: 8 }} {...installationTypeSelect} />
         <NumberInput

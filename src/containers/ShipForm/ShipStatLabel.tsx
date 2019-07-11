@@ -48,7 +48,17 @@ export const useShipStat = ({ ship, statKey }: { ship: ObservableShip; statKey: 
     [changeStat]
   )
 
-  return { stat, nakedStat, totalEquipmentStat, bonus, handleIncreasedStatChange, handleStatChange, increasedStat }
+  return {
+    stat,
+    nakedStat,
+    totalEquipmentStat,
+    bonus,
+    changeIncreasedStat,
+    changeStat,
+    handleIncreasedStatChange,
+    handleStatChange,
+    increasedStat
+  }
 }
 
 type ShipStatLabelProps = {

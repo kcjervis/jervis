@@ -1,4 +1,5 @@
-import React, { useState, useRef, useEffect, useMemo, useCallback, useDebugValue } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
+import clsx from 'clsx'
 
 import TextField, { TextFieldProps } from '@material-ui/core/TextField'
 import InputAdornment from '@material-ui/core/InputAdornment'
@@ -15,7 +16,16 @@ import { round } from 'lodash-es'
 
 const useStyles = makeStyles(
   createStyles({
-    button: { display: 'block', padding: 0, width: 24, height: 16, lineHeight: 1 }
+    input: {
+      width: 8 * 15
+    },
+    button: {
+      display: 'block',
+      padding: 0,
+      width: 24,
+      height: 16,
+      lineHeight: 1
+    }
   })
 )
 
@@ -112,10 +122,10 @@ export default function NumberInput({ value, onChange, min, max, step = 1, ...te
   return (
     <TextField
       ref={hoverRef}
+      className={clsx(!textFieldProps.fullWidth && classes.input)}
       value={inputValue}
       onChange={handleChange}
       onBlur={handleBlur}
-      style={{ overflow: undefined, width: 8 * 15 }}
       InputProps={{
         endAdornment: (
           <InputAdornment position="end" style={{ visibility: isHovered ? undefined : 'hidden' }}>

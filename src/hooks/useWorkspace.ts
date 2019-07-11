@@ -1,4 +1,4 @@
-import { useContext, useCallback, useMemo } from 'react'
+import { useContext, useCallback } from 'react'
 import useReactRouter from 'use-react-router'
 
 import { ObservableOperation, WorkspaceStoreContext, WorkspaceItem, ObservableShip } from '../stores'

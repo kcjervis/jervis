@@ -1,6 +1,7 @@
 import React, { useState, useCallback, useMemo } from 'react'
 import clsx from 'clsx'
 import useReactRouter from 'use-react-router'
+import { observer } from 'mobx-react-lite'
 
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles'
 
@@ -101,4 +102,4 @@ const WorkspaceTab: React.FC<WorkspaceTabProps> = ({ item }) => {
   )
 }
 
-export default WorkspaceTab
+export default observer(WorkspaceTab)

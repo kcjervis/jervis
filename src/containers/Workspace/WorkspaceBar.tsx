@@ -21,6 +21,9 @@ const useStyles = makeStyles((theme: Theme) =>
       display: 'flex',
       alignItems: 'center',
       height: appBarHeight
+    },
+    button: {
+      height: '100%'
     }
   })
 )
@@ -52,7 +55,7 @@ const WorkspaceBar: React.FC<WorkspaceBarPorps> = ({ workspaceStore, children, .
         </Box>
 
         {paths.map(({ label, path }) => (
-          <Button key={path} href={'#' + path}>
+          <Button className={classes.button} key={path} href={'#' + path}>
             {label}
           </Button>
         ))}

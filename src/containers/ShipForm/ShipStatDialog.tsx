@@ -21,6 +21,7 @@ import statKeys from '../../data/statKeys'
 import { useOpen, useBaseStyles } from '../../hooks'
 
 import ShipStatLabel, { useShipStat } from './ShipStatLabel'
+import { NumberInput } from '../../components'
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -40,15 +41,9 @@ const ShipStatDialog: React.FC<ShipStatDialogProps> = props => {
   const classes = useStyles()
   const baseClasses = useBaseStyles()
   const { open, onOpen, onClose } = useOpen()
-  const {
-    stat,
-    nakedStat,
-    totalEquipmentStat,
-    bonus,
-    handleStatChange,
-    handleIncreasedStatChange,
-    increasedStat
-  } = useShipStat(props)
+  const { stat, nakedStat, totalEquipmentStat, bonus, changeStat, changeIncreasedStat, increasedStat } = useShipStat(
+    props
+  )
   const { ship, statKey } = props
 
   const statData = statKeys.find(statData => statData.key === statKey)
@@ -74,8 +69,8 @@ const ShipStatDialog: React.FC<ShipStatDialogProps> = props => {
         </DialogContent>
 
         <DialogContent className={baseClasses.column}>
-          <TextField label="表示ステータス" value={stat} type="number" onChange={handleStatChange} />
-          <TextField label="増加ステータス" value={increasedStat} type="number" onChange={handleIncreasedStatChange} />
+          <NumberInput label="表示ステータス" fullWidth value={stat} onChange={changeStat} />
+          <NumberInput label="増加ステータス" fullWidth value={increasedStat} onChange={changeIncreasedStat} />
         </DialogContent>
         <DialogActions>
           <Button onClick={onClose} color="primary">
