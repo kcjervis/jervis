@@ -31,7 +31,6 @@ class ShipSelectPanelState {
 
   @action public onClose = () => {
     this.open = false
-    this.props = undefined
   }
 
   @action public setDefaultFilter = (filter: ShipFilter) => {
