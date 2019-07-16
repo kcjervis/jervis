@@ -18,6 +18,8 @@ type AerialCombatShipRowProps = {
   fleetAntiAir: number
   combinedFleetModifier?: number
   antiAirCutin?: AerialCombat.AntiAirCutin
+  adjustedAntiAirModifier: number
+  fleetAntiAirModifier: number
 }
 
 const AerialCombatShipRow: React.FC<AerialCombatShipRowProps> = ({
@@ -25,17 +27,16 @@ const AerialCombatShipRow: React.FC<AerialCombatShipRowProps> = ({
   side,
   fleetAntiAir,
   combinedFleetModifier = 1,
-  antiAirCutin
+  antiAirCutin,
+  adjustedAntiAirModifier,
+  fleetAntiAirModifier
 }) => {
   const shipAntiAir = new ShipAntiAir(ship, side, fleetAntiAir, combinedFleetModifier, antiAirCutin)
-  const {
-    adjustedAntiAir,
-    proportionalShotdownRate,
-    fixedShotdownNumber,
-    minimumBonus,
-    antiAirPropellantBarrageChance
-  } = shipAntiAir
+  const { adjustedAntiAir, minimumBonus, antiAirPropellantBarrageChance } = shipAntiAir
   const aaciRates = calcAntiAirCutinRates(ship)
+
+  const proportionalShotdownRate = shipAntiAir.calcProportionalShotdownRate(adjustedAntiAirModifier)
+  const fixedShotdownNumber = shipAntiAir.calcFixedShotdownNumber(adjustedAntiAirModifier, fleetAntiAirModifier)
 
   return (
     <TableRow>

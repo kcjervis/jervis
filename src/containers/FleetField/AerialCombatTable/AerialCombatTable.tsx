@@ -1,6 +1,6 @@
 import { IFleet, FleetRole, nonNullable, BattleType, IOperation, Formation, Side, IShip } from 'kc-calculator'
 import { AntiAirCutin, FleetAntiAir } from 'kc-calculator/dist/Battle/AerialCombat'
-import React from 'react'
+import React, { useState } from 'react'
 import { union } from 'lodash-es'
 import { observer } from 'mobx-react-lite'
 
@@ -11,7 +11,7 @@ import TableHead from '@material-ui/core/TableHead'
 import TableRow from '@material-ui/core/TableRow'
 import Typography from '@material-ui/core/Typography'
 
-import { Select } from '../../../components'
+import { Select, NumberInput } from '../../../components'
 import { useSelect } from '../../../hooks'
 import AerialCombatShipRow from './AerialCombatShipRow'
 import calcAntiAirCutinRates from './calcAntiAirCutinRate'
@@ -40,6 +40,9 @@ const AerialCombatTable: React.FC<AerialCombatTableProps> = ({
 }) => {
   const { side, mainFleet, escortFleet } = operation
 
+  const [adjustedAntiAirModifier, setAdjustedAntiAirModifier] = useState(1)
+  const [fleetAntiAirModifier, setFleetAntiAirModifier] = useState(1)
+
   const formationSelect = useSelect(Formation.values, defaultFormation)
   const formationModifier = formationSelect.value.fleetAntiAirModifier
 
@@ -66,6 +69,8 @@ const AerialCombatTable: React.FC<AerialCombatTableProps> = ({
         fleetAntiAir={fleetAntiAir}
         combinedFleetModifier={combinedFleetModifier}
         antiAirCutin={antiAirCutinSelect.value}
+        adjustedAntiAirModifier={adjustedAntiAirModifier}
+        fleetAntiAirModifier={fleetAntiAirModifier}
       />
     )
     combinedFleetTable = (
@@ -85,6 +90,13 @@ const AerialCombatTable: React.FC<AerialCombatTableProps> = ({
           {...antiAirCutinSelect}
           getOptionLabel={option => (option ? `${option.id}種` : '不発')}
         />
+        <NumberInput
+          label="加重対空補正"
+          value={adjustedAntiAirModifier}
+          onChange={setAdjustedAntiAirModifier}
+          step={0.1}
+        />
+        <NumberInput label="艦隊防空補正" value={fleetAntiAirModifier} onChange={setFleetAntiAirModifier} step={0.1} />
         <Typography color="primary">艦隊防空: {fleetAntiAir.toFixed(2)}</Typography>
         {side === Side.Enemy && (
           <Typography style={{ marginLeft: 8 }} color="secondary">
@@ -115,6 +127,8 @@ const AerialCombatTable: React.FC<AerialCombatTableProps> = ({
                   side={side}
                   fleetAntiAir={fleetAntiAir}
                   antiAirCutin={antiAirCutinSelect.value}
+                  adjustedAntiAirModifier={adjustedAntiAirModifier}
+                  fleetAntiAirModifier={fleetAntiAirModifier}
                 />
               ))}
         </TableBody>
