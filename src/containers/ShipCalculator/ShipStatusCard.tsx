@@ -7,7 +7,8 @@ import {
   ShipShellingStatus,
   InstallationType,
   NightBattleSpecialAttack,
-  ShipNightAttackStatus
+  ShipNightAttackStatus,
+  BattleState
 } from 'kc-calculator'
 import { round } from 'lodash-es'
 import clsx from 'clsx'
@@ -18,11 +19,11 @@ import Typography from '@material-ui/core/Typography'
 import Tooltip from '@material-ui/core/Tooltip'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import Checkbox from '@material-ui/core/Checkbox'
-import TextField from '@material-ui/core/TextField'
+import Divider from '@material-ui/core/Divider'
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles'
 
 import { toPercent } from '../../utils'
-import { Select, Table, Flexbox, NumberInput } from '../../components'
+import { Select, Table, Flexbox, NumberInput, AttackChip } from '../../components'
 import { useSelect, useInput, useCheck } from '../../hooks'
 import ShellingStats from './ShellingStats'
 
@@ -33,6 +34,8 @@ const useStyles = makeStyles(
     }
   })
 )
+
+const getAttackName = (attack?: DayCombatSpecialAttack | NightBattleSpecialAttack) => <AttackChip attack={attack} />
 
 const installationTypes: InstallationType[] = ['None', 'SoftSkinned', 'Pillbox', 'IsolatedIsland', 'SupplyDepot']
 const installationTypeToJp = (type: InstallationType) =>
@@ -45,6 +48,7 @@ export const useInstallationTypeSelect = (init?: InstallationType) => {
 }
 
 type ShipStatusCardProps = {
+  battleState: BattleState
   shipInformation: ShipInformation
   combinedFleetFactor: number
   specialAttackRate: ReturnType<typeof DayCombatSpecialAttack.calcRate>
@@ -56,6 +60,7 @@ type ShipStatusCardProps = {
 const ShipShellingStatusCard: React.FC<ShipStatusCardProps> = props => {
   const classes = useStyles()
   const {
+    battleState,
     shipInformation,
     combinedFleetFactor,
     specialAttackRate,
@@ -67,19 +72,17 @@ const ShipShellingStatusCard: React.FC<ShipStatusCardProps> = props => {
   const { ship } = shipInformation
   const shellingStatus = new ShipShellingStatus(ship)
 
-  const options = new Array<DayCombatSpecialAttack | undefined>(undefined).concat(specialAttackRate.attacks)
-  const specialAttackSelect = useSelect(options)
   const apCheck = useCheck()
   const installationTypeSelect = useInstallationTypeSelect()
   const [eventMapModifier, setEventMapModifier] = useState(1)
 
-  const createShellingCellRenderer = (isCritical = false) => (engagement: Engagement) => {
+  const createShellingCellRenderer = (isCritical: boolean) => (specialAttack?: DayCombatSpecialAttack) => {
     const shellingPower = shellingStatus.calcPower({
       ...shipInformation,
       isCritical,
-      engagement,
+      engagement: battleState.engagement,
       combinedFleetFactor,
-      specialAttack: specialAttackSelect.value,
+      specialAttack,
       isArmorPiercing: apCheck.checked,
       installationType: installationTypeSelect.value,
       eventMapModifier
@@ -96,7 +99,7 @@ const ShipShellingStatusCard: React.FC<ShipStatusCardProps> = props => {
 
   const nightStatus = new ShipNightAttackStatus(ship)
 
-  const createNightCellRenderer = (isCritical = false) => (specialAttack: NightBattleSpecialAttack | undefined) => {
+  const createNightCellRenderer = (isCritical: boolean) => (specialAttack: NightBattleSpecialAttack | undefined) => {
     const nightAttackPower = nightStatus.calcPower({
       ...shipInformation,
       nightContactModifier,
@@ -131,36 +134,26 @@ const ShipShellingStatusCard: React.FC<ShipStatusCardProps> = props => {
         />
       </Flexbox>
 
-      <Flexbox mt={1}>
-        <Typography variant="subtitle2">砲撃戦</Typography>
-        <Select
-          style={{ minWidth: 80, marginLeft: 8 }}
-          {...specialAttackSelect}
-          getOptionLabel={option => (option ? option.name : '単発')}
-        />
-
-        {Array.from(specialAttackRate.rateMap).map(([specialAttack, rate]) => (
-          <Typography key={specialAttack.id} variant="caption">
-            {specialAttack.name} {toPercent(rate)}
-          </Typography>
-        ))}
-        <Typography variant="caption">合計 {toPercent(specialAttackRate.total)}</Typography>
-      </Flexbox>
+      <Typography style={{ marginTop: 8 }} variant="subtitle2">
+        砲撃戦
+      </Typography>
       <Table
-        data={Engagement.values}
+        data={specialAttackRate.dayCombatAttacks}
         columns={[
-          { label: '交戦形態', getValue: engagement => engagement.name, align: 'left' },
-          { label: '最終攻撃力', getValue: createShellingCellRenderer() },
+          { label: '攻撃種別', getValue: getAttackName, align: 'left' },
+          { label: '発動率', getValue: attack => toPercent(specialAttackRate.getAttackRate(attack)) },
+          { label: '最終攻撃力', getValue: createShellingCellRenderer(false) },
           { label: 'クリティカル', getValue: createShellingCellRenderer(true) }
         ]}
       />
+      <Typography variant="caption">合計特殊攻撃率 {toPercent(specialAttackRate.total)}</Typography>
 
       <Flexbox mt={1} />
       <Typography variant="subtitle2">夜戦</Typography>
       <Table
         data={nightAttacks}
         columns={[
-          { label: '攻撃種別', getValue: attack => (attack ? attack.name : '単発'), align: 'left' },
+          { label: '攻撃種別', getValue: getAttackName, align: 'left' },
           { label: '最終攻撃力', getValue: createNightCellRenderer(false) },
           { label: 'クリティカル', getValue: createNightCellRenderer(true) }
         ]}

@@ -3,13 +3,15 @@ import React, { useContext, useCallback, useState } from 'react'
 import {
   AirControlState,
   Formation,
+  Engagement,
   ShipRole,
   FleetType,
   DayCombatSpecialAttack,
   Side,
   Shelling,
   NightBattleSpecialAttack,
-  ShipShellingStatus
+  ShipShellingStatus,
+  BattleState
 } from 'kc-calculator'
 
 import FormControlLabel from '@material-ui/core/FormControlLabel'
@@ -34,6 +36,7 @@ const useBattleStateForm = () => {
   const fleetTypeSelect = useSelect(FleetType.values)
   const roleSelect = useSelect<ShipRole>(['Main', 'Escort'])
   const formationSelect = useSelect(fleetTypeSelect.value.isCombined ? combinedFleetFormations : singleFleetFormations)
+  const engagementSelect = useSelect(Engagement.values)
 
   const enemyFleetTypeSelect = useSelect([FleetType.Single, FleetType.Combined])
   const enemyRoleSelect = useSelect<ShipRole>(['Main', 'Escort'])
@@ -44,6 +47,7 @@ const useBattleStateForm = () => {
   const form = {
     fleetType: fleetTypeSelect,
     formation: formationSelect,
+    engagement: engagementSelect,
     role: { ...roleSelect, getOptionLabel: getRoleLabel },
     airControlState: useSelect(AirControlState.values),
     isFlagship: useCheck(),
@@ -56,6 +60,7 @@ const useBattleStateForm = () => {
   const state = {
     fleetType: form.fleetType.value,
     formation: form.formation.value,
+    engagement: engagementSelect.value,
     role: form.role.value,
     airControlState: form.airControlState.value,
     isFlagship: form.isFlagship.checked,
@@ -79,10 +84,11 @@ const ShipCalculator: React.FC<ShipCalculatorProps> = ({ ship }) => {
   const [fleetLosModifier, setFleetLosModifier] = useState(0)
   const [fitGunBonus, setFitGunBonus] = useState(0)
   const [remainingAmmoModifier, setRemainingAmmoModifier] = useState(1)
-  const { fleetType, formation, role, airControlState, isFlagship } = state
+  const { fleetType, formation, engagement, role, airControlState, isFlagship } = state
 
   const side = Side.Player
-  const attacker = { ship: ship.asKcObject, side, isFlagship, fleetType, role, formation }
+  const battleState: BattleState = { engagement, airControlState }
+  const attacker = { ship: ship.asKcObject, side, isFlagship, fleetType, role, formation, engagement }
 
   ship.increased.firepower
 
@@ -125,15 +131,16 @@ const ShipCalculator: React.FC<ShipCalculatorProps> = ({ ship }) => {
       </Typography>
 
       <Box m={1} maxWidth={8 * 125} width="100%" margin="auto">
-        <Box display="flex" alignItems="end">
+        <Box display="flex">
           <Select {...form.fleetType} />
           <Select {...form.formation} />
+          <Select {...form.engagement} />
           <Select {...form.airControlState} />
           <FormControlLabel label="旗艦" control={<Checkbox {...form.isFlagship} />} />
           {visibleRoleSelect && <RadioGroup {...form.role} />}
         </Box>
 
-        <Box display="flex" alignItems="flex-end" mt={1}>
+        <Box display="flex" mt={1}>
           <NumberInput label="艦隊索敵補正" value={fleetLosModifier} onChange={setFleetLosModifier} min={0} />
           <NumberInput
             label="弾薬量補正"
@@ -147,11 +154,13 @@ const ShipCalculator: React.FC<ShipCalculatorProps> = ({ ship }) => {
           <FormControlLabel label="夜間触接" control={<Checkbox {...nightContactCheck} />} />
           {isExperiment && <NumberInput label="フィット砲補正" value={fitGunBonus} onChange={setFitGunBonus} />}
         </Box>
+
         <Box display="flex" flexWrap="wrap" justifyContent="space-between">
           <ShipCard style={{ width: 8 * 60 }} ship={ship} defaultStatsExpanded={true} disableButton />
 
           <ShipStatusCard
             style={{ width: 8 * 60 }}
+            battleState={battleState}
             shipInformation={attacker}
             combinedFleetFactor={combinedFleetFactor}
             nightContactModifier={nightContactModifier}
@@ -164,6 +173,7 @@ const ShipCalculator: React.FC<ShipCalculatorProps> = ({ ship }) => {
           <Box key={enemy.id} mt={1} display="flex" flexWrap="wrap" justifyContent="space-between">
             <ShipCard style={{ width: 8 * 60 }} ship={enemy} visibleInfo={false} defaultStatsExpanded={true} />
             <WarfareStatusCard
+              battleState={battleState}
               attacker={attacker}
               defender={{
                 ship: enemy.asKcObject,

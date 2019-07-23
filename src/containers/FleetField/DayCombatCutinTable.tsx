@@ -1,4 +1,4 @@
-import { AirControlState, DayCombat, FleetRole, IFleet, IShip } from 'kc-calculator'
+import { AirControlState, DayCombat, FleetRole, IFleet, IShip, DayCombatSpecialAttack } from 'kc-calculator'
 import { action, observable } from 'mobx'
 import { observer } from 'mobx-react-lite'
 import React from 'react'
@@ -23,7 +23,7 @@ const CutinRate: React.FC<{ cutin: DayCombatCutin; rate?: number }> = ({ cutin, 
     return null
   }
   return (
-    <Typography noWrap={true}>
+    <Typography variant="inherit" component="div" noWrap={true}>
       {`${cutin.name}(×${cutin.powerModifier})`}: {toPercent(rate)}
     </Typography>
   )
@@ -75,6 +75,12 @@ const ShipRow: React.FC<ShipRowProps> = ({ ship, fleetLosModifier, isFlagship })
   if (!ship) {
     return null
   }
+
+  // const getAttackRate = (airState: AirControlState) => DayCombatSpecialAttack.calcRate(ship, fleetLosModifier, airState, isFlagship)
+
+  // const airSupremacyState = getAttackRate(AirControlState.AirSupremacy)
+  // const airSuperiorityState = getAttackRate(AirControlState.AirSuperiority)
+
   const airSupremacyCutinState = useCutinState(ship, fleetLosModifier, isFlagship, AirControlState.AirSupremacy)
   const airSuperiorityCutinState = useCutinState(ship, fleetLosModifier, isFlagship, AirControlState.AirSuperiority)
 

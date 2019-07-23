@@ -7,7 +7,7 @@ import MuiTableRow from '@material-ui/core/TableRow'
 import MuiTableCell, { TableCellProps as MuiTableCellProps } from '@material-ui/core/TableCell'
 import TableBody from '@material-ui/core/TableBody'
 
-type ColumnProps<Datum> = {
+export type ColumnProps<Datum> = {
   label: React.ReactNode
   getValue: (datum: Datum) => React.ReactNode
 } & MuiTableCellProps

@@ -1,3 +1,4 @@
+export { default as AttackChip } from './AttackChip'
 export { default as Dialog } from './Dialog'
 export { default as DataTable } from './DataTable'
 export { default as EnemyFleet } from './EnemyFleet'

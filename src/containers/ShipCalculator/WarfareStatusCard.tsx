@@ -10,7 +10,8 @@ import {
   NightBattleSpecialAttack,
   Damage,
   calcDeadlyPower,
-  calcEvasionValue
+  calcEvasionValue,
+  BattleState
 } from 'kc-calculator'
 import { observer } from 'mobx-react-lite'
 
@@ -23,20 +24,23 @@ import Checkbox from '@material-ui/core/Checkbox'
 import TextField from '@material-ui/core/TextField'
 
 import { toPercent } from '../../utils'
-import { Select, Table, Flexbox, NumberInput } from '../../components'
-import { useSelect, useInput } from '../../hooks'
+import { Select, Table, Flexbox, NumberInput, LabeledValue } from '../../components'
 import ShellingStats from './ShellingStats'
 import { useInstallationTypeSelect } from './ShipStatusCard'
+import { ColumnProps } from '../../components/Table'
 
-const damageToText = (damage: Damage, isDeadly?: boolean) => {
-  if (damage.max === 0) {
+const getAttackName = (attack?: DayCombatSpecialAttack | NightBattleSpecialAttack) => (attack ? attack.name : '単発')
+
+const damageToText = ({ min, max, scratchDamageProbability, isDeadly }: Damage) => {
+  if (max === 0) {
     return '確定割合'
   }
-  const min = damage.min === 0 ? `(割合${toPercent(damage.scratchDamageProbability)})` : damage.min
-  return `${min} - ${damage.max}${isDeadly ? '(確殺)' : ''}`
+  const minText = min === 0 ? `(割合${toPercent(scratchDamageProbability)})` : min
+  return `${minText} - ${max}${isDeadly ? '(確殺)' : ''}`
 }
 
 type WarfareStatusCardProps = {
+  battleState: BattleState
   attacker: ShipInformation
   defender: ShipInformation
 
@@ -51,6 +55,7 @@ type WarfareStatusCardProps = {
 
 const WarfareStatusCard: React.FC<WarfareStatusCardProps> = props => {
   const {
+    battleState,
     attacker,
     defender,
     attacks,
@@ -61,13 +66,51 @@ const WarfareStatusCard: React.FC<WarfareStatusCardProps> = props => {
     isExperiment
   } = props
 
-  const specialAttackSelect = useSelect(attacks)
   const [eventMapModifier, setEventMapModifier] = useState(1)
-
   const installationTypeSelect = useInstallationTypeSelect(defender.ship.installationType)
 
-  const createNightAttackCellRenderer = (isCritical = false) => (specialAttack?: NightBattleSpecialAttack) => {
-    const { damage } = new NightAttack(
+  const getShelling = (specialAttack?: DayCombatSpecialAttack, isCritical = false) =>
+    new Shelling(
+      battleState,
+      attacker,
+      defender,
+      specialAttack,
+      isCritical,
+      eventMapModifier,
+      remainingAmmoModifier,
+      installationTypeSelect.value,
+      fitGunBonus
+    )
+
+  const shellingHitRateCellRenderer = (specialAttack?: DayCombatSpecialAttack) => {
+    const { accuracy, defenderEvasionValue, hitRate } = getShelling(specialAttack)
+
+    const factors: Array<{ label: string; value: number }> = [
+      { label: '攻撃側命中項', value: accuracy.value },
+      { label: '防御側回避項', value: defenderEvasionValue }
+    ]
+    const hitStatus = factors.map((factor, index) => <LabeledValue key={index} {...factor} />)
+
+    return (
+      <Tooltip enterDelay={500} title={hitStatus}>
+        <Typography variant="inherit">{toPercent(hitRate)}</Typography>
+      </Tooltip>
+    )
+  }
+
+  const createShellingDamageRenderer = (isCritical: boolean) => (specialAttack?: DayCombatSpecialAttack) => {
+    const { damage, power } = getShelling(specialAttack, isCritical)
+    return (
+      <div>
+        <Tooltip enterDelay={500} title={<ShellingStats shellingPower={power} />}>
+          <Typography variant="inherit">{damageToText(damage)}</Typography>
+        </Tooltip>
+      </div>
+    )
+  }
+
+  const getNightAttack = (specialAttack?: NightBattleSpecialAttack, isCritical = false) =>
+    new NightAttack(
       attacker,
       defender,
       specialAttack,
@@ -77,40 +120,54 @@ const WarfareStatusCard: React.FC<WarfareStatusCardProps> = props => {
       remainingAmmoModifier,
       installationTypeSelect.value
     )
-    const text = damageToText(damage, damage.min >= defender.ship.health.maxHp)
-    return text
-  }
 
-  const createCellRenderer = (isCritical = false) => (engagement: Engagement) => {
-    const { damage, power, isDeadly } = new Shelling(
-      attacker,
-      defender,
-      engagement,
-      specialAttackSelect.value,
-      isCritical,
-      eventMapModifier,
-      remainingAmmoModifier,
-      installationTypeSelect.value,
-      fitGunBonus
-    )
+  const nightAttackHitRateRenderer = (specialAttack?: NightBattleSpecialAttack) => {
+    const { accuracy, defenderEvasionValue, hitRate } = getNightAttack(specialAttack)
+
+    const factors: Array<{ label: string; value: number }> = [
+      { label: '攻撃側命中項', value: accuracy.value },
+      { label: '防御側回避項', value: defenderEvasionValue }
+    ]
+    const hitStatus = factors.map((factor, index) => <LabeledValue key={index} {...factor} />)
+
     return (
-      <Tooltip title={<ShellingStats shellingPower={power} />}>
-        <div>{damageToText(damage, isDeadly)}</div>
+      <Tooltip enterDelay={500} title={hitStatus}>
+        <Typography variant="inherit">{toPercent(hitRate)}</Typography>
       </Tooltip>
     )
   }
 
-  const { accuracy, defenderEvasionValue, hitRate } = new Shelling(
-    attacker,
-    defender,
-    Engagement.Parallel,
-    specialAttackSelect.value,
-    false,
-    eventMapModifier,
-    remainingAmmoModifier,
-    installationTypeSelect.value,
-    fitGunBonus
-  )
+  const createNightAttackCellRenderer = (isCritical: boolean) => (specialAttack?: NightBattleSpecialAttack) => {
+    const { damage } = getNightAttack(specialAttack, isCritical)
+    const text = damageToText(damage)
+    return text
+  }
+
+  let dayCombatColumns = [
+    { label: '攻撃種別', getValue: getAttackName, align: 'left' as const },
+    { label: 'ヒット', getValue: createShellingDamageRenderer(false) },
+    { label: 'クリティカル', getValue: createShellingDamageRenderer(true) }
+  ]
+  let nightAttackColumns: Array<ColumnProps<NightBattleSpecialAttack | undefined>> = [
+    { label: '攻撃種別', getValue: getAttackName, align: 'left' as const },
+    { label: 'ダメージ', getValue: createNightAttackCellRenderer(false) },
+    { label: 'クリティカル', getValue: createNightAttackCellRenderer(true) }
+  ]
+
+  if (isExperiment) {
+    dayCombatColumns = [
+      { label: '攻撃種別', getValue: getAttackName, align: 'left' },
+      { label: '命中率', getValue: shellingHitRateCellRenderer },
+      { label: 'ヒット', getValue: createShellingDamageRenderer(false) },
+      { label: 'クリティカル', getValue: createShellingDamageRenderer(true) }
+    ]
+    nightAttackColumns = [
+      { label: '攻撃種別', getValue: getAttackName, align: 'left' },
+      { label: '命中率', getValue: nightAttackHitRateRenderer },
+      { label: 'ダメージ', getValue: createNightAttackCellRenderer(false) },
+      { label: 'クリティカル', getValue: createNightAttackCellRenderer(true) }
+    ]
+  }
 
   return (
     <Paper style={{ width: 8 * 60, padding: 8 }}>
@@ -127,40 +184,13 @@ const WarfareStatusCard: React.FC<WarfareStatusCardProps> = props => {
 
       <Flexbox>
         <Typography>砲撃戦</Typography>
-        <Select
-          style={{ minWidth: 80, marginLeft: 8 }}
-          {...specialAttackSelect}
-          getOptionLabel={option => (option ? option.name : '単発')}
-        />
       </Flexbox>
-      <Table
-        data={Engagement.values}
-        columns={[
-          { label: '交戦形態', getValue: engagement => engagement.name, align: 'left' },
-          { label: 'ダメージ', getValue: createCellRenderer() },
-          { label: 'クリティカル', getValue: createCellRenderer(true) }
-        ]}
-      />
-
-      {isExperiment && (
-        <>
-          <Typography>確殺攻撃力: {calcDeadlyPower(defender.ship)}</Typography>
-          <Typography>攻撃側昼砲撃命中項: {accuracy.value}</Typography>
-          <Typography>防御側昼砲撃回避項: {defenderEvasionValue}</Typography>
-          <Typography>命中率: {toPercent(hitRate)}</Typography>
-        </>
-      )}
+      {isExperiment && <Typography variant="caption">確殺攻撃力: {calcDeadlyPower(defender.ship)}</Typography>}
+      <Table data={attacks} columns={dayCombatColumns} />
 
       <Flexbox mt={1} />
       <Typography>夜戦</Typography>
-      <Table
-        data={nightAttacks}
-        columns={[
-          { label: '攻撃種別', getValue: attack => (attack ? attack.name : '単発'), align: 'left' },
-          { label: 'ダメージ', getValue: createNightAttackCellRenderer(false) },
-          { label: 'クリティカル', getValue: createNightAttackCellRenderer(true) }
-        ]}
-      />
+      <Table data={nightAttacks} columns={nightAttackColumns} />
     </Paper>
   )
 }

@@ -95,6 +95,7 @@ module.exports = (env, argv) => {
       ]
     },
     devServer: {
+      clientLogLevel: 'warning',
       contentBase: path.resolve(__dirname, 'docs'),
       openPage: 'jervis/',
       port: 3000,
