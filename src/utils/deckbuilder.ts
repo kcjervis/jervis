@@ -17,9 +17,10 @@ const toEquipmentDataObject = (item: DeckEquipmet | undefined): IEquipmentDataOb
   }
 
   const proficiency = Proficiency.internalBounds[Number(item.mas)]
+  const improvement = typeof item.rf === 'undefined' ? undefined : Number(item.rf)
   return {
     masterId: item.id,
-    improvement: Number(item.rf),
+    improvement,
     proficiency
   }
 }

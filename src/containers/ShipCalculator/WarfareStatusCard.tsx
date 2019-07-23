@@ -26,10 +26,8 @@ import TextField from '@material-ui/core/TextField'
 import { toPercent } from '../../utils'
 import { Select, Table, Flexbox, NumberInput, LabeledValue } from '../../components'
 import ShellingStats from './ShellingStats'
-import { useInstallationTypeSelect } from './ShipStatusCard'
+import { useInstallationTypeSelect, getAttackName } from './ShipStatusCard'
 import { ColumnProps } from '../../components/Table'
-
-const getAttackName = (attack?: DayCombatSpecialAttack | NightBattleSpecialAttack) => (attack ? attack.name : '単発')
 
 const damageToText = ({ min, max, scratchDamageProbability, isDeadly }: Damage) => {
   if (max === 0) {

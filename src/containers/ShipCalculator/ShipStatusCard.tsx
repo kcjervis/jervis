@@ -35,7 +35,9 @@ const useStyles = makeStyles(
   })
 )
 
-const getAttackName = (attack?: DayCombatSpecialAttack | NightBattleSpecialAttack) => <AttackChip attack={attack} />
+export const getAttackName = (attack?: DayCombatSpecialAttack | NightBattleSpecialAttack) => (
+  <AttackChip attack={attack} />
+)
 
 const installationTypes: InstallationType[] = ['None', 'SoftSkinned', 'Pillbox', 'IsolatedIsland', 'SupplyDepot']
 const installationTypeToJp = (type: InstallationType) =>
