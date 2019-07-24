@@ -9,7 +9,7 @@ import {
   DayCombatSpecialAttack,
   Side,
   Shelling,
-  NightBattleSpecialAttack,
+  NightCombatSpecialAttack,
   ShipShellingStatus,
   BattleState
 } from 'kc-calculator'
@@ -116,8 +116,8 @@ const ShipCalculator: React.FC<ShipCalculatorProps> = ({ ship }) => {
     role: state.enemyRole
   })
 
-  const nightAttacks = new Array<NightBattleSpecialAttack | undefined>(undefined).concat(
-    NightBattleSpecialAttack.getPossibleSpecialAttacks(attacker.ship)
+  const nightAttacks = new Array<NightCombatSpecialAttack | undefined>(undefined).concat(
+    NightCombatSpecialAttack.getPossibleSpecialAttacks(attacker.ship)
   )
   const nightContactCheck = useCheck()
   const nightContactModifier = nightContactCheck.checked ? 5 : 0

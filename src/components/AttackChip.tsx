@@ -1,5 +1,6 @@
 import React from 'react'
-import { DayCombatSpecialAttack, NightBattleSpecialAttack } from 'kc-calculator'
+import clsx from 'clsx'
+import { DayCombatSpecialAttack, NightCombatSpecialAttack } from 'kc-calculator'
 
 import Chip from '@material-ui/core/Chip'
 import Tooltip from '@material-ui/core/Tooltip'
@@ -11,6 +12,9 @@ import LabeledValue from './LabeledValue'
 
 const useStyles = makeStyles(
   createStyles({
+    root: {
+      minWidth: 8 * 6
+    },
     shelling: {
       color: orange[500],
       borderColor: orange[500]
@@ -23,7 +27,7 @@ const useStyles = makeStyles(
 )
 
 type AttackChipProps = {
-  attack?: DayCombatSpecialAttack | NightBattleSpecialAttack
+  attack?: DayCombatSpecialAttack | NightCombatSpecialAttack
 }
 
 export default function AttackChip({ attack }: AttackChipProps) {
@@ -32,13 +36,19 @@ export default function AttackChip({ attack }: AttackChipProps) {
   if (attack instanceof DayCombatSpecialAttack) {
     className = classes.shelling
   }
-  if (attack instanceof NightBattleSpecialAttack) {
+  if (attack instanceof NightCombatSpecialAttack) {
     className = classes.nightAttack
   }
   const label = attack ? attack.name : '単発'
-  const chip = <Chip className={className} size="small" variant="outlined" label={label} />
+  const chip = <Chip className={clsx(className, classes.root)} size="small" variant="outlined" label={label} />
   if (!attack) {
     return chip
   }
-  return <Tooltip title={<LabeledValue label="攻撃力補正" value={attack.modifier.power} />}>{chip}</Tooltip>
+  const title = (
+    <>
+      <LabeledValue label="攻撃力補正" display="inline-block" mr={1} value={attack.modifier.power} />
+      <LabeledValue label="命中補正" display="inline-block" value={attack.modifier.accuracy} />
+    </>
+  )
+  return <Tooltip title={title}>{chip}</Tooltip>
 }

@@ -6,7 +6,7 @@ import {
   DayCombatSpecialAttack,
   ShipShellingStatus,
   InstallationType,
-  NightBattleSpecialAttack,
+  NightCombatSpecialAttack,
   ShipNightAttackStatus,
   BattleState
 } from 'kc-calculator'
@@ -35,7 +35,7 @@ const useStyles = makeStyles(
   })
 )
 
-export const getAttackName = (attack?: DayCombatSpecialAttack | NightBattleSpecialAttack) => (
+export const getAttackName = (attack?: DayCombatSpecialAttack | NightCombatSpecialAttack) => (
   <AttackChip attack={attack} />
 )
 
@@ -55,7 +55,7 @@ type ShipStatusCardProps = {
   combinedFleetFactor: number
   specialAttackRate: ReturnType<typeof DayCombatSpecialAttack.calcRate>
 
-  nightAttacks: Array<NightBattleSpecialAttack | undefined>
+  nightAttacks: Array<NightCombatSpecialAttack | undefined>
   nightContactModifier: number
 } & PaperProps
 
@@ -101,7 +101,7 @@ const ShipShellingStatusCard: React.FC<ShipStatusCardProps> = props => {
 
   const nightStatus = new ShipNightAttackStatus(ship)
 
-  const createNightCellRenderer = (isCritical: boolean) => (specialAttack: NightBattleSpecialAttack | undefined) => {
+  const createNightCellRenderer = (isCritical: boolean) => (specialAttack: NightCombatSpecialAttack | undefined) => {
     const nightAttackPower = nightStatus.calcPower({
       ...shipInformation,
       nightContactModifier,

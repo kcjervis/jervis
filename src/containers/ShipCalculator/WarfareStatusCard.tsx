@@ -7,7 +7,7 @@ import {
   Engagement,
   DayCombatSpecialAttack,
   NightAttack,
-  NightBattleSpecialAttack,
+  NightCombatSpecialAttack,
   Damage,
   calcDeadlyPower,
   calcEvasionValue,
@@ -46,7 +46,7 @@ type WarfareStatusCardProps = {
   remainingAmmoModifier: number
 
   attacks: Array<DayCombatSpecialAttack | undefined>
-  nightAttacks: Array<NightBattleSpecialAttack | undefined>
+  nightAttacks: Array<NightCombatSpecialAttack | undefined>
   fitGunBonus: number
   isExperiment: boolean
 }
@@ -107,7 +107,7 @@ const WarfareStatusCard: React.FC<WarfareStatusCardProps> = props => {
     )
   }
 
-  const getNightAttack = (specialAttack?: NightBattleSpecialAttack, isCritical = false) =>
+  const getNightAttack = (specialAttack?: NightCombatSpecialAttack, isCritical = false) =>
     new NightAttack(
       attacker,
       defender,
@@ -119,7 +119,7 @@ const WarfareStatusCard: React.FC<WarfareStatusCardProps> = props => {
       installationTypeSelect.value
     )
 
-  const nightAttackHitRateRenderer = (specialAttack?: NightBattleSpecialAttack) => {
+  const nightAttackHitRateRenderer = (specialAttack?: NightCombatSpecialAttack) => {
     const { accuracy, defenderEvasionValue, hitRate } = getNightAttack(specialAttack)
 
     const factors: Array<{ label: string; value: number }> = [
@@ -129,13 +129,13 @@ const WarfareStatusCard: React.FC<WarfareStatusCardProps> = props => {
     const hitStatus = factors.map((factor, index) => <LabeledValue key={index} {...factor} />)
 
     return (
-      <Tooltip enterDelay={500} title={hitStatus}>
+      <Tooltip title={hitStatus}>
         <Typography variant="inherit">{toPercent(hitRate)}</Typography>
       </Tooltip>
     )
   }
 
-  const createNightAttackCellRenderer = (isCritical: boolean) => (specialAttack?: NightBattleSpecialAttack) => {
+  const createNightAttackCellRenderer = (isCritical: boolean) => (specialAttack?: NightCombatSpecialAttack) => {
     const { damage } = getNightAttack(specialAttack, isCritical)
     const text = damageToText(damage)
     return text
@@ -146,7 +146,7 @@ const WarfareStatusCard: React.FC<WarfareStatusCardProps> = props => {
     { label: 'ヒット', getValue: createShellingDamageRenderer(false) },
     { label: 'クリティカル', getValue: createShellingDamageRenderer(true) }
   ]
-  let nightAttackColumns: Array<ColumnProps<NightBattleSpecialAttack | undefined>> = [
+  let nightAttackColumns: Array<ColumnProps<NightCombatSpecialAttack | undefined>> = [
     { label: '攻撃種別', getValue: getAttackName, align: 'left' as const },
     { label: 'ダメージ', getValue: createNightAttackCellRenderer(false) },
     { label: 'クリティカル', getValue: createNightAttackCellRenderer(true) }
@@ -180,10 +180,9 @@ const WarfareStatusCard: React.FC<WarfareStatusCardProps> = props => {
         />
       </Box>
 
-      <Flexbox>
-        <Typography>砲撃戦</Typography>
-      </Flexbox>
       {isExperiment && <Typography variant="caption">確殺攻撃力: {calcDeadlyPower(defender.ship)}</Typography>}
+
+      <Typography>砲撃戦</Typography>
       <Table data={attacks} columns={dayCombatColumns} />
 
       <Flexbox mt={1} />

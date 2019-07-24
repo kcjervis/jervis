@@ -10,10 +10,10 @@ import Typography from '@material-ui/core/Typography'
 import Paper from '@material-ui/core/Paper'
 
 import ContactTable from './ContactTable'
-import DayCombatCutinTable from './DayCombatCutinTable'
-import NightBattleSpecialAttackTable from './NightBattleSpecialAttackTable'
+import NightCombatSpecialAttackTable from './NightCombatSpecialAttackTable'
 import AerialCombatTable from './AerialCombatTable'
 import { useBaseStyles } from '../../hooks'
+import ShellingAttackTable from './ShellingAttackTable'
 
 interface FleetDetailProps {
   operation: IOperation
@@ -49,7 +49,7 @@ const FleetDetail: React.FC<FleetDetailProps> = props => {
         </Tabs>
       </div>
 
-      {activeTab === 0 && <DayCombatCutinTable fleet={fleet} fleetRole={fleetRole} />}
+      {activeTab === 0 && <ShellingAttackTable fleet={fleet} fleetRole={fleetRole} />}
       {activeTab === 1 && (
         <>
           {fleetRole !== FleetRole.EscortFleet && (
@@ -66,7 +66,7 @@ const FleetDetail: React.FC<FleetDetailProps> = props => {
           )}
         </>
       )}
-      {activeTab === 2 && <NightBattleSpecialAttackTable fleet={fleet} />}
+      {activeTab === 2 && <NightCombatSpecialAttackTable fleet={fleet} />}
       {activeTab === 3 && (
         <AerialCombatTable
           operation={operation}

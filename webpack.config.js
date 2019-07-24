@@ -5,14 +5,60 @@ const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPl
 
 module.exports = (env, argv) => {
   const { mode } = argv
+  const rules = [
+    {
+      test: /\.(j|t)sx?$/,
+      use: [
+        {
+          loader: 'ts-loader',
+          options: {
+            transpileOnly: true,
+            experimentalWatchApi: true
+          }
+        }
+      ]
+    },
+    {
+      test: /\.css$/,
+      use: ['style-loader', 'css-loader']
+    },
+    {
+      test: /\.(gif|png|jpe?g|svg|woff|woff2|eot|ttf)$/,
+      use: [
+        {
+          loader: 'url-loader',
+          options: {
+            limit: 300,
+            name: 'static/media/[path][name].[ext]'
+          }
+        }
+      ]
+    }
+  ]
   const plugins = [new ForkTsCheckerWebpackPlugin()]
+
   if (mode === 'production') {
+    rules.push({
+      test: /\.tsx?$/,
+      enforce: 'pre',
+      use: [
+        {
+          loader: 'eslint-loader',
+          options: {
+            fix: true,
+            formatter: 'codeFrame'
+          }
+        }
+      ],
+      exclude: /node_modules/
+    })
     plugins.push(
       new BundleAnalyzerPlugin({
         analyzerMode: 'static'
       })
     )
   }
+
   return {
     mode,
     entry: './src/index.tsx',
@@ -49,50 +95,7 @@ module.exports = (env, argv) => {
       extensions: ['.js', '.ts', '.tsx', '.json']
     },
     module: {
-      rules: [
-        // {
-        //   test: /\.tsx?$/,
-        //   enforce: 'pre',
-        //   use: [
-        //     {
-        //       loader: 'eslint-loader',
-        //       options: {
-        //         fix: true,
-        //         formatter: 'codeFrame'
-        //       }
-        //     }
-        //   ],
-        //   exclude: /node_modules/
-        // },
-        {
-          test: /\.(j|t)sx?$/,
-          use: [
-            {
-              loader: 'ts-loader',
-              options: {
-                transpileOnly: true,
-                experimentalWatchApi: true
-              }
-            }
-          ]
-        },
-        {
-          test: /\.css$/,
-          use: ['style-loader', 'css-loader']
-        },
-        {
-          test: /\.(gif|png|jpe?g|svg|woff|woff2|eot|ttf)$/,
-          use: [
-            {
-              loader: 'url-loader',
-              options: {
-                limit: 300,
-                name: 'static/media/[path][name].[ext]'
-              }
-            }
-          ]
-        }
-      ]
+      rules
     },
     devServer: {
       clientLogLevel: 'warning',

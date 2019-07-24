@@ -12,9 +12,9 @@ import { makeStyles, Theme } from '@material-ui/core/styles'
 
 const useStyles = makeStyles({
   root: {
-     display: 'flex',
-     alignItems: 'center',
-     width: '100%'
+    display: 'flex',
+    alignItems: 'center',
+    width: '100%'
   },
   bar: {
     width: '100%',

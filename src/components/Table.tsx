@@ -9,20 +9,21 @@ import TableBody from '@material-ui/core/TableBody'
 
 export type ColumnProps<Datum> = {
   label: React.ReactNode
-  getValue: (datum: Datum) => React.ReactNode
+  getValue: (datum: Datum, index: number) => React.ReactNode
 } & MuiTableCellProps
 
 type TableClellProps<Datum> = {
   datum: Datum
+  datumIndex: number
   column: ColumnProps<Datum>
 }
 
-function TableClell<Datum>({ datum, column }: TableClellProps<Datum>) {
+function TableClell<Datum>({ datum, datumIndex, column }: TableClellProps<Datum>) {
   const { label, getValue, ...rest } = column
 
   return (
     <MuiTableCell align="right" {...rest}>
-      {getValue(datum)}
+      {getValue(datum, datumIndex)}
     </MuiTableCell>
   )
 }
@@ -39,14 +40,15 @@ function TableHeadCell<Datum>({ column }: Omit<TableClellProps<Datum>, 'datum'>)
 
 type TableRowProps<Datum> = {
   datum: Datum
+  datumIndex: number
   columns: Array<ColumnProps<Datum>>
 }
 
-function TableRow<Datum>({ datum, columns }: TableRowProps<Datum>) {
+function TableRow<Datum>({ datum, columns, datumIndex }: TableRowProps<Datum>) {
   return (
     <MuiTableRow>
       {columns.map((column, index) => (
-        <TableClell key={index} datum={datum} column={column} />
+        <TableClell key={index} datum={datum} datumIndex={datumIndex} column={column} />
       ))}
     </MuiTableRow>
   )
@@ -64,13 +66,13 @@ function Table<Datum>(props: TableProps<Datum>) {
       <MuiTableHead>
         <MuiTableRow>
           {columns.map((column, index) => (
-            <TableHeadCell key={index} column={column} />
+            <TableHeadCell key={index} datumIndex={index} column={column} />
           ))}
         </MuiTableRow>
       </MuiTableHead>
       <TableBody>
         {data.map((datum, index) => (
-          <TableRow key={index} datum={datum} columns={columns} />
+          <TableRow key={index} datum={datum} datumIndex={index} columns={columns} />
         ))}
       </TableBody>
     </MuiTable>

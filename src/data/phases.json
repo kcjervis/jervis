@@ -31,7 +31,7 @@
     ]
   },
 
-  { "name": "NightBattle" },
+  { "name": "NightCombat" },
   {
     "name": "AerialBattle",
     "phases": [
