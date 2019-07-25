@@ -20,8 +20,8 @@ const useStyles = makeStyles(
       borderColor: orange[500]
     },
     nightAttack: {
-      color: indigo[300],
-      borderColor: indigo[300]
+      color: indigo[200],
+      borderColor: indigo[200]
     }
   })
 )

@@ -8,7 +8,8 @@ import {
   InstallationType,
   NightCombatSpecialAttack,
   ShipNightAttackStatus,
-  BattleState
+  BattleState,
+  ShellingSupport
 } from 'kc-calculator'
 import { round } from 'lodash-es'
 import clsx from 'clsx'
@@ -121,6 +122,16 @@ const ShipShellingStatusCard: React.FC<ShipStatusCardProps> = props => {
 
   const visibleAp = ship.hasEquipmentCategory('ArmorPiercingShell') && ship.hasEquipmentCategory(cate => cate.isMainGun)
 
+  const createShellingSupportRenderer = (isCritical: boolean) => () => {
+    const power = ShellingSupport.getShellingSupportPower({ battleState, attacker: shipInformation, isCritical })
+    const color = power.isCapped ? 'secondary' : 'inherit'
+    return (
+      <Typography variant="inherit" color={color}>
+        {round(power.value, 4)}
+      </Typography>
+    )
+  }
+
   return (
     <Paper className={clsx(className, classes.root)} {...paperProps}>
       <Flexbox mt={1}>
@@ -150,16 +161,29 @@ const ShipShellingStatusCard: React.FC<ShipStatusCardProps> = props => {
       />
       <Typography variant="caption">合計特殊攻撃率 {toPercent(specialAttackRate.total)}</Typography>
 
-      <Flexbox mt={1} />
-      <Typography variant="subtitle2">夜戦</Typography>
-      <Table
-        data={nightAttacks}
-        columns={[
-          { label: '攻撃種別', getValue: getAttackName, align: 'left' },
-          { label: '最終攻撃力', getValue: createNightCellRenderer(false) },
-          { label: 'クリティカル', getValue: createNightCellRenderer(true) }
-        ]}
-      />
+      <Box mt={1}>
+        <Typography variant="subtitle2">夜戦</Typography>
+        <Table
+          data={nightAttacks}
+          columns={[
+            { label: '攻撃種別', getValue: getAttackName, align: 'left' },
+            { label: '最終攻撃力', getValue: createNightCellRenderer(false) },
+            { label: 'クリティカル', getValue: createNightCellRenderer(true) }
+          ]}
+        />
+      </Box>
+
+      <Box mt={1}>
+        <Typography variant="subtitle2">砲撃支援</Typography>
+        <Table
+          data={[0]}
+          columns={[
+            { label: '最終攻撃力', getValue: createShellingSupportRenderer(false) },
+            { label: 'クリティカル', getValue: createShellingSupportRenderer(true) }
+          ]}
+        />
+      </Box>
+
       <Typography>装備命中 {ship.totalEquipmentStats(equip => equip.accuracy)}</Typography>
     </Paper>
   )

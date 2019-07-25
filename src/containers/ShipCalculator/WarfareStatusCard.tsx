@@ -11,7 +11,8 @@ import {
   Damage,
   calcDeadlyPower,
   calcEvasionValue,
-  BattleState
+  BattleState,
+  ShellingSupport
 } from 'kc-calculator'
 import { observer } from 'mobx-react-lite'
 
@@ -21,13 +22,30 @@ import Typography from '@material-ui/core/Typography'
 import Tooltip from '@material-ui/core/Tooltip'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import Checkbox from '@material-ui/core/Checkbox'
-import TextField from '@material-ui/core/TextField'
 
 import { toPercent } from '../../utils'
 import { Select, Table, Flexbox, NumberInput, LabeledValue } from '../../components'
 import ShellingStats from './ShellingStats'
 import { useInstallationTypeSelect, getAttackName } from './ShipStatusCard'
 import { ColumnProps } from '../../components/Table'
+
+const HitRateText: React.FC<{ hitRate: number; accuracyValue: number; evasionValue: number }> = ({
+  hitRate,
+  accuracyValue,
+  evasionValue
+}) => {
+  const factors: Array<{ label: string; value: number }> = [
+    { label: '攻撃側命中項', value: accuracyValue },
+    { label: '防御側回避項', value: evasionValue }
+  ]
+  const hitStatus = factors.map((factor, index) => <LabeledValue key={index} {...factor} />)
+
+  return (
+    <Tooltip enterDelay={500} title={hitStatus}>
+      <Typography variant="inherit">{toPercent(hitRate)}</Typography>
+    </Tooltip>
+  )
+}
 
 const damageToText = ({ min, max, scratchDamageProbability, isDeadly }: Damage) => {
   if (max === 0) {
@@ -82,18 +100,7 @@ const WarfareStatusCard: React.FC<WarfareStatusCardProps> = props => {
 
   const shellingHitRateCellRenderer = (specialAttack?: DayCombatSpecialAttack) => {
     const { accuracy, defenderEvasionValue, hitRate } = getShelling(specialAttack)
-
-    const factors: Array<{ label: string; value: number }> = [
-      { label: '攻撃側命中項', value: accuracy.value },
-      { label: '防御側回避項', value: defenderEvasionValue }
-    ]
-    const hitStatus = factors.map((factor, index) => <LabeledValue key={index} {...factor} />)
-
-    return (
-      <Tooltip enterDelay={500} title={hitStatus}>
-        <Typography variant="inherit">{toPercent(hitRate)}</Typography>
-      </Tooltip>
-    )
+    return <HitRateText hitRate={hitRate} accuracyValue={accuracy.value} evasionValue={defenderEvasionValue} />
   }
 
   const createShellingDamageRenderer = (isCritical: boolean) => (specialAttack?: DayCombatSpecialAttack) => {
@@ -121,18 +128,7 @@ const WarfareStatusCard: React.FC<WarfareStatusCardProps> = props => {
 
   const nightAttackHitRateRenderer = (specialAttack?: NightCombatSpecialAttack) => {
     const { accuracy, defenderEvasionValue, hitRate } = getNightAttack(specialAttack)
-
-    const factors: Array<{ label: string; value: number }> = [
-      { label: '攻撃側命中項', value: accuracy.value },
-      { label: '防御側回避項', value: defenderEvasionValue }
-    ]
-    const hitStatus = factors.map((factor, index) => <LabeledValue key={index} {...factor} />)
-
-    return (
-      <Tooltip title={hitStatus}>
-        <Typography variant="inherit">{toPercent(hitRate)}</Typography>
-      </Tooltip>
-    )
+    return <HitRateText hitRate={hitRate} accuracyValue={accuracy.value} evasionValue={defenderEvasionValue} />
   }
 
   const createNightAttackCellRenderer = (isCritical: boolean) => (specialAttack?: NightCombatSpecialAttack) => {
@@ -167,6 +163,20 @@ const WarfareStatusCard: React.FC<WarfareStatusCardProps> = props => {
     ]
   }
 
+  const getShellingSupport = (isCritical = false) =>
+    new ShellingSupport(battleState, attacker, defender, isCritical, eventMapModifier, remainingAmmoModifier)
+
+  const shellingSupportHitRateRenderer = () => {
+    const { accuracy, defenderEvasionValue, hitRate } = getShellingSupport()
+    return <HitRateText hitRate={hitRate} accuracyValue={accuracy.value} evasionValue={defenderEvasionValue} />
+  }
+
+  const shellingSupportColumns = [
+    { label: '命中率', getValue: shellingSupportHitRateRenderer },
+    { label: 'ダメージ', getValue: () => damageToText(getShellingSupport().damage) },
+    { label: 'クリティカル', getValue: () => damageToText(getShellingSupport(true).damage) }
+  ]
+
   return (
     <Paper style={{ width: 8 * 60, padding: 8 }}>
       <Box display="flex" alignItems="end">
@@ -185,9 +195,17 @@ const WarfareStatusCard: React.FC<WarfareStatusCardProps> = props => {
       <Typography>砲撃戦</Typography>
       <Table data={attacks} columns={dayCombatColumns} />
 
-      <Flexbox mt={1} />
-      <Typography>夜戦</Typography>
-      <Table data={nightAttacks} columns={nightAttackColumns} />
+      <Box mt={1}>
+        <Typography>夜戦</Typography>
+        <Table data={nightAttacks} columns={nightAttackColumns} />
+      </Box>
+
+      {isExperiment && (
+        <Box mt={1}>
+          <Typography>砲撃支援</Typography>
+          <Table data={[0]} columns={shellingSupportColumns} />
+        </Box>
+      )}
     </Paper>
   )
 }
