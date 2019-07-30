@@ -85,10 +85,12 @@ const ShipCalculator: React.FC<ShipCalculatorProps> = ({ ship }) => {
   const [fitGunBonus, setFitGunBonus] = useState(0)
   const [remainingAmmoModifier, setRemainingAmmoModifier] = useState(1)
   const { fleetType, formation, engagement, role, airControlState, isFlagship } = state
+  const [isEnemy, setIsEnemy] = useState(false)
 
-  const side = Side.Player
+  const attackerSide = isEnemy ? Side.Enemy : Side.Player
+  const defenderSide = isEnemy ? Side.Player : Side.Enemy
   const battleState: BattleState = { engagement, airControlState }
-  const attacker = { ship: ship.asKcObject, side, isFlagship, fleetType, role, formation, engagement }
+  const attacker = { ship: ship.asKcObject, side: attackerSide, isFlagship, fleetType, role, formation, engagement }
 
   ship.increased.firepower
 
@@ -153,6 +155,12 @@ const ShipCalculator: React.FC<ShipCalculatorProps> = ({ ship }) => {
           <Select label="敵艦隊種別" style={{ width: 8 * 15 }} {...form.enemyFleetType} />
           <FormControlLabel label="夜間触接" control={<Checkbox {...nightContactCheck} />} />
           {isExperiment && <NumberInput label="フィット砲補正" value={fitGunBonus} onChange={setFitGunBonus} />}
+          <FormControlLabel
+            label="敵側"
+            value={isEnemy}
+            onChange={() => setIsEnemy(value => !value)}
+            control={<Checkbox />}
+          />
         </Box>
 
         <Box display="flex" flexWrap="wrap" justifyContent="space-between">
@@ -177,7 +185,7 @@ const ShipCalculator: React.FC<ShipCalculatorProps> = ({ ship }) => {
               attacker={attacker}
               defender={{
                 ship: enemy.asKcObject,
-                side: Side.Enemy,
+                side: defenderSide,
                 isFlagship: false,
                 fleetType: state.enemyFleetType,
                 role: state.enemyRole,

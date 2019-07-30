@@ -29,11 +29,13 @@ import ShellingStats from './ShellingStats'
 import { useInstallationTypeSelect, getAttackName } from './ShipStatusCard'
 import { ColumnProps } from '../../components/Table'
 
-const HitRateText: React.FC<{ hitRate: number; accuracyValue: number; evasionValue: number }> = ({
-  hitRate,
-  accuracyValue,
-  evasionValue
-}) => {
+const HitRateText: React.FC<{
+  hitRate: number
+  criticalRate?: number
+  accuracyValue: number
+  evasionValue: number
+}> = ({ hitRate, criticalRate, accuracyValue, evasionValue }) => {
+  const criticalText = criticalRate ? `(${toPercent(criticalRate)})` : ''
   const factors: Array<{ label: string; value: number }> = [
     { label: '攻撃側命中項', value: accuracyValue },
     { label: '防御側回避項', value: evasionValue }
@@ -42,7 +44,10 @@ const HitRateText: React.FC<{ hitRate: number; accuracyValue: number; evasionVal
 
   return (
     <Tooltip enterDelay={500} title={hitStatus}>
-      <Typography variant="inherit">{toPercent(hitRate)}</Typography>
+      <Typography variant="inherit">
+        {toPercent(hitRate)}
+        {criticalText}
+      </Typography>
     </Tooltip>
   )
 }
@@ -99,8 +104,15 @@ const WarfareStatusCard: React.FC<WarfareStatusCardProps> = props => {
     )
 
   const shellingHitRateCellRenderer = (specialAttack?: DayCombatSpecialAttack) => {
-    const { accuracy, defenderEvasionValue, hitRate } = getShelling(specialAttack)
-    return <HitRateText hitRate={hitRate} accuracyValue={accuracy.value} evasionValue={defenderEvasionValue} />
+    const { accuracy, defenderEvasionValue, hitRate, criticalRate } = getShelling(specialAttack)
+    return (
+      <HitRateText
+        hitRate={hitRate}
+        criticalRate={criticalRate}
+        accuracyValue={accuracy.value}
+        evasionValue={defenderEvasionValue}
+      />
+    )
   }
 
   const createShellingDamageRenderer = (isCritical: boolean) => (specialAttack?: DayCombatSpecialAttack) => {
@@ -148,12 +160,20 @@ const WarfareStatusCard: React.FC<WarfareStatusCardProps> = props => {
     { label: 'クリティカル', getValue: createNightAttackCellRenderer(true) }
   ]
 
+  const taihaRateRenderer = (specialAttack?: DayCombatSpecialAttack) => {
+    const normalShelling = getShelling(specialAttack)
+    const criticalShelling = getShelling(specialAttack, true)
+    const taihaRate = normalShelling.taihaRate + criticalShelling.taihaRate
+    return <Typography variant="inherit">{toPercent(taihaRate)}</Typography>
+  }
+
   if (isExperiment) {
     dayCombatColumns = [
       { label: '攻撃種別', getValue: getAttackName, align: 'left' },
-      { label: '命中率', getValue: shellingHitRateCellRenderer },
+      { label: '命中率(クリ率)', getValue: shellingHitRateCellRenderer },
       { label: 'ヒット', getValue: createShellingDamageRenderer(false) },
-      { label: 'クリティカル', getValue: createShellingDamageRenderer(true) }
+      { label: 'クリティカル', getValue: createShellingDamageRenderer(true) },
+      { label: '大破率', getValue: taihaRateRenderer }
     ]
     nightAttackColumns = [
       { label: '攻撃種別', getValue: getAttackName, align: 'left' },
