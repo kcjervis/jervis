@@ -87,6 +87,8 @@ const WarfareStatusCard: React.FC<WarfareStatusCardProps> = props => {
     isExperiment
   } = props
 
+  const { luck } = defender.ship.stats
+
   const [eventMapModifier, setEventMapModifier] = useState(1)
   const installationTypeSelect = useInstallationTypeSelect(defender.ship.installationType)
 
