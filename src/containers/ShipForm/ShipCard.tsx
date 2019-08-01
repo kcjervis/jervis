@@ -8,7 +8,7 @@ import Box from '@material-ui/core/Box'
 import InputAdornment from '@material-ui/core/InputAdornment'
 import Typography from '@material-ui/core/Typography'
 import Tooltip from '@material-ui/core/Tooltip'
-import { makeStyles } from '@material-ui/core/styles'
+import { makeStyles, createStyles } from '@material-ui/core/styles'
 
 import { ShipImage, InfoButton, ClearButton, UpdateButton } from '../../components'
 import EquipmentField from '../EquipmentField'
@@ -25,7 +25,8 @@ const statsWidth = 8 * 28
 const useStyles = makeStyles({
   root: {
     display: 'flex',
-    padding: 4
+    padding: 4,
+    width: 8 * 60
   },
   stats: {
     width: statsWidth

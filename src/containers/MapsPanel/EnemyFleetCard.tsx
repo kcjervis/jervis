@@ -39,9 +39,15 @@ const EnemyFleetCard: React.FC<EnemyFleetCardProps> = ({ fleet, name, onSelect }
 
   return (
     <Paper style={{ margin: 16 }}>
-      {onSelect && <Button onClick={handleSelect}>編成を選択</Button>}
-      <InfoButton title="開く" size="small" onClick={handleOpen} />
-      <SaveButton title="編成を保存" size="small" onClick={handleClick} />
+      {onSelect ? (
+        <Button onClick={handleSelect}>編成を選択</Button>
+      ) : (
+        <>
+          <InfoButton title="開く" size="small" onClick={handleOpen} />
+          <SaveButton title="編成を保存" size="small" onClick={handleClick} />
+        </>
+      )}
+
       <EnemyFleet battleFleet={fleet} disableTooltip={!setting.experiment} />
     </Paper>
   )

@@ -40,7 +40,7 @@ const mapToLabel = ({ mapId }: { mapId: number }) => `${Math.floor(mapId / 10)} 
 const getCellLabel = (cell: { point: string }) => cell.point
 const getDifficultyLabel = (difficulty: number) => ['丁', '丙', '乙', '甲'][difficulty - 1]
 
-type MapsPanelProps = {
+export type MapsPanelProps = {
   onSelect?: (operation: ObservableOperation) => void
 }
 

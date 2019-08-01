@@ -55,8 +55,6 @@ type ShipStatusCardProps = {
   shipInformation: ShipInformation
   combinedFleetFactor: number
   specialAttackRate: ReturnType<typeof DayCombatSpecialAttack.calcRate>
-
-  nightAttacks: Array<NightCombatSpecialAttack | undefined>
   nightContactModifier: number
 } & PaperProps
 
@@ -67,13 +65,16 @@ const ShipShellingStatusCard: React.FC<ShipStatusCardProps> = props => {
     shipInformation,
     combinedFleetFactor,
     specialAttackRate,
-    nightAttacks,
     nightContactModifier,
     className,
     ...paperProps
   } = props
   const { ship } = shipInformation
   const shellingStatus = new ShipShellingStatus(ship)
+
+  const nightAttacks = new Array<NightCombatSpecialAttack | undefined>(undefined).concat(
+    NightCombatSpecialAttack.getPossibleSpecialAttacks(shipInformation.ship)
+  )
 
   const apCheck = useCheck()
   const installationTypeSelect = useInstallationTypeSelect()

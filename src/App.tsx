@@ -12,7 +12,6 @@ import Background from './Background'
 import MapsPanel from './containers/MapsPanel'
 import { ShipSelectPanel, Dialogs, Home, SettingPanel } from './containers'
 
-import OperationPage from './containers/OperationPage'
 import OperationsPage from './containers/OperationsPage'
 
 import AppsPage from './containers/AppsPage'

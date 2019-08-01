@@ -11,7 +11,9 @@ import {
   Shelling,
   NightCombatSpecialAttack,
   ShipShellingStatus,
-  BattleState
+  BattleState,
+  nonNullable,
+  IShip
 } from 'kc-calculator'
 
 import FormControlLabel from '@material-ui/core/FormControlLabel'
@@ -23,11 +25,12 @@ import Button from '@material-ui/core/Button'
 
 import ShipStatusCard from './ShipStatusCard'
 import WarfareStatusCard from './WarfareStatusCard'
-import { Select, RadioGroup, NumberInput } from '../../components'
+import { Select, RadioGroup, NumberInput, Flexbox } from '../../components'
 import { ObservableShip, EnemyShipStoreContext, SettingStoreContext } from '../../stores'
 import ShipCard from '../ShipForm/ShipCard'
 import { useSelect, useInput, useCheck } from '../../hooks'
 import { ShipSelectPanelStateContext } from '../ShipSelectPanel'
+import { MapsPanelStateContext } from '../MapsPanel'
 
 const getRoleLabel = (role: ShipRole) => (role === 'Main' ? '主力艦' : '護衛艦')
 
@@ -79,6 +82,7 @@ interface ShipCalculatorProps {
 
 const ShipCalculator: React.FC<ShipCalculatorProps> = ({ ship }) => {
   const shipSelect = useContext(ShipSelectPanelStateContext)
+  const mapsPanelState = useContext(MapsPanelStateContext)
   const enemyShipStore = useContext(EnemyShipStoreContext)
   const { form, state } = useBattleStateForm()
   const [fleetLosModifier, setFleetLosModifier] = useState(0)
@@ -109,6 +113,17 @@ const ShipCalculator: React.FC<ShipCalculatorProps> = ({ ship }) => {
     [shipSelect, enemyShipStore]
   )
 
+  const handleMapSelect = useCallback(() => {
+    mapsPanelState.onOpen({
+      onSelect: enemyOperation => {
+        enemyOperation.fleets
+          .flatMap(fleet => fleet.ships)
+          .filter(nonNullable)
+          .forEach(enemyShipStore.pushShip)
+      }
+    })
+  }, [mapsPanelState, enemyShipStore])
+
   const attacks = new Array<DayCombatSpecialAttack | undefined>(undefined).concat(specialAttackRate.attacks)
 
   const combinedFleetFactor = Shelling.getCombinedFleetFactor(attacker, {
@@ -118,13 +133,20 @@ const ShipCalculator: React.FC<ShipCalculatorProps> = ({ ship }) => {
     role: state.enemyRole
   })
 
-  const nightAttacks = new Array<NightCombatSpecialAttack | undefined>(undefined).concat(
-    NightCombatSpecialAttack.getPossibleSpecialAttacks(attacker.ship)
-  )
   const nightContactCheck = useCheck()
   const nightContactModifier = nightContactCheck.checked ? 5 : 0
 
   const isExperiment = useContext(SettingStoreContext).experiment
+  const getEnemyInfo = (ship: IShip) => {
+    return {
+      ship,
+      side: defenderSide,
+      isFlagship: false,
+      fleetType: state.enemyFleetType,
+      role: state.enemyRole,
+      formation: state.enemyFormation
+    }
+  }
 
   return (
     <Box>
@@ -163,8 +185,8 @@ const ShipCalculator: React.FC<ShipCalculatorProps> = ({ ship }) => {
           />
         </Box>
 
-        <Box display="flex" flexWrap="wrap" justifyContent="space-between">
-          <ShipCard style={{ width: 8 * 60 }} ship={ship} defaultStatsExpanded={true} disableButton />
+        <Box mt={1} display="flex" flexWrap="wrap" justifyContent="space-between">
+          <ShipCard ship={ship} defaultStatsExpanded={true} disableButton />
 
           <ShipStatusCard
             style={{ width: 8 * 60 }}
@@ -173,34 +195,25 @@ const ShipCalculator: React.FC<ShipCalculatorProps> = ({ ship }) => {
             combinedFleetFactor={combinedFleetFactor}
             nightContactModifier={nightContactModifier}
             specialAttackRate={specialAttackRate}
-            nightAttacks={nightAttacks}
           />
         </Box>
 
         {enemyShipStore.ships.map(enemy => (
-          <Box key={enemy.id} mt={1} display="flex" flexWrap="wrap" justifyContent="space-between">
-            <ShipCard style={{ width: 8 * 60 }} ship={enemy} visibleInfo={false} defaultStatsExpanded={true} />
+          <Box key={enemy.id} mt={1}>
             <WarfareStatusCard
               battleState={battleState}
-              attacker={attacker}
-              defender={{
-                ship: enemy.asKcObject,
-                side: defenderSide,
-                isFlagship: false,
-                fleetType: state.enemyFleetType,
-                role: state.enemyRole,
-                formation: state.enemyFormation
-              }}
+              shipInformation={attacker}
+              enemyInformation={getEnemyInfo(enemy.asKcObject)}
+              enemyShip={enemy}
               remainingAmmoModifier={remainingAmmoModifier}
               nightContactModifier={nightContactModifier}
-              attacks={attacks}
-              nightAttacks={nightAttacks}
               fitGunBonus={fitGunBonus}
               isExperiment={isExperiment}
             />
           </Box>
         ))}
         <Button onClick={handleAddEnemyClick}>敵と比較</Button>
+        <Button onClick={handleMapSelect}>マップから</Button>
       </Box>
     </Box>
   )
