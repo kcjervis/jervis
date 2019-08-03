@@ -124,8 +124,6 @@ const ShipCalculator: React.FC<ShipCalculatorProps> = ({ ship }) => {
     })
   }, [mapsPanelState, enemyShipStore])
 
-  const attacks = new Array<DayCombatSpecialAttack | undefined>(undefined).concat(specialAttackRate.attacks)
-
   const combinedFleetFactor = Shelling.getCombinedFleetFactor(attacker, {
     side: Side.Enemy,
     fleetType: state.enemyFleetType,
@@ -161,6 +159,12 @@ const ShipCalculator: React.FC<ShipCalculatorProps> = ({ ship }) => {
           <Select {...form.engagement} />
           <Select {...form.airControlState} />
           <FormControlLabel label="旗艦" control={<Checkbox {...form.isFlagship} />} />
+          <FormControlLabel
+            label="敵側"
+            value={isEnemy}
+            onChange={() => setIsEnemy(value => !value)}
+            control={<Checkbox />}
+          />
           {visibleRoleSelect && <RadioGroup {...form.role} />}
         </Box>
 
@@ -174,15 +178,13 @@ const ShipCalculator: React.FC<ShipCalculatorProps> = ({ ship }) => {
             max={1}
             step={0.1}
           />
-          <Select label="敵艦隊種別" style={{ width: 8 * 15 }} {...form.enemyFleetType} />
           <FormControlLabel label="夜間触接" control={<Checkbox {...nightContactCheck} />} />
           {isExperiment && <NumberInput label="フィット砲補正" value={fitGunBonus} onChange={setFitGunBonus} />}
-          <FormControlLabel
-            label="敵側"
-            value={isEnemy}
-            onChange={() => setIsEnemy(value => !value)}
-            control={<Checkbox />}
-          />
+        </Box>
+
+        <Box display="flex" mt={1}>
+          <Select label="相手艦隊種別" style={{ width: 8 * 15 }} {...form.enemyFleetType} />
+          <Select label="相手陣形" {...form.enemyFormation} />
         </Box>
 
         <Box mt={1} display="flex" flexWrap="wrap" justifyContent="space-between">
