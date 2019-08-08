@@ -19,7 +19,6 @@ type EnemyFleetCardProps = {
 const EnemyFleetCard: React.FC<EnemyFleetCardProps> = ({ fleet, name, onSelect }) => {
   const { persistentOperationStore, temporaryOperationStore } = useOperationStore()
   const { openOperation } = useWorkspace()
-  const setting = useContext(SettingStoreContext)
   const handleOpen = () => {
     const operation = battleFleetToOperation(fleet)
     operation.name = name
@@ -48,7 +47,7 @@ const EnemyFleetCard: React.FC<EnemyFleetCardProps> = ({ fleet, name, onSelect }
         </>
       )}
 
-      <EnemyFleet battleFleet={fleet} disableTooltip={!setting.experiment} />
+      <EnemyFleet battleFleet={fleet} />
     </Paper>
   )
 }

@@ -25,6 +25,9 @@ const useStyles = makeStyles(
       width: 24,
       height: 16,
       lineHeight: 1
+    },
+    label: {
+      whiteSpace: 'nowrap'
     }
   })
 )
@@ -126,6 +129,7 @@ export default function NumberInput({ value, onChange, min, max, step = 1, ...te
       value={inputValue}
       onChange={handleChange}
       onBlur={handleBlur}
+      InputLabelProps={{ className: classes.label }}
       InputProps={{
         endAdornment: (
           <InputAdornment position="end" style={{ visibility: isHovered ? undefined : 'hidden' }}>

@@ -30,8 +30,8 @@ const getFighterPowers = (fp: number) => {
   return `確保:${gte(3)} 優勢:${gte(1.5)} 均衡:${gt(2 / 3)} 劣勢:${gt(1 / 3)}`
 }
 
-const EnemyShipNameplate: React.FC<{ ship: IShip; formation: Formation; disableTooltip: boolean }> = props => {
-  const { ship, formation, disableTooltip } = props
+const EnemyShipNameplate: React.FC<{ ship: IShip; formation: Formation }> = props => {
+  const { ship, formation } = props
   const deadlyPower = calcDeadlyPower(ship)
   const evasionValue = calcEvasionValue(ship, formation.getModifiersWithRole('Main').shelling.evasion)
   const title = (
@@ -41,7 +41,7 @@ const EnemyShipNameplate: React.FC<{ ship: IShip; formation: Formation; disableT
     </>
   )
   return (
-    <Tooltip disableHoverListener={disableTooltip} title={title}>
+    <Tooltip title={title}>
       <span>
         <ShipNameplate name={ship.name} masterId={ship.masterId} />
       </span>
@@ -49,11 +49,11 @@ const EnemyShipNameplate: React.FC<{ ship: IShip; formation: Formation; disableT
   )
 }
 
-const shipsRenderer = (ships: IShip[], formation: Formation, disableTooltip: boolean) => {
+const shipsRenderer = (ships: IShip[], formation: Formation) => {
   return (
     <>
       {ships.map((ship, index) => (
-        <EnemyShipNameplate key={index} ship={ship} formation={formation} disableTooltip={disableTooltip} />
+        <EnemyShipNameplate key={index} ship={ship} formation={formation} />
       ))}
       <Divider />
     </>
@@ -62,11 +62,10 @@ const shipsRenderer = (ships: IShip[], formation: Formation, disableTooltip: boo
 
 export interface EnemyFleetProps {
   battleFleet: BattleFleet
-  disableTooltip?: boolean
   difficulty?: TEventDifficulty
 }
 
-const EnemyFleet: React.FC<EnemyFleetProps> = ({ battleFleet, difficulty, disableTooltip = true }) => {
+const EnemyFleet: React.FC<EnemyFleetProps> = ({ battleFleet, difficulty }) => {
   const { escortFleet, formation } = battleFleet
 
   const allPlanes = battleFleet.allShips.flatMap(ship => ship.planes)
@@ -80,8 +79,8 @@ const EnemyFleet: React.FC<EnemyFleetProps> = ({ battleFleet, difficulty, disabl
 
   return (
     <div>
-      {shipsRenderer(battleFleet.mainFleet.nonNullableShips, formation, disableTooltip)}
-      {escortFleet && shipsRenderer(escortFleet.nonNullableShips, formation, disableTooltip)}
+      {shipsRenderer(battleFleet.mainFleet.nonNullableShips, formation)}
+      {escortFleet && shipsRenderer(escortFleet.nonNullableShips, formation)}
 
       <Typography>
         {difficulty && difficultyToString(difficulty)} {formation.name}

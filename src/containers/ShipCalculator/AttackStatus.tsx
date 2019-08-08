@@ -73,7 +73,6 @@ type AttackStatusProps = {
   nightContactModifier?: number
   remainingAmmoModifier?: number
   fitGunBonus?: number
-  isExperiment: boolean
 }
 
 const AttackStatus: React.FC<AttackStatusProps> = props => {
@@ -85,8 +84,7 @@ const AttackStatus: React.FC<AttackStatusProps> = props => {
     manualInstallationType,
     nightContactModifier,
     remainingAmmoModifier,
-    fitGunBonus,
-    isExperiment
+    fitGunBonus
   } = props
 
   const classes = useStyles()
@@ -159,17 +157,6 @@ const AttackStatus: React.FC<AttackStatusProps> = props => {
     return text
   }
 
-  let dayCombatColumns = [
-    { label: '攻撃種別', getValue: getAttackName, align: 'left' as const },
-    { label: 'ヒット', getValue: createShellingDamageRenderer(false) },
-    { label: 'クリティカル', getValue: createShellingDamageRenderer(true) }
-  ]
-  let nightAttackColumns: Array<ColumnProps<NightCombatSpecialAttack | undefined>> = [
-    { label: '攻撃種別', getValue: getAttackName, align: 'left' as const },
-    { label: 'ダメージ', getValue: createNightAttackCellRenderer(false) },
-    { label: 'クリティカル', getValue: createNightAttackCellRenderer(true) }
-  ]
-
   const taihaRateRenderer = (specialAttack?: DayCombatSpecialAttack) => {
     const normalShelling = getShelling(specialAttack)
     const criticalShelling = getShelling(specialAttack, true)
@@ -177,21 +164,19 @@ const AttackStatus: React.FC<AttackStatusProps> = props => {
     return <Typography variant="inherit">{toPercent(taihaRate)}</Typography>
   }
 
-  if (isExperiment) {
-    dayCombatColumns = [
-      { label: '攻撃種別', getValue: getAttackName, align: 'left' },
-      { label: '命中率(クリ率)', getValue: shellingHitRateCellRenderer },
-      { label: 'ヒット', getValue: createShellingDamageRenderer(false) },
-      { label: 'クリティカル', getValue: createShellingDamageRenderer(true) },
-      { label: '命中込み大破率', getValue: taihaRateRenderer }
-    ]
-    nightAttackColumns = [
-      { label: '攻撃種別', getValue: getAttackName, align: 'left' },
-      { label: '命中率', getValue: nightAttackHitRateRenderer },
-      { label: 'ダメージ', getValue: createNightAttackCellRenderer(false) },
-      { label: 'クリティカル', getValue: createNightAttackCellRenderer(true) }
-    ]
-  }
+  const dayCombatColumns: Array<ColumnProps<DayCombatSpecialAttack | undefined>> = [
+    { label: '攻撃種別', getValue: getAttackName, align: 'left' },
+    { label: '命中率(クリ率)', getValue: shellingHitRateCellRenderer },
+    { label: 'ヒット', getValue: createShellingDamageRenderer(false) },
+    { label: 'クリティカル', getValue: createShellingDamageRenderer(true) },
+    { label: '命中込み大破率', getValue: taihaRateRenderer }
+  ]
+  const nightAttackColumns: Array<ColumnProps<NightCombatSpecialAttack | undefined>> = [
+    { label: '攻撃種別', getValue: getAttackName, align: 'left' },
+    { label: '命中率', getValue: nightAttackHitRateRenderer },
+    { label: 'ダメージ', getValue: createNightAttackCellRenderer(false) },
+    { label: 'クリティカル', getValue: createNightAttackCellRenderer(true) }
+  ]
 
   const getShellingSupport = (isCritical = false) =>
     new ShellingSupport(battleState, attacker, defender, isCritical, eventMapModifier, remainingAmmoModifier)
@@ -218,12 +203,10 @@ const AttackStatus: React.FC<AttackStatusProps> = props => {
         <Typography variant="subtitle2">夜戦</Typography>
         <Table data={nightAttacks} columns={nightAttackColumns} />
       </Box>
-      {isExperiment && (
-        <Box mt={1}>
-          <Typography variant="subtitle2">砲撃支援</Typography>
-          <Table data={[0]} columns={shellingSupportColumns} />
-        </Box>
-      )}
+      <Box mt={1}>
+        <Typography variant="subtitle2">砲撃支援</Typography>
+        <Table data={[0]} columns={shellingSupportColumns} />
+      </Box>
     </div>
   )
 }

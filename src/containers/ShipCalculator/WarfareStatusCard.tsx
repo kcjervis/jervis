@@ -17,7 +17,15 @@ import ShipCard from '../ShipForm/ShipCard'
 const useStyles = makeStyles(
   createStyles({
     root: {
-      padding: 8
+      padding: 8,
+      display: 'flex'
+    },
+    enemyTypeSelect: {
+      minWidth: 80,
+      marginLeft: 8
+    },
+    attackStatus: {
+      margin: 8
     }
   })
 )
@@ -31,7 +39,7 @@ type WarfareStatusCardProps = {
   nightContactModifier?: number
   remainingAmmoModifier?: number
   fitGunBonus?: number
-  isExperiment: boolean
+  isAttack?: boolean
 }
 
 const WarfareStatusCard: React.FC<WarfareStatusCardProps> = props => {
@@ -43,7 +51,7 @@ const WarfareStatusCard: React.FC<WarfareStatusCardProps> = props => {
     nightContactModifier,
     remainingAmmoModifier,
     fitGunBonus,
-    isExperiment
+    isAttack
   } = props
 
   const classes = useStyles()
@@ -53,45 +61,36 @@ const WarfareStatusCard: React.FC<WarfareStatusCardProps> = props => {
   const [eventMapModifier, setEventMapModifier] = useState(1)
   const installationTypeSelect = useInstallationTypeSelect(enemyInformation.ship.installationType)
 
+  let attackStatusNode: React.ReactElement
+  if (isAttack) {
+    attackStatusNode = (
+      <AttackStatus
+        battleState={battleState}
+        attacker={shipInformation}
+        defender={enemyInformation}
+        eventMapModifier={eventMapModifier}
+        manualInstallationType={installationTypeSelect.value}
+        nightContactModifier={nightContactModifier}
+        remainingAmmoModifier={remainingAmmoModifier}
+        fitGunBonus={fitGunBonus}
+      />
+    )
+  } else {
+    attackStatusNode = <AttackStatus battleState={battleState} attacker={enemyInformation} defender={shipInformation} />
+  }
+
   return (
     <Paper className={classes.root}>
-      <Flexbox flexWrap="wrap">
-        <ShipCard ship={enemyShip} visibleInfo={false} elevation={0} />
-        <Flexbox ml={4} alignItems="end" justifyContent="center">
-          <Select label="敵種別" style={{ minWidth: 80, marginLeft: 8 }} {...installationTypeSelect} />
-          <NumberInput
-            label="イベント特効(a11)"
-            style={{ width: 8 * 17 }}
-            step={0.1}
-            value={eventMapModifier}
-            onChange={setEventMapModifier}
-          />
-
-          {isExperiment && (
-            <Typography variant="caption">確殺攻撃力: {calcDeadlyPower(enemyInformation.ship)}</Typography>
-          )}
+      <Box>
+        <Flexbox alignItems="end">
+          <Select className={classes.enemyTypeSelect} label="敵種別" {...installationTypeSelect} />
+          <NumberInput label="イベント特効(a11)" step={0.1} value={eventMapModifier} onChange={setEventMapModifier} />
+          <Typography variant="caption">確殺攻撃力: {calcDeadlyPower(enemyInformation.ship).toFixed(4)}</Typography>
         </Flexbox>
-      </Flexbox>
+        <ShipCard ship={enemyShip} visibleInfo={false} elevation={0} />
+      </Box>
 
-      <Flexbox flexWrap="wrap" justifyContent="space-between">
-        <AttackStatus
-          battleState={battleState}
-          attacker={shipInformation}
-          defender={enemyInformation}
-          eventMapModifier={eventMapModifier}
-          manualInstallationType={installationTypeSelect.value}
-          nightContactModifier={nightContactModifier}
-          remainingAmmoModifier={remainingAmmoModifier}
-          fitGunBonus={fitGunBonus}
-          isExperiment={isExperiment}
-        />
-        <AttackStatus
-          battleState={battleState}
-          attacker={enemyInformation}
-          defender={shipInformation}
-          isExperiment={isExperiment}
-        />
-      </Flexbox>
+      <div className={classes.attackStatus}>{attackStatusNode}</div>
     </Paper>
   )
 }

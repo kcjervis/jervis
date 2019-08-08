@@ -124,6 +124,9 @@ const ShipCalculator: React.FC<ShipCalculatorProps> = ({ ship }) => {
     })
   }, [mapsPanelState, enemyShipStore])
 
+  type DisplayMode = 'Attack' | 'Defense'
+  const displayModeSelect = useSelect<DisplayMode>(['Attack', 'Defense'])
+
   const combinedFleetFactor = Shelling.getCombinedFleetFactor(attacker, {
     side: Side.Enemy,
     fleetType: state.enemyFleetType,
@@ -134,7 +137,6 @@ const ShipCalculator: React.FC<ShipCalculatorProps> = ({ ship }) => {
   const nightContactCheck = useCheck()
   const nightContactModifier = nightContactCheck.checked ? 5 : 0
 
-  const isExperiment = useContext(SettingStoreContext).experiment
   const getEnemyInfo = (ship: IShip) => {
     return {
       ship,
@@ -178,14 +180,15 @@ const ShipCalculator: React.FC<ShipCalculatorProps> = ({ ship }) => {
             max={1}
             step={0.1}
           />
+          <NumberInput label="フィット砲補正" value={fitGunBonus} onChange={setFitGunBonus} />
           <FormControlLabel label="夜間触接" control={<Checkbox {...nightContactCheck} />} />
-          {isExperiment && <NumberInput label="フィット砲補正" value={fitGunBonus} onChange={setFitGunBonus} />}
         </Box>
 
-        <Box display="flex" mt={1}>
+        <Flexbox alignItems="end" mt={1}>
+          <RadioGroup {...displayModeSelect} getOptionLabel={mode => (mode === 'Attack' ? '攻撃' : '防御')} />
           <Select label="相手艦隊種別" style={{ width: 8 * 15 }} {...form.enemyFleetType} />
           <Select label="相手陣形" {...form.enemyFormation} />
-        </Box>
+        </Flexbox>
 
         <Box mt={1} display="flex" flexWrap="wrap" justifyContent="space-between">
           <ShipCard ship={ship} defaultStatsExpanded={true} disableButton />
@@ -210,7 +213,7 @@ const ShipCalculator: React.FC<ShipCalculatorProps> = ({ ship }) => {
               remainingAmmoModifier={remainingAmmoModifier}
               nightContactModifier={nightContactModifier}
               fitGunBonus={fitGunBonus}
-              isExperiment={isExperiment}
+              isAttack={displayModeSelect.value === 'Attack'}
             />
           </Box>
         ))}
