@@ -3,6 +3,7 @@ const path = require('path')
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin')
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 
+/** @type import('webpack').Configuration */
 module.exports = (env, argv) => {
   const { mode } = argv
   const rules = [

@@ -183,7 +183,7 @@ const AttackStatus: React.FC<AttackStatusProps> = props => {
       { label: '命中率(クリ率)', getValue: shellingHitRateCellRenderer },
       { label: 'ヒット', getValue: createShellingDamageRenderer(false) },
       { label: 'クリティカル', getValue: createShellingDamageRenderer(true) },
-      { label: '大破率', getValue: taihaRateRenderer }
+      { label: '命中込み大破率', getValue: taihaRateRenderer }
     ]
     nightAttackColumns = [
       { label: '攻撃種別', getValue: getAttackName, align: 'left' },
