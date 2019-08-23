@@ -1,5 +1,4 @@
 import { Proficiency } from 'kc-calculator/dist/objects/Gear'
-import { improvements } from '@jervis/data'
 import React from 'react'
 
 import Button from '@material-ui/core/Button'
@@ -23,7 +22,7 @@ const GearsSettingDialog: React.FC<GearsSettingDialogProps> = ({ gears, restoreS
 
   const handleImprovementChange = (value: number) => {
     gears
-      .filter(gear => improvements.includes(gear.masterId))
+      .filter(gear => gear.asKcObject.improvable)
       .forEach(gear => {
         gear.improvement = value
       })

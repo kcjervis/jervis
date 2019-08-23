@@ -152,6 +152,8 @@ const ShipCalculator: React.FC<ShipCalculatorProps> = ({ ship }) => {
     <Box>
       <Typography variant="caption" color="error">
         攻撃可否未実装(陸上にFBAや魚雷CIはできないので注意)
+        <br />
+        未実装なところが多いので参考程度に
       </Typography>
 
       <Box m={1} maxWidth={8 * 125} width="100%" margin="auto">

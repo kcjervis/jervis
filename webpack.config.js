@@ -39,23 +39,21 @@ module.exports = (env, argv) => {
   ]
   const plugins = [new ForkTsCheckerWebpackPlugin()]
 
-  rules.push({
-    test: /\.tsx?$/,
-    enforce: 'pre',
-    use: [
-      {
-        loader: 'eslint-loader',
-        options: {
-          fix: true,
-          formatter: 'codeFrame'
-        }
-      }
-    ],
-    exclude: /node_modules/
-  })
-
   if (mode === 'production') {
-
+    rules.push({
+      test: /\.tsx?$/,
+      enforce: 'pre',
+      use: [
+        {
+          loader: 'eslint-loader',
+          options: {
+            fix: true,
+            formatter: 'codeFrame'
+          }
+        }
+      ],
+      exclude: /node_modules/
+    })
     plugins.push(
       new BundleAnalyzerPlugin({
         analyzerMode: 'static'
