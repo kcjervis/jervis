@@ -20,14 +20,14 @@ const masterIdToDataObject = (masterId: number) => {
     masterId: master.id,
     level: 1,
     slots: master.slotCapacities.concat(),
-    equipments: master.equipments.map(equip => {
-      if (equip === undefined) {
+    equipments: master.equipment.map(gear => {
+      if (gear === undefined) {
         return undefined
       }
-      if (typeof equip === 'number') {
-        return { masterId: equip }
+      if (typeof gear === 'number') {
+        return { masterId: gear }
       }
-      return { masterId: equip.id, improvement: equip.improvement }
+      return { masterId: gear.id, improvement: gear.improvement }
     })
   }
 }

@@ -17,7 +17,7 @@ const EquipmentForm: React.FC<EquipmentFormProps> = props => {
   const { store, size } = props
   return (
     <div>
-      {store.equipments.map((item, index) => (
+      {store.gears.map((gear, index) => (
         <GearForm key={index} index={index} store={store} size={size} />
       ))}
     </div>

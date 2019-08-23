@@ -1,10 +1,10 @@
 import React from 'react'
 
-interface EquipmentImageProps extends React.ImgHTMLAttributes<HTMLImageElement> {
+interface GearImageProps extends React.ImgHTMLAttributes<HTMLImageElement> {
   masterId: number
 }
 
-const EquipmentImage: React.FC<EquipmentImageProps> = ({ masterId, ...rest }) => {
+const GearImage: React.FC<GearImageProps> = ({ masterId, ...rest }) => {
   if (masterId > 500) {
     return null
   }
@@ -13,9 +13,9 @@ const EquipmentImage: React.FC<EquipmentImageProps> = ({ masterId, ...rest }) =>
       <img style={{ pointerEvents: 'none' }} src={require(`../images/equipments/itemOn/${masterId}.png`)} {...rest} />
     )
   } catch (error) {
-    console.log(`equipment ${masterId} image not found`)
+    console.log(`gear ${masterId} image not found`)
     return null
   }
 }
 
-export default EquipmentImage
+export default GearImage

@@ -1,4 +1,4 @@
-import { IEquipment } from 'kc-calculator'
+import { IGear } from 'kc-calculator'
 import { observer } from 'mobx-react-lite'
 import React, { useCallback, useContext } from 'react'
 
@@ -8,20 +8,20 @@ import VisibilityOff from '@material-ui/icons/VisibilityOff'
 
 import { DataTableCell } from '../../components/DataTable'
 
-import { EquipmentsDataStoreContext } from '../../stores'
+import { GearsDataStoreContext } from '../../stores'
 
-const EquipmentVisibilityCell: React.FC<{ equipment: IEquipment }> = ({ equipment }) => {
-  const equipmentsDataStore = useContext(EquipmentsDataStoreContext)
-  const { masterId } = equipment
-  const { blackList } = equipmentsDataStore
+const GearVisibilityCell: React.FC<{ gear: IGear }> = ({ gear }) => {
+  const gearsDataStore = useContext(GearsDataStoreContext)
+  const { masterId } = gear
+  const { blackList } = gearsDataStore
   const Visible = !blackList.includes(masterId)
   const toggleVisible = useCallback(() => {
     if (Visible) {
       blackList.push(masterId)
     } else {
-      equipmentsDataStore.blackList.splice(blackList.indexOf(masterId), 1)
+      gearsDataStore.blackList.splice(blackList.indexOf(masterId), 1)
     }
-  }, [equipment, Visible])
+  }, [gear, Visible])
   return (
     <DataTableCell>
       <IconButton onClick={toggleVisible}>{Visible ? <Visibility /> : <VisibilityOff color="primary" />}</IconButton>
@@ -29,4 +29,4 @@ const EquipmentVisibilityCell: React.FC<{ equipment: IEquipment }> = ({ equipmen
   )
 }
 
-export default observer(EquipmentVisibilityCell)
+export default observer(GearVisibilityCell)

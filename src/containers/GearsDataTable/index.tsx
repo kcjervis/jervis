@@ -2,7 +2,7 @@ import { makeStyles, Theme } from '@material-ui/core/styles'
 import { sortBy as lodashSortBy } from 'lodash-es'
 import { observer } from 'mobx-react-lite'
 import React, { useCallback, useContext, useMemo } from 'react'
-import { IEquipment } from 'kc-calculator'
+import { IGear } from 'kc-calculator'
 import clsx from 'clsx'
 
 import Box from '@material-ui/core/Box'
@@ -18,14 +18,14 @@ import SearchIcon from '@material-ui/icons/Search'
 
 import DataTable, { Sort } from '../../components/DataTable'
 
-import { EquipmentsDataStoreContext } from '../../stores'
+import { GearsDataStoreContext } from '../../stores'
 import { useColumns } from './columns'
-import EquipmentListSelect from './EquipmentListSelect'
-import { SelectButtons, EquipmentLabel, GearTooltip } from '../../components'
+import GearListSelect from './GearListSelect'
+import { SelectButtons, GearLabel, GearTooltip } from '../../components'
 import { useInput } from '../../hooks'
 
-type EquipmentFilter = (equip: IEquipment) => boolean
-type FilterButtonProps = { name: string; filter: EquipmentFilter }
+type GearFilter = (gear: IGear) => boolean
+type FilterButtonProps = { name: string; filter: GearFilter }
 
 const baseFilterButtons: FilterButtonProps[] = [
   {
@@ -62,30 +62,30 @@ const baseFilters = baseFilterButtons.map(({ filter }) => filter)
 const filterButtons: FilterButtonProps[] = [
   { name: 'all', filter: () => true },
   ...baseFilterButtons,
-  { name: 'other', filter: equip => !baseFilters.some(filter => filter(equip)) }
+  { name: 'other', filter: gear => !baseFilters.some(filter => filter(gear)) }
 ]
 
-type EquipmentsDataTableProps = {
+type GearsDataTableProps = {
   label?: string
-  filter?: (equipment: IEquipment) => boolean
-  onSelect?: (equipment: IEquipment) => void
+  filter?: (gear: IGear) => boolean
+  onSelect?: (gear: IGear) => void
 }
 
-const EquipmentsDataTable: React.FC<EquipmentsDataTableProps> = ({ label, filter, onSelect }) => {
-  const equipmentsDataStore = useContext(EquipmentsDataStoreContext)
+const GearsDataTable: React.FC<GearsDataTableProps> = ({ label, filter, onSelect }) => {
+  const gearsDataStore = useContext(GearsDataStoreContext)
   const {
-    equipmentsData,
+    gearsData,
     mode,
     visibleAlly,
     visibleAbysall,
     toggleVisibleAlly,
     toggleVisibleAbysall,
     filterName,
-    activeEquipmentList
-  } = equipmentsDataStore
+    activeGearList
+  } = gearsDataStore
 
   const handleModeChange = useCallback((event: React.ChangeEvent<SelectProps>) => {
-    equipmentsDataStore.mode = event.target.value as typeof mode
+    gearsDataStore.mode = event.target.value as typeof mode
   }, [])
 
   const columns = useColumns(mode, onSelect)
@@ -94,10 +94,10 @@ const EquipmentsDataTable: React.FC<EquipmentsDataTableProps> = ({ label, filter
 
   const data = useMemo(() => {
     if (searchInput.value !== '') {
-      return equipmentsData.filter(equip => equip.name.includes(searchInput.value))
+      return gearsData.filter(gear => gear.name.includes(searchInput.value))
     }
 
-    const filters: EquipmentFilter[] = []
+    const filters: GearFilter[] = []
     const found = filterButtons.find(({ name }) => name === filterName)
     if (found) {
       filters.push(found.filter)
@@ -105,15 +105,15 @@ const EquipmentsDataTable: React.FC<EquipmentsDataTableProps> = ({ label, filter
     if (filter) {
       filters.push(filter)
     }
-    return equipmentsDataStore.getVisibleEquipments(...filters).sort((equip0, equip1) => equip0.iconId - equip1.iconId)
-  }, [activeEquipmentList, filterName, filter, visibleAlly, visibleAbysall, searchInput.value])
+    return gearsDataStore.getVisibleGears(...filters).sort((gear0, gear1) => gear0.iconId - gear1.iconId)
+  }, [activeGearList, filterName, filter, visibleAlly, visibleAbysall, searchInput.value])
 
-  const customSort: Sort<IEquipment> = params => {
+  const customSort: Sort<IGear> = params => {
     const { sortBy, defaultSort, data: currentData } = params
     if (sortBy === 'name') {
       return lodashSortBy(currentData, 'iconId', 'masterId')
     } else if (sortBy === 'visibility') {
-      return lodashSortBy(currentData, ({ masterId }) => equipmentsDataStore.blackList.includes(masterId))
+      return lodashSortBy(currentData, ({ masterId }) => gearsDataStore.blackList.includes(masterId))
     } else {
       return defaultSort(params)
     }
@@ -121,10 +121,10 @@ const EquipmentsDataTable: React.FC<EquipmentsDataTableProps> = ({ label, filter
 
   let dataElement: React.ReactNode
   if (mode === 'simple') {
-    dataElement = data.map(equip => (
-      <GearTooltip key={equip.masterId} gear={equip}>
-        <Button onClick={() => onSelect && onSelect(equip)}>
-          <EquipmentLabel width={8 * 40} equipment={equip} />
+    dataElement = data.map(gear => (
+      <GearTooltip key={gear.masterId} gear={gear}>
+        <Button onClick={() => onSelect && onSelect(gear)}>
+          <GearLabel width={8 * 40} gear={gear} />
         </Button>
       </GearTooltip>
     ))
@@ -151,14 +151,14 @@ const EquipmentsDataTable: React.FC<EquipmentsDataTableProps> = ({ label, filter
           <MenuItem value="setting">非表示装備を表示</MenuItem>
         </Select>
 
-        <EquipmentListSelect store={equipmentsDataStore} />
+        <GearListSelect store={gearsDataStore} />
       </div>
 
       <Box mt={2}>
         <SelectButtons
           options={filterButtons.map(({ name }) => name)}
-          value={equipmentsDataStore.filterName}
-          onChange={name => (equipmentsDataStore.filterName = name)}
+          value={gearsDataStore.filterName}
+          onChange={name => (gearsDataStore.filterName = name)}
           getOptionLabel={name => <img src={require(`../../images/equipmentFilterIcons/${name}.png`)} />}
         />
       </Box>
@@ -168,4 +168,4 @@ const EquipmentsDataTable: React.FC<EquipmentsDataTableProps> = ({ label, filter
   )
 }
 
-export default observer(EquipmentsDataTable)
+export default observer(GearsDataTable)

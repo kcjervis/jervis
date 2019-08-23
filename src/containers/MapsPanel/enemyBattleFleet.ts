@@ -6,8 +6,8 @@ import {
   BattleFleet,
   IShip,
   IShipDataObject,
-  IEquipment,
-  IEquipmentDataObject
+  IGear,
+  IGearDataObject
 } from 'kc-calculator'
 import kcObjectFactory, { masterData } from '../../stores/kcObjectFactory'
 import { ObservableOperation } from '../../stores'
@@ -21,14 +21,14 @@ const masterIdToDataObject = (masterId: number) => {
     masterId: master.id,
     level: 1,
     slots: master.slotCapacities.concat(),
-    equipments: master.equipments.map(equip => {
-      if (equip === undefined) {
+    equipments: master.equipment.map(gear => {
+      if (gear === undefined) {
         return undefined
       }
-      if (typeof equip === 'number') {
-        return { masterId: equip }
+      if (typeof gear === 'number') {
+        return { masterId: gear }
       }
-      return { masterId: equip.id, improvement: equip.improvement }
+      return { masterId: gear.id, improvement: gear.improvement }
     })
   }
 }
@@ -62,19 +62,18 @@ export const createEnemyBattleFleet = (enemy: TEnemyFleet) => {
   return battleFleet
 }
 
-const equipmentToDataObject = (equip?: IEquipment | undefined): IEquipmentDataObject | undefined =>
-  equip && { masterId: equip.masterId }
+const gearToDataObject = (gear?: IGear | undefined): IGearDataObject | undefined => gear && { masterId: gear.masterId }
 
 const shipToDataObject = (ship?: IShip): IShipDataObject | undefined => {
   if (!ship) {
     return undefined
   }
-  const { masterId, level, equipments, slots } = ship
+  const { masterId, level, gears, slots } = ship
   return {
     masterId,
     level,
     slots,
-    equipments: equipments.map(equipmentToDataObject)
+    equipments: gears.map(gearToDataObject)
   }
 }
 

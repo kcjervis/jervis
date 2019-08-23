@@ -16,7 +16,7 @@ import OperationsPage from './containers/OperationsPage'
 
 import AppsPage from './containers/AppsPage'
 import DataLoader from './containers/DataLoader'
-import EquipmentsDataTable from './containers/EquipmentsDataTable'
+import GearsDataTable from './containers/GearsDataTable'
 
 import UrlShortener from './containers/UrlShortener'
 
@@ -37,7 +37,7 @@ export default class App extends Component {
                   <Route exact={true} path="/" component={OperationsPage} />
                   <Route exact={true} path="/operations" component={OperationsPage} />
                   <Route exact={true} path="/ships" component={ShipSelectPanel} />
-                  <Route exact={true} path="/equipments" component={EquipmentsDataTable} />
+                  <Route exact={true} path="/equipments" component={GearsDataTable} />
                   <Route exact={true} path="/maps" component={MapsPanel} />
 
                   <Route exact={true} path="/apps" component={AppsPage} />

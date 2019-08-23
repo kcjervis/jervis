@@ -1,18 +1,18 @@
-import { IEquipment } from 'kc-calculator'
-import React, { useCallback, useState } from 'react'
+import { IGear } from 'kc-calculator'
+import React from 'react'
 
-import { equipmentStatKeys } from 'kc-calculator'
+import { gearStatKeys } from 'kc-calculator'
 
 import Button from '@material-ui/core/Button'
 
 import { DataTableCell } from '../../components/DataTable'
 import StatLabel from '../../components/StatLabel'
 
-const EquipmentStatsCell: React.FC<{ equipment: IEquipment }> = ({ equipment }) => {
+const GearStatsCell: React.FC<{ gear: IGear }> = ({ gear }) => {
   return (
     <DataTableCell>
-      {equipmentStatKeys.map(statKey => {
-        const value = equipment[statKey]
+      {gearStatKeys.map(statKey => {
+        const value = gear[statKey]
         if (!value) {
           return null
         }
@@ -22,4 +22,4 @@ const EquipmentStatsCell: React.FC<{ equipment: IEquipment }> = ({ equipment }) 
   )
 }
 
-export default EquipmentStatsCell
+export default GearStatsCell

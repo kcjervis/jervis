@@ -8,11 +8,11 @@ import AddIcon from '@material-ui/icons/Add'
 import Dialog from '@material-ui/core/Dialog'
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles'
 
-import EquipmentFieldCard from './EquipmentFieldCard'
-import EquipmentsDataTable from '../EquipmentsDataTable'
+import GearFieldCard from './GearFieldCard'
+import GearsDataTable from '../GearsDataTable'
 
-import { ObservableLandBasedAirCorps, ObservableShip, ObservableEquipment } from '../../stores'
-import { useDragAndDrop, useOpen, useEquipmentSelect } from '../../hooks'
+import { ObservableLandBasedAirCorps, ObservableShip, ObservableGear } from '../../stores'
+import { useDragAndDrop, useOpen, useGearSelect } from '../../hooks'
 import { swap } from '../../utils'
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -23,21 +23,21 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 )
 
-export interface EquipmentFieldProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface GearFieldProps extends React.HTMLAttributes<HTMLDivElement> {
   store: ObservableShip | ObservableLandBasedAirCorps
   index: number
-  equipment?: ObservableEquipment
+  gear?: ObservableGear
 }
 
-const EquipmentField: React.FC<EquipmentFieldProps> = props => {
-  const { equipment, store, index, className, style } = props
+const GearField: React.FC<GearFieldProps> = props => {
+  const { gear, store, index, className, style } = props
   const classes = useStyles()
 
   const [dndProps, dndRef] = useDragAndDrop({
-    item: { type: 'Equipment', equipment, store, index },
+    item: { type: 'Gear', gear, store, index },
     drop: dragItem => {
-      store.set(index, dragItem.equipment)
-      dragItem.store.set(dragItem.index, equipment)
+      store.set(index, dragItem.gear)
+      dragItem.store.set(dragItem.index, gear)
       if (store instanceof ObservableLandBasedAirCorps && dragItem.store instanceof ObservableLandBasedAirCorps) {
         swap(store.slots, index, dragItem.store.slots, dragItem.index)
       }
@@ -52,21 +52,21 @@ const EquipmentField: React.FC<EquipmentFieldProps> = props => {
   const rootClassName = clsx(classes.root, className)
   const isExpansionSlot = typeof slotSize !== 'number'
 
-  const equipmentSelect = useEquipmentSelect(props)
+  const gearSelect = useGearSelect(props)
 
   const dialog = (
     <Dialog fullWidth maxWidth="xl" {...dialogProps}>
-      <EquipmentsDataTable
-        {...equipmentSelect}
-        onSelect={equip => {
-          equipmentSelect.onSelect(equip)
+      <GearsDataTable
+        {...gearSelect}
+        onSelect={gear => {
+          gearSelect.onSelect(gear)
           dialogProps.onClose()
         }}
       />
     </Dialog>
   )
 
-  if (!equipment || !equipment.isValid()) {
+  if (!gear || !gear.isValid()) {
     return (
       <>
         <div ref={dndRef} className={rootClassName} style={style}>
@@ -92,22 +92,22 @@ const EquipmentField: React.FC<EquipmentFieldProps> = props => {
   }
 
   const handleSlotSizeChange = (value: number) => store.setSlotSize(index, value)
-  const equipable = store.canEquip(equipment.asKcObject, index)
+  const equippable = store.canEquip(gear.asKcObject, index)
 
   return (
     <>
       <div ref={dndRef}>
-        <EquipmentFieldCard
+        <GearFieldCard
           className={rootClassName}
           style={style}
-          equipment={equipment.asKcObject}
+          gear={gear.asKcObject}
           slotSize={slotSize}
           maxSlotSize={maxSlotSize}
-          equipable={equipable}
-          onImprovementChange={equipment.changeImprovement}
-          onProficiencyChange={equipment.changeProficiency}
+          equippable={equippable}
+          onImprovementChange={gear.changeImprovement}
+          onProficiencyChange={gear.changeProficiency}
           onSlotSizeChange={handleSlotSizeChange}
-          onRemove={equipment.remove}
+          onRemove={gear.remove}
           onUpdate={onOpen}
         />
       </div>
@@ -116,4 +116,4 @@ const EquipmentField: React.FC<EquipmentFieldProps> = props => {
   )
 }
 
-export default observer(EquipmentField)
+export default observer(GearField)

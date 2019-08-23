@@ -7,32 +7,32 @@ import Typography from '@material-ui/core/Typography'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import { makeStyles, Theme } from '@material-ui/core/styles'
 
-import { EquipmentIcon } from '../../components'
-import EquipmentField from '../EquipmentField'
-import EquipmentAvatar from '../EquipmentAvatar'
+import { GearIcon } from '../../components'
+import GearField from '../GearField'
+import GearAvatar from '../GearAvatar'
 
-import { ObservableEquipment, ObservableLandBasedAirCorps, ObservableShip } from '../../stores'
+import { ObservableGear, ObservableLandBasedAirCorps, ObservableShip } from '../../stores'
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {},
-  equipment: {
+  gear: {
     margin: 4
   }
 }))
 
 interface EquipmentExpansionPanelProps {
   store: ObservableShip | ObservableLandBasedAirCorps
-  equipments: Array<ObservableEquipment | undefined>
+  gears: Array<ObservableGear | undefined>
 }
 
 const EquipmentExpansionPanel: React.FC<EquipmentExpansionPanelProps> = props => {
   const classes = useStyles()
-  const { equipments, store } = props
+  const { gears, store } = props
   return (
     <div>
-      {equipments.map((equip, index) => equip && <EquipmentAvatar key={index} equipment={equip} />)}
-      {equipments.map((equip, index) => (
-        <EquipmentField key={index} className={classes.equipment} store={store} index={index} equipment={equip} />
+      {gears.map((gear, index) => gear && <GearAvatar key={index} gear={gear} />)}
+      {gears.map((gear, index) => (
+        <GearField key={index} className={classes.gear} store={store} index={index} gear={gear} />
       ))}
     </div>
   )

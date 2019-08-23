@@ -1,14 +1,9 @@
 import { action, computed, observable } from 'mobx'
 import { persist } from 'mobx-persist'
 
-import ObservableEquipment from './ObservableEquipment'
-import ObservableFleet from './ObservableFleet'
-import ObservableLandBasedAirCorps from './ObservableLandBasedAirCorps'
 import ObservableOperation from './ObservableOperation'
-import ObservableShip from './ObservableShip'
 import { setDeckbuilder } from '../utils'
 import { Store } from '../types'
-import { nonNullable } from 'kc-calculator'
 
 const switchArrayItems = <T>(array1: T[], index1: number, array2: T[], index2: number) => {
   const item1 = array1[index1]

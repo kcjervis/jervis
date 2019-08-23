@@ -8,9 +8,9 @@ import { makeStyles, Theme } from '@material-ui/core/styles'
 
 import AddItemButton from './AddItemButton'
 import GearControlLabel from './GearControlLabel'
-import EquipmentsDataTable from '../EquipmentsDataTable'
+import GearsDataTable from '../GearsDataTable'
 
-import { useAnchorEl, useDragAndDrop, useOpen, useEquipmentSelect } from '../../hooks'
+import { useAnchorEl, useDragAndDrop, useOpen, useGearSelect } from '../../hooks'
 import { ObservableLandBasedAirCorps, ObservableShip } from '../../stores'
 import { swap } from '../../utils'
 
@@ -24,13 +24,13 @@ type GearFormProps = {
 
 const useGearState = (props: GearFormProps) => {
   const { index, store } = props
-  const equipItem = store.equipments.concat()[index]
+  const gearState = store.gears.concat()[index]
 
   const [dndProps, dndRef] = useDragAndDrop({
-    item: { type: 'Equipment', store, index, equipItem },
+    item: { type: 'Gear', store, index, gearState },
     drop: dragItem => {
-      store.set(index, dragItem.equipItem)
-      dragItem.store.set(dragItem.index, equipItem)
+      store.set(index, dragItem.gearState)
+      dragItem.store.set(dragItem.index, gearState)
       if (store instanceof ObservableLandBasedAirCorps && dragItem.store instanceof ObservableLandBasedAirCorps) {
         swap(store.slots, index, dragItem.store.slots, dragItem.index)
         swap(store.slotCapacities, index, dragItem.store.slotCapacities, dragItem.index)
@@ -42,16 +42,16 @@ const useGearState = (props: GearFormProps) => {
   const maxSlotSize = store.slotCapacities.concat()[index]
   const onSlotSizeChange = (value: number) => store.setSlotSize(index, value)
 
-  const selectProps = useEquipmentSelect(props)
+  const selectProps = useGearSelect(props)
   const base = { dndRef, slotSize, maxSlotSize, onSlotSizeChange, selectProps }
 
-  if (!equipItem) {
+  if (!gearState) {
     return base
   }
 
-  const equipable = store.canEquip(equipItem.asKcObject, index)
+  const equippable = store.canEquip(gearState.asKcObject, index)
 
-  return { ...base, item: equipItem, equipable }
+  return { ...base, gearState, equippable }
 }
 
 const GearForm: React.FC<GearFormProps> = props => {
@@ -63,16 +63,16 @@ const GearForm: React.FC<GearFormProps> = props => {
   const height = props.size === 'medium' ? 8 * 4 : 8 * 3
 
   let element: JSX.Element = <AddItemButton slotSize={slotSize} onClick={dialogProps.onOpen} />
-  if ('item' in state) {
-    const { item, equipable } = state
+  if ('gearState' in state) {
+    const { gearState, equippable } = state
     element = (
       <GearControlLabel
-        gear={item}
+        gear={gearState}
         onUpdateClick={dialogProps.onOpen}
         slotSize={slotSize}
         maxSlotSize={maxSlotSize}
         onSlotSizeChange={onSlotSizeChange}
-        equipable={equipable}
+        equippable={equippable}
       />
     )
   }
@@ -84,10 +84,10 @@ const GearForm: React.FC<GearFormProps> = props => {
       </div>
 
       <Dialog fullWidth maxWidth="xl" open={dialogProps.open} onClose={dialogProps.onClose}>
-        <EquipmentsDataTable
+        <GearsDataTable
           {...selectProps}
-          onSelect={equip => {
-            selectProps.onSelect(equip)
+          onSelect={gear => {
+            selectProps.onSelect(gear)
             dialogProps.onClose()
             cardProps.onClose()
           }}

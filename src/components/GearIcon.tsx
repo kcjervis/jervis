@@ -1,10 +1,10 @@
 import React from 'react'
 
-interface EquipmentIconProps extends React.ImgHTMLAttributes<HTMLImageElement> {
+interface GearIconProps extends React.ImgHTMLAttributes<HTMLImageElement> {
   iconId: number
 }
 
-const EquipmentIcon = React.forwardRef<HTMLImageElement, EquipmentIconProps>((props, ref) => {
+const GearIcon = React.forwardRef<HTMLImageElement, GearIconProps>((props, ref) => {
   const { iconId, ...rest } = props
   try {
     return <img ref={ref} src={require(`../images/equipmentIcons/${iconId}.png`)} {...rest} />
@@ -14,4 +14,4 @@ const EquipmentIcon = React.forwardRef<HTMLImageElement, EquipmentIconProps>((pr
   }
 })
 
-export default EquipmentIcon
+export default GearIcon

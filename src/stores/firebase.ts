@@ -85,7 +85,7 @@ export const testTwitter = async () => {
         'Content-Type': 'application/json; charset=utf-8'
       },
       body: JSON.stringify({ ...credential, base64 })
-    }).then(res => res.text().then(console.log))
+    }).then(res => res.text().then(str => console.log(str)))
   }
   reader.readAsDataURL(blob)
 }

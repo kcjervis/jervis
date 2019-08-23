@@ -1,33 +1,33 @@
-import { IEquipmentDataObject } from 'kc-calculator'
+import { IGearDataObject } from 'kc-calculator'
 import { action, computed, observable } from 'mobx'
 import { persist } from 'mobx-persist'
 import uuid from 'uuid'
 
 import kcObjectFactory from './kcObjectFactory'
-import { StoreItem, EquipmentStore } from '../types'
+import { StoreItem, GearStore } from '../types'
 
-export type ObservableEquipmentStore = EquipmentStore<ObservableEquipment | undefined>
+export type ObservableGearStore = GearStore<ObservableGear | undefined>
 
-export default class ObservableEquipment implements IEquipmentDataObject, StoreItem<ObservableEquipmentStore> {
+export default class ObservableGear implements IGearDataObject, StoreItem<ObservableGearStore> {
   @computed public get asKcObject() {
-    const equip = kcObjectFactory.createEquipment(this)
-    if (!equip) {
-      throw new Error(`masterId: ${this.masterId} equipment is undefined`)
+    const gear = kcObjectFactory.createGear(this)
+    if (!gear) {
+      throw new Error(`masterId: ${this.masterId} gear is undefined`)
     }
-    return equip
+    return gear
   }
 
-  public static create(data: IEquipmentDataObject, store: ObservableEquipmentStore) {
-    const equip = new ObservableEquipment()
-    equip.initialize(store)
+  public static create(data: IGearDataObject, store: ObservableGearStore) {
+    const gear = new ObservableGear()
+    gear.initialize(store)
     const { masterId, improvement = 0, proficiency = 0 } = data
-    equip.masterId = masterId
-    equip.improvement = improvement
-    equip.proficiency = proficiency
-    return equip
+    gear.masterId = masterId
+    gear.improvement = improvement
+    gear.proficiency = proficiency
+    return gear
   }
 
-  public store?: ObservableEquipmentStore
+  public store?: ObservableGearStore
 
   @persist public id = uuid()
 
@@ -40,14 +40,14 @@ export default class ObservableEquipment implements IEquipmentDataObject, StoreI
   public get index() {
     const { store } = this
     if (store) {
-      return store.equipments.indexOf(this)
+      return store.gears.indexOf(this)
     }
     return -1
   }
 
   public isValid() {
-    const equip = kcObjectFactory.createEquipment(this)
-    if (!equip) {
+    const gear = kcObjectFactory.createGear(this)
+    if (!gear) {
       this.remove()
       return false
     }
@@ -64,15 +64,15 @@ export default class ObservableEquipment implements IEquipmentDataObject, StoreI
 
   @action public remove = () => {
     if (this.store) {
-      this.store.removeEquipment(this)
+      this.store.removeGear(this)
     }
   }
 
-  @action public initialize = (store: ObservableEquipmentStore) => {
+  @action public initialize = (store: ObservableGearStore) => {
     this.store = store
   }
 
-  private toJSON(): IEquipmentDataObject {
+  private toJSON(): IGearDataObject {
     const { masterId, improvement, proficiency } = this
     return {
       masterId,

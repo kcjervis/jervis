@@ -1,5 +1,5 @@
 import React from 'react'
-import { IEquipment } from 'kc-calculator'
+import { IGear } from 'kc-calculator'
 import clsx from 'clsx'
 
 import Paper from '@material-ui/core/Paper'
@@ -7,7 +7,7 @@ import Popover from '@material-ui/core/Popover'
 import { makeStyles, Theme } from '@material-ui/core/styles'
 import BuildIcon from '@material-ui/icons/Build'
 
-import { EquipmentCard, EquipmentLabel, ImprovementSelect, ProficiencySelect, SlotSizePopover } from '../../components'
+import { GearCard, GearLabel, ImprovementSelect, ProficiencySelect, SlotSizePopover } from '../../components'
 
 import { useBaseStyles, useAnchorEl } from '../../hooks'
 
@@ -22,11 +22,11 @@ const useStyles = makeStyles((theme: Theme) => ({
   }
 }))
 
-type EquipmentFieldCardProps = {
-  equipment: IEquipment
+type GearFieldCardProps = {
+  gear: IGear
   slotSize?: number
   maxSlotSize?: number
-  equipable?: boolean
+  equippable?: boolean
   onImprovementChange?: (value: number) => void
   onProficiencyChange?: (value: number) => void
   onSlotSizeChange?: (value: number) => void
@@ -34,11 +34,11 @@ type EquipmentFieldCardProps = {
   onUpdate?: () => void
 } & React.HTMLAttributes<HTMLDivElement>
 
-const EquipmentFieldCard: React.FC<EquipmentFieldCardProps> = ({
-  equipment,
+const GearFieldCard: React.FC<GearFieldCardProps> = ({
+  gear,
   slotSize,
   maxSlotSize,
-  equipable = true,
+  equippable = true,
   onImprovementChange,
   onProficiencyChange,
   onSlotSizeChange,
@@ -48,7 +48,7 @@ const EquipmentFieldCard: React.FC<EquipmentFieldCardProps> = ({
   className,
   ...paperProps
 }) => {
-  const { improvement, proficiency, category } = equipment
+  const { improvement, proficiency, category } = gear
   const { anchorEl, onClick, onClose } = useAnchorEl()
   const classes = useStyles()
   const baseClasses = useBaseStyles()
@@ -63,11 +63,11 @@ const EquipmentFieldCard: React.FC<EquipmentFieldCardProps> = ({
         )}
       </div>
 
-      <EquipmentLabel
+      <GearLabel
         className={baseClasses.brightButton}
         flexGrow={1}
-        equipment={equipment}
-        equipable={equipable}
+        gear={gear}
+        equippable={equippable}
         onClick={onClick}
       />
 
@@ -83,10 +83,10 @@ const EquipmentFieldCard: React.FC<EquipmentFieldCardProps> = ({
       </div>
 
       <Popover open={Boolean(anchorEl)} anchorEl={anchorEl} onClose={onClose}>
-        <EquipmentCard equipment={equipment} onRemove={onRemove} onUpdate={onUpdate} onClose={onClose} />
+        <GearCard gear={gear} onRemove={onRemove} onUpdate={onUpdate} onClose={onClose} />
       </Popover>
     </Paper>
   )
 }
 
-export default EquipmentFieldCard
+export default GearFieldCard

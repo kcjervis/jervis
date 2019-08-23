@@ -1,4 +1,4 @@
-import { Proficiency } from 'kc-calculator/dist/objects/Equipment'
+import { Proficiency } from 'kc-calculator/dist/objects/Gear'
 import { improvements } from '@jervis/data'
 import React from 'react'
 
@@ -10,33 +10,33 @@ import DialogTitle from '@material-ui/core/DialogTitle'
 import ProficiencyIcon from './ProficiencyIcon'
 import { ImprovementButtons } from './ImprovementSelect'
 
-import { ObservableEquipment } from '../stores'
+import { ObservableGear } from '../stores'
 import { useOpen } from '../hooks'
 
-type EquipmentsSettingDialogProps = {
-  equipments: ObservableEquipment[]
+type GearsSettingDialogProps = {
+  gears: ObservableGear[]
   restoreSlotSize?: () => void
 }
 
-const EquipmentsSettingDialog: React.FC<EquipmentsSettingDialogProps> = ({ equipments, restoreSlotSize }) => {
+const GearsSettingDialog: React.FC<GearsSettingDialogProps> = ({ gears, restoreSlotSize }) => {
   const { onOpen, ...dialogProps } = useOpen()
 
   const handleImprovementChange = (value: number) => {
-    equipments
-      .filter(equip => improvements.includes(equip.masterId))
-      .forEach(equip => {
-        equip.improvement = value
+    gears
+      .filter(gear => improvements.includes(gear.masterId))
+      .forEach(gear => {
+        gear.improvement = value
       })
   }
 
   const handleProficiencyChange = (inter: number) => () => {
-    equipments.forEach(equip => {
-      const { category } = equip.asKcObject
+    gears.forEach(gear => {
+      const { category } = gear.asKcObject
       if (
         category.isAircraft &&
         !category.either('LandBasedReconnaissanceAircraft', 'Autogyro', 'AntiSubmarinePatrolAircraft')
       ) {
-        equip.proficiency = inter
+        gear.proficiency = inter
       }
     })
   }
@@ -64,4 +64,4 @@ const EquipmentsSettingDialog: React.FC<EquipmentsSettingDialogProps> = ({ equip
   )
 }
 
-export default EquipmentsSettingDialog
+export default GearsSettingDialog

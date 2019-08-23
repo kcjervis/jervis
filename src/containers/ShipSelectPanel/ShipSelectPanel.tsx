@@ -1,4 +1,4 @@
-import { IShipDataObject, MasterShip, IEquipmentDataObject } from 'kc-calculator'
+import { IShipDataObject, MasterShip, IGearDataObject } from 'kc-calculator'
 import React, { useState, useRef, useMemo } from 'react'
 import { groupBy } from 'lodash-es'
 
@@ -108,18 +108,18 @@ const ShipSelectPanel: React.FC<ShipSelectPanelProps> = ({
     const level = masterShip.isAbyssal ? 1 : 99
     const slots = slotCapacities.concat()
 
-    const equipments: Array<IEquipmentDataObject | undefined> = []
+    const equipments: Array<IGearDataObject | undefined> = []
     if (masterShip.isAbyssal) {
-      const equipmentsData = masterShip.equipments.map(equip => {
-        if (equip === undefined) {
+      const equipmentData = masterShip.equipment.map(gear => {
+        if (gear === undefined) {
           return undefined
         }
-        if (typeof equip === 'number') {
-          return { masterId: equip }
+        if (typeof gear === 'number') {
+          return { masterId: gear }
         }
-        return { masterId: equip.id, improvement: equip.improvement }
+        return { masterId: gear.id, improvement: gear.improvement }
       })
-      equipments.push(...equipmentsData)
+      equipments.push(...equipmentData)
     }
     onSelect({ masterId, level, slots, equipments })
   }

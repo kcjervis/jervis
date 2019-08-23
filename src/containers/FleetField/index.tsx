@@ -11,7 +11,7 @@ import Tooltip from '@material-ui/core/Tooltip'
 import Box from '@material-ui/core/Box'
 import { Theme, makeStyles, createStyles } from '@material-ui/core/styles'
 
-import { StatIcon, EquipmentsSettingDialog, Flexbox } from '../../components'
+import { StatIcon, GearsSettingDialog, Flexbox } from '../../components'
 import ShipForm from '../ShipForm'
 import FleetDetail from './FleetDetail'
 
@@ -91,8 +91,8 @@ const FleetField: React.FC<FleetFieldProps> = ({ fleet, operation }) => {
             </Tooltip>
           ))}
         </Flexbox>
-        <EquipmentsSettingDialog
-          equipments={ships.flatMap(ship => ship && ship.equipments).filter(nonNullable)}
+        <GearsSettingDialog
+          gears={ships.flatMap(ship => ship && ship.gears).filter(nonNullable)}
           restoreSlotSize={() =>
             ships.filter(nonNullable).forEach(ship => {
               ship.slots = ship.slotCapacities.concat()

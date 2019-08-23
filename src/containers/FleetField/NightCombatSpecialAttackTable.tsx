@@ -21,8 +21,8 @@ const calcNightContactRate = (arg: IShip | IShip[]): number => {
   if (!Array.isArray(arg)) {
     const { level, planes } = arg
     const probs = planes
-      .filter(plane => plane.slotSize > 0 && plane.equipment.masterId === 102)
-      .map(plane => Math.floor(Math.sqrt(plane.equipment.los) * Math.sqrt(level)) / 25)
+      .filter(plane => plane.slotSize > 0 && plane.gear.masterId === 102)
+      .map(plane => Math.floor(Math.sqrt(plane.gear.los) * Math.sqrt(level)) / 25)
     return calcAtLeastOne(probs)
   }
 

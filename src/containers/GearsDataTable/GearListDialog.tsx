@@ -1,4 +1,4 @@
-import { IEquipment } from 'kc-calculator'
+import { IGear } from 'kc-calculator'
 import { observer } from 'mobx-react-lite'
 import React, { useCallback, useContext, useEffect, useState } from 'react'
 
@@ -10,16 +10,16 @@ import IconButton from '@material-ui/core/IconButton'
 import MenuIcon from '@material-ui/icons/Menu'
 
 import { DataTableCell } from '../../components/DataTable'
-import EquipmentCard from '../../components/EquipmentCard'
+import GearCard from '../../components/GearCard'
 import { RemoveButton, VisibilityButton } from '../../components/IconButtons'
 
-import { EquipmentsDataStoreContext } from '../../stores'
-import EquipmentList from '../../stores/EquipmentList'
+import { GearsDataStoreContext } from '../../stores'
+import GearList from '../../stores/GearList'
 
-const ListEquipmentDialog: React.FC<{ equipment: IEquipment }> = ({ equipment }) => {
-  const store = useContext(EquipmentsDataStoreContext)
-  const { blackList, activeEquipmentList } = store
-  const initialVisible = !blackList.includes(equipment.masterId)
+const GearListDialog: React.FC<{ gear: IGear }> = ({ gear }) => {
+  const store = useContext(GearsDataStoreContext)
+  const { blackList, activeGearList } = store
+  const initialVisible = !blackList.includes(gear.masterId)
   const [open, setOpen] = useState(false)
   const [visible, setVisible] = useState(initialVisible)
   const toggleVisible = () => setVisible(value => !value)
@@ -28,15 +28,15 @@ const ListEquipmentDialog: React.FC<{ equipment: IEquipment }> = ({ equipment })
 
   const handleOpen = useCallback(() => setOpen(true), [])
   const handleClose = useCallback(() => {
-    store.setEquipmentVisibility(equipment.masterId, visible)
+    store.setGearVisibility(gear.masterId, visible)
     setOpen(false)
-  }, [equipment, visible])
+  }, [gear, visible])
 
-  const handleCreate = (list: EquipmentList) => () => {
-    list.createEquipment(equipment)
+  const handleCreate = (list: GearList) => () => {
+    list.createGear(gear)
   }
 
-  if (!activeEquipmentList) {
+  if (!activeGearList) {
     return (
       <DataTableCell>
         <IconButton onClick={handleOpen}>
@@ -45,13 +45,13 @@ const ListEquipmentDialog: React.FC<{ equipment: IEquipment }> = ({ equipment })
 
         <Dialog open={open} onClose={handleClose}>
           <DialogContent>
-            <EquipmentCard equipment={equipment} />
+            <GearCard gear={gear} />
           </DialogContent>
 
           <DialogActions>
-            {store.equipmentLists.map(list => (
+            {store.gearLists.map(list => (
               <Button key={list.id} onClick={handleCreate(list)}>
-                {list.name}に追加({list.countEquipment(equipment.masterId)})
+                {list.name}に追加({list.countGear(gear.masterId)})
               </Button>
             ))}
             <VisibilityButton visible={visible} onClick={toggleVisible} />
@@ -61,7 +61,7 @@ const ListEquipmentDialog: React.FC<{ equipment: IEquipment }> = ({ equipment })
     )
   }
 
-  const state = activeEquipmentList.getEquipmentState(equipment)
+  const state = activeGearList.getGearState(gear)
 
   const handleRemove = () => {
     if (state) {
@@ -76,4 +76,4 @@ const ListEquipmentDialog: React.FC<{ equipment: IEquipment }> = ({ equipment })
   )
 }
 
-export default observer(ListEquipmentDialog)
+export default observer(GearListDialog)

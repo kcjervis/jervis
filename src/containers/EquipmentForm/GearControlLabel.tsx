@@ -7,17 +7,17 @@ import Typography from '@material-ui/core/Typography'
 import BuildIcon from '@material-ui/icons/Build'
 
 import {
-  EquipmentIcon,
+  GearIcon,
   Flexbox,
   SlotSizePopover,
-  EquipmentLabel,
+  GearLabel,
   ProficiencySelect,
   ImprovementSelect,
   UpdateButton,
   ClearButton,
   GearTooltip
 } from '../../components'
-import { ObservableEquipment } from '../../stores'
+import { ObservableGear } from '../../stores'
 import { useHover } from '../../hooks'
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -52,12 +52,12 @@ const useStyles = makeStyles((theme: Theme) =>
 )
 
 type GearControlLabelProps = {
-  gear: ObservableEquipment
+  gear: ObservableGear
   slotSize?: number
   maxSlotSize?: number
   onSlotSizeChange?: (value: number) => void
   onUpdateClick?: () => void
-  equipable?: boolean
+  equippable?: boolean
 } & BoxProps
 
 const GearControlLabel: React.FC<GearControlLabelProps> = ({
@@ -66,7 +66,7 @@ const GearControlLabel: React.FC<GearControlLabelProps> = ({
   slotSize,
   maxSlotSize,
   onSlotSizeChange,
-  equipable = true,
+  equippable = true,
   ...boxProps
 }) => {
   const classes = useStyles()
@@ -84,7 +84,7 @@ const GearControlLabel: React.FC<GearControlLabelProps> = ({
 
       <Flexbox ref={hoverRef} height="100%" width={`calc(100% - ${visibleProficiency ? 64 : 40}px)`}>
         <GearTooltip gear={gear.asKcObject}>
-          <EquipmentIcon className={classes.icon} iconId={gear.asKcObject.iconId} />
+          <GearIcon className={classes.icon} iconId={gear.asKcObject.iconId} />
         </GearTooltip>
         <div style={{ display: isHovered ? undefined : 'none' }}>
           <UpdateButton title="変更" tooltipProps={{ placement: 'top' }} size="small" onClick={onUpdateClick} />
@@ -93,7 +93,7 @@ const GearControlLabel: React.FC<GearControlLabelProps> = ({
         <Typography
           className={classes.name}
           style={{ display: isHovered ? 'none' : undefined }}
-          color={equipable ? 'initial' : 'secondary'}
+          color={equippable ? 'initial' : 'secondary'}
         >
           {gear.asKcObject.name}
         </Typography>

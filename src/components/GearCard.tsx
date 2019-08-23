@@ -1,16 +1,16 @@
 import React from 'react'
 
-import { equipmentStatKeys, IEquipment } from 'kc-calculator'
+import { gearStatKeys, IGear } from 'kc-calculator'
 
 import Card, { CardProps } from '@material-ui/core/Card'
 import CardContent from '@material-ui/core/CardContent'
 import { makeStyles, Theme } from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography'
 
-import EquipmentIcon from './EquipmentIcon'
-import EquipmentImage from './EquipmentImage'
+import GearIcon from './GearIcon'
+import GearImage from './GearImage'
 import StatChip from './StatChip'
-import { RemoveButton, UpdateButton, CloseButton } from '../components/IconButtons'
+import { RemoveButton, UpdateButton, CloseButton } from './IconButtons'
 
 const useStyles = makeStyles((theme: Theme) => ({
   icon: {
@@ -42,16 +42,16 @@ const useStyles = makeStyles((theme: Theme) => ({
   }
 }))
 
-interface EquipmentCardProps extends CardProps {
-  equipment: IEquipment
+interface GearCardProps extends CardProps {
+  gear: IGear
   onRemove?: () => void
   onUpdate?: () => void
   onClose?: () => void
 }
 
-const EquipmentCard: React.FC<EquipmentCardProps> = ({ equipment, onRemove, onUpdate, onClose, ...cardProps }) => {
+const GearCard: React.FC<GearCardProps> = ({ gear, onRemove, onUpdate, onClose, ...cardProps }) => {
   const classes = useStyles()
-  const { masterId, category, iconId, name } = equipment
+  const { masterId, category, iconId, name } = gear
   return (
     <Card elevation={12} {...cardProps}>
       <div style={{ display: 'flex', justifyContent: 'space-between' }}>
@@ -67,25 +67,25 @@ const EquipmentCard: React.FC<EquipmentCardProps> = ({ equipment, onRemove, onUp
       </div>
 
       <Typography className={classes.title} variant="subtitle1">
-        <EquipmentIcon className={classes.icon} iconId={iconId} />
+        <GearIcon className={classes.icon} iconId={iconId} />
         {name}
       </Typography>
 
       <div className={classes.details}>
         {/* ステータス一覧 */}
         <CardContent className={classes.stats}>
-          {equipmentStatKeys.map(statKey => {
-            const value = equipment[statKey]
+          {gearStatKeys.map(statKey => {
+            const value = gear[statKey]
             if (value === 0) {
               return null
             }
             return <StatChip key={statKey} statKey={statKey} value={value} />
           })}
         </CardContent>
-        <EquipmentImage className={classes.image} masterId={masterId} />
+        <GearImage className={classes.image} masterId={masterId} />
       </div>
     </Card>
   )
 }
 
-export default EquipmentCard
+export default GearCard

@@ -1,13 +1,13 @@
-import { action, computed, observable } from 'mobx'
+import { action, observable } from 'mobx'
 
 import ObservableOperation from './ObservableOperation'
 import ObservableShip from './ObservableShip'
-import ObservableEquipment from './ObservableEquipment'
+import ObservableGear from './ObservableGear'
 import WorkspaceStore from './WorkspaceStore'
 
 type WorkspaceItemType = 'Operation' | 'Ship'
 
-type WorkspaceItemData = ObservableOperation | ObservableShip | ObservableEquipment
+type WorkspaceItemData = ObservableOperation | ObservableShip | ObservableGear
 
 export type WorkspaceItemObject = { type: WorkspaceItemType; id: string }
 
@@ -18,7 +18,7 @@ export default class WorkspaceItem {
 
   @observable public store?: WorkspaceStore
 
-  @observable public isActive: boolean = false
+  @observable public isActive = false
 
   @action public setActive = () => {
     this.store && this.store.items.forEach(item => (item.isActive = false))

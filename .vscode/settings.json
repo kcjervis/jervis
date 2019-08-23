@@ -1,6 +1,5 @@
 {
   "editor.formatOnSave": false,
-  "tslint.enable": false,
   "eslint.enable": true,
   "eslint.autoFixOnSave": true,
   "eslint.options": {

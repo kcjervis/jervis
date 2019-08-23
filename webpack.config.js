@@ -6,6 +6,7 @@ const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPl
 /** @type import('webpack').Configuration */
 module.exports = (env, argv) => {
   const { mode } = argv
+  /** @type import('webpack').Configuration.rules */
   const rules = [
     {
       test: /\.(j|t)sx?$/,
@@ -38,21 +39,23 @@ module.exports = (env, argv) => {
   ]
   const plugins = [new ForkTsCheckerWebpackPlugin()]
 
-  if (mode === 'production') {
-    rules.push({
-      test: /\.tsx?$/,
-      enforce: 'pre',
-      use: [
-        {
-          loader: 'eslint-loader',
-          options: {
-            fix: true,
-            formatter: 'codeFrame'
-          }
+  rules.push({
+    test: /\.tsx?$/,
+    enforce: 'pre',
+    use: [
+      {
+        loader: 'eslint-loader',
+        options: {
+          fix: true,
+          formatter: 'codeFrame'
         }
-      ],
-      exclude: /node_modules/
-    })
+      }
+    ],
+    exclude: /node_modules/
+  })
+
+  if (mode === 'production') {
+
     plugins.push(
       new BundleAnalyzerPlugin({
         analyzerMode: 'static'

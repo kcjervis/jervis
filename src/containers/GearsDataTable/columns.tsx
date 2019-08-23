@@ -1,15 +1,15 @@
 import React, { useMemo } from 'react'
 
-import { equipmentStatKeys } from 'kc-calculator'
+import { gearStatKeys } from 'kc-calculator'
 import { ColumnProps } from 'react-virtualized'
 
 import StatIcon from '../../components/StatIcon'
-import EquipmentLabelCell, { EquipmentLabelCellProps } from './EquipmentLabelCell'
-import EquipmentStatsCell from './EquipmentStatsCell'
-import EquipmentVisibilityCell from './EquipmentVisibilityCell'
-import ListEquipmentDialog from './ListEquipmentDialog'
+import GearLabelCell, { GearLabelCellProps } from './GearLabelCell'
+import GearStatsCell from './GearStatsCell'
+import GearVisibilityCell from './GearVisibilityCell'
+import ListGearDialog from './GearListDialog'
 
-const statColumns: ColumnProps[] = equipmentStatKeys.map(dataKey => ({
+const statColumns: ColumnProps[] = gearStatKeys.map(dataKey => ({
   dataKey,
   label: <StatIcon statKey={dataKey} />,
   width: 20
@@ -19,14 +19,14 @@ const defaultModeColumns: ColumnProps[] = [
   {
     dataKey: 'stats',
     label: 'ステータス',
-    cellRenderer: props => <EquipmentStatsCell equipment={props.rowData} />,
+    cellRenderer: props => <GearStatsCell gear={props.rowData} />,
     width: 500,
     disableSort: true
   },
   {
     dataKey: 'action',
     label: ' ',
-    cellRenderer: props => <ListEquipmentDialog equipment={props.rowData} />,
+    cellRenderer: props => <ListGearDialog gear={props.rowData} />,
     width: 100,
     disableSort: true
   }
@@ -40,17 +40,17 @@ const settingModeColumns: ColumnProps[] = [
     dataKey: 'visibility',
     label: '表示',
     width: 50,
-    cellRenderer: props => <EquipmentVisibilityCell equipment={props.rowData} />
+    cellRenderer: props => <GearVisibilityCell gear={props.rowData} />
   }
 ]
 
-export const useColumns = (mode: string, onSelect: EquipmentLabelCellProps['onSelect']): ColumnProps[] => {
+export const useColumns = (mode: string, onSelect: GearLabelCellProps['onSelect']): ColumnProps[] => {
   return useMemo(() => {
     const baseColumns: ColumnProps[] = [
       {
         dataKey: 'name',
         label: '装備',
-        cellRenderer: props => <EquipmentLabelCell equipment={props.rowData} onSelect={onSelect} />,
+        cellRenderer: props => <GearLabelCell gear={props.rowData} onSelect={onSelect} />,
         width: 250
       }
     ]

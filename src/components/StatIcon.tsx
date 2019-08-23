@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { EquipmentStatKey, ShipStatKey } from 'kc-calculator'
+import { GearStatKey, ShipStatKey } from 'kc-calculator'
 
 import { makeStyles, Theme } from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography'
@@ -23,7 +23,7 @@ const useStyles = makeStyles({
 })
 
 interface ShipIcon {
-  statKey: ShipStatKey | EquipmentStatKey
+  statKey: ShipStatKey | GearStatKey
   label?: string | number
 }
 

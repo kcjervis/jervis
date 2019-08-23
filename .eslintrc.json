@@ -1,10 +1,13 @@
 {
   "extends": [
     "eslint:recommended",
-    "plugin:react/recommended",
+    "plugin:@typescript-eslint/eslint-recommended",
     "plugin:@typescript-eslint/recommended",
+    "plugin:@typescript-eslint/recommended-requiring-type-checking",
     "plugin:prettier/recommended",
-    "prettier/@typescript-eslint"
+    "prettier/@typescript-eslint",
+
+    "plugin:react/recommended"
   ],
   "plugins": [
     "@typescript-eslint",
@@ -17,16 +20,14 @@
     "project": "./tsconfig.json"
   },
   "rules": {
-    "@typescript-eslint/prefer-interface": "off",
-    "@typescript-eslint/array-type": ["error", "array-simple"],
-    "@typescript-eslint/explicit-function-return-type": "off",
-    
-    "@typescript-eslint/no-var-requires": "off",
-    "react/prop-types": "off",
-    "react/display-name": "off",
-
     "no-console": "off",
+    "@typescript-eslint/no-unused-vars": "off",
     "@typescript-eslint/no-explicit-any": "off",
-    "@typescript-eslint/no-unused-vars": "off"
+    "@typescript-eslint/explicit-function-return-type": "off",
+    "@typescript-eslint/array-type": ["error", { "default": "array-simple" }],
+    
+    "prefer-const": "off",
+    "react/prop-types": "off",
+    "react/display-name": "off"
   }
 }

@@ -1,4 +1,3 @@
-import { IEquipmentDataObject, IShipDataObject, IFleetDataObject } from 'kc-calculator'
 import { IObservableArray } from 'mobx'
 
 export type Store<T = any> = {
@@ -12,11 +11,11 @@ export type StoreItem<T extends Store = Store> = {
   initialize: (store: T) => void
 }
 
-export type EquipmentStore<EquipmentType> = {
-  equipments: IObservableArray<EquipmentType | undefined>
-  removeEquipment: (equipment: NonNullable<EquipmentType>) => void
-  set: (index: number, equipment: EquipmentType | undefined) => void
-} & Store<EquipmentType>
+export type GearStore<GearType> = {
+  gears: IObservableArray<GearType | undefined>
+  removeGear: (gear: NonNullable<GearType>) => void
+  set: (index: number, gear: GearType | undefined) => void
+} & Store<GearType>
 
 export type ShipStore<ShipType> = {
   ships: IObservableArray<ShipType>

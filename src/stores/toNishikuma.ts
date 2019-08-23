@@ -1,9 +1,9 @@
-import { IEquipment, IFleet, IOperation, IShip } from 'kc-calculator'
+import { IGear, IFleet, IOperation, IShip } from 'kc-calculator'
 
-import { DeckFleet, DeckEquipmet, DeckShip, Nishikuma } from '../utils'
+import { DeckFleet, DeckGear, DeckShip, Nishikuma } from '../utils'
 
-const toDeckEquipment = (equipment: IEquipment): DeckEquipmet => {
-  const { masterId, improvement, proficiency } = equipment
+const toDeckGear = (gear: IGear): DeckGear => {
+  const { masterId, improvement, proficiency } = gear
   return {
     id: masterId,
     rf: improvement.value,
@@ -11,20 +11,20 @@ const toDeckEquipment = (equipment: IEquipment): DeckEquipmet => {
   }
 }
 
-const isExpansionEquipment = (ship: IShip, equip: IEquipment) => {
-  const equipIndex = ship.equipments.indexOf(equip)
-  return equipIndex >= ship.slots.length
+const onExslot = (ship: IShip, gear: IGear) => {
+  const index = ship.gears.indexOf(gear)
+  return index >= ship.slots.length
 }
 
 const toDeckShip = (ship: IShip): DeckShip => {
   const { masterId, level, equipments, nakedStats } = ship
-  const items: { [K in string]: DeckEquipmet } = {}
-  equipments.forEach((equip, index) => {
-    if (!equip) {
+  const items: { [K in string]: DeckGear } = {}
+  equipments.forEach((gear, index) => {
+    if (!gear) {
       return
     }
-    const key = isExpansionEquipment(ship, equip) ? 'ix' : `i${index + 1}`
-    items[key] = toDeckEquipment(equip)
+    const key = onExslot(ship, gear) ? 'ix' : `i${index + 1}`
+    items[key] = toDeckGear(gear)
   })
   return {
     id: masterId,

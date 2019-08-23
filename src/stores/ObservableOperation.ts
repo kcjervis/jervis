@@ -82,7 +82,7 @@ export default class ObservableOperation implements IOperationDataObject, StoreI
   @observable
   public enemy?: ObservableOperation
 
-  @observable public activeFleetIndex: number = 0
+  @observable public activeFleetIndex = 0
 
   @action public copy = () => {
     const { store } = this

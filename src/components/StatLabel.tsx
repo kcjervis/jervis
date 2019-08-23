@@ -1,4 +1,4 @@
-import { EquipmentStatKey, ShipStatKey, Speed } from 'kc-calculator'
+import { GearStatKey, ShipStatKey, Speed } from 'kc-calculator'
 import React from 'react'
 import clsx from 'clsx'
 
@@ -18,7 +18,7 @@ const useStyles = makeStyles({
 })
 
 interface StatLabelProps extends React.HTMLAttributes<HTMLDivElement> {
-  statKey: ShipStatKey | EquipmentStatKey
+  statKey: ShipStatKey | GearStatKey
   stat: number
   increased?: number
   bonus?: number

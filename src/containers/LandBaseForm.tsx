@@ -11,7 +11,7 @@ import Typography from '@material-ui/core/Typography'
 import AerialCombatSimulator, { operationToBattleFleet } from './AerialCombatSimulator'
 import LandBasedAirCorpsCard from './LandBasedAirCorpsCard'
 
-import { EnemyFleet, EquipmentsSettingDialog, Flexbox } from '../components'
+import { EnemyFleet, GearsSettingDialog, Flexbox } from '../components'
 import MapsPanel from './MapsPanel'
 import { ObservableOperation } from '../stores'
 import { useOpen, useOperationStore } from '../hooks'
@@ -33,7 +33,7 @@ const LandBaseForm: React.FC<LandBaseForm> = ({ operation }) => {
     operation.enemy = enemyOperation
   }
 
-  const equipments = operation.landBase.flatMap(airCorps => airCorps.equipments).filter(nonNullable)
+  const gears = operation.landBase.flatMap(airCorps => airCorps.gears).filter(nonNullable)
 
   const { mainFleet, escortFleet } = operation.asKcObject
   let combinedFleetFighterPower = mainFleet.fighterPower
@@ -50,8 +50,8 @@ const LandBaseForm: React.FC<LandBaseForm> = ({ operation }) => {
           第一艦隊制空: {mainFleet.fighterPower} {combinedFleetFighterPowerLabel}
         </Typography>
 
-        <EquipmentsSettingDialog
-          equipments={equipments}
+        <GearsSettingDialog
+          gears={gears}
           restoreSlotSize={() => operation.landBase.forEach(airCorps => airCorps.restoreSlotSize())}
         />
       </Flexbox>

@@ -37,10 +37,10 @@ export default class ContactTable extends React.Component<ContactTableProps> {
       }
       const selectionRate = planes
         .filter(plane => plane.canContact)
-        .sort((plane1, plane2) => plane2.equipment.accuracy - plane1.equipment.accuracy)
+        .sort((plane1, plane2) => plane2.gear.accuracy - plane1.gear.accuracy)
         .reduce((acc, plane) => {
           const curRate = (1 - acc) * plane.contactSelectionRate(airControlState)
-          const { accuracy } = plane.equipment
+          const { accuracy } = plane.gear
           if (accuracy >= 3) {
             selectionRateMap[1.2] += curRate
           } else if (accuracy === 2) {

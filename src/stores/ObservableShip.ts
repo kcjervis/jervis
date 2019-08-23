@@ -1,11 +1,11 @@
-import { IEquipment, IEquipmentDataObject, IShipDataObject, shipStatKeys } from 'kc-calculator'
+import { IGear, IGearDataObject, IShipDataObject, shipStatKeys } from 'kc-calculator'
 import { action, computed, observable } from 'mobx'
 import { persist } from 'mobx-persist'
 import uuid from 'uuid'
 import { range } from 'lodash-es'
 
 import kcObjectFactory, { masterData } from './kcObjectFactory'
-import ObservableEquipment, { ObservableEquipmentStore } from './ObservableEquipment'
+import ObservableGear, { ObservableGearStore } from './ObservableGear'
 
 import { StoreItem } from '../types'
 import ObservableFleet from './ObservableFleet'
@@ -13,7 +13,7 @@ import EnemyShipStore from './EnemyShipStore'
 
 type StoreType = ObservableFleet | EnemyShipStore
 
-export default class ObservableShip implements IShipDataObject, ObservableEquipmentStore, StoreItem<StoreType> {
+export default class ObservableShip implements IShipDataObject, ObservableGearStore, StoreItem<StoreType> {
   @computed public get asKcObject() {
     const ship = kcObjectFactory.createShip(this)
     if (!ship) {
@@ -46,11 +46,11 @@ export default class ObservableShip implements IShipDataObject, ObservableEquipm
 
     observableShip.equipments = observable(
       range(observableShip.slots.length + 1).map(index => {
-        const equip = equipments[index]
-        if (!equip || equip.masterId <= 0) {
+        const gear = equipments[index]
+        if (!gear || gear.masterId <= 0) {
           return undefined
         }
-        return ObservableEquipment.create(equip, observableShip)
+        return ObservableGear.create(gear, observableShip)
       })
     )
 
@@ -77,7 +77,7 @@ export default class ObservableShip implements IShipDataObject, ObservableEquipm
 
   @persist @observable public level = 0
 
-  @persist('list', ObservableEquipment) @observable public equipments = observable<ObservableEquipment | undefined>([])
+  @persist('list', ObservableGear) @observable public equipments = observable<ObservableGear | undefined>([])
 
   @persist('list') @observable public slots: number[] = []
 
@@ -87,7 +87,11 @@ export default class ObservableShip implements IShipDataObject, ObservableEquipm
 
   @persist('object') @observable public increased: NonNullable<IShipDataObject['increased']> = {}
 
-  @observable public visibleEquipments = true
+  @observable public visibleGears = true
+
+  public get gears() {
+    return this.equipments
+  }
 
   public get name() {
     return this.asKcObject.name
@@ -103,42 +107,41 @@ export default class ObservableShip implements IShipDataObject, ObservableEquipm
     return found ? found.slotCapacities : []
   }
 
-  public canEquip(equipment: IEquipment, slotIndex: number) {
-    return this.asKcObject.canEquip(equipment, slotIndex)
+  public canEquip(gear: IGear, slotIndex: number) {
+    return this.asKcObject.canEquip(gear, slotIndex)
   }
 
   @action public remove = () => {
     this.store && this.store.removeShip(this)
   }
 
-  @action public set = (index: number, equipment?: ObservableEquipment) => {
-    if (equipment) {
-      equipment.remove()
-      equipment.store = this
+  @action public set = (index: number, gear?: ObservableGear) => {
+    if (gear) {
+      gear.remove()
+      gear.store = this
     }
-    const prevEquipment = this.equipments[index]
-    this.equipments[index] = equipment
+    const prev = this.gears[index]
+    this.gears[index] = gear
 
     if (!this.asKcObject.shipClass.is('NisshinClass') || !this.slots[index]) {
       return
     }
 
-    if (prevEquipment && prevEquipment.asKcObject.category.is('LargeFlyingBoat')) {
+    if (prev && prev.asKcObject.category.is('LargeFlyingBoat')) {
       this.setSlotSize(index, this.slotCapacities[index])
     }
 
-    if (equipment && equipment.asKcObject.category.is('LargeFlyingBoat')) {
+    if (gear && gear.asKcObject.category.is('LargeFlyingBoat')) {
       this.setSlotSize(index, 1)
     }
   }
 
-  @action public createEquipment = (index: number, data: IEquipmentDataObject) => {
-    this.set(index, ObservableEquipment.create(data, this))
+  @action public createGear = (index: number, data: IGearDataObject) => {
+    this.set(index, ObservableGear.create(data, this))
   }
 
-  @action public removeEquipment = (equipment: ObservableEquipment) => {
-    const { equipments } = this
-    equipments[equipments.indexOf(equipment)] = undefined
+  @action public removeGear = (gear: ObservableGear) => {
+    this.gears[gear.index] = undefined
   }
 
   @action public setSlotSize = (index: number, value: number) => {
@@ -149,7 +152,7 @@ export default class ObservableShip implements IShipDataObject, ObservableEquipm
 
   @action public initialize = (store: StoreType) => {
     this.store = store
-    this.equipments.forEach(equip => equip && equip.initialize(this))
+    this.gears.forEach(gear => gear && gear.initialize(this))
   }
 
   private toJSON(): IShipDataObject {

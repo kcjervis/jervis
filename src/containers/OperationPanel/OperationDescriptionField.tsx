@@ -1,5 +1,4 @@
 import React, { useCallback, useState } from 'react'
-import ReactDOMServer from 'react-dom/server'
 import { observer } from 'mobx-react-lite'
 import ReactMde from 'react-mde'
 import clsx from 'clsx'
@@ -50,8 +49,8 @@ const OperationDescriptionField: React.FC<OperationDescriptionFieldProps> = ({ o
   )
   const { open, onOpen, onClose } = useOpen()
 
-  const generateMarkdownPreview = async (markdown: string) =>
-    ReactDOMServer.renderToString(
+  const generateMarkdownPreview = (markdown: string) =>
+    Promise.resolve(
       <ReactMarkdown className={classes.markdown} source={markdown.replace(/[ ]*(\r\n|\n|\r)/g, '  \n')} />
     )
   return (

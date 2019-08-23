@@ -1,17 +1,17 @@
-import { IEquipmentDataObject, IShipDataObject } from 'kc-calculator'
-import { Proficiency } from 'kc-calculator/dist/objects/Equipment'
+import { IGearDataObject, IShipDataObject } from 'kc-calculator'
+import { Proficiency } from 'kc-calculator/dist/objects/Gear'
 import { calcHpAtLevel, calcStatAtLevel } from 'kc-calculator/dist/objects/Ship/ShipNakedStats'
 
 import { masterData } from '../stores/kcObjectFactory'
 import { ObservableOperation } from '../stores'
 
-export interface DeckEquipmet {
+export interface DeckGear {
   id: number | null
   rf: number | string
   mas: number | string
 }
 
-const toEquipmentDataObject = (item: DeckEquipmet | undefined): IEquipmentDataObject | undefined => {
+const toGearDataObject = (item: DeckGear | undefined): IGearDataObject | undefined => {
   if (!item || !item.id) {
     return undefined
   }
@@ -32,12 +32,12 @@ export interface DeckShip {
   hp?: number
   asw?: number
   items: Partial<{
-    i1: DeckEquipmet
-    i2: DeckEquipmet
-    i3: DeckEquipmet
-    i4: DeckEquipmet
-    i5: DeckEquipmet
-    ix: DeckEquipmet
+    i1: DeckGear
+    i2: DeckGear
+    i3: DeckGear
+    i4: DeckGear
+    i5: DeckGear
+    ix: DeckGear
   }>
 }
 
@@ -52,17 +52,17 @@ const toShipDataObject = (deckShip: DeckShip | undefined): IShipDataObject | und
     return undefined
   }
 
-  const equipments = Array<IEquipmentDataObject | undefined>(masterShip.slotCapacities.length)
+  const equipments = Array<IGearDataObject | undefined>(masterShip.slotCapacities.length)
   Object.entries(items).forEach(([key, item]) => {
     const index = Number(key.replace('i', ''))
     if (!isNaN(index)) {
-      equipments[index - 1] = toEquipmentDataObject(item)
+      equipments[index - 1] = toGearDataObject(item)
     }
   })
 
   if ('ix' in items) {
     const { ix } = items
-    equipments.push(toEquipmentDataObject(ix))
+    equipments.push(toGearDataObject(ix))
   }
   const increased: { hp?: number; luck?: number; asw?: number } = {}
   if (hp) {

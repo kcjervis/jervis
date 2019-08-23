@@ -1,13 +1,13 @@
 import { ObservableShip, ObservableLandBasedAirCorps } from '../stores'
 import { useMemo, useCallback } from 'react'
-import { IEquipment } from 'kc-calculator'
+import { IGear } from 'kc-calculator'
 
-type EquipableProps = {
+type EquippableProps = {
   store: ObservableShip | ObservableLandBasedAirCorps
   index: number
 }
 
-const useEquipmentSelect = (props: EquipableProps) => {
+const useGearSelect = (props: EquippableProps) => {
   const { store, index } = props
   const label = useMemo(() => {
     if (store instanceof ObservableShip) {
@@ -19,8 +19,8 @@ const useEquipmentSelect = (props: EquipableProps) => {
   }, [store])
 
   const onSelect = useCallback(
-    (equipment: IEquipment) => {
-      const { category, masterId } = equipment
+    (gear: IGear) => {
+      const { category, masterId } = gear
       let proficiency = 0
       if (category.isAerialCombatAircraft) {
         proficiency = 100
@@ -31,18 +31,18 @@ const useEquipmentSelect = (props: EquipableProps) => {
       if (masterId > 500 || category.is('LandBasedReconnaissanceAircraft')) {
         proficiency = 0
       }
-      store.createEquipment(index, {
-        masterId: equipment.masterId,
+      store.createGear(index, {
+        masterId: gear.masterId,
         proficiency,
-        improvement: equipment.improvement.value
+        improvement: gear.improvement.value
       })
     },
     [store, index]
   )
 
-  const filter = useCallback((equipment: IEquipment) => store.canEquip(equipment, index), [store, index])
+  const filter = useCallback((gear: IGear) => store.canEquip(gear, index), [store, index])
 
   return { label, onSelect, filter }
 }
 
-export default useEquipmentSelect
+export default useGearSelect

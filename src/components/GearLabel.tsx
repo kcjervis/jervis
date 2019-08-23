@@ -1,12 +1,12 @@
 import React from 'react'
 import clsx from 'clsx'
-import { IEquipment } from 'kc-calculator'
+import { IGear } from 'kc-calculator'
 
 import Box, { BoxProps } from '@material-ui/core/Box'
 import { makeStyles, Theme } from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography'
 
-import EquipmentIcon from './EquipmentIcon'
+import GearIcon from './GearIcon'
 
 const useStyles = makeStyles({
   icon: {
@@ -20,23 +20,22 @@ const useStyles = makeStyles({
   }
 })
 
-type EquipmentLabelProps = {
-  equipment: IEquipment
+type GearLabelProps = {
+  gear: IGear
   slotSize?: number
-  equipable?: boolean
+  equippable?: boolean
 } & BoxProps
 
-const EquipmentLabel: React.FC<EquipmentLabelProps> = ({ equipment, slotSize, equipable = true, ...boxProps }) => {
+const GearLabel: React.FC<GearLabelProps> = ({ gear, slotSize, equippable = true, ...boxProps }) => {
   const classes = useStyles()
-  const { proficiency, improvement } = equipment
   return (
     <Box display="flex" alignItems="center" {...boxProps}>
-      <EquipmentIcon className={classes.icon} iconId={equipment.iconId} />
-      <Typography className={classes.name} noWrap color={equipable ? 'initial' : 'secondary'}>
-        {equipment.name}
+      <GearIcon className={classes.icon} iconId={gear.iconId} />
+      <Typography className={classes.name} noWrap color={equippable ? 'initial' : 'secondary'}>
+        {gear.name}
       </Typography>
     </Box>
   )
 }
 
-export default EquipmentLabel
+export default GearLabel

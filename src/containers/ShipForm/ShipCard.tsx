@@ -11,7 +11,6 @@ import Tooltip from '@material-ui/core/Tooltip'
 import { makeStyles, createStyles } from '@material-ui/core/styles'
 
 import { ShipImage, InfoButton, ClearButton, UpdateButton } from '../../components'
-import EquipmentField from '../EquipmentField'
 import EquipmentForm from '../EquipmentForm'
 
 import ShipStatsExpansionPanel from './ShipStatsExpansionPanel'
