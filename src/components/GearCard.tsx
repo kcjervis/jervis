@@ -11,6 +11,7 @@ import GearIcon from './GearIcon'
 import GearImage from './GearImage'
 import StatChip from './StatChip'
 import { RemoveButton, UpdateButton, CloseButton } from './IconButtons'
+import { isBoolean } from 'lodash-es'
 
 const useStyles = makeStyles((theme: Theme) => ({
   icon: {

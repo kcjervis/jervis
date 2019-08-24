@@ -2,15 +2,15 @@ import React, { useCallback } from 'react'
 
 import Box from '@material-ui/core/Box'
 import Typography from '@material-ui/core/Typography'
-import TextField from '@material-ui/core/TextField'
 import Tooltip from '@material-ui/core/Tooltip'
-import IconButton from '@material-ui/core/IconButton'
 import Popover from '@material-ui/core/Popover'
+import IconButton from '@material-ui/core/IconButton'
 import ExposurePlus1Icon from '@material-ui/icons/ExposurePlus1'
 import ExposureNeg1Icon from '@material-ui/icons/ExposureNeg1'
 import Slider from '@material-ui/core/Slider'
 import { makeStyles, Theme } from '@material-ui/core/styles'
 import { useAnchorEl, useBaseStyles } from '../hooks'
+import NumberInput from './NumberInput'
 
 type SlotSizePopoverProps = {
   value: number
@@ -21,25 +21,12 @@ type SlotSizePopoverProps = {
 const SlotSizePopover: React.FC<SlotSizePopoverProps> = ({ value, max, onChange }) => {
   const { anchorEl, onClick, onClose } = useAnchorEl()
   const classes = useBaseStyles()
-  const handleChange = useCallback(
-    (event: React.ChangeEvent<HTMLInputElement>) => {
-      onChange(Number(event.currentTarget.value))
-    },
-    [onChange]
-  )
 
   const handleSliderChange = (event: unknown, value: number | number[]) => {
     if (typeof value === 'number') {
       onChange(value)
     }
   }
-
-  const handleIncrementClick = useCallback(() => {
-    onChange(value + 1)
-  }, [value, onChange])
-  const handleDecrementClick = useCallback(() => {
-    onChange(value - 1)
-  }, [value, onChange])
   return (
     <>
       <Tooltip title="搭載を設定">
@@ -63,18 +50,21 @@ const SlotSizePopover: React.FC<SlotSizePopoverProps> = ({ value, max, onChange 
         anchorEl={anchorEl}
         onClose={onClose}
       >
-        <TextField style={{ margin: 8 }} label="slot size" value={value} onChange={handleChange} type="number" />
-        <Box m={1}>
+        <Box m={2}>
+          <NumberInput label="slot size" fullWidth value={value} onChange={onChange} min={0} max={max} />
+        </Box>
+
+        <Box m={2}>
           <Slider value={value} onChange={handleSliderChange} min={0} max={max} step={1} />
         </Box>
-        <div style={{ display: 'flex', justifyContent: 'space-around' }}>
+        {/* <div style={{ display: 'flex', justifyContent: 'space-around' }}>
           <IconButton onClick={handleDecrementClick}>
             <ExposureNeg1Icon />
           </IconButton>
           <IconButton onClick={handleIncrementClick}>
             <ExposurePlus1Icon />
           </IconButton>
-        </div>
+        </div> */}
       </Popover>
     </>
   )

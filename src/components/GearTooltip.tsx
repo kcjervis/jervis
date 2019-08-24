@@ -24,6 +24,7 @@ const GearTooltip: React.FC<GearTooltipProps> = ({ gear, ...rest }) => {
       <StatLabel statKey={key} stat={stat} visibleStatName />
     </Flexbox>
   ))
+
   return (
     <Tooltip
       enterDelay={300}
