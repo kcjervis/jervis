@@ -1,9 +1,10 @@
-import { IGearDataObject, IShipDataObject } from 'kc-calculator'
+import { IGearDataObject, IShipDataObject, formulas } from 'kc-calculator'
 import { Proficiency } from 'kc-calculator/dist/objects/Gear'
-import { calcHpAtLevel, calcStatAtLevel } from 'kc-calculator/dist/objects/Ship/ShipNakedStats'
 
 import { masterData } from '../stores/kcObjectFactory'
 import { ObservableOperation } from '../stores'
+
+const { calcHpAtLevel, calcStatAtLevel } = formulas
 
 export interface DeckGear {
   id: number | null
