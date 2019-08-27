@@ -23,8 +23,11 @@ const SlotSizePopover: React.FC<SlotSizePopoverProps> = ({ value, max, onChange 
   const classes = useBaseStyles()
 
   const handleSliderChange = (event: unknown, value: number | number[]) => {
-    if (typeof value === 'number') {
-      onChange(value)
+    if (typeof value !== 'number') {
+      return
+    }
+    if (value > 0) {
+      onChange(Math.min(value, max))
     }
   }
   return (
