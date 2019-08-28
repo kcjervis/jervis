@@ -96,7 +96,7 @@ export default function NumberInput({ value, onChange, min, max, step = 1, ...te
     (event: React.ChangeEvent<HTMLInputElement>) => {
       const str = event.target.value.replace(/[０-９]/g, s => String.fromCharCode(s.charCodeAt(0) - 0xfee0))
       const next = Number(str)
-      if (Number.isNaN(next)) {
+      if (Number.isFinite(next)) {
         return
       }
       setInputValue(str)
