@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react'
-import maps from '../../data/maps'
+import maps from '@jervis/data/dist/maps'
 import { nonNullable } from 'kc-calculator'
 
 import Box from '@material-ui/core/Box'
@@ -33,7 +33,8 @@ const worlds = [
   { id: 5, name: '南方海域' },
   { id: 6, name: '中部海域' },
   { id: 43, name: '邀撃！ブイン防衛作戦' },
-  { id: 44, name: '発動！友軍救援「第二次ハワイ作戦」' }
+  { id: 44, name: '発動！友軍救援「第二次ハワイ作戦」' },
+  { id: 45, name: '欧州方面反撃作戦 発動！「シングル作戦」' }
 ]
 
 const mapToLabel = ({ mapId }: { mapId: number }) => `${Math.floor(mapId / 10)} - ${mapId % 10}`
@@ -47,7 +48,7 @@ export type MapsPanelProps = {
 const MapsPanel: React.FC<MapsPanelProps> = ({ onSelect }) => {
   const classes = useStyles()
 
-  const worldSelect = useSelect(worlds, worlds[6])
+  const worldSelect = useSelect(worlds, worlds[9])
   const worldMaps = maps.filter(({ mapId }) => Math.floor(mapId / 10) === worldSelect.value.id)
   const mapSelect = useSelect(worldMaps)
 
