@@ -1,10 +1,10 @@
-import { IGearDataObject } from 'kc-calculator'
-import { action, computed, observable } from 'mobx'
-import { persist } from 'mobx-persist'
-import uuid from 'uuid'
+import { IGearDataObject } from "kc-calculator"
+import { action, computed, observable } from "mobx"
+import { persist } from "mobx-persist"
+import uuid from "uuid"
 
-import kcObjectFactory from './kcObjectFactory'
-import { StoreItem, GearStore } from '../types'
+import kcObjectFactory from "./kcObjectFactory"
+import { StoreItem, GearStore } from "../types"
 
 export type ObservableGearStore = GearStore<ObservableGear | undefined>
 

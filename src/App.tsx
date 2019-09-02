@@ -1,27 +1,27 @@
-import { MuiThemeProvider } from '@material-ui/core/styles'
-import React, { Component } from 'react'
-import { DndProvider } from 'react-dnd'
-import HTML5Backend from 'react-dnd-html5-backend'
-import { HashRouter, Route } from 'react-router-dom'
+import { MuiThemeProvider } from "@material-ui/core/styles"
+import React, { Component } from "react"
+import { DndProvider } from "react-dnd"
+import HTML5Backend from "react-dnd-html5-backend"
+import { HashRouter, Route } from "react-router-dom"
 
-import { Provider as MobXProvider } from 'mobx-react'
-import stores from './stores'
+import { Provider as MobXProvider } from "mobx-react"
+import stores from "./stores"
 
-import Background from './Background'
+import Background from "./Background"
 
-import MapsPanel from './containers/MapsPanel'
-import { ShipSelectPanel, Dialogs, Home, SettingPanel } from './containers'
+import MapsPanel from "./containers/MapsPanel"
+import { ShipSelectPanel, Dialogs, Home, SettingPanel } from "./containers"
 
-import OperationsPage from './containers/OperationsPage'
+import OperationsPage from "./containers/OperationsPage"
 
-import AppsPage from './containers/AppsPage'
-import DataLoader from './containers/DataLoader'
-import GearsDataTable from './containers/GearsDataTable'
+import AppsPage from "./containers/AppsPage"
+import DataLoader from "./containers/DataLoader"
+import GearsDataTable from "./containers/GearsDataTable"
 
-import UrlShortener from './containers/UrlShortener'
+import UrlShortener from "./containers/UrlShortener"
 
-import theme from './theme'
-import Workspace from './containers/Workspace/Workspace'
+import theme from "./theme"
+import Workspace from "./containers/Workspace/Workspace"
 
 export default class App extends Component {
   public render() {

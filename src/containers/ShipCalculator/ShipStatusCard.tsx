@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import { observer } from 'mobx-react-lite'
+import React, { useState } from "react"
+import { observer } from "mobx-react-lite"
 import {
   ShipInformation,
   Engagement,
@@ -10,23 +10,23 @@ import {
   ShipNightAttackStatus,
   BattleState,
   ShellingSupport
-} from 'kc-calculator'
-import { round } from 'lodash-es'
-import clsx from 'clsx'
+} from "kc-calculator"
+import { round } from "lodash-es"
+import clsx from "clsx"
 
-import Box from '@material-ui/core/Box'
-import Paper, { PaperProps } from '@material-ui/core/Paper'
-import Typography from '@material-ui/core/Typography'
-import Tooltip from '@material-ui/core/Tooltip'
-import FormControlLabel from '@material-ui/core/FormControlLabel'
-import Checkbox from '@material-ui/core/Checkbox'
-import Divider from '@material-ui/core/Divider'
-import { makeStyles, createStyles, Theme } from '@material-ui/core/styles'
+import Box from "@material-ui/core/Box"
+import Paper, { PaperProps } from "@material-ui/core/Paper"
+import Typography from "@material-ui/core/Typography"
+import Tooltip from "@material-ui/core/Tooltip"
+import FormControlLabel from "@material-ui/core/FormControlLabel"
+import Checkbox from "@material-ui/core/Checkbox"
+import Divider from "@material-ui/core/Divider"
+import { makeStyles, createStyles, Theme } from "@material-ui/core/styles"
 
-import { toPercent } from '../../utils'
-import { Select, Table, Flexbox, NumberInput, AttackChip } from '../../components'
-import { useSelect, useInput, useCheck } from '../../hooks'
-import ShellingStats from './ShellingStats'
+import { toPercent } from "../../utils"
+import { Select, Table, Flexbox, NumberInput, AttackChip } from "../../components"
+import { useSelect, useInput, useCheck } from "../../hooks"
+import ShellingStats from "./ShellingStats"
 
 const useStyles = makeStyles(
   createStyles({
@@ -40,9 +40,9 @@ export const getAttackName = (attack?: DayCombatSpecialAttack | NightCombatSpeci
   <AttackChip attack={attack} />
 )
 
-const installationTypes: InstallationType[] = ['None', 'SoftSkinned', 'Pillbox', 'IsolatedIsland', 'SupplyDepot']
+const installationTypes: InstallationType[] = ["None", "SoftSkinned", "Pillbox", "IsolatedIsland", "SupplyDepot"]
 const installationTypeToJp = (type: InstallationType) =>
-  ({ None: '水上艦', SoftSkinned: 'ソフトスキン', Pillbox: '砲台', IsolatedIsland: '離島', SupplyDepot: '集積' }[type])
+  ({ None: "水上艦", SoftSkinned: "ソフトスキン", Pillbox: "砲台", IsolatedIsland: "離島", SupplyDepot: "集積" }[type])
 
 export const useInstallationTypeSelect = (init?: InstallationType) => {
   const select = useSelect(installationTypes, init)
@@ -91,7 +91,7 @@ const ShipShellingStatusCard: React.FC<ShipStatusCardProps> = props => {
       installationType: installationTypeSelect.value,
       eventMapModifier
     })
-    const color = shellingPower.isCapped ? 'secondary' : 'inherit'
+    const color = shellingPower.isCapped ? "secondary" : "inherit"
     return (
       <Tooltip title={<ShellingStats shellingPower={shellingPower} />}>
         <Typography variant="inherit" color={color}>
@@ -112,7 +112,7 @@ const ShipShellingStatusCard: React.FC<ShipStatusCardProps> = props => {
       isCritical,
       eventMapModifier
     })
-    const color = nightAttackPower.isCapped ? 'secondary' : 'inherit'
+    const color = nightAttackPower.isCapped ? "secondary" : "inherit"
 
     return (
       <Typography variant="inherit" color={color}>
@@ -121,11 +121,11 @@ const ShipShellingStatusCard: React.FC<ShipStatusCardProps> = props => {
     )
   }
 
-  const visibleAp = ship.hasGearCategory('ArmorPiercingShell') && ship.hasGearCategory(cate => cate.isMainGun)
+  const visibleAp = ship.hasGearCategory("ArmorPiercingShell") && ship.hasGearCategory(cate => cate.isMainGun)
 
   const createShellingSupportRenderer = (isCritical: boolean) => () => {
     const power = ShellingSupport.getShellingSupportPower({ battleState, attacker: shipInformation, isCritical })
-    const color = power.isCapped ? 'secondary' : 'inherit'
+    const color = power.isCapped ? "secondary" : "inherit"
     return (
       <Typography variant="inherit" color={color}>
         {round(power.value, 4)}
@@ -154,10 +154,10 @@ const ShipShellingStatusCard: React.FC<ShipStatusCardProps> = props => {
       <Table
         data={specialAttackRate.dayCombatAttacks}
         columns={[
-          { label: '攻撃種別', getValue: getAttackName, align: 'left' },
-          { label: '発動率', getValue: attack => toPercent(specialAttackRate.getAttackRate(attack)) },
-          { label: '最終攻撃力', getValue: createShellingCellRenderer(false) },
-          { label: 'クリティカル', getValue: createShellingCellRenderer(true) }
+          { label: "攻撃種別", getValue: getAttackName, align: "left" },
+          { label: "発動率", getValue: attack => toPercent(specialAttackRate.getAttackRate(attack)) },
+          { label: "最終攻撃力", getValue: createShellingCellRenderer(false) },
+          { label: "クリティカル", getValue: createShellingCellRenderer(true) }
         ]}
       />
       <Typography variant="caption">合計特殊攻撃率 {toPercent(specialAttackRate.total)}</Typography>
@@ -167,9 +167,9 @@ const ShipShellingStatusCard: React.FC<ShipStatusCardProps> = props => {
         <Table
           data={nightAttacks}
           columns={[
-            { label: '攻撃種別', getValue: getAttackName, align: 'left' },
-            { label: '最終攻撃力', getValue: createNightCellRenderer(false) },
-            { label: 'クリティカル', getValue: createNightCellRenderer(true) }
+            { label: "攻撃種別", getValue: getAttackName, align: "left" },
+            { label: "最終攻撃力", getValue: createNightCellRenderer(false) },
+            { label: "クリティカル", getValue: createNightCellRenderer(true) }
           ]}
         />
       </Box>
@@ -179,8 +179,8 @@ const ShipShellingStatusCard: React.FC<ShipStatusCardProps> = props => {
         <Table
           data={[0]}
           columns={[
-            { label: '最終攻撃力', getValue: createShellingSupportRenderer(false) },
-            { label: 'クリティカル', getValue: createShellingSupportRenderer(true) }
+            { label: "最終攻撃力", getValue: createShellingSupportRenderer(false) },
+            { label: "クリティカル", getValue: createShellingSupportRenderer(true) }
           ]}
         />
       </Box>

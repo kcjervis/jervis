@@ -1,11 +1,11 @@
-import { observer } from 'mobx-react-lite'
-import React, { useCallback } from 'react'
+import { observer } from "mobx-react-lite"
+import React, { useCallback } from "react"
 
-import { ShipStatKey } from 'kc-calculator'
+import { ShipStatKey } from "kc-calculator"
 
-import StatLabel from '../../components/StatLabel'
+import StatLabel from "../../components/StatLabel"
 
-import { ObservableShip } from '../../stores'
+import { ObservableShip } from "../../stores"
 
 export const useShipStat = ({ ship, statKey }: { ship: ObservableShip; statKey: ShipStatKey }) => {
   const { stats, nakedStats } = ship.asKcObject
@@ -23,7 +23,7 @@ export const useShipStat = ({ ship, statKey }: { ship: ObservableShip; statKey: 
       } else {
         delete ship.increased[statKey]
       }
-      if (statKey === 'hp') {
+      if (statKey === "hp") {
         ship.nowHp = ship.asKcObject.health.maxHp
       }
     },

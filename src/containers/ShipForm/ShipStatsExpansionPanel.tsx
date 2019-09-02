@@ -1,28 +1,28 @@
-import React, { useState, useCallback, useEffect } from 'react'
-import { shipStatKeys, ShipStatKey } from 'kc-calculator'
-import { observer } from 'mobx-react-lite'
-import clsx from 'clsx'
+import React, { useState, useCallback, useEffect } from "react"
+import { shipStatKeys, ShipStatKey } from "kc-calculator"
+import { observer } from "mobx-react-lite"
+import clsx from "clsx"
 
-import ExpansionPanel from '@material-ui/core/ExpansionPanel'
-import Typography from '@material-ui/core/Typography'
-import Button from '@material-ui/core/Button'
-import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary'
-import Box from '@material-ui/core/Box'
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
-import { makeStyles, createStyles, Theme } from '@material-ui/core/styles'
-import Grid from '@material-ui/core/Grid'
+import ExpansionPanel from "@material-ui/core/ExpansionPanel"
+import Typography from "@material-ui/core/Typography"
+import Button from "@material-ui/core/Button"
+import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary"
+import Box from "@material-ui/core/Box"
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore"
+import { makeStyles, createStyles, Theme } from "@material-ui/core/styles"
+import Grid from "@material-ui/core/Grid"
 
-import ShipStatDialog from './ShipStatDialog'
-import HealthBarDialog from './HealthBarDialog'
-import ShipStatLabel from './ShipStatLabel'
+import ShipStatDialog from "./ShipStatDialog"
+import HealthBarDialog from "./HealthBarDialog"
+import ShipStatLabel from "./ShipStatLabel"
 
-import { ObservableShip } from '../../stores'
-import { MoraleBar, MoraleDialog } from '../../components'
+import { ObservableShip } from "../../stores"
+import { MoraleBar, MoraleDialog } from "../../components"
 
 const useStyles = makeStyles(
   createStyles({
     summary: {
-      padding: '0 8px'
+      padding: "0 8px"
     },
     summaryStat: {
       minWidth: 8 * 7
@@ -47,10 +47,10 @@ const ShipStatsExpansionPanel: React.FC<ShipStatsExpansionPanelProps> = ({ ship,
   }, [defaultExpanded])
 
   const classes = useStyles()
-  const summaryStatKeys: ShipStatKey[] = ['hp', 'asw', 'luck']
+  const summaryStatKeys: ShipStatKey[] = ["hp", "asw", "luck"]
 
   const shipStatRenderer = (statKey: ShipStatKey) => {
-    if (statKey === 'antiAir') {
+    if (statKey === "antiAir") {
       return (
         <React.Fragment key={statKey}>
           <Grid item={true} xs={6} key={statKey}>

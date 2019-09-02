@@ -1,10 +1,10 @@
-import { makeStyles, Theme } from '@material-ui/core/styles'
-import { random, range } from 'lodash-es'
-import React from 'react'
+import { makeStyles, Theme } from "@material-ui/core/styles"
+import { random, range } from "lodash-es"
+import React from "react"
 
-import ShipImage from './components/ShipImage'
+import ShipImage from "./components/ShipImage"
 
-import { masterData } from './stores/kcObjectFactory'
+import { masterData } from "./stores/kcObjectFactory"
 
 const blur = 8
 
@@ -18,22 +18,22 @@ const useStyles = makeStyles({
     height: `calc(100vh + ${blur * 4}px)`,
     width: `calc(100vw + ${blur * 4}px)`,
     zIndex: -10000,
-    position: 'fixed',
+    position: "fixed",
     top: -blur * 2,
     left: -blur * 2,
-    textAlign: 'right',
+    textAlign: "right",
     filter: `blur(${blur}px)`,
-    '&:before': {
+    "&:before": {
       content: '""',
-      position: 'fixed',
-      display: 'block',
-      height: '100%',
-      width: '100%',
-      background: 'inherit'
+      position: "fixed",
+      display: "block",
+      height: "100%",
+      width: "100%",
+      background: "inherit"
     }
   },
   image: {
-    height: '100%'
+    height: "100%"
   }
 })
 

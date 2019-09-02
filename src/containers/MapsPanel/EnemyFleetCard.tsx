@@ -1,14 +1,14 @@
-import React, { useContext } from 'react'
-import { BattleFleet } from 'kc-calculator'
+import React, { useContext } from "react"
+import { BattleFleet } from "kc-calculator"
 
-import Button from '@material-ui/core/Button'
-import Paper from '@material-ui/core/Paper'
-import { makeStyles, createStyles, Theme } from '@material-ui/core/styles'
+import Button from "@material-ui/core/Button"
+import Paper from "@material-ui/core/Paper"
+import { makeStyles, createStyles, Theme } from "@material-ui/core/styles"
 
-import { EnemyFleet, SaveButton, InfoButton } from '../../components'
-import { battleFleetToOperation } from './enemyBattleFleet'
-import { useOperationStore, useWorkspace } from '../../hooks'
-import { ObservableOperation, SettingStoreContext } from '../../stores'
+import { EnemyFleet, SaveButton, InfoButton } from "../../components"
+import { battleFleetToOperation } from "./enemyBattleFleet"
+import { useOperationStore, useWorkspace } from "../../hooks"
+import { ObservableOperation, SettingStoreContext } from "../../stores"
 
 type EnemyFleetCardProps = {
   fleet: BattleFleet

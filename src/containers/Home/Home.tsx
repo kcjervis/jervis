@@ -1,8 +1,8 @@
-import React from 'react'
+import React from "react"
 
-import Typography from '@material-ui/core/Typography'
-import Box from '@material-ui/core/Box'
-import { Flexbox } from '../../components'
+import Typography from "@material-ui/core/Typography"
+import Box from "@material-ui/core/Box"
+import { Flexbox } from "../../components"
 
 export default function Home() {
   return (

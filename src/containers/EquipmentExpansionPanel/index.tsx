@@ -1,17 +1,17 @@
-import React from 'react'
+import React from "react"
 
-import ExpansionPanel from '@material-ui/core/ExpansionPanel'
-import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails'
-import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary'
-import Typography from '@material-ui/core/Typography'
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
-import { makeStyles, Theme } from '@material-ui/core/styles'
+import ExpansionPanel from "@material-ui/core/ExpansionPanel"
+import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails"
+import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary"
+import Typography from "@material-ui/core/Typography"
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore"
+import { makeStyles, Theme } from "@material-ui/core/styles"
 
-import { GearIcon } from '../../components'
-import GearField from '../GearField'
-import GearAvatar from '../GearAvatar'
+import { GearIcon } from "../../components"
+import GearField from "../GearField"
+import GearAvatar from "../GearAvatar"
 
-import { ObservableGear, ObservableLandBasedAirCorps, ObservableShip } from '../../stores'
+import { ObservableGear, ObservableLandBasedAirCorps, ObservableShip } from "../../stores"
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {},

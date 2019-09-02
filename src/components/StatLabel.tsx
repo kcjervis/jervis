@@ -1,19 +1,19 @@
-import { GearStatKey, ShipStatKey, Speed } from 'kc-calculator'
-import React from 'react'
-import clsx from 'clsx'
+import { GearStatKey, ShipStatKey, Speed } from "kc-calculator"
+import React from "react"
+import clsx from "clsx"
 
-import Typography from '@material-ui/core/Typography'
-import Tooltip from '@material-ui/core/Tooltip'
-import { makeStyles, Theme } from '@material-ui/core/styles'
+import Typography from "@material-ui/core/Typography"
+import Tooltip from "@material-ui/core/Tooltip"
+import { makeStyles, Theme } from "@material-ui/core/styles"
 
-import StatIcon from './StatIcon'
+import StatIcon from "./StatIcon"
 
-import statKeys from '../data/statKeys'
+import statKeys from "../data/statKeys"
 
 const useStyles = makeStyles({
   root: {
-    display: 'flex',
-    alignItems: 'center'
+    display: "flex",
+    alignItems: "center"
   }
 })
 
@@ -29,23 +29,23 @@ interface StatLabelProps extends React.HTMLAttributes<HTMLDivElement> {
 const rangeValueToName = (range: number) => {
   switch (range) {
     case 0:
-      return '無'
+      return "無"
     case 1:
-      return '短'
+      return "短"
     case 2:
-      return '中'
+      return "中"
     case 3:
-      return '長'
+      return "長"
   }
   if (range >= 4) {
-    return '超長'
+    return "超長"
   }
-  return '不明'
+  return "不明"
 }
 
 const valueToString = (value: number | undefined) => {
   if (!value) {
-    return ''
+    return ""
   }
   return value > 0 ? `+${value}` : `${value}`
 }
@@ -59,11 +59,11 @@ const StatLabel: React.FC<StatLabelProps> = props => {
 
   let displayValue: number | string = stat
   let visibleBonus = Boolean(increased || bonus)
-  if (statKey === 'speed') {
+  if (statKey === "speed") {
     const speed = Speed.fromNumber(stat)
     displayValue = `${speed.name}(${stat})`
     visibleBonus = false
-  } else if (statKey === 'range') {
+  } else if (statKey === "range") {
     displayValue = `${rangeValueToName(stat)}(${stat})`
     visibleBonus = false
   }

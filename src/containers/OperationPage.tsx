@@ -1,11 +1,11 @@
-import { observer } from 'mobx-react-lite'
-import React from 'react'
-import { RouteComponentProps } from 'react-router'
-import { Redirect } from 'react-router-dom'
+import { observer } from "mobx-react-lite"
+import React from "react"
+import { RouteComponentProps } from "react-router"
+import { Redirect } from "react-router-dom"
 
-import OperationPanel from './OperationPanel'
+import OperationPanel from "./OperationPanel"
 
-import { useOperationStore } from '../hooks'
+import { useOperationStore } from "../hooks"
 
 const OperationPage: React.FC<RouteComponentProps> = props => {
   const { activeOperation } = useOperationStore()

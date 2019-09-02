@@ -1,16 +1,16 @@
-import { Proficiency } from 'kc-calculator/dist/objects/Gear'
-import React from 'react'
+import { Proficiency } from "kc-calculator/dist/objects/Gear"
+import React from "react"
 
-import Button from '@material-ui/core/Button'
-import Dialog from '@material-ui/core/Dialog'
-import DialogContent from '@material-ui/core/DialogContent'
-import DialogTitle from '@material-ui/core/DialogTitle'
+import Button from "@material-ui/core/Button"
+import Dialog from "@material-ui/core/Dialog"
+import DialogContent from "@material-ui/core/DialogContent"
+import DialogTitle from "@material-ui/core/DialogTitle"
 
-import ProficiencyIcon from './ProficiencyIcon'
-import { ImprovementButtons } from './ImprovementSelect'
+import ProficiencyIcon from "./ProficiencyIcon"
+import { ImprovementButtons } from "./ImprovementSelect"
 
-import { ObservableGear } from '../stores'
-import { useOpen } from '../hooks'
+import { ObservableGear } from "../stores"
+import { useOpen } from "../hooks"
 
 type GearsSettingDialogProps = {
   gears: ObservableGear[]
@@ -33,7 +33,7 @@ const GearsSettingDialog: React.FC<GearsSettingDialogProps> = ({ gears, restoreS
       const { category } = gear.asKcObject
       if (
         category.isAircraft &&
-        !category.either('LandBasedReconnaissanceAircraft', 'Autogyro', 'AntiSubmarinePatrolAircraft')
+        !category.either("LandBasedReconnaissanceAircraft", "Autogyro", "AntiSubmarinePatrolAircraft")
       ) {
         gear.proficiency = inter
       }

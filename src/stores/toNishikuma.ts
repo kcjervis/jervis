@@ -1,6 +1,6 @@
-import { IGear, IFleet, IOperation, IShip } from 'kc-calculator'
+import { IGear, IFleet, IOperation, IShip } from "kc-calculator"
 
-import { DeckFleet, DeckGear, DeckShip, Nishikuma } from '../utils'
+import { DeckFleet, DeckGear, DeckShip, Nishikuma } from "../utils"
 
 const toDeckGear = (gear: IGear): DeckGear => {
   const { masterId, improvement, proficiency } = gear
@@ -23,7 +23,7 @@ const toDeckShip = (ship: IShip): DeckShip => {
     if (!gear) {
       return
     }
-    const key = onExslot(ship, gear) ? 'ix' : `i${index + 1}`
+    const key = onExslot(ship, gear) ? "ix" : `i${index + 1}`
     items[key] = toDeckGear(gear)
   })
   return {

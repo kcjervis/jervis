@@ -1,18 +1,18 @@
-import React, { useState, useEffect, useCallback } from 'react'
-import clsx from 'clsx'
+import React, { useState, useEffect, useCallback } from "react"
+import clsx from "clsx"
 
-import TextField, { TextFieldProps } from '@material-ui/core/TextField'
-import InputAdornment from '@material-ui/core/InputAdornment'
-import Button from '@material-ui/core/Button'
-import IconButton from '@material-ui/core/IconButton'
-import ArrowDropUpIcon from '@material-ui/icons/ArrowDropUp'
-import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown'
-import { makeStyles, createStyles, Theme } from '@material-ui/core/styles'
-import Flexbox from './Flexbox'
+import TextField, { TextFieldProps } from "@material-ui/core/TextField"
+import InputAdornment from "@material-ui/core/InputAdornment"
+import Button from "@material-ui/core/Button"
+import IconButton from "@material-ui/core/IconButton"
+import ArrowDropUpIcon from "@material-ui/icons/ArrowDropUp"
+import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown"
+import { makeStyles, createStyles, Theme } from "@material-ui/core/styles"
+import Flexbox from "./Flexbox"
 
-import { IncreaseButton, DecreaseButton } from './IconButtons'
-import { useHover } from '../hooks'
-import { round } from 'lodash-es'
+import { IncreaseButton, DecreaseButton } from "./IconButtons"
+import { useHover } from "../hooks"
+import { round } from "lodash-es"
 
 const useStyles = makeStyles(
   createStyles({
@@ -20,22 +20,24 @@ const useStyles = makeStyles(
       width: 8 * 15
     },
     button: {
-      display: 'block',
+      display: "block",
       padding: 0,
       width: 24,
       height: 16,
       lineHeight: 1
     },
     label: {
-      whiteSpace: 'nowrap'
+      whiteSpace: "nowrap"
     }
   })
 )
 
+const { setTimeout } = window
+
 const usePress = (onPress: () => void) => {
   const [isDown, setIsDown] = useState(false)
   const [isPressed, setIsPressed] = useState(false)
-  const [timer, setTimer] = useState<NodeJS.Timeout | undefined>()
+  const [timer, setTimer] = useState<number | undefined>()
 
   useEffect(() => {
     if (isDown) {
@@ -82,7 +84,7 @@ type NumberInputProps = {
   min?: number
   max?: number
   step?: number
-} & Omit<TextFieldProps, 'type' | 'inputProps' | 'onChange' | 'onInput' | 'variant'>
+} & Omit<TextFieldProps, "type" | "inputProps" | "onChange" | "onInput" | "variant">
 
 export default function NumberInput({ value, onChange, min, max, step = 1, ...textFieldProps }: NumberInputProps) {
   const classes = useStyles()
@@ -101,7 +103,7 @@ export default function NumberInput({ value, onChange, min, max, step = 1, ...te
       }
       setInputValue(str)
 
-      if (str !== '') {
+      if (str !== "") {
         onChange(next)
       }
     },
@@ -110,8 +112,8 @@ export default function NumberInput({ value, onChange, min, max, step = 1, ...te
 
   const changeValue = useCallback(
     (next: number) => {
-      next = typeof min === 'number' ? Math.max(next, min) : next
-      next = typeof max === 'number' ? Math.min(next, max) : next
+      next = typeof min === "number" ? Math.max(next, min) : next
+      next = typeof max === "number" ? Math.min(next, max) : next
       onChange(next)
     },
     [min, max, onChange]
@@ -132,7 +134,7 @@ export default function NumberInput({ value, onChange, min, max, step = 1, ...te
       InputLabelProps={{ className: classes.label }}
       InputProps={{
         endAdornment: (
-          <InputAdornment position="end" style={{ visibility: isHovered ? undefined : 'hidden' }}>
+          <InputAdornment position="end" style={{ visibility: isHovered ? undefined : "hidden" }}>
             <div>
               <Button className={classes.button} size="small" {...increaseProps}>
                 <ArrowDropUpIcon fontSize="inherit" />

@@ -1,12 +1,12 @@
-import { observer } from 'mobx-react-lite'
-import React from 'react'
-import clsx from 'clsx'
+import { observer } from "mobx-react-lite"
+import React from "react"
+import clsx from "clsx"
 
-import Box from '@material-ui/core/Box'
-import { makeStyles, createStyles, Theme } from '@material-ui/core/styles'
+import Box from "@material-ui/core/Box"
+import { makeStyles, createStyles, Theme } from "@material-ui/core/styles"
 
-import GearForm, { GearFormSize } from './GearForm'
-import { ObservableLandBasedAirCorps, ObservableShip } from '../../stores'
+import GearForm, { GearFormSize } from "./GearForm"
+import { ObservableLandBasedAirCorps, ObservableShip } from "../../stores"
 
 type EquipmentFormProps = {
   store: ObservableShip | ObservableLandBasedAirCorps

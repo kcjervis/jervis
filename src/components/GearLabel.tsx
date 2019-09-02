@@ -1,12 +1,12 @@
-import React from 'react'
-import clsx from 'clsx'
-import { IGear } from 'kc-calculator'
+import React from "react"
+import clsx from "clsx"
+import { IGear } from "kc-calculator"
 
-import Box, { BoxProps } from '@material-ui/core/Box'
-import { makeStyles, Theme } from '@material-ui/core/styles'
-import Typography from '@material-ui/core/Typography'
+import Box, { BoxProps } from "@material-ui/core/Box"
+import { makeStyles, Theme } from "@material-ui/core/styles"
+import Typography from "@material-ui/core/Typography"
 
-import GearIcon from './GearIcon'
+import GearIcon from "./GearIcon"
 
 const useStyles = makeStyles({
   icon: {
@@ -14,9 +14,9 @@ const useStyles = makeStyles({
     marginRight: 4
   },
   name: {
-    fontSize: '0.75rem',
-    overflow: 'hidden',
-    whiteSpace: 'nowrap'
+    fontSize: "0.75rem",
+    overflow: "hidden",
+    whiteSpace: "nowrap"
   }
 })
 
@@ -31,7 +31,7 @@ const GearLabel: React.FC<GearLabelProps> = ({ gear, slotSize, equippable = true
   return (
     <Box display="flex" alignItems="center" {...boxProps}>
       <GearIcon className={classes.icon} iconId={gear.iconId} />
-      <Typography className={classes.name} noWrap color={equippable ? 'initial' : 'secondary'}>
+      <Typography className={classes.name} noWrap color={equippable ? "initial" : "secondary"}>
         {gear.name}
       </Typography>
     </Box>

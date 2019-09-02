@@ -1,16 +1,16 @@
-import React from 'react'
-import { IShip, Side, AerialCombat } from 'kc-calculator'
-import { ShipAntiAir } from 'kc-calculator/dist/Battle/AerialCombat'
-import { observer } from 'mobx-react-lite'
+import React from "react"
+import { IShip, Side, AerialCombat } from "kc-calculator"
+import { ShipAntiAir } from "kc-calculator/dist/Battle/AerialCombat"
+import { observer } from "mobx-react-lite"
 
-import calcAntiAirCutinRates from './calcAntiAirCutinRate'
+import calcAntiAirCutinRates from "./calcAntiAirCutinRate"
 
-import TableCell from '@material-ui/core/TableCell'
-import TableRow from '@material-ui/core/TableRow'
-import Typography from '@material-ui/core/Typography'
-import Tooltip from '@material-ui/core/Tooltip'
+import TableCell from "@material-ui/core/TableCell"
+import TableRow from "@material-ui/core/TableRow"
+import Typography from "@material-ui/core/Typography"
+import Tooltip from "@material-ui/core/Tooltip"
 
-import { toPercent } from '../../../utils'
+import { toPercent } from "../../../utils"
 
 type AerialCombatShipRowProps = {
   ship: IShip
@@ -57,7 +57,7 @@ const AerialCombatShipRow: React.FC<AerialCombatShipRowProps> = ({
         ))}
       </TableCell>
       <TableCell align="right">
-        {antiAirPropellantBarrageChance !== 0 ? toPercent(antiAirPropellantBarrageChance) : '不可'}
+        {antiAirPropellantBarrageChance !== 0 ? toPercent(antiAirPropellantBarrageChance) : "不可"}
       </TableCell>
     </TableRow>
   )

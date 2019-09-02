@@ -1,1 +1,1 @@
-export { default } from './AerialCombatTable'
+export { default } from "./AerialCombatTable"

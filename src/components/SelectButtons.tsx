@@ -1,16 +1,16 @@
-import React from 'react'
+import React from "react"
 
-import Button, { ButtonProps } from '@material-ui/core/Button'
-import { makeStyles, createStyles, Theme } from '@material-ui/core/styles'
+import Button, { ButtonProps } from "@material-ui/core/Button"
+import { makeStyles, createStyles, Theme } from "@material-ui/core/styles"
 
-import { BaseSelectProps, getDefaultOptionLabel } from './Select'
-import clsx from 'clsx'
+import { BaseSelectProps, getDefaultOptionLabel } from "./Select"
+import clsx from "clsx"
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     button: {
       borderRadius: 0,
-      boxSizing: 'border-box',
+      boxSizing: "border-box",
       borderBlockEnd: `solid 2px rgba(0, 0, 0, 0)`
     },
     selected: {
@@ -33,7 +33,7 @@ function SelectButtons<OptionType>(props: SelectButtonsProps<OptionType>) {
           onClick={() => onChange(option)}
           {...buttonProps}
         >
-          {getOptionLabel(option)}{' '}
+          {getOptionLabel(option)}{" "}
         </Button>
       ))}
     </>

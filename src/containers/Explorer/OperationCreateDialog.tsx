@@ -1,15 +1,15 @@
-import React, { useRef } from 'react'
-import clsx from 'clsx'
+import React, { useRef } from "react"
+import clsx from "clsx"
 
-import Button from '@material-ui/core/Button'
-import TextField from '@material-ui/core/TextField'
-import Typography from '@material-ui/core/Typography'
-import Dialog, { DialogProps } from '@material-ui/core/Dialog'
-import DialogActions from '@material-ui/core/DialogActions'
-import DialogContent from '@material-ui/core/DialogContent'
+import Button from "@material-ui/core/Button"
+import TextField from "@material-ui/core/TextField"
+import Typography from "@material-ui/core/Typography"
+import Dialog, { DialogProps } from "@material-ui/core/Dialog"
+import DialogActions from "@material-ui/core/DialogActions"
+import DialogContent from "@material-ui/core/DialogContent"
 
-import { OperationStore, ObservableOperation } from '../../stores'
-import { useWorkspace } from '../../hooks'
+import { OperationStore, ObservableOperation } from "../../stores"
+import { useWorkspace } from "../../hooks"
 
 type OperationCreateDialogProps = { store: OperationStore; onClose: () => void } & DialogProps
 
@@ -25,7 +25,7 @@ const OperationCreateDialog: React.FC<OperationCreateDialogProps> = ({ store, ..
       return
     }
     const currentName = nameRef.current.value
-    const name = currentName === '' ? defaultName : currentName
+    const name = currentName === "" ? defaultName : currentName
     let newOperation: ObservableOperation
     try {
       newOperation = store.fromNishikuma(jsonRef.current.value, name)

@@ -1,9 +1,9 @@
-import { FleetTypeName } from 'kc-calculator'
-import React from 'react'
+import { FleetTypeName } from "kc-calculator"
+import React from "react"
 
-import FormControl from '@material-ui/core/FormControl'
-import MenuItem from '@material-ui/core/MenuItem'
-import Select, { SelectProps } from '@material-ui/core/Select'
+import FormControl from "@material-ui/core/FormControl"
+import MenuItem from "@material-ui/core/MenuItem"
+import Select, { SelectProps } from "@material-ui/core/Select"
 
 interface FleetTypeSelectProps {
   fleetType: FleetTypeName

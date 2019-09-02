@@ -1,17 +1,17 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from "react"
 
-import CircularProgress from '@material-ui/core/CircularProgress'
+import CircularProgress from "@material-ui/core/CircularProgress"
 
-import { loadStores, ObservableOperation, TemporaryOperationStoreContext } from '../stores'
-import { getOperation } from '../stores/firebase'
-import { useWorkspace } from '../hooks'
+import { loadStores, ObservableOperation, TemporaryOperationStoreContext } from "../stores"
+import { getOperation } from "../stores/firebase"
+import { useWorkspace } from "../hooks"
 
 const loadOperation = async () => {
   const url = new URL(window.location.href)
-  const filePath = url.searchParams.get('operation-path')
-  const dataObject = url.searchParams.get('operation-json')
-  url.search = ''
-  window.history.replaceState('', '', url.href)
+  const filePath = url.searchParams.get("operation-path")
+  const dataObject = url.searchParams.get("operation-json")
+  url.search = ""
+  window.history.replaceState("", "", url.href)
   if (filePath) {
     return await getOperation(filePath)
   } else if (dataObject) {
@@ -40,7 +40,7 @@ const DataLoader: React.FC = ({ children }) => {
 
   if (!isReady) {
     return (
-      <div style={{ width: '100vw', height: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+      <div style={{ width: "100vw", height: "100vh", display: "flex", justifyContent: "center", alignItems: "center" }}>
         <CircularProgress size={120} />
       </div>
     )

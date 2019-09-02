@@ -1,9 +1,9 @@
-import { action, computed, observable } from 'mobx'
-import { persist } from 'mobx-persist'
+import { action, computed, observable } from "mobx"
+import { persist } from "mobx-persist"
 
-import ObservableOperation from './ObservableOperation'
-import { setDeckbuilder } from '../utils'
-import { Store } from '../types'
+import ObservableOperation from "./ObservableOperation"
+import { setDeckbuilder } from "../utils"
+import { Store } from "../types"
 
 const switchArrayItems = <T>(array1: T[], index1: number, array2: T[], index2: number) => {
   const item1 = array1[index1]
@@ -13,7 +13,7 @@ const switchArrayItems = <T>(array1: T[], index1: number, array2: T[], index2: n
 }
 
 export default class OperationStore implements Store<ObservableOperation> {
-  @persist('list', ObservableOperation) @observable public operations = observable<ObservableOperation>([])
+  @persist("list", ObservableOperation) @observable public operations = observable<ObservableOperation>([])
 
   @action public createOperation = (name = `編成${this.operations.length + 1}`) => {
     const newOperation = new ObservableOperation()
@@ -35,7 +35,7 @@ export default class OperationStore implements Store<ObservableOperation> {
   }
 
   @action public fromNishikuma = (json: string, name?: string) => {
-    const deckObject = JSON.parse(json.replace(/^http:\/\/kancolle-calc\.net\/deckbuilder\.html\?predeck=/, ''))
+    const deckObject = JSON.parse(json.replace(/^http:\/\/kancolle-calc\.net\/deckbuilder\.html\?predeck=/, ""))
     const newOperation = this.createOperation(name)
     return setDeckbuilder(newOperation, deckObject)
   }

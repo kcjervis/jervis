@@ -1,29 +1,29 @@
-import { IShip, calcDeadlyPower, calcEvasionValue, BattleFleet, Formation } from 'kc-calculator'
-import React from 'react'
+import { IShip, calcDeadlyPower, calcEvasionValue, BattleFleet, Formation } from "kc-calculator"
+import React from "react"
 
-import Typography from '@material-ui/core/Typography'
-import Divider from '@material-ui/core/Divider'
-import Tooltip from '@material-ui/core/Tooltip'
+import Typography from "@material-ui/core/Typography"
+import Divider from "@material-ui/core/Divider"
+import Tooltip from "@material-ui/core/Tooltip"
 
-import { TEventDifficulty } from '*maps'
-import ShipNameplate from './ShipNameplate'
+import { TEventDifficulty } from "*maps"
+import ShipNameplate from "./ShipNameplate"
 
 const difficultyToString = (difficulty: TEventDifficulty) => {
   switch (difficulty) {
     case 4:
-      return '甲'
+      return "甲"
     case 3:
-      return '乙'
+      return "乙"
     case 2:
-      return '丙'
+      return "丙"
     case 1:
-      return '丁'
+      return "丁"
   }
 }
 
 const getFighterPowers = (fp: number) => {
   if (fp <= 0) {
-    return ''
+    return ""
   }
   const gte = (multiplier: number) => Math.ceil(fp * multiplier)
   const gt = (multiplier: number) => Math.floor(fp * multiplier) + 1
@@ -33,7 +33,7 @@ const getFighterPowers = (fp: number) => {
 const EnemyShipNameplate: React.FC<{ ship: IShip; formation: Formation }> = props => {
   const { ship, formation } = props
   const deadlyPower = calcDeadlyPower(ship)
-  const evasionValue = calcEvasionValue(ship, formation.getModifiersWithRole('Main').shelling.evasion)
+  const evasionValue = calcEvasionValue(ship, formation.getModifiersWithRole("Main").shelling.evasion)
   const title = (
     <>
       <Typography>確殺攻撃力: {deadlyPower}</Typography>

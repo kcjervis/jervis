@@ -1,15 +1,15 @@
-import React, { useCallback, useRef } from 'react'
+import React, { useCallback, useRef } from "react"
 
-import Button from '@material-ui/core/Button'
-import DialogActions from '@material-ui/core/DialogActions'
-import DialogContent from '@material-ui/core/DialogContent'
-import DialogTitle from '@material-ui/core/DialogTitle'
-import TextField from '@material-ui/core/TextField'
+import Button from "@material-ui/core/Button"
+import DialogActions from "@material-ui/core/DialogActions"
+import DialogContent from "@material-ui/core/DialogContent"
+import DialogTitle from "@material-ui/core/DialogTitle"
+import TextField from "@material-ui/core/TextField"
 
-import DialogComponent from '../../components/DialogComponent'
-import HealthBar, { useBackgroundColorStyles } from '../../components/HealthBar'
+import DialogComponent from "../../components/DialogComponent"
+import HealthBar, { useBackgroundColorStyles } from "../../components/HealthBar"
 
-import { ObservableShip } from '../../stores'
+import { ObservableShip } from "../../stores"
 
 const HealthBarDialog: React.FC<{ ship: ObservableShip }> = ({ ship }) => {
   const classes = useBackgroundColorStyles()
@@ -31,7 +31,7 @@ const HealthBarDialog: React.FC<{ ship: ObservableShip }> = ({ ship }) => {
 
   return (
     <DialogComponent
-      buttonProps={{ fullWidth: true, style: { display: 'block' } }}
+      buttonProps={{ fullWidth: true, style: { display: "block" } }}
       buttonLabel={<HealthBar health={health} />}
     >
       <DialogTitle>{ship.asKcObject.name}</DialogTitle>

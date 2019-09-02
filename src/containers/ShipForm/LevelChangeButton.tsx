@@ -1,26 +1,26 @@
-import { observer } from 'mobx-react-lite'
-import React, { useState, useCallback, useEffect } from 'react'
+import { observer } from "mobx-react-lite"
+import React, { useState, useCallback, useEffect } from "react"
 
-import { ShipStatKey } from 'kc-calculator'
+import { ShipStatKey } from "kc-calculator"
 
-import Button from '@material-ui/core/Button'
-import Dialog from '@material-ui/core/Dialog'
-import Input from '@material-ui/core/Input'
-import Popover from '@material-ui/core/Popover'
-import Slider from '@material-ui/core/Slider'
-import DialogActions from '@material-ui/core/DialogActions'
-import Box from '@material-ui/core/Box'
-import { makeStyles, createStyles, Theme } from '@material-ui/core/styles'
+import Button from "@material-ui/core/Button"
+import Dialog from "@material-ui/core/Dialog"
+import Input from "@material-ui/core/Input"
+import Popover from "@material-ui/core/Popover"
+import Slider from "@material-ui/core/Slider"
+import DialogActions from "@material-ui/core/DialogActions"
+import Box from "@material-ui/core/Box"
+import { makeStyles, createStyles, Theme } from "@material-ui/core/styles"
 
-import Tooltip from '@material-ui/core/Tooltip'
+import Tooltip from "@material-ui/core/Tooltip"
 
-import { useOpen, useBaseStyles, useInput, useAnchorEl } from '../../hooks'
-import { NumberInput } from '../../components'
+import { useOpen, useBaseStyles, useInput, useAnchorEl } from "../../hooks"
+import { NumberInput } from "../../components"
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     button: {
-      justifyContent: 'start',
+      justifyContent: "start",
       padding: 0
     }
   })
@@ -48,7 +48,7 @@ const LevelChangeButton: React.FC<LevelChangeButtonProps> = ({ value: init, onIn
   )
 
   const handleSliderChange = (event: unknown, value: number | number[]) => {
-    if (typeof value === 'number') {
+    if (typeof value === "number") {
       setValue(value)
     }
   }

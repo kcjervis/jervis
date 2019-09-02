@@ -4,9 +4,13 @@ module.exports = ({ config, mode }) =>  {
   config.module.rules.push({
     test: /\.(ts|tsx)$/,
     use: [{
-      loader: require.resolve('ts-loader')
+      loader: 'ts-loader',
+      options: {
+        transpileOnly: true,
+        experimentalWatchApi: true
+      }
     }, {
-      loader: require.resolve('react-docgen-typescript-loader')
+      loader: 'react-docgen-typescript-loader'
     }]
   });
   config.resolve.extensions.push('.ts', '.tsx');

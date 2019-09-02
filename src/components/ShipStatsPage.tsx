@@ -1,10 +1,10 @@
-import React from 'react'
+import React from "react"
 
-import Card from '@material-ui/core/Card'
-import CardContent from '@material-ui/core/CardContent'
+import Card from "@material-ui/core/Card"
+import CardContent from "@material-ui/core/CardContent"
 
-import { IShip } from 'kc-calculator'
-import { BattleType } from 'kc-calculator'
+import { IShip } from "kc-calculator"
+import { BattleType } from "kc-calculator"
 
 interface ShipStatsPageProps {
   ship: IShip

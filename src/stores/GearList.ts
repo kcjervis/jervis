@@ -1,16 +1,16 @@
-import { IGear } from 'kc-calculator'
-import { action, computed, observable } from 'mobx'
-import { persist } from 'mobx-persist'
-import uuid from 'uuid'
+import { IGear } from "kc-calculator"
+import { action, computed, observable } from "mobx"
+import { persist } from "mobx-persist"
+import uuid from "uuid"
 
-import ObservableGear, { ObservableGearStore } from './ObservableGear'
+import ObservableGear, { ObservableGearStore } from "./ObservableGear"
 
 export default class GearList implements ObservableGearStore {
   @persist public id = uuid()
 
-  @persist @observable public name = ''
+  @persist @observable public name = ""
 
-  @persist('list', ObservableGear) @observable public equipments = observable<ObservableGear>([])
+  @persist("list", ObservableGear) @observable public equipments = observable<ObservableGear>([])
 
   public get gears() {
     return this.equipments

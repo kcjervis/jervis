@@ -1,17 +1,17 @@
-import React from 'react'
+import React from "react"
 
-import { gearStatKeys, IGear } from 'kc-calculator'
+import { gearStatKeys, IGear } from "kc-calculator"
 
-import Card, { CardProps } from '@material-ui/core/Card'
-import CardContent from '@material-ui/core/CardContent'
-import { makeStyles, Theme } from '@material-ui/core/styles'
-import Typography from '@material-ui/core/Typography'
+import Card, { CardProps } from "@material-ui/core/Card"
+import CardContent from "@material-ui/core/CardContent"
+import { makeStyles, Theme } from "@material-ui/core/styles"
+import Typography from "@material-ui/core/Typography"
 
-import GearIcon from './GearIcon'
-import GearImage from './GearImage'
-import StatChip from './StatChip'
-import { RemoveButton, UpdateButton, CloseButton } from './IconButtons'
-import { isBoolean } from 'lodash-es'
+import GearIcon from "./GearIcon"
+import GearImage from "./GearImage"
+import StatChip from "./StatChip"
+import { RemoveButton, UpdateButton, CloseButton } from "./IconButtons"
+import { isBoolean } from "lodash-es"
 
 const useStyles = makeStyles((theme: Theme) => ({
   icon: {
@@ -19,26 +19,26 @@ const useStyles = makeStyles((theme: Theme) => ({
     height: 32
   },
   title: {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
     margin: theme.spacing(1)
   },
   buttons: {
-    display: 'flex',
-    justifyContent: 'flex-end'
+    display: "flex",
+    justifyContent: "flex-end"
   },
   details: {
-    display: 'flex',
-    justifyContent: 'space-around'
+    display: "flex",
+    justifyContent: "space-around"
   },
   stats: {
-    display: 'flex',
-    flexDirection: 'column'
+    display: "flex",
+    flexDirection: "column"
   },
   image: {
     margin: theme.spacing(1),
-    alignSelf: 'center',
+    alignSelf: "center",
     maxWidth: 160
   }
 }))
@@ -55,15 +55,15 @@ const GearCard: React.FC<GearCardProps> = ({ gear, onRemove, onUpdate, onClose, 
   const { masterId, category, iconId, name } = gear
   return (
     <Card elevation={12} {...cardProps}>
-      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+      <div style={{ display: "flex", justifyContent: "space-between" }}>
         <Typography variant="caption">
           ID:{masterId} {category.name}
         </Typography>
 
         <div>
-          {onRemove && <RemoveButton title="装備を削除" tooltipProps={{ placement: 'top' }} onClick={onRemove} />}
-          {onUpdate && <UpdateButton title="装備を変更" tooltipProps={{ placement: 'top' }} onClick={onUpdate} />}
-          {onClose && <CloseButton title="閉じる" tooltipProps={{ placement: 'top' }} onClick={onClose} />}
+          {onRemove && <RemoveButton title="装備を削除" tooltipProps={{ placement: "top" }} onClick={onRemove} />}
+          {onUpdate && <UpdateButton title="装備を変更" tooltipProps={{ placement: "top" }} onClick={onUpdate} />}
+          {onClose && <CloseButton title="閉じる" tooltipProps={{ placement: "top" }} onClick={onClose} />}
         </div>
       </div>
 

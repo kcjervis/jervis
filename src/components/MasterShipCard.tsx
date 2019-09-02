@@ -1,26 +1,26 @@
-import React from 'react'
+import React from "react"
 
-import { MasterShip, shipStatKeys } from 'kc-calculator'
+import { MasterShip, shipStatKeys } from "kc-calculator"
 
-import Card from '@material-ui/core/Card'
-import CardContent from '@material-ui/core/CardContent'
+import Card from "@material-ui/core/Card"
+import CardContent from "@material-ui/core/CardContent"
 
-import { makeStyles, Theme } from '@material-ui/core/styles'
-import Typography from '@material-ui/core/Typography'
+import { makeStyles, Theme } from "@material-ui/core/styles"
+import Typography from "@material-ui/core/Typography"
 
-import ShipImage from './ShipImage'
-import StatChip from './StatChip'
-import Flexbox from './Flexbox'
+import ShipImage from "./ShipImage"
+import StatChip from "./StatChip"
+import Flexbox from "./Flexbox"
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {},
   stats: {
-    display: 'flex',
-    flexDirection: 'column'
+    display: "flex",
+    flexDirection: "column"
   },
   shipImage: {
-    width: 'auto',
-    height: 'auto',
+    width: "auto",
+    height: "auto",
     maxWidth: 8 * 40,
     maxHeight: 8 * 40
   }

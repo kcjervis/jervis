@@ -1,23 +1,23 @@
-import { IShipDataObject, MasterShip, IGearDataObject } from 'kc-calculator'
-import React, { useState, useRef, useMemo } from 'react'
-import { groupBy } from 'lodash-es'
+import { IShipDataObject, MasterShip, IGearDataObject } from "kc-calculator"
+import React, { useState, useRef, useMemo } from "react"
+import { groupBy } from "lodash-es"
 
-import Box from '@material-ui/core/Box'
-import Checkbox from '@material-ui/core/Checkbox'
-import Divider from '@material-ui/core/Divider'
-import Chip from '@material-ui/core/Chip'
-import FormControlLabel from '@material-ui/core/FormControlLabel'
-import Input from '@material-ui/core/Input'
-import IconButton from '@material-ui/core/IconButton'
-import Typography from '@material-ui/core/Typography'
-import SearchIcon from '@material-ui/icons/Search'
-import { makeStyles, createStyles, Theme } from '@material-ui/core/styles'
+import Box from "@material-ui/core/Box"
+import Checkbox from "@material-ui/core/Checkbox"
+import Divider from "@material-ui/core/Divider"
+import Chip from "@material-ui/core/Chip"
+import FormControlLabel from "@material-ui/core/FormControlLabel"
+import Input from "@material-ui/core/Input"
+import IconButton from "@material-ui/core/IconButton"
+import Typography from "@material-ui/core/Typography"
+import SearchIcon from "@material-ui/icons/Search"
+import { makeStyles, createStyles, Theme } from "@material-ui/core/styles"
 
-import { masterData } from '../../stores/kcObjectFactory'
-import { useCheck, useSelect } from '../../hooks'
-import ShipButton from './ShipButton'
-import { SelectButtons } from '../../components'
-import { ShipFilter } from './ShipSelectPanelStateContext'
+import { masterData } from "../../stores/kcObjectFactory"
+import { useCheck, useSelect } from "../../hooks"
+import ShipButton from "./ShipButton"
+import { SelectButtons } from "../../components"
+import { ShipFilter } from "./ShipSelectPanelStateContext"
 
 const useStyles = makeStyles(
   createStyles({
@@ -26,23 +26,23 @@ const useStyles = makeStyles(
 )
 
 const shipTypeFilters: ShipFilter[] = [
-  { name: '戦艦級', filter: ship => ship.shipType.isBattleshipClass },
-  { name: '航空母艦', filter: ship => ship.shipType.isAircraftCarrierClass },
-  { name: '重巡級', filter: ship => ship.shipType.isHeavyCruiserClass },
-  { name: '軽巡級', filter: ship => ship.shipType.isLightCruiserClass },
-  { name: '駆逐艦', filter: ship => ship.shipType.isDestroyer },
-  { name: '海防艦', filter: ship => ship.shipType.is('CoastalDefenseShip') },
-  { name: '潜水艦', filter: ship => ship.shipType.isSubmarineClass },
+  { name: "戦艦級", filter: ship => ship.shipType.isBattleshipClass },
+  { name: "航空母艦", filter: ship => ship.shipType.isAircraftCarrierClass },
+  { name: "重巡級", filter: ship => ship.shipType.isHeavyCruiserClass },
+  { name: "軽巡級", filter: ship => ship.shipType.isLightCruiserClass },
+  { name: "駆逐艦", filter: ship => ship.shipType.isDestroyer },
+  { name: "海防艦", filter: ship => ship.shipType.is("CoastalDefenseShip") },
+  { name: "潜水艦", filter: ship => ship.shipType.isSubmarineClass },
   {
-    name: '補助艦艇',
+    name: "補助艦艇",
     filter: ship =>
       ship.shipType.either(
-        'Transport',
-        'SeaplaneTender',
-        'AmphibiousAssaultShip',
-        'RepairShip',
-        'SubmarineTender',
-        'FleetOiler'
+        "Transport",
+        "SeaplaneTender",
+        "AmphibiousAssaultShip",
+        "RepairShip",
+        "SubmarineTender",
+        "FleetOiler"
       )
   }
 ]
@@ -64,7 +64,7 @@ const ShipSelectPanel: React.FC<ShipSelectPanelProps> = ({
   onSelect,
   onFilterChange
 }) => {
-  const [searchText, setSearchText] = useState('')
+  const [searchText, setSearchText] = useState("")
   const searchRef = useRef<HTMLInputElement>()
 
   const typeFilterSelect = useSelect(shipTypeFilters, defaultFilter)
@@ -72,7 +72,7 @@ const ShipSelectPanel: React.FC<ShipSelectPanelProps> = ({
   const preRemodelingCheck = useCheck()
 
   const visibleMasterShips = useMemo(() => {
-    if (searchText !== '') {
+    if (searchText !== "") {
       return masterData.ships.filter(({ name, id }) => name.includes(searchText) || id.toString() === searchText)
     }
 
@@ -114,7 +114,7 @@ const ShipSelectPanel: React.FC<ShipSelectPanelProps> = ({
         if (gear === undefined) {
           return undefined
         }
-        if (typeof gear === 'number') {
+        if (typeof gear === "number") {
           return { masterId: gear }
         }
         return { masterId: gear.id, improvement: gear.improvement }
@@ -140,10 +140,10 @@ const ShipSelectPanel: React.FC<ShipSelectPanelProps> = ({
           }
           inputRef={searchRef}
         />
-        {'' !== searchText && <Chip variant="outlined" label={searchText} onDelete={() => setSearchText('')} />}
+        {"" !== searchText && <Chip variant="outlined" label={searchText} onDelete={() => setSearchText("")} />}
       </div>
 
-      <SelectButtons {...typeFilterSelect} onChange={handleFilterChange} buttonProps={{ size: 'small' }} />
+      <SelectButtons {...typeFilterSelect} onChange={handleFilterChange} buttonProps={{ size: "small" }} />
       <FormControlLabel label="深海棲艦" control={<Checkbox {...abysallCheck} />} />
       <FormControlLabel label="未改造表示" control={<Checkbox {...preRemodelingCheck} />} />
 

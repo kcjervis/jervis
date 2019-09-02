@@ -1,8 +1,8 @@
-import { useContext, useCallback } from 'react'
-import useReactRouter from 'use-react-router'
+import { useContext, useCallback } from "react"
+import useReactRouter from "use-react-router"
 
-import { ObservableOperation, WorkspaceStoreContext, WorkspaceItem, ObservableShip } from '../stores'
-import useOperationStore from './useOperationStore'
+import { ObservableOperation, WorkspaceStoreContext, WorkspaceItem, ObservableShip } from "../stores"
+import useOperationStore from "./useOperationStore"
 
 const useWorkspace = () => {
   const workspaceStore = useContext(WorkspaceStoreContext)
@@ -11,15 +11,15 @@ const useWorkspace = () => {
 
   const openOperation = useCallback(
     (operation: ObservableOperation) => {
-      workspaceStore.createItem({ type: 'Operation', id: operation.id }).setActive()
-      history.push('operation')
+      workspaceStore.createItem({ type: "Operation", id: operation.id }).setActive()
+      history.push("operation")
     },
     [workspaceStore]
   )
 
   const openShipCalculator = useCallback(
     (ship: ObservableShip) => {
-      workspaceStore.createItem({ type: 'Ship', id: ship.id }).setActive()
+      workspaceStore.createItem({ type: "Ship", id: ship.id }).setActive()
     },
     [workspaceStore]
   )
@@ -27,7 +27,7 @@ const useWorkspace = () => {
   const itemSelector = useCallback(
     (item: WorkspaceItem) => {
       let result: ObservableOperation | ObservableShip | undefined
-      if (item.type === 'Operation') {
+      if (item.type === "Operation") {
         result = getOperation(item.id)
       } else {
         result = getShip(item.id)
@@ -39,7 +39,7 @@ const useWorkspace = () => {
     },
     [getOperation, getShip]
   )
-  const visiblePanel = location.pathname === '/operation'
+  const visiblePanel = location.pathname === "/operation"
 
   return { workspaceStore, openOperation, openShipCalculator, itemSelector, visiblePanel }
 }

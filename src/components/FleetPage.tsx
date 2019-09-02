@@ -1,10 +1,10 @@
-import React from 'react'
+import React from "react"
 
-import Card from '@material-ui/core/Card'
-import CardContent from '@material-ui/core/CardContent'
-import Typography from '@material-ui/core/Typography'
+import Card from "@material-ui/core/Card"
+import CardContent from "@material-ui/core/CardContent"
+import Typography from "@material-ui/core/Typography"
 
-import { IFleet } from 'kc-calculator'
+import { IFleet } from "kc-calculator"
 
 interface FleetPageProps {
   fleet: IFleet

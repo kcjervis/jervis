@@ -1,12 +1,12 @@
-import { IGear, IGearDataObject, ILandBasedAirCorpsDataObject, nonNullable } from 'kc-calculator'
-import { action, computed, observable } from 'mobx'
-import { persist } from 'mobx-persist'
-import uuid from 'uuid'
+import { IGear, IGearDataObject, ILandBasedAirCorpsDataObject, nonNullable } from "kc-calculator"
+import { action, computed, observable } from "mobx"
+import { persist } from "mobx-persist"
+import uuid from "uuid"
 
-import kcObjectFactory from './kcObjectFactory'
-import ObservableGear, { ObservableGearStore } from './ObservableGear'
-import { StoreItem } from '../types'
-import ObservableOperation from './ObservableOperation'
+import kcObjectFactory from "./kcObjectFactory"
+import ObservableGear, { ObservableGearStore } from "./ObservableGear"
+import { StoreItem } from "../types"
+import ObservableOperation from "./ObservableOperation"
 
 export enum LandBasedAirCorpsMode {
   Standby,
@@ -38,7 +38,7 @@ export default class ObservableLandBasedAirCorps
 
   @persist @observable public mode = LandBasedAirCorpsMode.Sortie2
 
-  @persist('list', ObservableGear)
+  @persist("list", ObservableGear)
   @observable
   public equipments = observable<ObservableGear | undefined>(new Array(4))
 
@@ -46,7 +46,7 @@ export default class ObservableLandBasedAirCorps
     return this.equipments
   }
 
-  @persist('list') @observable public slots = [18, 18, 18, 18]
+  @persist("list") @observable public slots = [18, 18, 18, 18]
 
   public canEquip({ category }: IGear, slotIndex: number) {
     return (
@@ -80,7 +80,7 @@ export default class ObservableLandBasedAirCorps
   }
 
   @action public setSlotSize = (index: number, value: number) => {
-    if (typeof this.slots[index] === 'number' && value >= 0) {
+    if (typeof this.slots[index] === "number" && value >= 0) {
       this.slots[index] = value
     }
   }

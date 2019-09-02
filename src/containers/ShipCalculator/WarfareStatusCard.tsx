@@ -1,24 +1,24 @@
-import React, { useMemo, useState } from 'react'
-import { ShipInformation, calcDeadlyPower, BattleState } from 'kc-calculator'
-import { observer } from 'mobx-react-lite'
+import React, { useMemo, useState } from "react"
+import { ShipInformation, calcDeadlyPower, BattleState } from "kc-calculator"
+import { observer } from "mobx-react-lite"
 
-import Box from '@material-ui/core/Box'
-import Paper from '@material-ui/core/Paper'
-import Typography from '@material-ui/core/Typography'
-import { makeStyles, createStyles } from '@material-ui/core/styles'
+import Box from "@material-ui/core/Box"
+import Paper from "@material-ui/core/Paper"
+import Typography from "@material-ui/core/Typography"
+import { makeStyles, createStyles } from "@material-ui/core/styles"
 
-import { toPercent } from '../../utils'
-import { Select, Table, Flexbox, NumberInput } from '../../components'
-import { useInstallationTypeSelect } from './ShipStatusCard'
-import AttackStatus from './AttackStatus'
-import { ObservableShip } from '../../stores'
-import ShipCard from '../ShipForm/ShipCard'
+import { toPercent } from "../../utils"
+import { Select, Table, Flexbox, NumberInput } from "../../components"
+import { useInstallationTypeSelect } from "./ShipStatusCard"
+import AttackStatus from "./AttackStatus"
+import { ObservableShip } from "../../stores"
+import ShipCard from "../ShipForm/ShipCard"
 
 const useStyles = makeStyles(
   createStyles({
     root: {
       padding: 8,
-      display: 'flex'
+      display: "flex"
     },
     enemyTypeSelect: {
       minWidth: 80,

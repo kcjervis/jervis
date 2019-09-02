@@ -1,14 +1,14 @@
-import { IGear } from 'kc-calculator'
-import React, { useCallback, useContext } from 'react'
+import { IGear } from "kc-calculator"
+import React, { useCallback, useContext } from "react"
 
-import Button from '@material-ui/core/Button'
-import Typography from '@material-ui/core/Typography'
+import Button from "@material-ui/core/Button"
+import Typography from "@material-ui/core/Typography"
 
-import { DataTableCell } from '../../components/DataTable'
-import GearIcon from '../../components/GearIcon'
+import { DataTableCell } from "../../components/DataTable"
+import GearIcon from "../../components/GearIcon"
 
-import { ImprovementSelect } from '../../components'
-import { GearsDataStoreContext } from '../../stores'
+import { ImprovementSelect } from "../../components"
+import { GearsDataStoreContext } from "../../stores"
 
 export type GearLabelCellProps = {
   gear: IGear
@@ -31,7 +31,7 @@ const GearLabelCell: React.FC<GearLabelCellProps> = ({ gear, onSelect }) => {
       <Button
         fullWidth={true}
         onClick={handleClick}
-        style={{ display: 'flex', height: 50, alignItems: 'center', justifyContent: 'flex-start' }}
+        style={{ display: "flex", height: 50, alignItems: "center", justifyContent: "flex-start" }}
       >
         <GearIcon width={24} height={24} iconId={gear.iconId} />
         <Typography variant="caption">{gear.name}</Typography>

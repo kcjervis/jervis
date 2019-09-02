@@ -1,7 +1,7 @@
-'use strict'
-const path = require('path')
-const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin')
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
+"use strict"
+const path = require("path")
+const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin")
+const BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPlugin
 
 /** @type import('webpack').Configuration */
 module.exports = (env, argv) => {
@@ -12,7 +12,7 @@ module.exports = (env, argv) => {
       test: /\.(j|t)sx?$/,
       use: [
         {
-          loader: 'ts-loader',
+          loader: "ts-loader",
           options: {
             transpileOnly: true,
             experimentalWatchApi: true
@@ -22,16 +22,16 @@ module.exports = (env, argv) => {
     },
     {
       test: /\.css$/,
-      use: ['style-loader', 'css-loader']
+      use: ["style-loader", "css-loader"]
     },
     {
       test: /\.(gif|png|jpe?g|svg|woff|woff2|eot|ttf)$/,
       use: [
         {
-          loader: 'url-loader',
+          loader: "url-loader",
           options: {
             limit: 300,
-            name: 'static/media/[path][name].[ext]'
+            name: "static/media/[path][name].[ext]"
           }
         }
       ]
@@ -39,16 +39,16 @@ module.exports = (env, argv) => {
   ]
   const plugins = [new ForkTsCheckerWebpackPlugin()]
 
-  if (mode === 'production') {
+  if (mode === "production") {
     rules.push({
       test: /\.tsx?$/,
-      enforce: 'pre',
+      enforce: "pre",
       use: [
         {
-          loader: 'eslint-loader',
+          loader: "eslint-loader",
           options: {
             fix: true,
-            formatter: 'codeFrame'
+            formatter: "codeFrame"
           }
         }
       ],
@@ -56,59 +56,59 @@ module.exports = (env, argv) => {
     })
     plugins.push(
       new BundleAnalyzerPlugin({
-        analyzerMode: 'static'
+        analyzerMode: "static"
       })
     )
   }
 
   return {
     mode,
-    entry: './src/index.tsx',
+    entry: "./src/index.tsx",
     optimization: {
       splitChunks: {
         cacheGroups: {
           vendor: {
             test: /node_modules/,
-            name: 'vendor',
-            chunks: 'initial',
+            name: "vendor",
+            chunks: "initial",
             enforce: true
           },
           calculator: {
             test: /kc-calculator/,
-            name: 'calculator',
-            chunks: 'initial',
+            name: "calculator",
+            chunks: "initial",
             enforce: true
           },
           data: {
             test: /data/,
-            name: 'data',
-            chunks: 'initial',
+            name: "data",
+            chunks: "initial",
             enforce: true
           }
         }
       }
     },
     output: {
-      path: path.resolve(__dirname, 'docs'),
-      filename: '[name].js',
-      publicPath: '/jervis/'
+      path: path.resolve(__dirname, "docs"),
+      filename: "[name].js",
+      publicPath: "/jervis/"
     },
     resolve: {
-      extensions: ['.js', '.ts', '.tsx', '.json']
+      extensions: [".js", ".ts", ".tsx", ".json"]
     },
     module: {
       rules
     },
     devServer: {
-      clientLogLevel: 'warning',
-      contentBase: path.resolve(__dirname, 'docs'),
-      openPage: 'jervis/',
+      clientLogLevel: "warning",
+      contentBase: path.resolve(__dirname, "docs"),
+      openPage: "jervis/",
       port: 3000,
       historyApiFallback: true,
       headers: {
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, PATCH, OPTIONS',
-        'Access-Control-Allow-Headers': 'X-Requested-With, content-type, Authorization'
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, PATCH, OPTIONS",
+        "Access-Control-Allow-Headers": "X-Requested-With, content-type, Authorization"
       }
     },
     plugins

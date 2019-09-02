@@ -1,7 +1,7 @@
-import { createContext } from 'react'
-import { action, observable } from 'mobx'
-import { ShipSelectPanelProps } from './ShipSelectPanel'
-import { MasterShip } from 'kc-calculator'
+import { createContext } from "react"
+import { action, observable } from "mobx"
+import { ShipSelectPanelProps } from "./ShipSelectPanel"
+import { MasterShip } from "kc-calculator"
 
 export type ShipFilter = {
   name: string
@@ -20,7 +20,7 @@ class ShipSelectPanelState {
     if (!props) {
       return
     }
-    const onSelect: NonNullable<ShipSelectPanelProps['onSelect']> = data => {
+    const onSelect: NonNullable<ShipSelectPanelProps["onSelect"]> = data => {
       props.onSelect && props.onSelect(data)
       this.onClose()
     }

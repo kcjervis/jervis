@@ -1,34 +1,34 @@
-import React, { useCallback } from 'react'
+import React, { useCallback } from "react"
 
-import { Omit } from '@material-ui/core'
-import FormControl from '@material-ui/core/FormControl'
-import InputLabel from '@material-ui/core/InputLabel'
-import Radio from '@material-ui/core/Radio'
-import MuiRadioGroup, { RadioGroupProps as MuiRadioGroupProps } from '@material-ui/core/RadioGroup'
-import FormControlLabel from '@material-ui/core/FormControlLabel'
+import { Omit } from "@material-ui/core"
+import FormControl from "@material-ui/core/FormControl"
+import InputLabel from "@material-ui/core/InputLabel"
+import Radio from "@material-ui/core/Radio"
+import MuiRadioGroup, { RadioGroupProps as MuiRadioGroupProps } from "@material-ui/core/RadioGroup"
+import FormControlLabel from "@material-ui/core/FormControlLabel"
 
-import { BaseSelectProps } from './Select'
+import { BaseSelectProps } from "./Select"
 
 export const getDefaultOptionLabel = (option: unknown): string => {
   switch (typeof option) {
-    case 'number':
+    case "number":
       return option.toString()
-    case 'string':
+    case "string":
       return option
-    case 'object': {
+    case "object": {
       if (!option) {
-        return ''
+        return ""
       }
       const { label, name } = option as { [K in string]: unknown }
-      if (typeof label === 'string') {
+      if (typeof label === "string") {
         return label
       }
-      if (typeof name === 'string') {
+      if (typeof name === "string") {
         return name
       }
     }
   }
-  return ''
+  return ""
 }
 
 type RadioGroupProps<OptionType> = BaseSelectProps<OptionType>

@@ -1,14 +1,14 @@
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useState } from "react"
 
-import Button, { ButtonProps } from '@material-ui/core/Button'
-import Dialog from '@material-ui/core/Dialog'
+import Button, { ButtonProps } from "@material-ui/core/Button"
+import Dialog from "@material-ui/core/Dialog"
 
-import { makeStyles, Theme } from '@material-ui/core/styles'
+import { makeStyles, Theme } from "@material-ui/core/styles"
 
-import { CloseButton } from './IconButtons'
+import { CloseButton } from "./IconButtons"
 
 const useStyles = makeStyles({
-  close: { position: 'fixed', top: '10%', right: '10%' }
+  close: { position: "fixed", top: "10%", right: "10%" }
 })
 
 interface DialogComponent {
@@ -28,7 +28,7 @@ const DialogComponent: React.FC<DialogComponent> = ({ buttonLabel, buttonProps =
         {buttonLabel}
       </Button>
 
-      <Dialog open={open} onClose={handleClose} PaperProps={{ style: { background: 'rgba(0, 0, 0, 0.8)' } }}>
+      <Dialog open={open} onClose={handleClose} PaperProps={{ style: { background: "rgba(0, 0, 0, 0.8)" } }}>
         {children}
         <CloseButton className={classes.close} onClick={handleClose} />
       </Dialog>

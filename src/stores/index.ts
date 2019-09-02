@@ -1,13 +1,13 @@
-import { create } from 'mobx-persist'
-import { createContext } from 'react'
+import { create } from "mobx-persist"
+import { createContext } from "react"
 
-import OperationStore from './OperationStore'
+import OperationStore from "./OperationStore"
 
-import EnemyShipStore from './EnemyShipStore'
-import GearsDataStore from './GearsDataStore'
+import EnemyShipStore from "./EnemyShipStore"
+import GearsDataStore from "./GearsDataStore"
 
-import SettingStore from './SettingStore'
-import WorkspaceStore from './WorkspaceStore'
+import SettingStore from "./SettingStore"
+import WorkspaceStore from "./WorkspaceStore"
 
 const hydrate = create()
 
@@ -18,9 +18,9 @@ const settingStore = new SettingStore()
 const gearsDataStore = new GearsDataStore()
 
 export const loadStores = async () => {
-  await hydrate('operationStore', operationStore)
-  await hydrate('settingStore', settingStore)
-  await hydrate('equipmentsDataStore', gearsDataStore)
+  await hydrate("operationStore", operationStore)
+  await hydrate("settingStore", settingStore)
+  await hydrate("equipmentsDataStore", gearsDataStore)
   operationStore.initialize()
   gearsDataStore.initialize()
 }
@@ -36,12 +36,12 @@ export const EnemyShipStoreContext = createContext(new EnemyShipStore())
 
 export { OperationStore, SettingStore, WorkspaceStore, EnemyShipStore }
 
-export { default as ObservableGear } from './ObservableGear'
-export { default as ObservableShip } from './ObservableShip'
-export { default as ObservableFleet } from './ObservableFleet'
-export { default as ObservableLandBasedAirCorps } from './ObservableLandBasedAirCorps'
-export { default as ObservableOperation } from './ObservableOperation'
+export { default as ObservableGear } from "./ObservableGear"
+export { default as ObservableShip } from "./ObservableShip"
+export { default as ObservableFleet } from "./ObservableFleet"
+export { default as ObservableLandBasedAirCorps } from "./ObservableLandBasedAirCorps"
+export { default as ObservableOperation } from "./ObservableOperation"
 
-export { default as WorkspaceItem } from './WorkspaceItem'
+export { default as WorkspaceItem } from "./WorkspaceItem"
 
 export default { operationStore, settingStore }

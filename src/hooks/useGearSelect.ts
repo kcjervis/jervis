@@ -1,6 +1,6 @@
-import { ObservableShip, ObservableLandBasedAirCorps } from '../stores'
-import { useMemo, useCallback } from 'react'
-import { IGear } from 'kc-calculator'
+import { ObservableShip, ObservableLandBasedAirCorps } from "../stores"
+import { useMemo, useCallback } from "react"
+import { IGear } from "kc-calculator"
 
 type EquippableProps = {
   store: ObservableShip | ObservableLandBasedAirCorps
@@ -13,9 +13,9 @@ const useGearSelect = (props: EquippableProps) => {
     if (store instanceof ObservableShip) {
       return `${store.asKcObject.name} 選択中`
     } else if (store instanceof ObservableLandBasedAirCorps) {
-      return '基地航空隊 選択中'
+      return "基地航空隊 選択中"
     }
-    return ''
+    return ""
   }, [store])
 
   const onSelect = useCallback(
@@ -28,7 +28,7 @@ const useGearSelect = (props: EquippableProps) => {
       if (category.isReconnaissanceAircraft) {
         proficiency = 120
       }
-      if (masterId > 500 || category.is('LandBasedReconnaissanceAircraft')) {
+      if (masterId > 500 || category.is("LandBasedReconnaissanceAircraft")) {
         proficiency = 0
       }
       store.createGear(index, {

@@ -1,14 +1,14 @@
-import { observer } from 'mobx-react-lite'
-import React from 'react'
+import { observer } from "mobx-react-lite"
+import React from "react"
 
-import Button from '@material-ui/core/Button'
-import Add from '@material-ui/icons/Add'
+import Button from "@material-ui/core/Button"
+import Add from "@material-ui/icons/Add"
 
-import OperationCard from './OperationCard'
+import OperationCard from "./OperationCard"
 
-import { ObservableOperation } from '../stores'
-import { useOperationStore, useOpen } from '../hooks'
-import OperationCreateDialog from './Explorer/OperationCreateDialog'
+import { ObservableOperation } from "../stores"
+import { useOperationStore, useOpen } from "../hooks"
+import OperationCreateDialog from "./Explorer/OperationCreateDialog"
 
 const OperationsPage: React.FC = props => {
   const { persistentOperationStore } = useOperationStore()
@@ -24,7 +24,7 @@ const OperationsPage: React.FC = props => {
 
       <OperationCreateDialog store={persistentOperationStore} {...dialogProps} />
 
-      <div style={{ display: 'flex', flexWrap: 'wrap' }}>
+      <div style={{ display: "flex", flexWrap: "wrap" }}>
         {persistentOperationStore.operations.map((operation, index) => (
           <OperationCard key={index} operation={operation} />
         ))}

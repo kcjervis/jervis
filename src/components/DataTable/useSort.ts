@@ -1,6 +1,6 @@
-import { sortBy as lodashSortBy } from 'lodash-es'
-import { useCallback, useState } from 'react'
-import { SortDirection, SortDirectionType } from 'react-virtualized'
+import { sortBy as lodashSortBy } from "lodash-es"
+import { useCallback, useState } from "react"
+import { SortDirection, SortDirectionType } from "react-virtualized"
 
 export type Sort<T = any> = (params: { data: T[]; sortBy: string; defaultSort: Sort }) => T[]
 
@@ -15,7 +15,7 @@ interface SortState {
 }
 
 const useSort = () => {
-  const [sortState, setSortState] = useState<SortState>({ sortBy: 'name', sortDirection: SortDirection.ASC })
+  const [sortState, setSortState] = useState<SortState>({ sortBy: "name", sortDirection: SortDirection.ASC })
   return { ...sortState, setSortState, defaultSort }
 }
 

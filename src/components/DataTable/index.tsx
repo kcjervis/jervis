@@ -1,11 +1,11 @@
-import clsx from 'clsx'
-import React, { useMemo, useState } from 'react'
+import clsx from "clsx"
+import React, { useMemo, useState } from "react"
 
-import { makeStyles, Theme } from '@material-ui/core/styles'
+import { makeStyles, Theme } from "@material-ui/core/styles"
 
-import Box, { BoxProps } from '@material-ui/core/Box'
-import TableCell, { TableCellProps } from '@material-ui/core/TableCell'
-import TableSortLabel from '@material-ui/core/TableSortLabel'
+import Box, { BoxProps } from "@material-ui/core/Box"
+import TableCell, { TableCellProps } from "@material-ui/core/TableCell"
+import TableSortLabel from "@material-ui/core/TableSortLabel"
 
 import {
   AutoSizer,
@@ -17,20 +17,20 @@ import {
   TableCellRenderer,
   TableHeaderRenderer,
   TableProps
-} from 'react-virtualized'
-import useSort, { Sort } from './useSort'
+} from "react-virtualized"
+import useSort, { Sort } from "./useSort"
 
 export type Sort<T> = Sort<T>
 
 const useStyles = makeStyles({
   flexContainer: {
-    display: 'flex',
-    alignItems: 'flex-end',
-    boxSizing: 'border-box'
+    display: "flex",
+    alignItems: "flex-end",
+    boxSizing: "border-box"
   },
   hover: {
-    '&:hover': {
-      background: 'rgba(200, 200, 200, 0.08)'
+    "&:hover": {
+      background: "rgba(200, 200, 200, 0.08)"
     }
   },
   tableCell: {
@@ -42,7 +42,7 @@ const useStyles = makeStyles({
 })
 
 export const DataTableCell: React.FC<TableCellProps> = props => (
-  <TableCell component="div" variant="body" style={{ display: 'flex', alignItems: 'center' }} {...props}>
+  <TableCell component="div" variant="body" style={{ display: "flex", alignItems: "center" }} {...props}>
     {props.children}
   </TableCell>
 )
@@ -50,11 +50,11 @@ export const DataTableCell: React.FC<TableCellProps> = props => (
 const headerRenderer: TableHeaderRenderer = props => {
   const { sortDirection, sortBy, dataKey, label } = props
 
-  let direction: 'desc' | 'asc' | undefined
+  let direction: "desc" | "asc" | undefined
   if (sortDirection === SortDirection.ASC) {
-    direction = 'asc'
+    direction = "asc"
   } else if (sortDirection === SortDirection.DESC) {
-    direction = 'desc'
+    direction = "desc"
   }
 
   const inner = label ? label : dataKey
@@ -76,7 +76,7 @@ type DataTableProps<T = any> = {
   columns: ColumnProps[]
   data: T[]
   sort?: Sort<T>
-  onRowClick?: TableProps['onRowClick']
+  onRowClick?: TableProps["onRowClick"]
 } & BoxProps
 
 const DataTable: React.FC<DataTableProps> = props => {

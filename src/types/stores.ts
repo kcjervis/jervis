@@ -1,4 +1,4 @@
-import { IObservableArray } from 'mobx'
+import { IObservableArray } from "mobx"
 
 export type Store<T = any> = {
   set?: (index: number, item: T) => void

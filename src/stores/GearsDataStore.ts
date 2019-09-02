@@ -1,29 +1,29 @@
-import { IGear, nonNullable } from 'kc-calculator'
-import { action, computed, observable } from 'mobx'
-import { persist } from 'mobx-persist'
+import { IGear, nonNullable } from "kc-calculator"
+import { action, computed, observable } from "mobx"
+import { persist } from "mobx-persist"
 
-import GearList from './GearList'
-import kcObjectFactory, { masterData } from './kcObjectFactory'
-import { Store } from '../types'
+import GearList from "./GearList"
+import kcObjectFactory, { masterData } from "./kcObjectFactory"
+import { Store } from "../types"
 
-type Mode = 'simple' | 'detail' | 'sort' | 'setting'
+type Mode = "simple" | "detail" | "sort" | "setting"
 
 type GearFilter = (gear: IGear) => boolean
 
 export default class GearsDataStore implements Store {
-  @observable public mode: Mode = 'simple'
+  @observable public mode: Mode = "simple"
 
   @observable public visibleAlly = true
 
   @observable public visibleAbysall = false
 
-  @observable public filterName = 'all'
+  @observable public filterName = "all"
 
-  @persist('list')
+  @persist("list")
   @observable
   public blackList: number[] = []
 
-  @persist('list', GearList)
+  @persist("list", GearList)
   @observable
   public gearLists: GearList[] = []
 
@@ -39,14 +39,14 @@ export default class GearsDataStore implements Store {
     return masterData.gears
       .map(gear => kcObjectFactory.createGear({ masterId: gear.id }))
       .filter(nonNullable)
-      .filter(gear => gear.name !== '')
+      .filter(gear => gear.name !== "")
   }
 
   public getVisibleGears = (...filters: GearFilter[]) => {
     const { gearsData, visibleAlly, visibleAbysall, mode, activeGearList } = this
     const listGears = activeGearList ? activeGearList.asKcObject : gearsData
     const gears = listGears.filter(({ masterId }) => {
-      if (mode !== 'setting' && this.blackList.includes(masterId)) {
+      if (mode !== "setting" && this.blackList.includes(masterId)) {
         return false
       }
       if (!visibleAlly && masterId <= 500) {

@@ -1,19 +1,19 @@
-import clsx from 'clsx'
-import { range } from 'lodash-es'
-import React from 'react'
+import clsx from "clsx"
+import { range } from "lodash-es"
+import React from "react"
 
-import Button from '@material-ui/core/Button'
-import Tooltip from '@material-ui/core/Tooltip'
-import cyan from '@material-ui/core/colors/cyan'
-import Popover from '@material-ui/core/Popover'
-import Typography from '@material-ui/core/Typography'
-import { makeStyles, Theme } from '@material-ui/core/styles'
+import Button from "@material-ui/core/Button"
+import Tooltip from "@material-ui/core/Tooltip"
+import cyan from "@material-ui/core/colors/cyan"
+import Popover from "@material-ui/core/Popover"
+import Typography from "@material-ui/core/Typography"
+import { makeStyles, Theme } from "@material-ui/core/styles"
 
-import { useAnchorEl, useBaseStyles } from '../hooks'
+import { useAnchorEl, useBaseStyles } from "../hooks"
 
 const improvementValueToString = (value: number) => {
   if (value === 10) {
-    return '★M'
+    return "★M"
   }
   return `★${value}`
 }
@@ -76,8 +76,8 @@ const ImprovementSelect: React.FC<ImprovementSelectProps> = ({ value, onChange }
 
       <Popover
         anchorOrigin={{
-          vertical: 'bottom',
-          horizontal: 'center'
+          vertical: "bottom",
+          horizontal: "center"
         }}
         open={Boolean(anchorEl)}
         anchorEl={anchorEl}

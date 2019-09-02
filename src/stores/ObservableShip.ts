@@ -1,15 +1,15 @@
-import { IGear, IGearDataObject, IShipDataObject, shipStatKeys } from 'kc-calculator'
-import { action, computed, observable } from 'mobx'
-import { persist } from 'mobx-persist'
-import uuid from 'uuid'
-import { range } from 'lodash-es'
+import { IGear, IGearDataObject, IShipDataObject, shipStatKeys } from "kc-calculator"
+import { action, computed, observable } from "mobx"
+import { persist } from "mobx-persist"
+import uuid from "uuid"
+import { range } from "lodash-es"
 
-import kcObjectFactory, { masterData } from './kcObjectFactory'
-import ObservableGear, { ObservableGearStore } from './ObservableGear'
+import kcObjectFactory, { masterData } from "./kcObjectFactory"
+import ObservableGear, { ObservableGearStore } from "./ObservableGear"
 
-import { StoreItem } from '../types'
-import ObservableFleet from './ObservableFleet'
-import EnemyShipStore from './EnemyShipStore'
+import { StoreItem } from "../types"
+import ObservableFleet from "./ObservableFleet"
+import EnemyShipStore from "./EnemyShipStore"
 
 type StoreType = ObservableFleet | EnemyShipStore
 
@@ -60,7 +60,7 @@ export default class ObservableShip implements IShipDataObject, ObservableGearSt
       observableShip.increased = increased
     }
 
-    if (typeof nowHp === 'number') {
+    if (typeof nowHp === "number") {
       observableShip.nowHp = nowHp
     } else {
       observableShip.nowHp = observableShip.asKcObject.health.maxHp
@@ -77,15 +77,15 @@ export default class ObservableShip implements IShipDataObject, ObservableGearSt
 
   @persist @observable public level = 0
 
-  @persist('list', ObservableGear) @observable public equipments = observable<ObservableGear | undefined>([])
+  @persist("list", ObservableGear) @observable public equipments = observable<ObservableGear | undefined>([])
 
-  @persist('list') @observable public slots: number[] = []
+  @persist("list") @observable public slots: number[] = []
 
   @persist @observable public nowHp = -1
 
   @persist @observable public morale = 49
 
-  @persist('object') @observable public increased: NonNullable<IShipDataObject['increased']> = {}
+  @persist("object") @observable public increased: NonNullable<IShipDataObject["increased"]> = {}
 
   @observable public visibleGears = true
 
@@ -123,15 +123,15 @@ export default class ObservableShip implements IShipDataObject, ObservableGearSt
     const prev = this.gears[index]
     this.gears[index] = gear
 
-    if (!this.asKcObject.shipClass.is('NisshinClass') || !this.slots[index]) {
+    if (!this.asKcObject.shipClass.is("NisshinClass") || !this.slots[index]) {
       return
     }
 
-    if (prev && prev.asKcObject.category.is('LargeFlyingBoat')) {
+    if (prev && prev.asKcObject.category.is("LargeFlyingBoat")) {
       this.setSlotSize(index, this.slotCapacities[index])
     }
 
-    if (gear && gear.asKcObject.category.is('LargeFlyingBoat')) {
+    if (gear && gear.asKcObject.category.is("LargeFlyingBoat")) {
       this.setSlotSize(index, 1)
     }
   }
@@ -145,7 +145,7 @@ export default class ObservableShip implements IShipDataObject, ObservableGearSt
   }
 
   @action public setSlotSize = (index: number, value: number) => {
-    if (typeof this.slots[index] === 'number' && value >= 0) {
+    if (typeof this.slots[index] === "number" && value >= 0) {
       this.slots[index] = value
     }
   }

@@ -1,21 +1,21 @@
-import React from 'react'
+import React from "react"
 
-import Avatar from '@material-ui/core/Avatar'
-import Chip from '@material-ui/core/Chip'
+import Avatar from "@material-ui/core/Avatar"
+import Chip from "@material-ui/core/Chip"
 
-import { makeStyles, Theme } from '@material-ui/core/styles'
+import { makeStyles, Theme } from "@material-ui/core/styles"
 
-import statKeys from '../data/statKeys'
+import statKeys from "../data/statKeys"
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
     marginBottom: theme.spacing(1)
   },
   avatar: {
-    backgroundColor: 'rgba(0, 0, 0, 0)'
+    backgroundColor: "rgba(0, 0, 0, 0)"
   },
   image: {
-    filter: 'brightness(150%)'
+    filter: "brightness(150%)"
   }
 }))
 
@@ -30,7 +30,7 @@ const StatChip: React.FC<StatChipProps> = ({ statKey, value }) => {
   const label = stat ? stat.name : statKey
 
   let image
-  if (!['typeIds'].includes(statKey)) {
+  if (!["typeIds"].includes(statKey)) {
     try {
       image = require(`../images/icons/${statKey}.png`)
     } catch (error) {

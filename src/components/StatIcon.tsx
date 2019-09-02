@@ -1,20 +1,20 @@
-import React from 'react'
+import React from "react"
 
-import { GearStatKey, ShipStatKey } from 'kc-calculator'
+import { GearStatKey, ShipStatKey } from "kc-calculator"
 
-import { makeStyles, Theme } from '@material-ui/core/styles'
-import Typography from '@material-ui/core/Typography'
+import { makeStyles, Theme } from "@material-ui/core/styles"
+import Typography from "@material-ui/core/Typography"
 
 const useStyles = makeStyles({
   root: {
-    display: 'flex',
-    alignItems: 'flex-end',
+    display: "flex",
+    alignItems: "flex-end",
     marginRight: 4
   },
   icon: {
     width: 8 * 2,
     height: 8 * 2,
-    filter: 'contrast(180%) opacity(0.9)'
+    filter: "contrast(180%) opacity(0.9)"
   },
   label: {
     fontSize: 10,

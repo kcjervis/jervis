@@ -1,25 +1,25 @@
-import { FleetTypeName, Side, FleetType } from 'kc-calculator'
-import { observer } from 'mobx-react-lite'
-import React, { useContext, useCallback, useState } from 'react'
+import { FleetTypeName, Side, FleetType } from "kc-calculator"
+import { observer } from "mobx-react-lite"
+import React, { useContext, useCallback, useState } from "react"
 
-import Checkbox from '@material-ui/core/Checkbox'
-import Divider from '@material-ui/core/Divider'
-import FormControlLabel from '@material-ui/core/FormControlLabel'
-import Tab from '@material-ui/core/Tab'
-import Tabs from '@material-ui/core/Tabs'
-import TextField from '@material-ui/core/TextField'
-import Typography from '@material-ui/core/Typography'
-import Box from '@material-ui/core/Box'
-import { makeStyles, Theme } from '@material-ui/core/styles'
+import Checkbox from "@material-ui/core/Checkbox"
+import Divider from "@material-ui/core/Divider"
+import FormControlLabel from "@material-ui/core/FormControlLabel"
+import Tab from "@material-ui/core/Tab"
+import Tabs from "@material-ui/core/Tabs"
+import TextField from "@material-ui/core/TextField"
+import Typography from "@material-ui/core/Typography"
+import Box from "@material-ui/core/Box"
+import { makeStyles, Theme } from "@material-ui/core/styles"
 
-import FleetField from '../FleetField'
-import LandBaseForm from '../LandBaseForm'
-import OperationShareDialog from '../OperationShareDialog'
-import OperationDescriptionField from './OperationDescriptionField'
-import { SaveButton, ShareButton, FleetTypeSelect, NumberInput } from '../../components'
+import FleetField from "../FleetField"
+import LandBaseForm from "../LandBaseForm"
+import OperationShareDialog from "../OperationShareDialog"
+import OperationDescriptionField from "./OperationDescriptionField"
+import { SaveButton, ShareButton, FleetTypeSelect, NumberInput } from "../../components"
 
-import { ObservableOperation, SettingStoreContext } from '../../stores'
-import { useOpen, useOperationStore } from '../../hooks'
+import { ObservableOperation, SettingStoreContext } from "../../stores"
+import { useOpen, useOperationStore } from "../../hooks"
 
 const useStyles = makeStyles({
   root: {
@@ -28,16 +28,16 @@ const useStyles = makeStyles({
   },
   name: { width: 8 * 25 },
   hqLevel: { marginRight: 8, width: 8 * 10 },
-  tabs: { display: 'flex', flexWrap: 'wrap' },
+  tabs: { display: "flex", flexWrap: "wrap" },
   menu: {
-    display: 'flex',
-    alignItems: 'center',
+    display: "flex",
+    alignItems: "center",
     marginLeft: 8,
-    flexWrap: 'wrap'
+    flexWrap: "wrap"
   },
   form: {
-    display: 'flex',
-    alignItems: 'flex-end'
+    display: "flex",
+    alignItems: "flex-end"
   }
 })
 
@@ -87,7 +87,7 @@ const OperationPanel: React.FC<OperationPanelProps> = ({ operation }) => {
 
   const { mainFleet, escortFleet } = operation.asKcObject
   let combinedFleetFighterPower = mainFleet.fighterPower
-  let combinedFleetFighterPowerLabel = ''
+  let combinedFleetFighterPowerLabel = ""
   if (escortFleet) {
     combinedFleetFighterPower += escortFleet.fighterPower
     combinedFleetFighterPowerLabel = `連合戦制空: ${combinedFleetFighterPower}`

@@ -1,20 +1,20 @@
-import { nonNullable } from 'kc-calculator'
-import React from 'react'
-import { observer } from 'mobx-react-lite'
+import { nonNullable } from "kc-calculator"
+import React from "react"
+import { observer } from "mobx-react-lite"
 
-import Box from '@material-ui/core/Box'
-import Button from '@material-ui/core/Button'
-import Paper from '@material-ui/core/Paper'
-import Dialog from '@material-ui/core/Dialog'
-import Typography from '@material-ui/core/Typography'
+import Box from "@material-ui/core/Box"
+import Button from "@material-ui/core/Button"
+import Paper from "@material-ui/core/Paper"
+import Dialog from "@material-ui/core/Dialog"
+import Typography from "@material-ui/core/Typography"
 
-import AerialCombatSimulator, { operationToBattleFleet } from './AerialCombatSimulator'
-import LandBasedAirCorpsCard from './LandBasedAirCorpsCard'
+import AerialCombatSimulator, { operationToBattleFleet } from "./AerialCombatSimulator"
+import LandBasedAirCorpsCard from "./LandBasedAirCorpsCard"
 
-import { EnemyFleet, GearsSettingDialog, Flexbox } from '../components'
-import MapsPanel from './MapsPanel'
-import { ObservableOperation } from '../stores'
-import { useOpen, useOperationStore } from '../hooks'
+import { EnemyFleet, GearsSettingDialog, Flexbox } from "../components"
+import MapsPanel from "./MapsPanel"
+import { ObservableOperation } from "../stores"
+import { useOpen, useOperationStore } from "../hooks"
 
 interface LandBaseForm {
   operation: ObservableOperation
@@ -37,7 +37,7 @@ const LandBaseForm: React.FC<LandBaseForm> = ({ operation }) => {
 
   const { mainFleet, escortFleet } = operation.asKcObject
   let combinedFleetFighterPower = mainFleet.fighterPower
-  let combinedFleetFighterPowerLabel = ''
+  let combinedFleetFighterPowerLabel = ""
   if (escortFleet) {
     combinedFleetFighterPower += escortFleet.fighterPower
     combinedFleetFighterPowerLabel = `連合戦制空: ${combinedFleetFighterPower}`
@@ -76,7 +76,7 @@ const LandBaseForm: React.FC<LandBaseForm> = ({ operation }) => {
 
       <AerialCombatSimulator operation={operation} />
 
-      <Dialog PaperProps={{ style: { height: '80vh' } }} fullWidth maxWidth="xl" {...mapDialogProps}>
+      <Dialog PaperProps={{ style: { height: "80vh" } }} fullWidth maxWidth="xl" {...mapDialogProps}>
         <MapsPanel onSelect={setEnemy} />
       </Dialog>
 

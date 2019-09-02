@@ -1,16 +1,16 @@
-import React, { useContext, useCallback } from 'react'
-import clsx from 'clsx'
-import { observer } from 'mobx-react-lite'
+import React, { useContext, useCallback } from "react"
+import clsx from "clsx"
+import { observer } from "mobx-react-lite"
 
-import Button from '@material-ui/core/Button'
-import Divider from '@material-ui/core/Divider'
-import AddIcon from '@material-ui/icons/Add'
-import { makeStyles, createStyles, Theme } from '@material-ui/core/styles'
+import Button from "@material-ui/core/Button"
+import Divider from "@material-ui/core/Divider"
+import AddIcon from "@material-ui/icons/Add"
+import { makeStyles, createStyles, Theme } from "@material-ui/core/styles"
 
-import { OperationStoreContext, WorkspaceStore, TemporaryOperationStoreContext } from '../../stores'
+import { OperationStoreContext, WorkspaceStore, TemporaryOperationStoreContext } from "../../stores"
 
-import OperationFolder from './OperationFolder'
-import { CloseButton } from '../../components'
+import OperationFolder from "./OperationFolder"
+import { CloseButton } from "../../components"
 
 const useStyles = makeStyles(
   createStyles({
@@ -18,8 +18,8 @@ const useStyles = makeStyles(
       marginLeft: 8
     },
     closeButton: {
-      display: 'block',
-      margin: '0 0 0 auto',
+      display: "block",
+      margin: "0 0 0 auto",
       width: 32,
       height: 32
     }

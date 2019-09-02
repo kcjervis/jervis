@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react"
 
 interface GearImageProps extends React.ImgHTMLAttributes<HTMLImageElement> {
   masterId: number
@@ -10,7 +10,7 @@ const GearImage: React.FC<GearImageProps> = ({ masterId, ...rest }) => {
   }
   try {
     return (
-      <img style={{ pointerEvents: 'none' }} src={require(`../images/equipments/itemOn/${masterId}.png`)} {...rest} />
+      <img style={{ pointerEvents: "none" }} src={require(`../images/equipments/itemOn/${masterId}.png`)} {...rest} />
     )
   } catch (error) {
     console.log(`gear ${masterId} image not found`)

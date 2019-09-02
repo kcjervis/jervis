@@ -1,4 +1,4 @@
-declare module '*maps' {
+declare module "*maps" {
   export type TEventDifficulty = 1 | 2 | 3 | 4
   export type TEnemyFleet = Readonly<{
     ships: number[]
@@ -17,7 +17,7 @@ declare module '*maps' {
   export default maps
 }
 
-declare module '*.png' {
+declare module "*.png" {
   const value: any
   export = value
 }

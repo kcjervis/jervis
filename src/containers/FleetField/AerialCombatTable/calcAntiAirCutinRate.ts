@@ -1,5 +1,5 @@
-import { IShip, AerialCombat } from 'kc-calculator'
-import { sumBy, uniq } from 'lodash-es'
+import { IShip, AerialCombat } from "kc-calculator"
+import { sumBy, uniq } from "lodash-es"
 
 const { AntiAirCutin } = AerialCombat
 type AntiAirCutin = AerialCombat.AntiAirCutin

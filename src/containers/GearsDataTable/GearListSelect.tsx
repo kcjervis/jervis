@@ -1,16 +1,16 @@
-import { makeStyles, Theme } from '@material-ui/core/styles'
-import { observer } from 'mobx-react-lite'
-import React, { useCallback, useState } from 'react'
+import { makeStyles, Theme } from "@material-ui/core/styles"
+import { observer } from "mobx-react-lite"
+import React, { useCallback, useState } from "react"
 
-import ClickAwayListener from '@material-ui/core/ClickAwayListener'
-import Box from '@material-ui/core/Box'
-import Input from '@material-ui/core/Input'
+import ClickAwayListener from "@material-ui/core/ClickAwayListener"
+import Box from "@material-ui/core/Box"
+import Input from "@material-ui/core/Input"
 
-import { Select, UpdateButton, AddButton, RemoveButton } from '../../components'
-import GearsDataStore from '../../stores/GearsDataStore'
-import GearList from '../../stores/GearList'
+import { Select, UpdateButton, AddButton, RemoveButton } from "../../components"
+import GearsDataStore from "../../stores/GearsDataStore"
+import GearList from "../../stores/GearList"
 
-const getOptionLabel = (list: GearList | undefined) => (list ? list.name : 'データ')
+const getOptionLabel = (list: GearList | undefined) => (list ? list.name : "データ")
 
 const GearListSelect: React.FC<{ store: GearsDataStore }> = ({ store }) => {
   const { activeGearList } = store

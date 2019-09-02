@@ -1,31 +1,31 @@
-import React from 'react'
+import React from "react"
 
-import { IShip, shipStatKeys } from 'kc-calculator'
+import { IShip, shipStatKeys } from "kc-calculator"
 
-import Card from '@material-ui/core/Card'
-import CardContent from '@material-ui/core/CardContent'
+import Card from "@material-ui/core/Card"
+import CardContent from "@material-ui/core/CardContent"
 
-import { makeStyles, Theme } from '@material-ui/core/styles'
-import Typography from '@material-ui/core/Typography'
+import { makeStyles, Theme } from "@material-ui/core/styles"
+import Typography from "@material-ui/core/Typography"
 
-import ShipImage from './ShipImage'
-import StatChip from './StatChip'
+import ShipImage from "./ShipImage"
+import StatChip from "./StatChip"
 
 const useStyles = makeStyles((theme: Theme) => ({
   flexContainer: {
-    display: 'flex',
-    flexWrap: 'wrap',
-    alignItems: 'center',
+    display: "flex",
+    flexWrap: "wrap",
+    alignItems: "center",
     padding: 0,
     paddingBottom: theme.spacing(1),
-    '&:last-child': {
+    "&:last-child": {
       paddingBottom: 0
     }
   },
   flexContent: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
     margin: theme.spacing(1),
     minWidth: 200,
     height: 50
@@ -45,7 +45,7 @@ const ShipPlate: React.FC<ShipPlateProps> = ({ ship, children }) => {
   const { name, level } = ship
   return (
     <Card>
-      <CardContent style={{ display: 'flex', alignItems: 'center' }}>
+      <CardContent style={{ display: "flex", alignItems: "center" }}>
         <ShipImage masterId={ship.masterId} imageType="banner" />
         <Typography>{name}</Typography>
         <Typography>Lv {level}</Typography>

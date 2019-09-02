@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react"
 
 interface GearIconProps extends React.ImgHTMLAttributes<HTMLImageElement> {
   iconId: number

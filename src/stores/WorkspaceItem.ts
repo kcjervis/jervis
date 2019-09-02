@@ -1,20 +1,20 @@
-import { action, observable } from 'mobx'
+import { action, observable } from "mobx"
 
-import ObservableOperation from './ObservableOperation'
-import ObservableShip from './ObservableShip'
-import ObservableGear from './ObservableGear'
-import WorkspaceStore from './WorkspaceStore'
+import ObservableOperation from "./ObservableOperation"
+import ObservableShip from "./ObservableShip"
+import ObservableGear from "./ObservableGear"
+import WorkspaceStore from "./WorkspaceStore"
 
-type WorkspaceItemType = 'Operation' | 'Ship'
+type WorkspaceItemType = "Operation" | "Ship"
 
 type WorkspaceItemData = ObservableOperation | ObservableShip | ObservableGear
 
 export type WorkspaceItemObject = { type: WorkspaceItemType; id: string }
 
 export default class WorkspaceItem {
-  public id = ''
+  public id = ""
 
-  public type: WorkspaceItemType = 'Operation'
+  public type: WorkspaceItemType = "Operation"
 
   @observable public store?: WorkspaceStore
 

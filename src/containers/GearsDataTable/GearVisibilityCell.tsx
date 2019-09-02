@@ -1,14 +1,14 @@
-import { IGear } from 'kc-calculator'
-import { observer } from 'mobx-react-lite'
-import React, { useCallback, useContext } from 'react'
+import { IGear } from "kc-calculator"
+import { observer } from "mobx-react-lite"
+import React, { useCallback, useContext } from "react"
 
-import IconButton from '@material-ui/core/IconButton'
-import Visibility from '@material-ui/icons/Visibility'
-import VisibilityOff from '@material-ui/icons/VisibilityOff'
+import IconButton from "@material-ui/core/IconButton"
+import Visibility from "@material-ui/icons/Visibility"
+import VisibilityOff from "@material-ui/icons/VisibilityOff"
 
-import { DataTableCell } from '../../components/DataTable'
+import { DataTableCell } from "../../components/DataTable"
 
-import { GearsDataStoreContext } from '../../stores'
+import { GearsDataStoreContext } from "../../stores"
 
 const GearVisibilityCell: React.FC<{ gear: IGear }> = ({ gear }) => {
   const gearsDataStore = useContext(GearsDataStoreContext)

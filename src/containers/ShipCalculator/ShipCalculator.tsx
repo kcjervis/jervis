@@ -1,5 +1,5 @@
-import { observer } from 'mobx-react-lite'
-import React, { useContext, useCallback, useState } from 'react'
+import { observer } from "mobx-react-lite"
+import React, { useContext, useCallback, useState } from "react"
 import {
   AirControlState,
   Formation,
@@ -14,35 +14,35 @@ import {
   BattleState,
   nonNullable,
   IShip
-} from 'kc-calculator'
+} from "kc-calculator"
 
-import FormControlLabel from '@material-ui/core/FormControlLabel'
-import Checkbox from '@material-ui/core/Checkbox'
-import Box from '@material-ui/core/Box'
-import Typography from '@material-ui/core/Typography'
-import TextField from '@material-ui/core/TextField'
-import Button from '@material-ui/core/Button'
+import FormControlLabel from "@material-ui/core/FormControlLabel"
+import Checkbox from "@material-ui/core/Checkbox"
+import Box from "@material-ui/core/Box"
+import Typography from "@material-ui/core/Typography"
+import TextField from "@material-ui/core/TextField"
+import Button from "@material-ui/core/Button"
 
-import ShipStatusCard from './ShipStatusCard'
-import WarfareStatusCard from './WarfareStatusCard'
-import { Select, RadioGroup, NumberInput, Flexbox } from '../../components'
-import { ObservableShip, EnemyShipStoreContext } from '../../stores'
-import ShipCard from '../ShipForm/ShipCard'
-import { useSelect, useInput, useCheck } from '../../hooks'
-import { ShipSelectPanelStateContext } from '../ShipSelectPanel'
-import { MapsPanelStateContext } from '../MapsPanel'
+import ShipStatusCard from "./ShipStatusCard"
+import WarfareStatusCard from "./WarfareStatusCard"
+import { Select, RadioGroup, NumberInput, Flexbox } from "../../components"
+import { ObservableShip, EnemyShipStoreContext } from "../../stores"
+import ShipCard from "../ShipForm/ShipCard"
+import { useSelect, useInput, useCheck } from "../../hooks"
+import { ShipSelectPanelStateContext } from "../ShipSelectPanel"
+import { MapsPanelStateContext } from "../MapsPanel"
 
-const getRoleLabel = (role: ShipRole) => (role === 'Main' ? '主力艦' : '護衛艦')
+const getRoleLabel = (role: ShipRole) => (role === "Main" ? "主力艦" : "護衛艦")
 
 const useBattleStateForm = () => {
   const { singleFleetFormations, combinedFleetFormations } = Formation
   const fleetTypeSelect = useSelect(FleetType.values)
-  const roleSelect = useSelect<ShipRole>(['Main', 'Escort'])
+  const roleSelect = useSelect<ShipRole>(["Main", "Escort"])
   const formationSelect = useSelect(fleetTypeSelect.value.isCombined ? combinedFleetFormations : singleFleetFormations)
   const engagementSelect = useSelect(Engagement.values)
 
   const enemyFleetTypeSelect = useSelect([FleetType.Single, FleetType.Combined])
-  const enemyRoleSelect = useSelect<ShipRole>(['Main', 'Escort'])
+  const enemyRoleSelect = useSelect<ShipRole>(["Main", "Escort"])
   const enemyFormationSelect = useSelect(
     enemyFleetTypeSelect.value.isCombined ? combinedFleetFormations : singleFleetFormations
   )
@@ -124,8 +124,8 @@ const ShipCalculator: React.FC<ShipCalculatorProps> = ({ ship }) => {
     })
   }, [mapsPanelState, enemyShipStore])
 
-  type DisplayMode = 'Attack' | 'Defense'
-  const displayModeSelect = useSelect<DisplayMode>(['Attack', 'Defense'])
+  type DisplayMode = "Attack" | "Defense"
+  const displayModeSelect = useSelect<DisplayMode>(["Attack", "Defense"])
 
   const combinedFleetFactor = Shelling.getCombinedFleetFactor(attacker, {
     side: Side.Enemy,
@@ -188,7 +188,7 @@ const ShipCalculator: React.FC<ShipCalculatorProps> = ({ ship }) => {
         </Box>
 
         <Flexbox alignItems="end" mt={1}>
-          <RadioGroup {...displayModeSelect} getOptionLabel={mode => (mode === 'Attack' ? '攻撃' : '防御')} />
+          <RadioGroup {...displayModeSelect} getOptionLabel={mode => (mode === "Attack" ? "攻撃" : "防御")} />
           <Select label="相手艦隊種別" style={{ width: 8 * 15 }} {...form.enemyFleetType} />
           <Select label="相手陣形" {...form.enemyFormation} />
         </Flexbox>
@@ -216,7 +216,7 @@ const ShipCalculator: React.FC<ShipCalculatorProps> = ({ ship }) => {
               remainingAmmoModifier={remainingAmmoModifier}
               nightContactModifier={nightContactModifier}
               fitGunBonus={fitGunBonus}
-              isAttack={displayModeSelect.value === 'Attack'}
+              isAttack={displayModeSelect.value === "Attack"}
             />
           </Box>
         ))}

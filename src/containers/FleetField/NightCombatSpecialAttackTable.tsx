@@ -1,14 +1,14 @@
-import { Formation, IFleet, IShip, Side, NightCombatSpecialAttack, nonNullable } from 'kc-calculator'
-import { observable } from 'mobx'
-import { observer } from 'mobx-react-lite'
-import React, { createContext, useContext } from 'react'
+import { Formation, IFleet, IShip, Side, NightCombatSpecialAttack, nonNullable } from "kc-calculator"
+import { observable } from "mobx"
+import { observer } from "mobx-react-lite"
+import React, { createContext, useContext } from "react"
 
-import Checkbox from '@material-ui/core/Checkbox'
-import FormControlLabel from '@material-ui/core/FormControlLabel'
-import Typography from '@material-ui/core/Typography'
+import Checkbox from "@material-ui/core/Checkbox"
+import FormControlLabel from "@material-ui/core/FormControlLabel"
+import Typography from "@material-ui/core/Typography"
 
-import { toPercent } from '../../utils'
-import { Table, AttackChip } from '../../components'
+import { toPercent } from "../../utils"
+import { Table, AttackChip } from "../../components"
 
 const { calcPreModifierValue, calcBaseValue, getPossibleSpecialAttacks } = NightCombatSpecialAttack
 
@@ -57,7 +57,7 @@ const attackRateRenderer = (cutinRates: Array<{ ci: NightCombatSpecialAttack; ra
   return cutinRates.map(({ ci, rate }, index) => (
     <div key={index}>
       <AttackChip attack={ci} />
-      <Typography variant="inherit" style={{ display: 'inline-block', width: 50, marginLeft: 8 }}>
+      <Typography variant="inherit" style={{ display: "inline-block", width: 50, marginLeft: 8 }}>
         {toPercent(rate)}
       </Typography>
     </div>
@@ -123,11 +123,11 @@ const NightCombatSpecialAttackTable: React.FC<NightCombatSpecialAttackTable> = p
       <Table
         data={data}
         columns={[
-          { label: '艦娘', getValue: datum => datum.name },
-          { label: '補正無しCI項', getValue: datum => datum.preModifierValue },
-          { label: 'CI項', getValue: datum => datum.baseValue },
-          { label: '発動率', getValue: datum => attackRateRenderer(datum.cutinRates) },
-          { label: '合計発動率', getValue: datum => toPercent(datum.totalRate) }
+          { label: "艦娘", getValue: datum => datum.name },
+          { label: "補正無しCI項", getValue: datum => datum.preModifierValue },
+          { label: "CI項", getValue: datum => datum.baseValue },
+          { label: "発動率", getValue: datum => attackRateRenderer(datum.cutinRates) },
+          { label: "合計発動率", getValue: datum => toPercent(datum.totalRate) }
         ]}
       />
     </>

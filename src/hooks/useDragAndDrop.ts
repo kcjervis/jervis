@@ -5,9 +5,9 @@ import {
   DropTargetMonitor,
   DragSourceMonitor,
   DragElementWrapper
-} from 'react-dnd'
-import { useRef, useEffect } from 'react'
-import { setRef } from '@material-ui/core/utils'
+} from "react-dnd"
+import { useRef, useEffect } from "react"
+import { setRef } from "@material-ui/core/utils"
 
 interface DragAndDropSourceHookSpec<DragObject extends DragObjectWithType, DropResult> {
   item: DragObject
@@ -42,7 +42,7 @@ const useDragAndDrop = <DragObject extends DragObjectWithType, DropResult>(
     dropRef(node)
     const init = node.style.visibility
     if (isDragging) {
-      node.style.visibility = 'hidden'
+      node.style.visibility = "hidden"
     }
     return () => {
       node.style.visibility = init

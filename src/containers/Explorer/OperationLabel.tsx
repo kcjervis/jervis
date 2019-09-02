@@ -1,41 +1,41 @@
-import React from 'react'
-import { observer } from 'mobx-react-lite'
+import React from "react"
+import { observer } from "mobx-react-lite"
 
-import Button from '@material-ui/core/Button'
-import ClickAwayListener from '@material-ui/core/ClickAwayListener'
-import Popover from '@material-ui/core/Popover'
-import { makeStyles, createStyles, Theme } from '@material-ui/core/styles'
-import MenuList from '@material-ui/core/MenuList'
-import MenuItem from '@material-ui/core/MenuItem'
-import ListItemIcon from '@material-ui/core/ListItemIcon'
-import ListItemText from '@material-ui/core/ListItemText'
+import Button from "@material-ui/core/Button"
+import ClickAwayListener from "@material-ui/core/ClickAwayListener"
+import Popover from "@material-ui/core/Popover"
+import { makeStyles, createStyles, Theme } from "@material-ui/core/styles"
+import MenuList from "@material-ui/core/MenuList"
+import MenuItem from "@material-ui/core/MenuItem"
+import ListItemIcon from "@material-ui/core/ListItemIcon"
+import ListItemText from "@material-ui/core/ListItemText"
 
-import DeleteIcon from '@material-ui/icons/Delete'
-import FileCopyIcon from '@material-ui/icons/FileCopy'
-import ShareIcon from '@material-ui/icons/Share'
+import DeleteIcon from "@material-ui/icons/Delete"
+import FileCopyIcon from "@material-ui/icons/FileCopy"
+import ShareIcon from "@material-ui/icons/Share"
 
-import { MoreVertButton } from '../../components/IconButtons'
-import OperationShareDialog from '../OperationShareDialog'
-import { ItemLabel, OperationIcon } from '../../components'
+import { MoreVertButton } from "../../components/IconButtons"
+import OperationShareDialog from "../OperationShareDialog"
+import { ItemLabel, OperationIcon } from "../../components"
 
-import { ObservableOperation } from '../../stores'
-import { useAnchorEl, useOpen, useDragAndDrop, useWorkspace } from '../../hooks'
+import { ObservableOperation } from "../../stores"
+import { useAnchorEl, useOpen, useDragAndDrop, useWorkspace } from "../../hooks"
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
-      display: 'flex',
-      cursor: 'pointer',
-      '&:hover': {
+      display: "flex",
+      cursor: "pointer",
+      "&:hover": {
         background: theme.palette.grey[800]
       }
     },
     item: {
       padding: 0,
-      justifyContent: 'start',
+      justifyContent: "start",
       borderRadius: 0,
       flexGrow: 1,
-      maxWidth: 'calc(100% - 24px)'
+      maxWidth: "calc(100% - 24px)"
     }
   })
 )
@@ -64,7 +64,7 @@ const OperationLabel: React.FC<OperationLabelProps> = ({ operation, temporary })
     onClose()
   }
 
-  const item = { type: 'OperationLabel', operation }
+  const item = { type: "OperationLabel", operation }
   const [collectedProps, dndRef] = useDragAndDrop({
     item,
     drop: dragItem => dragItem.operation.swap(operation)
@@ -83,8 +83,8 @@ const OperationLabel: React.FC<OperationLabelProps> = ({ operation, temporary })
         open={Boolean(anchorEl)}
         anchorEl={anchorEl}
         anchorOrigin={{
-          vertical: 'center',
-          horizontal: 'center'
+          vertical: "center",
+          horizontal: "center"
         }}
         transitionDuration={{ enter: 300, exit: 0 }}
       >

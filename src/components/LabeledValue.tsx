@@ -1,9 +1,9 @@
-import React from 'react'
-import clsx from 'clsx'
+import React from "react"
+import clsx from "clsx"
 
-import { Theme, makeStyles, useTheme } from '@material-ui/core/styles'
-import Box, { BoxProps } from '@material-ui/core/Box'
-import Typography from '@material-ui/core/Typography'
+import { Theme, makeStyles, useTheme } from "@material-ui/core/styles"
+import Box, { BoxProps } from "@material-ui/core/Box"
+import Typography from "@material-ui/core/Typography"
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -11,7 +11,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     boxShadow: `inset 0 -1px ${theme.palette.text.secondary}`
   },
   label: {
-    fontSize: '0.7rem'
+    fontSize: "0.7rem"
   },
   value: {
     marginRight: theme.spacing(1)

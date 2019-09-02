@@ -1,4 +1,4 @@
-import { TEnemyFleet } from '*maps'
+import { TEnemyFleet } from "*maps"
 import {
   Side,
   FleetTypeName,
@@ -8,9 +8,9 @@ import {
   IShipDataObject,
   IGear,
   IGearDataObject
-} from 'kc-calculator'
-import kcObjectFactory, { masterData } from '../../stores/kcObjectFactory'
-import { ObservableOperation } from '../../stores'
+} from "kc-calculator"
+import kcObjectFactory, { masterData } from "../../stores/kcObjectFactory"
+import { ObservableOperation } from "../../stores"
 
 const masterIdToDataObject = (masterId: number) => {
   const master = masterData.findMasterShip(masterId)
@@ -25,7 +25,7 @@ const masterIdToDataObject = (masterId: number) => {
       if (gear === undefined) {
         return undefined
       }
-      if (typeof gear === 'number') {
+      if (typeof gear === "number") {
         return { masterId: gear }
       }
       return { masterId: gear.id, improvement: gear.improvement }
@@ -79,7 +79,7 @@ const shipToDataObject = (ship?: IShip): IShipDataObject | undefined => {
 
 export const battleFleetToOperation = (fleet: BattleFleet) => {
   const { mainFleet, escortFleet, formation, isCombinedFleet } = fleet
-  const name = '敵編成'
+  const name = "敵編成"
   const side = Side.Enemy
   const fleetType = isCombinedFleet ? FleetTypeName.Combined : FleetTypeName.Single
 

@@ -1,19 +1,19 @@
-import React, { useCallback } from 'react'
+import React, { useCallback } from "react"
 
-import green from '@material-ui/core/colors/green'
-import orange from '@material-ui/core/colors/orange'
-import red from '@material-ui/core/colors/red'
-import yellow from '@material-ui/core/colors/yellow'
-import LinearProgress from '@material-ui/core/LinearProgress'
-import Typography from '@material-ui/core/Typography'
-import Button from '@material-ui/core/Button'
-import { makeStyles, Theme } from '@material-ui/core/styles'
+import green from "@material-ui/core/colors/green"
+import orange from "@material-ui/core/colors/orange"
+import red from "@material-ui/core/colors/red"
+import yellow from "@material-ui/core/colors/yellow"
+import LinearProgress from "@material-ui/core/LinearProgress"
+import Typography from "@material-ui/core/Typography"
+import Button from "@material-ui/core/Button"
+import { makeStyles, Theme } from "@material-ui/core/styles"
 
-import MoraleBar, { MoraleBarProps } from './MoraleBar'
-import Dialog, { DialogProps } from './Dialog'
-import Flexbox from './Flexbox'
+import MoraleBar, { MoraleBarProps } from "./MoraleBar"
+import Dialog, { DialogProps } from "./Dialog"
+import Flexbox from "./Flexbox"
 
-type MoraleDialogProps = { onChange: (value: number) => void } & MoraleBarProps & Omit<DialogProps, 'onChange'>
+type MoraleDialogProps = { onChange: (value: number) => void } & MoraleBarProps & Omit<DialogProps, "onChange">
 
 export default function MoraleDialog({ value, onChange, ...dialogProps }: MoraleDialogProps) {
   const setSparkling = useCallback(() => onChange(85), [onChange])

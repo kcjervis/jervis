@@ -1,16 +1,16 @@
-import blue from '@material-ui/core/colors/blue'
-import grey from '@material-ui/core/colors/grey'
-import pink from '@material-ui/core/colors/pink'
-import { createMuiTheme } from '@material-ui/core/styles'
+import blue from "@material-ui/core/colors/blue"
+import grey from "@material-ui/core/colors/grey"
+import pink from "@material-ui/core/colors/pink"
+import { createMuiTheme } from "@material-ui/core/styles"
 
-const clearBackground = 'rgba(20, 20, 20, 0.1)'
-const darkBackground = 'rgba(15, 20, 20, 0.9)'
-const dialogPaperBackground = 'rgba(66, 66, 77, 0.95)'
+const clearBackground = "rgba(20, 20, 20, 0.1)"
+const darkBackground = "rgba(15, 20, 20, 0.9)"
+const dialogPaperBackground = "rgba(66, 66, 77, 0.95)"
 const darkPaper = { paper: { background: darkBackground } }
 
 export default createMuiTheme({
   palette: {
-    type: 'dark',
+    type: "dark",
     background: {
       paper: clearBackground
     },
@@ -23,27 +23,27 @@ export default createMuiTheme({
       main: pink[400]
     },
     action: {
-      disabled: 'rgba(180, 180, 216, 0.5)'
+      disabled: "rgba(180, 180, 216, 0.5)"
     }
   },
   overrides: {
     MuiTypography: {
       root: {
-        color: 'white'
+        color: "white"
       }
     },
     MuiPaper: {
       root: {
         scrollbarColor: `${grey[700]} ${grey[900]}`,
-        scrollbarWidth: 'thin',
-        '&::-webkit-scrollbar': {
+        scrollbarWidth: "thin",
+        "&::-webkit-scrollbar": {
           width: 8
         },
-        '&::-webkit-scrollbar-track': {
+        "&::-webkit-scrollbar-track": {
           background: grey[900],
           borderLeft: `solid 1px ${grey[700]}`
         },
-        '&::-webkit-scrollbar-thumb': {
+        "&::-webkit-scrollbar-thumb": {
           background: grey[700]
         }
       }
@@ -51,7 +51,7 @@ export default createMuiTheme({
     MuiMenu: darkPaper,
     MuiMenuItem: {
       root: {
-        color: 'white'
+        color: "white"
       }
     },
     MuiDialog: {
@@ -67,35 +67,35 @@ export default createMuiTheme({
     },
     MuiButton: {
       root: {
-        textTransform: 'none',
+        textTransform: "none",
         minWidth: 0
       }
     },
     MuiExpansionPanel: {
       root: {
-        background: 'rgba( 20, 20, 20, 0 )',
-        '&:before': undefined
+        background: "rgba( 20, 20, 20, 0 )",
+        "&:before": undefined
       }
     },
     MuiExpansionPanelSummary: {
       root: {
         height: 8 * 3,
         minHeight: 0,
-        '&$expanded': {
+        "&$expanded": {
           minHeight: 0
         }
       }
     },
     MuiTab: {
       root: {
-        textTransform: 'none'
+        textTransform: "none"
       },
       textColorInherit: {
-        color: 'rgba( 250, 250, 250, 0.7 )',
+        color: "rgba( 250, 250, 250, 0.7 )",
         minWidth: 20,
-        '&$selected': {
-          color: 'rgba( 255, 255, 255, 1 )',
-          textShadow: '0 0 10px #fff,0 0 15px #fff'
+        "&$selected": {
+          color: "rgba( 255, 255, 255, 1 )",
+          textShadow: "0 0 10px #fff,0 0 15px #fff"
         }
       }
     },
@@ -107,8 +107,8 @@ export default createMuiTheme({
     },
     MuiTableRow: {
       root: {
-        '&:hover': {
-          background: 'rgba(200, 200, 200, 0.08)'
+        "&:hover": {
+          background: "rgba(200, 200, 200, 0.08)"
         }
       }
     },

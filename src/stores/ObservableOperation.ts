@@ -1,15 +1,15 @@
-import { FleetTypeName, IOperationDataObject, Side, Formation } from 'kc-calculator'
-import { action, computed, observable } from 'mobx'
-import { persist } from 'mobx-persist'
-import uuid from 'uuid'
-import { times } from 'lodash-es'
+import { FleetTypeName, IOperationDataObject, Side, Formation } from "kc-calculator"
+import { action, computed, observable } from "mobx"
+import { persist } from "mobx-persist"
+import uuid from "uuid"
+import { times } from "lodash-es"
 
-import kcObjectFactory from './kcObjectFactory'
-import ObservableFleet from './ObservableFleet'
-import ObservableLandBasedAirCorps from './ObservableLandBasedAirCorps'
-import toNishikuma from './toNishikuma'
-import OperationStore from './OperationStore'
-import { StoreItem } from '../types'
+import kcObjectFactory from "./kcObjectFactory"
+import ObservableFleet from "./ObservableFleet"
+import ObservableLandBasedAirCorps from "./ObservableLandBasedAirCorps"
+import toNishikuma from "./toNishikuma"
+import OperationStore from "./OperationStore"
+import { StoreItem } from "../types"
 
 type OperationData = IOperationDataObject & {
   version?: number
@@ -45,9 +45,9 @@ export default class ObservableOperation implements IOperationDataObject, StoreI
 
   @persist public id = uuid()
 
-  @persist @observable public name = ''
+  @persist @observable public name = ""
 
-  @persist @observable public description = ''
+  @persist @observable public description = ""
 
   @persist @observable public hqLevel = 120
 
@@ -63,22 +63,22 @@ export default class ObservableOperation implements IOperationDataObject, StoreI
   }
 
   public setFormation = (arg: number | Formation) => {
-    if (typeof arg === 'number') {
+    if (typeof arg === "number") {
       this.formationId = arg
     } else {
       this.formationId = arg.id
     }
   }
 
-  @persist('list', ObservableFleet)
+  @persist("list", ObservableFleet)
   @observable
   public fleets = observable(times(4, () => new ObservableFleet()))
 
-  @persist('list', ObservableLandBasedAirCorps)
+  @persist("list", ObservableLandBasedAirCorps)
   @observable
   public landBase = observable(times(3, () => new ObservableLandBasedAirCorps()))
 
-  @persist('object', ObservableOperation)
+  @persist("object", ObservableOperation)
   @observable
   public enemy?: ObservableOperation
 

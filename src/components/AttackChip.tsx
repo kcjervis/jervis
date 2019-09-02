@@ -1,14 +1,14 @@
-import React from 'react'
-import clsx from 'clsx'
-import { DayCombatSpecialAttack, NightCombatSpecialAttack } from 'kc-calculator'
+import React from "react"
+import clsx from "clsx"
+import { DayCombatSpecialAttack, NightCombatSpecialAttack } from "kc-calculator"
 
-import Chip from '@material-ui/core/Chip'
-import Tooltip from '@material-ui/core/Tooltip'
-import orange from '@material-ui/core/colors/orange'
-import indigo from '@material-ui/core/colors/indigo'
-import { makeStyles, createStyles } from '@material-ui/core/styles'
+import Chip from "@material-ui/core/Chip"
+import Tooltip from "@material-ui/core/Tooltip"
+import orange from "@material-ui/core/colors/orange"
+import indigo from "@material-ui/core/colors/indigo"
+import { makeStyles, createStyles } from "@material-ui/core/styles"
 
-import LabeledValue from './LabeledValue'
+import LabeledValue from "./LabeledValue"
 
 const useStyles = makeStyles(
   createStyles({
@@ -39,7 +39,7 @@ export default function AttackChip({ attack }: AttackChipProps) {
   if (attack instanceof NightCombatSpecialAttack) {
     className = classes.nightAttack
   }
-  const label = attack ? attack.name : '単発'
+  const label = attack ? attack.name : "単発"
   const chip = <Chip className={clsx(className, classes.root)} size="small" variant="outlined" label={label} />
   if (!attack) {
     return chip

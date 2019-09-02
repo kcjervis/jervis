@@ -1,12 +1,12 @@
-import { IFleetDataObject, IShipDataObject } from 'kc-calculator'
-import { action, computed, observable } from 'mobx'
-import { persist } from 'mobx-persist'
-import uuid from 'uuid'
+import { IFleetDataObject, IShipDataObject } from "kc-calculator"
+import { action, computed, observable } from "mobx"
+import { persist } from "mobx-persist"
+import uuid from "uuid"
 
-import kcObjectFactory from './kcObjectFactory'
-import ObservableShip from './ObservableShip'
-import ObservableOperation from './ObservableOperation'
-import { StoreItem, ShipStore } from '../types'
+import kcObjectFactory from "./kcObjectFactory"
+import ObservableShip from "./ObservableShip"
+import ObservableOperation from "./ObservableOperation"
+import { StoreItem, ShipStore } from "../types"
 
 export default class ObservableFleet
   implements IFleetDataObject, ShipStore<ObservableShip | undefined>, StoreItem<ObservableOperation> {
@@ -24,7 +24,7 @@ export default class ObservableFleet
 
   @persist public id = uuid()
 
-  @persist('list', ObservableShip) @observable public ships = observable<ObservableShip | undefined>(new Array(6))
+  @persist("list", ObservableShip) @observable public ships = observable<ObservableShip | undefined>(new Array(6))
 
   @action public set = (index: number, ship?: ObservableShip) => {
     if (index < 0) {

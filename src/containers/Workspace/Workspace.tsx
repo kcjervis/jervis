@@ -1,21 +1,21 @@
-import React from 'react'
-import clsx from 'clsx'
-import { observer } from 'mobx-react-lite'
-import { Redirect } from 'react-router'
+import React from "react"
+import clsx from "clsx"
+import { observer } from "mobx-react-lite"
+import { Redirect } from "react-router"
 
-import Button from '@material-ui/core/Button'
-import FolderIcon from '@material-ui/icons/Folder'
-import Drawer from '@material-ui/core/Drawer'
-import { makeStyles, createStyles, Theme } from '@material-ui/core/styles'
+import Button from "@material-ui/core/Button"
+import FolderIcon from "@material-ui/icons/Folder"
+import Drawer from "@material-ui/core/Drawer"
+import { makeStyles, createStyles, Theme } from "@material-ui/core/styles"
 
-import Explorer from '../Explorer'
-import OperationsPage from '../OperationsPage'
+import Explorer from "../Explorer"
+import OperationsPage from "../OperationsPage"
 
-import { useOpen, useWorkspace } from '../../hooks'
-import { WorkspaceStoreContext } from '../../stores'
-import WorkspaceBar from './WorkspaceBar'
-import WorkspaceTabPanel from './WorkspaceTabPanel'
-import withIconButton from '../../hocs/withIconButton'
+import { useOpen, useWorkspace } from "../../hooks"
+import { WorkspaceStoreContext } from "../../stores"
+import WorkspaceBar from "./WorkspaceBar"
+import WorkspaceTabPanel from "./WorkspaceTabPanel"
+import withIconButton from "../../hocs/withIconButton"
 
 const FolderButton = withIconButton(FolderIcon)
 
@@ -38,17 +38,17 @@ const useStyles = makeStyles((theme: Theme) => {
     content: {
       marginTop: workspaceBarHeight,
       height: `calc(100vh - ${workspaceBarHeight}px)`,
-      overflow: 'auto',
+      overflow: "auto",
       scrollbarColor: `${grey[700]} ${grey[900]}`,
-      scrollbarWidth: 'thin',
-      '&::-webkit-scrollbar': {
+      scrollbarWidth: "thin",
+      "&::-webkit-scrollbar": {
         width: 8
       },
-      '&::-webkit-scrollbar-track': {
+      "&::-webkit-scrollbar-track": {
         background: grey[900],
         borderLeft: `solid 1px ${grey[700]}`
       },
-      '&::-webkit-scrollbar-thumb': {
+      "&::-webkit-scrollbar-thumb": {
         background: grey[700]
       }
       // transition: theme.transitions.create('margin', {

@@ -1,12 +1,12 @@
-import { useContext, useCallback, useMemo } from 'react'
+import { useContext, useCallback, useMemo } from "react"
 
 import {
   ObservableOperation,
   WorkspaceStoreContext,
   OperationStoreContext,
   TemporaryOperationStoreContext
-} from '../stores'
-import { nonNullable } from 'kc-calculator'
+} from "../stores"
+import { nonNullable } from "kc-calculator"
 
 const useOperationStore = () => {
   const workspaceStore = useContext(WorkspaceStoreContext)
@@ -25,7 +25,7 @@ const useOperationStore = () => {
     if (operation) {
       return operation
     }
-    if (activeItem.type === 'Operation') {
+    if (activeItem.type === "Operation") {
       return temporaryOperationStore.getOperation(activeItem.id)
     }
 

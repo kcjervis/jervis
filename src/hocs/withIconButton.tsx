@@ -1,8 +1,8 @@
-import React from 'react'
+import React from "react"
 
-import { SvgIcon } from '@material-ui/core'
-import IconButton, { IconButtonProps } from '@material-ui/core/IconButton'
-import Tooltip, { TooltipProps } from '@material-ui/core/Tooltip'
+import { SvgIcon } from "@material-ui/core"
+import IconButton, { IconButtonProps } from "@material-ui/core/IconButton"
+import Tooltip, { TooltipProps } from "@material-ui/core/Tooltip"
 
 export interface WithIconButtonProps extends IconButtonProps {
   label?: string

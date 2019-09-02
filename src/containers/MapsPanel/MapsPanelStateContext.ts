@@ -1,6 +1,6 @@
-import { createContext } from 'react'
-import { action, observable } from 'mobx'
-import { MapsPanelProps } from './MapsPanel'
+import { createContext } from "react"
+import { action, observable } from "mobx"
+import { MapsPanelProps } from "./MapsPanel"
 
 class MapsPanelState {
   @observable public open = false
@@ -12,7 +12,7 @@ class MapsPanelState {
     if (!props) {
       return
     }
-    const onSelect: NonNullable<MapsPanelProps['onSelect']> = data => {
+    const onSelect: NonNullable<MapsPanelProps["onSelect"]> = data => {
       props.onSelect && props.onSelect(data)
       this.onClose()
     }

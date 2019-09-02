@@ -1,6 +1,6 @@
-import React, { useRef } from 'react'
-import Scrollbars, { ScrollbarProps } from 'react-custom-scrollbars'
-import { makeStyles, createStyles, Theme } from '@material-ui/core/styles'
+import React, { useRef } from "react"
+import Scrollbars, { ScrollbarProps } from "react-custom-scrollbars"
+import { makeStyles, createStyles, Theme } from "@material-ui/core/styles"
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -11,8 +11,8 @@ const useStyles = makeStyles((theme: Theme) =>
       borderRadius: 3
     },
     scrollbarThumb: {
-      cursor: 'pointer',
-      borderRadius: 'inherit',
+      cursor: "pointer",
+      borderRadius: "inherit",
       background: theme.palette.grey[300],
       opacity: 0.2
     }

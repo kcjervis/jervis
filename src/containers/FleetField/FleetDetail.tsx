@@ -1,19 +1,19 @@
-import { FleetRole, IFleet, BattleType, IOperation, IPlane, Formation } from 'kc-calculator'
-import { getCombinedFleetModifier } from 'kc-calculator/dist/Battle/AerialCombat/antiAir'
-import { observable } from 'mobx'
-import { observer } from 'mobx-react-lite'
-import React, { createContext, useContext } from 'react'
+import { FleetRole, IFleet, BattleType, IOperation, IPlane, Formation } from "kc-calculator"
+import { getCombinedFleetModifier } from "kc-calculator/dist/Battle/AerialCombat/antiAir"
+import { observable } from "mobx"
+import { observer } from "mobx-react-lite"
+import React, { createContext, useContext } from "react"
 
-import Tab from '@material-ui/core/Tab'
-import Tabs from '@material-ui/core/Tabs'
-import Typography from '@material-ui/core/Typography'
-import Paper from '@material-ui/core/Paper'
+import Tab from "@material-ui/core/Tab"
+import Tabs from "@material-ui/core/Tabs"
+import Typography from "@material-ui/core/Typography"
+import Paper from "@material-ui/core/Paper"
 
-import ContactTable from './ContactTable'
-import NightCombatSpecialAttackTable from './NightCombatSpecialAttackTable'
-import AerialCombatTable from './AerialCombatTable'
-import { useBaseStyles } from '../../hooks'
-import ShellingAttackTable from './ShellingAttackTable'
+import ContactTable from "./ContactTable"
+import NightCombatSpecialAttackTable from "./NightCombatSpecialAttackTable"
+import AerialCombatTable from "./AerialCombatTable"
+import { useBaseStyles } from "../../hooks"
+import ShellingAttackTable from "./ShellingAttackTable"
 
 interface FleetDetailProps {
   operation: IOperation

@@ -1,26 +1,26 @@
-import React from 'react'
-import clsx from 'clsx'
+import React from "react"
+import clsx from "clsx"
 
-import Typography from '@material-ui/core/Typography'
+import Typography from "@material-ui/core/Typography"
 
-import { makeStyles, createStyles, Theme } from '@material-ui/core/styles'
+import { makeStyles, createStyles, Theme } from "@material-ui/core/styles"
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
       marginLeft: 8,
-      display: 'flex',
-      alignItems: 'center',
-      maxWidth: '100%',
+      display: "flex",
+      alignItems: "center",
+      maxWidth: "100%",
       height: 24,
-      fontSize: '1rem',
+      fontSize: "1rem",
       color: theme.palette.text.primary
     },
     typography: {
       marginLeft: 8,
-      overflow: 'hidden',
-      whiteSpace: 'nowrap',
-      textOverflow: 'ellipsis'
+      overflow: "hidden",
+      whiteSpace: "nowrap",
+      textOverflow: "ellipsis"
     }
   })
 )

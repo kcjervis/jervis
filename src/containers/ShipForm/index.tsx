@@ -1,15 +1,15 @@
-import { observer } from 'mobx-react-lite'
-import React, { useContext } from 'react'
+import { observer } from "mobx-react-lite"
+import React, { useContext } from "react"
 
-import Box from '@material-ui/core/Box'
-import Button from '@material-ui/core/Button'
-import Add from '@material-ui/icons/Add'
-import { makeStyles, createStyles, Theme } from '@material-ui/core/styles'
+import Box from "@material-ui/core/Box"
+import Button from "@material-ui/core/Button"
+import Add from "@material-ui/icons/Add"
+import { makeStyles, createStyles, Theme } from "@material-ui/core/styles"
 
-import { ObservableFleet, ObservableShip, SettingStoreContext, EnemyShipStore } from '../../stores'
-import ShipCard from './ShipCard'
-import { useDragAndDrop } from '../../hooks'
-import { ShipSelectPanelStateContext } from '../ShipSelectPanel'
+import { ObservableFleet, ObservableShip, SettingStoreContext, EnemyShipStore } from "../../stores"
+import ShipCard from "./ShipCard"
+import { useDragAndDrop } from "../../hooks"
+import { ShipSelectPanelStateContext } from "../ShipSelectPanel"
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -30,7 +30,7 @@ const ShipForm: React.FC<ShipFormProps> = props => {
 
   const classes = useStyles()
   const [dndProps, dndRef] = useDragAndDrop({
-    item: { type: 'Ship', ship, store, index },
+    item: { type: "Ship", ship, store, index },
     drop: dragItem => {
       store.set(index, dragItem.ship)
       dragItem.store.set(dragItem.index, ship)
@@ -45,7 +45,7 @@ const ShipForm: React.FC<ShipFormProps> = props => {
   let element: JSX.Element
   if (!ship) {
     element = (
-      <Button variant="outlined" fullWidth style={{ height: '100%' }} size="large" onClick={handleOpen}>
+      <Button variant="outlined" fullWidth style={{ height: "100%" }} size="large" onClick={handleOpen}>
         <Add />
         艦娘{index + 1}
       </Button>

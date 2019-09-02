@@ -1,21 +1,21 @@
-import { IFleet, FleetRole, nonNullable, BattleType, IOperation, Formation, Side, IShip } from 'kc-calculator'
-import { AntiAirCutin, FleetAntiAir } from 'kc-calculator/dist/Battle/AerialCombat'
-import React, { useState } from 'react'
-import { union } from 'lodash-es'
-import { observer } from 'mobx-react-lite'
+import { IFleet, FleetRole, nonNullable, BattleType, IOperation, Formation, Side, IShip } from "kc-calculator"
+import { AntiAirCutin, FleetAntiAir } from "kc-calculator/dist/Battle/AerialCombat"
+import React, { useState } from "react"
+import { union } from "lodash-es"
+import { observer } from "mobx-react-lite"
 
-import Table from '@material-ui/core/Table'
-import TableBody from '@material-ui/core/TableBody'
-import TableCell from '@material-ui/core/TableCell'
-import TableHead from '@material-ui/core/TableHead'
-import TableRow from '@material-ui/core/TableRow'
-import Typography from '@material-ui/core/Typography'
+import Table from "@material-ui/core/Table"
+import TableBody from "@material-ui/core/TableBody"
+import TableCell from "@material-ui/core/TableCell"
+import TableHead from "@material-ui/core/TableHead"
+import TableRow from "@material-ui/core/TableRow"
+import Typography from "@material-ui/core/Typography"
 
-import { Select, NumberInput } from '../../../components'
-import { useSelect } from '../../../hooks'
-import AerialCombatShipRow from './AerialCombatShipRow'
-import calcAntiAirCutinRates from './calcAntiAirCutinRate'
-import AntiAirCutinRatePieChart from './AntiAirCutinRatePieChart'
+import { Select, NumberInput } from "../../../components"
+import { useSelect } from "../../../hooks"
+import AerialCombatShipRow from "./AerialCombatShipRow"
+import calcAntiAirCutinRates from "./calcAntiAirCutinRate"
+import AntiAirCutinRatePieChart from "./AntiAirCutinRatePieChart"
 
 const { calcFleetAntiAir, getCombinedFleetModifier } = FleetAntiAir
 
@@ -83,12 +83,12 @@ const AerialCombatTable: React.FC<AerialCombatTableProps> = ({
 
   return (
     <>
-      <div style={{ display: 'flex', alignItems: 'end' }}>
+      <div style={{ display: "flex", alignItems: "end" }}>
         <Select label="陣形" {...formationSelect} />
         <Select
           label="対空CI"
           {...antiAirCutinSelect}
-          getOptionLabel={option => (option ? `${option.id}種` : '不発')}
+          getOptionLabel={option => (option ? `${option.id}種` : "不発")}
         />
         <NumberInput
           label="加重対空補正"

@@ -1,68 +1,68 @@
-import { makeStyles, Theme } from '@material-ui/core/styles'
-import { sortBy as lodashSortBy } from 'lodash-es'
-import { observer } from 'mobx-react-lite'
-import React, { useCallback, useContext, useMemo } from 'react'
-import { IGear } from 'kc-calculator'
-import clsx from 'clsx'
+import { makeStyles, Theme } from "@material-ui/core/styles"
+import { sortBy as lodashSortBy } from "lodash-es"
+import { observer } from "mobx-react-lite"
+import React, { useCallback, useContext, useMemo } from "react"
+import { IGear } from "kc-calculator"
+import clsx from "clsx"
 
-import Box from '@material-ui/core/Box'
-import Checkbox from '@material-ui/core/Checkbox'
-import FormControlLabel from '@material-ui/core/FormControlLabel'
-import Input from '@material-ui/core/Input'
-import MenuItem from '@material-ui/core/MenuItem'
-import Select, { SelectProps } from '@material-ui/core/Select'
-import Button from '@material-ui/core/Button'
+import Box from "@material-ui/core/Box"
+import Checkbox from "@material-ui/core/Checkbox"
+import FormControlLabel from "@material-ui/core/FormControlLabel"
+import Input from "@material-ui/core/Input"
+import MenuItem from "@material-ui/core/MenuItem"
+import Select, { SelectProps } from "@material-ui/core/Select"
+import Button from "@material-ui/core/Button"
 
-import Typography from '@material-ui/core/Typography'
-import SearchIcon from '@material-ui/icons/Search'
+import Typography from "@material-ui/core/Typography"
+import SearchIcon from "@material-ui/icons/Search"
 
-import DataTable, { Sort } from '../../components/DataTable'
+import DataTable, { Sort } from "../../components/DataTable"
 
-import { GearsDataStoreContext } from '../../stores'
-import { useColumns } from './columns'
-import GearListSelect from './GearListSelect'
-import { SelectButtons, GearLabel, GearTooltip } from '../../components'
-import { useInput } from '../../hooks'
+import { GearsDataStoreContext } from "../../stores"
+import { useColumns } from "./columns"
+import GearListSelect from "./GearListSelect"
+import { SelectButtons, GearLabel, GearTooltip } from "../../components"
+import { useInput } from "../../hooks"
 
 type GearFilter = (gear: IGear) => boolean
 type FilterButtonProps = { name: string; filter: GearFilter }
 
 const baseFilterButtons: FilterButtonProps[] = [
   {
-    name: 'fighter',
+    name: "fighter",
     filter: ({ category }) => category.isFighter && !category.isLandBasedAircraft && !category.isSeaplane
   },
   {
-    name: 'bomber',
+    name: "bomber",
     filter: ({ category }) =>
       (category.isDiveBomber || category.isTorpedoBomber) && !category.isLandBasedAircraft && !category.isSeaplane
   },
   {
-    name: 'reconnaissance',
+    name: "reconnaissance",
     filter: ({ category }) =>
       category.isReconnaissanceAircraft ||
       category.isSeaplane ||
-      category.either('Autogyro', 'AntiSubmarinePatrolAircraft')
+      category.either("Autogyro", "AntiSubmarinePatrolAircraft")
   },
-  { name: 'mainGun', filter: ({ category }) => category.isMainGun },
-  { name: 'secondary', filter: ({ category }) => category.either('SecondaryGun', 'AntiAircraftGun') },
-  { name: 'torpedo', filter: ({ category }) => category.either('Torpedo', 'SubmarineTorpedo', 'MidgetSubmarine') },
-  { name: 'antiSubmarine', filter: ({ category }) => category.either('Sonar', 'LargeSonar', 'DepthCharge') },
-  { name: 'radar', filter: ({ category }) => category.isRadar },
+  { name: "mainGun", filter: ({ category }) => category.isMainGun },
+  { name: "secondary", filter: ({ category }) => category.either("SecondaryGun", "AntiAircraftGun") },
+  { name: "torpedo", filter: ({ category }) => category.either("Torpedo", "SubmarineTorpedo", "MidgetSubmarine") },
+  { name: "antiSubmarine", filter: ({ category }) => category.either("Sonar", "LargeSonar", "DepthCharge") },
+  { name: "radar", filter: ({ category }) => category.isRadar },
   {
-    name: 'landing',
-    filter: ({ category }) => category.either('LandingCraft', 'SpecialAmphibiousTank', 'SupplyTransportContainer')
+    name: "landing",
+    filter: ({ category }) => category.either("LandingCraft", "SpecialAmphibiousTank", "SupplyTransportContainer")
   },
-  { name: 'ration', filter: ({ category }) => category.either('CombatRation', 'Supplies') },
-  { name: 'landBased', filter: ({ category }) => category.isLandBasedAircraft }
+  { name: "ration", filter: ({ category }) => category.either("CombatRation", "Supplies") },
+  { name: "landBased", filter: ({ category }) => category.isLandBasedAircraft }
 ]
 
 const baseFilters = baseFilterButtons.map(({ filter }) => filter)
 
 const filterButtons: FilterButtonProps[] = [
-  { name: 'all', filter: () => true },
+  { name: "all", filter: () => true },
   ...baseFilterButtons,
-  { name: 'other', filter: gear => !baseFilters.some(filter => filter(gear)) }
+  { name: "other", filter: gear => !baseFilters.some(filter => filter(gear)) }
 ]
 
 type GearsDataTableProps = {
@@ -90,10 +90,10 @@ const GearsDataTable: React.FC<GearsDataTableProps> = ({ label, filter, onSelect
 
   const columns = useColumns(mode, onSelect)
 
-  const searchInput = useInput('')
+  const searchInput = useInput("")
 
   const data = useMemo(() => {
-    if (searchInput.value !== '') {
+    if (searchInput.value !== "") {
       return gearsData.filter(gear => gear.name.includes(searchInput.value))
     }
 
@@ -110,9 +110,9 @@ const GearsDataTable: React.FC<GearsDataTableProps> = ({ label, filter, onSelect
 
   const customSort: Sort<IGear> = params => {
     const { sortBy, defaultSort, data: currentData } = params
-    if (sortBy === 'name') {
-      return lodashSortBy(currentData, 'iconId', 'masterId')
-    } else if (sortBy === 'visibility') {
+    if (sortBy === "name") {
+      return lodashSortBy(currentData, "iconId", "masterId")
+    } else if (sortBy === "visibility") {
       return lodashSortBy(currentData, ({ masterId }) => gearsDataStore.blackList.includes(masterId))
     } else {
       return defaultSort(params)
@@ -120,7 +120,7 @@ const GearsDataTable: React.FC<GearsDataTableProps> = ({ label, filter, onSelect
   }
 
   let dataElement: React.ReactNode
-  if (mode === 'simple') {
+  if (mode === "simple") {
     dataElement = data.map(gear => (
       <GearTooltip key={gear.masterId} gear={gear}>
         <Button onClick={() => onSelect && onSelect(gear)}>
@@ -135,7 +135,7 @@ const GearsDataTable: React.FC<GearsDataTableProps> = ({ label, filter, onSelect
   return (
     <Box m={1} p={1} height="80vh">
       <Typography color="secondary">{label}</Typography>
-      <div style={{ display: 'flex', alignItems: 'center' }}>
+      <div style={{ display: "flex", alignItems: "center" }}>
         <Input endAdornment={<SearchIcon />} {...searchInput} />
 
         <FormControlLabel label="味方装備" control={<Checkbox checked={visibleAlly} onClick={toggleVisibleAlly} />} />

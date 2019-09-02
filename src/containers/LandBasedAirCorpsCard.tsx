@@ -1,26 +1,26 @@
-import { observer } from 'mobx-react-lite'
-import React from 'react'
-import clsx from 'clsx'
+import { observer } from "mobx-react-lite"
+import React from "react"
+import clsx from "clsx"
 
-import Card, { CardProps } from '@material-ui/core/Card'
-import { makeStyles, Theme } from '@material-ui/core/styles'
-import Typography from '@material-ui/core/Typography'
+import Card, { CardProps } from "@material-ui/core/Card"
+import { makeStyles, Theme } from "@material-ui/core/styles"
+import Typography from "@material-ui/core/Typography"
 
-import { ObservableLandBasedAirCorps } from '../stores'
-import { LandBasedAirCorpsMode } from '../stores/ObservableLandBasedAirCorps'
-import { useDragAndDrop } from '../hooks'
-import { swap } from '../utils'
-import EquipmentForm from './EquipmentForm'
-import { Select } from '../components'
+import { ObservableLandBasedAirCorps } from "../stores"
+import { LandBasedAirCorpsMode } from "../stores/ObservableLandBasedAirCorps"
+import { useDragAndDrop } from "../hooks"
+import { swap } from "../utils"
+import EquipmentForm from "./EquipmentForm"
+import { Select } from "../components"
 
 const getModeLabel = (mode: LandBasedAirCorpsMode) => {
   switch (mode) {
     case LandBasedAirCorpsMode.Standby:
-      return '待機'
+      return "待機"
     case LandBasedAirCorpsMode.Sortie1:
-      return '分散'
+      return "分散"
     case LandBasedAirCorpsMode.Sortie2:
-      return '集中'
+      return "集中"
   }
 }
 
@@ -44,7 +44,7 @@ const LandBasedAirCorpsCard: React.FC<LandBasedAirCorpsCard> = ({
 }) => {
   const classes = useStyles()
   const [dndProps, dndRef] = useDragAndDrop({
-    item: { type: 'LandBasedAirCorps', landBasedAirCorps, index },
+    item: { type: "LandBasedAirCorps", landBasedAirCorps, index },
     drop: dragItem => {
       const dropStore = landBasedAirCorps.store
       const dropIndex = index
@@ -63,7 +63,7 @@ const LandBasedAirCorpsCard: React.FC<LandBasedAirCorpsCard> = ({
   const { asKcObject: kcAirCorps } = landBasedAirCorps
   const { combatRadius, minCombatRadius, fighterPower, interceptionPower } = kcAirCorps
   const addedRadius = combatRadius - minCombatRadius
-  const addedRadiusLabel = addedRadius > 0 ? `(${minCombatRadius}+${addedRadius})` : ''
+  const addedRadiusLabel = addedRadius > 0 ? `(${minCombatRadius}+${addedRadius})` : ""
 
   const handleModeChange = (mode: LandBasedAirCorpsMode) => {
     landBasedAirCorps.mode = mode
@@ -71,7 +71,7 @@ const LandBasedAirCorpsCard: React.FC<LandBasedAirCorpsCard> = ({
 
   return (
     <Card ref={dndRef} className={clsx(classes.root, className)} {...cardProps}>
-      <div style={{ display: 'flex', justifyContent: 'space-around' }}>
+      <div style={{ display: "flex", justifyContent: "space-around" }}>
         <Typography>{`第${index + 1}航空隊 行動半径${combatRadius}${addedRadiusLabel}`}</Typography>
         <Select
           options={modeOptions}

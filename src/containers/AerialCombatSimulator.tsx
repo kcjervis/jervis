@@ -1,25 +1,25 @@
-import { AirControlState, BattleType, nonNullable, Side, IOperation, Formation } from 'kc-calculator'
-import { Dictionary } from 'lodash'
-import { countBy, groupBy, mapValues, times as lodashTimes } from 'lodash-es'
-import React from 'react'
+import { AirControlState, BattleType, nonNullable, Side, IOperation, Formation } from "kc-calculator"
+import { Dictionary } from "lodash"
+import { countBy, groupBy, mapValues, times as lodashTimes } from "lodash-es"
+import React from "react"
 
-import Button from '@material-ui/core/Button'
-import Paper from '@material-ui/core/Paper'
-import Table from '@material-ui/core/Table'
-import TableBody from '@material-ui/core/TableBody'
-import TableCell from '@material-ui/core/TableCell'
-import TableHead from '@material-ui/core/TableHead'
-import TableRow from '@material-ui/core/TableRow'
-import TextField from '@material-ui/core/TextField'
+import Button from "@material-ui/core/Button"
+import Paper from "@material-ui/core/Paper"
+import Table from "@material-ui/core/Table"
+import TableBody from "@material-ui/core/TableBody"
+import TableCell from "@material-ui/core/TableCell"
+import TableHead from "@material-ui/core/TableHead"
+import TableRow from "@material-ui/core/TableRow"
+import TextField from "@material-ui/core/TextField"
 
-import { CarrierBasedAerialCombat, LandBaseAerialSupport } from 'kc-calculator/dist/Battle/AerialCombat'
-import BattleFleet from 'kc-calculator/dist/Battle/BattleFleet'
-import CombatInformation from 'kc-calculator/dist/Battle/CombatInformation'
+import { CarrierBasedAerialCombat, LandBaseAerialSupport } from "kc-calculator/dist/Battle/AerialCombat"
+import BattleFleet from "kc-calculator/dist/Battle/BattleFleet"
+import CombatInformation from "kc-calculator/dist/Battle/CombatInformation"
 
-import { ObservableOperation } from '../stores'
-import { LandBasedAirCorpsMode } from '../stores/ObservableLandBasedAirCorps'
-import kcObjectFactory from '../stores/kcObjectFactory'
-import { toPercent } from '../utils'
+import { ObservableOperation } from "../stores"
+import { LandBasedAirCorpsMode } from "../stores/ObservableLandBasedAirCorps"
+import kcObjectFactory from "../stores/kcObjectFactory"
+import { toPercent } from "../utils"
 
 export const operationToBattleFleet = (operation: ObservableOperation, isEnemy?: boolean) => {
   const { side, fleetType, mainFleet, escortFleet, landBase } = kcObjectFactory.createOperation(operation)
@@ -72,7 +72,7 @@ class AerialCombatSimulator extends React.Component<AerialCombatSimulatorProps, 
 
       const initialSlots = airCorps.slots.concat()
       const result1 = {
-        name: index + 1 + '-1',
+        name: index + 1 + "-1",
         airStateName: new LandBaseAerialSupport(combatInfo, airCorps).main().airControlState.name,
         fighterPower: combatInfo.enemy.mainFleet.fighterPower
       }
@@ -84,7 +84,7 @@ class AerialCombatSimulator extends React.Component<AerialCombatSimulatorProps, 
           airCorps.slots[slotIndex] = initialSlots[slotIndex]
         })
         const result2 = {
-          name: index + 1 + '-2',
+          name: index + 1 + "-2",
           airStateName: new LandBaseAerialSupport(combatInfo, airCorps).main().airControlState.name,
           fighterPower: combatInfo.enemy.mainFleet.fighterPower
         }
@@ -94,7 +94,7 @@ class AerialCombatSimulator extends React.Component<AerialCombatSimulatorProps, 
 
     if (combatInfo.player.allShips.length > 0) {
       const resultMain = {
-        name: '本隊',
+        name: "本隊",
         airStateName: new CarrierBasedAerialCombat(combatInfo).main().airControlState.name,
         fighterPower: combatInfo.enemy.mainFleet.fighterPower
       }
@@ -116,7 +116,7 @@ class AerialCombatSimulator extends React.Component<AerialCombatSimulatorProps, 
       ]
       return { name, count, fighterPower: fighterPower95 }
     }
-    const simulationResult = Object.entries(groupBy(battleResults, 'name')).map(mapper)
+    const simulationResult = Object.entries(groupBy(battleResults, "name")).map(mapper)
 
     this.setState({ simulationResult })
   }
@@ -131,7 +131,7 @@ class AerialCombatSimulator extends React.Component<AerialCombatSimulatorProps, 
 
     return (
       <div style={{ margin: 8 }}>
-        <div style={{ display: 'flex', alignItems: 'center' }}>
+        <div style={{ display: "flex", alignItems: "center" }}>
           <TextField
             label="試行回数"
             type="number"

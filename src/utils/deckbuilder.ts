@@ -1,8 +1,8 @@
-import { IGearDataObject, IShipDataObject, formulas } from 'kc-calculator'
-import { Proficiency } from 'kc-calculator/dist/objects/Gear'
+import { IGearDataObject, IShipDataObject, formulas } from "kc-calculator"
+import { Proficiency } from "kc-calculator/dist/objects/Gear"
 
-import { masterData } from '../stores/kcObjectFactory'
-import { ObservableOperation } from '../stores'
+import { masterData } from "../stores/kcObjectFactory"
+import { ObservableOperation } from "../stores"
 
 const { calcHpAtLevel, calcStatAtLevel } = formulas
 
@@ -18,7 +18,7 @@ const toGearDataObject = (item: DeckGear | undefined): IGearDataObject | undefin
   }
 
   const proficiency = Proficiency.internalBounds[Number(item.mas)]
-  const improvement = typeof item.rf === 'undefined' ? undefined : Number(item.rf)
+  const improvement = typeof item.rf === "undefined" ? undefined : Number(item.rf)
   return {
     masterId: item.id,
     improvement,
@@ -55,13 +55,13 @@ const toShipDataObject = (deckShip: DeckShip | undefined): IShipDataObject | und
 
   const equipments = Array<IGearDataObject | undefined>(masterShip.slotCapacities.length)
   Object.entries(items).forEach(([key, item]) => {
-    const index = Number(key.replace('i', ''))
+    const index = Number(key.replace("i", ""))
     if (!isNaN(index)) {
       equipments[index - 1] = toGearDataObject(item)
     }
   })
 
-  if ('ix' in items) {
+  if ("ix" in items) {
     const { ix } = items
     equipments.push(toGearDataObject(ix))
   }
@@ -99,8 +99,8 @@ export type DeckFleet = Partial<{
 
 export interface Nishikuma {
   version: number
-  lang?: 'ja' | 'en' | 'ko' | 'scn' | 'tcn'
-  theme?: 'dark'
+  lang?: "ja" | "en" | "ko" | "scn" | "tcn"
+  theme?: "dark"
   hqlv?: number
   f1?: DeckFleet
   f2?: DeckFleet
@@ -117,7 +117,7 @@ export const setDeckbuilder = (operation: ObservableOperation, { hqlv = 120, f1,
 
     const fleet = operation.fleets[fleetIndex]
     Object.entries(deckFleet).forEach(([shipKey, deckShip]) => {
-      const shipIndex = Number(shipKey.replace('s', ''))
+      const shipIndex = Number(shipKey.replace("s", ""))
       if (isNaN(shipIndex)) {
         return
       }

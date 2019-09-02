@@ -1,15 +1,15 @@
-import React, { useCallback } from 'react'
-import { Proficiency } from 'kc-calculator/dist/objects/Gear'
+import React, { useCallback } from "react"
+import { Proficiency } from "kc-calculator/dist/objects/Gear"
 
-import Button from '@material-ui/core/Button'
-import Tooltip from '@material-ui/core/Tooltip'
-import Popover from '@material-ui/core/Popover'
-import Input from '@material-ui/core/Input'
-import { makeStyles, Theme } from '@material-ui/core/styles'
+import Button from "@material-ui/core/Button"
+import Tooltip from "@material-ui/core/Tooltip"
+import Popover from "@material-ui/core/Popover"
+import Input from "@material-ui/core/Input"
+import { makeStyles, Theme } from "@material-ui/core/styles"
 
-import ProficiencyIcon from './ProficiencyIcon'
+import ProficiencyIcon from "./ProficiencyIcon"
 
-import { useAnchorEl, useBaseStyles } from '../hooks'
+import { useAnchorEl, useBaseStyles } from "../hooks"
 
 interface ProficiencySelectProps {
   internal: number
@@ -37,8 +37,8 @@ const ProficiencySelect: React.FC<ProficiencySelectProps> = ({ internal, onChang
 
       <Popover
         anchorOrigin={{
-          vertical: 'bottom',
-          horizontal: 'center'
+          vertical: "bottom",
+          horizontal: "center"
         }}
         open={Boolean(anchorEl)}
         anchorEl={anchorEl}
@@ -52,7 +52,7 @@ const ProficiencySelect: React.FC<ProficiencySelectProps> = ({ internal, onChang
           ))}
           <Input
             style={{ marginLeft: 8, width: 56 }}
-            inputProps={{ type: 'number', min: 0, max: 120 }}
+            inputProps={{ type: "number", min: 0, max: 120 }}
             value={internal}
             onChange={handleChange}
           />

@@ -1,15 +1,15 @@
-import React, { useMemo } from 'react'
-import useReactRouter from 'use-react-router'
+import React, { useMemo } from "react"
+import useReactRouter from "use-react-router"
 
-import Button from '@material-ui/core/Button'
-import Divider from '@material-ui/core/Divider'
+import Button from "@material-ui/core/Button"
+import Divider from "@material-ui/core/Divider"
 
-import EnemyFleet from '../components/EnemyFleet'
-import { useOperationStore } from '../hooks'
-import { TEnemyFleet } from '*maps'
-import { ObservableOperation } from '../stores'
-import { Side, FleetTypeName, Formation, BattleFleet } from 'kc-calculator'
-import kcObjectFactory, { masterData } from '../stores/kcObjectFactory'
+import EnemyFleet from "../components/EnemyFleet"
+import { useOperationStore } from "../hooks"
+import { TEnemyFleet } from "*maps"
+import { ObservableOperation } from "../stores"
+import { Side, FleetTypeName, Formation, BattleFleet } from "kc-calculator"
+import kcObjectFactory, { masterData } from "../stores/kcObjectFactory"
 
 const masterIdToDataObject = (masterId: number) => {
   const master = masterData.findMasterShip(masterId)
@@ -24,7 +24,7 @@ const masterIdToDataObject = (masterId: number) => {
       if (gear === undefined) {
         return undefined
       }
-      if (typeof gear === 'number') {
+      if (typeof gear === "number") {
         return { masterId: gear }
       }
       return { masterId: gear.id, improvement: gear.improvement }
@@ -95,7 +95,7 @@ const EnemyFleetButton: React.FC<EnemyFleetButtonProps> = ({ enemy, operationId 
     const operation = getOperation(operationId)
     if (operation) {
       operation.enemy = enemyFleetToOperation(enemy)
-      history.replace('/operation')
+      history.replace("/operation")
     }
   }
 

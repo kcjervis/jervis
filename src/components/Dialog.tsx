@@ -1,17 +1,17 @@
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useState } from "react"
 
-import MuiDialog, { DialogProps as MuiDialogProps } from '@material-ui/core/Dialog'
-import { makeStyles, Theme } from '@material-ui/core/styles'
+import MuiDialog, { DialogProps as MuiDialogProps } from "@material-ui/core/Dialog"
+import { makeStyles, Theme } from "@material-ui/core/styles"
 
-import { CloseButton } from './IconButtons'
+import { CloseButton } from "./IconButtons"
 
 const useStyles = makeStyles({
-  close: { position: 'fixed', top: '10%', right: '10%' }
+  close: { position: "fixed", top: "10%", right: "10%" }
 })
 
 export type DialogProps = {
   button: React.ReactElement
-} & Omit<MuiDialogProps, 'open' | 'onClose'>
+} & Omit<MuiDialogProps, "open" | "onClose">
 
 const Dialog: React.FC<DialogProps> = ({ button, children, ...dialogProps }) => {
   const [open, setOpen] = useState(false)

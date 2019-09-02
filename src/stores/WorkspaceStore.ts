@@ -1,6 +1,6 @@
-import { action, computed, observable } from 'mobx'
+import { action, computed, observable } from "mobx"
 
-import WorkspaceItem, { WorkspaceItemObject } from './WorkspaceItem'
+import WorkspaceItem, { WorkspaceItemObject } from "./WorkspaceItem"
 
 export default class WorkspaceStore {
   @observable public items = observable<WorkspaceItem>([])

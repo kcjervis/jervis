@@ -1,27 +1,27 @@
-import React from 'react'
+import React from "react"
 
-import blue from '@material-ui/core/colors/blue'
-import orange from '@material-ui/core/colors/orange'
-import red from '@material-ui/core/colors/red'
-import yellow from '@material-ui/core/colors/yellow'
-import LinearProgress from '@material-ui/core/LinearProgress'
-import Typography from '@material-ui/core/Typography'
-import Button from '@material-ui/core/Button'
+import blue from "@material-ui/core/colors/blue"
+import orange from "@material-ui/core/colors/orange"
+import red from "@material-ui/core/colors/red"
+import yellow from "@material-ui/core/colors/yellow"
+import LinearProgress from "@material-ui/core/LinearProgress"
+import Typography from "@material-ui/core/Typography"
+import Button from "@material-ui/core/Button"
 
-import { makeStyles, Theme } from '@material-ui/core/styles'
+import { makeStyles, Theme } from "@material-ui/core/styles"
 
 const useStyles = makeStyles({
   root: {
-    display: 'flex',
-    alignItems: 'center',
-    width: '100%'
+    display: "flex",
+    alignItems: "center",
+    width: "100%"
   },
   bar: {
-    width: '100%',
+    width: "100%",
     marginRight: 8
   },
   colorPrimary: {
-    backgroundColor: 'rgba( 220, 220, 220, 0.1 )'
+    backgroundColor: "rgba( 220, 220, 220, 0.1 )"
   },
   sparklingColor: {
     backgroundColor: yellow[500]

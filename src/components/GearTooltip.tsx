@@ -1,16 +1,16 @@
-import { makeStyles, Theme } from '@material-ui/core/styles'
-import React from 'react'
-import { IGear, gearStatKeys } from 'kc-calculator'
-import clsx from 'clsx'
+import { makeStyles, Theme } from "@material-ui/core/styles"
+import React from "react"
+import { IGear, gearStatKeys } from "kc-calculator"
+import clsx from "clsx"
 
-import Box from '@material-ui/core/Box'
+import Box from "@material-ui/core/Box"
 
-import Typography from '@material-ui/core/Typography'
-import Tooltip from '@material-ui/core/Tooltip'
+import Typography from "@material-ui/core/Typography"
+import Tooltip from "@material-ui/core/Tooltip"
 
-import StatLabel from './StatLabel'
-import Flexbox from './Flexbox'
-import GearLabel from './GearLabel'
+import StatLabel from "./StatLabel"
+import Flexbox from "./Flexbox"
+import GearLabel from "./GearLabel"
 
 type GearTooltipProps = {
   gear: IGear

@@ -1,11 +1,11 @@
-import React from 'react'
+import React from "react"
 
-import { Omit } from '@material-ui/core'
-import MuiTable from '@material-ui/core/Table'
-import MuiTableHead from '@material-ui/core/TableHead'
-import MuiTableRow from '@material-ui/core/TableRow'
-import MuiTableCell, { TableCellProps as MuiTableCellProps } from '@material-ui/core/TableCell'
-import TableBody from '@material-ui/core/TableBody'
+import { Omit } from "@material-ui/core"
+import MuiTable from "@material-ui/core/Table"
+import MuiTableHead from "@material-ui/core/TableHead"
+import MuiTableRow from "@material-ui/core/TableRow"
+import MuiTableCell, { TableCellProps as MuiTableCellProps } from "@material-ui/core/TableCell"
+import TableBody from "@material-ui/core/TableBody"
 
 export type ColumnProps<Datum> = {
   label: React.ReactNode
@@ -28,7 +28,7 @@ function TableClell<Datum>({ datum, datumIndex, column }: TableClellProps<Datum>
   )
 }
 
-function TableHeadCell<Datum>({ column }: Omit<TableClellProps<Datum>, 'datum'>) {
+function TableHeadCell<Datum>({ column }: Omit<TableClellProps<Datum>, "datum">) {
   const { label, getValue, ...rest } = column
 
   return (

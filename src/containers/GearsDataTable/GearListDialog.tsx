@@ -1,20 +1,20 @@
-import { IGear } from 'kc-calculator'
-import { observer } from 'mobx-react-lite'
-import React, { useCallback, useContext, useEffect, useState } from 'react'
+import { IGear } from "kc-calculator"
+import { observer } from "mobx-react-lite"
+import React, { useCallback, useContext, useEffect, useState } from "react"
 
-import Button from '@material-ui/core/Button'
-import Dialog from '@material-ui/core/Dialog'
-import DialogActions from '@material-ui/core/DialogActions'
-import DialogContent from '@material-ui/core/DialogContent'
-import IconButton from '@material-ui/core/IconButton'
-import MenuIcon from '@material-ui/icons/Menu'
+import Button from "@material-ui/core/Button"
+import Dialog from "@material-ui/core/Dialog"
+import DialogActions from "@material-ui/core/DialogActions"
+import DialogContent from "@material-ui/core/DialogContent"
+import IconButton from "@material-ui/core/IconButton"
+import MenuIcon from "@material-ui/icons/Menu"
 
-import { DataTableCell } from '../../components/DataTable'
-import GearCard from '../../components/GearCard'
-import { RemoveButton, VisibilityButton } from '../../components/IconButtons'
+import { DataTableCell } from "../../components/DataTable"
+import GearCard from "../../components/GearCard"
+import { RemoveButton, VisibilityButton } from "../../components/IconButtons"
 
-import { GearsDataStoreContext } from '../../stores'
-import GearList from '../../stores/GearList'
+import { GearsDataStoreContext } from "../../stores"
+import GearList from "../../stores/GearList"
 
 const GearListDialog: React.FC<{ gear: IGear }> = ({ gear }) => {
   const store = useContext(GearsDataStoreContext)

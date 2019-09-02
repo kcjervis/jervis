@@ -1,29 +1,29 @@
-import { observer } from 'mobx-react-lite'
-import React, { useState } from 'react'
-import clsx from 'clsx'
+import { observer } from "mobx-react-lite"
+import React, { useState } from "react"
+import clsx from "clsx"
 
-import Paper, { PaperProps } from '@material-ui/core/Paper'
-import Input from '@material-ui/core/Input'
-import Box from '@material-ui/core/Box'
-import InputAdornment from '@material-ui/core/InputAdornment'
-import Typography from '@material-ui/core/Typography'
-import Tooltip from '@material-ui/core/Tooltip'
-import { makeStyles, createStyles } from '@material-ui/core/styles'
+import Paper, { PaperProps } from "@material-ui/core/Paper"
+import Input from "@material-ui/core/Input"
+import Box from "@material-ui/core/Box"
+import InputAdornment from "@material-ui/core/InputAdornment"
+import Typography from "@material-ui/core/Typography"
+import Tooltip from "@material-ui/core/Tooltip"
+import { makeStyles, createStyles } from "@material-ui/core/styles"
 
-import { ShipImage, InfoButton, ClearButton, UpdateButton } from '../../components'
-import EquipmentForm from '../EquipmentForm'
+import { ShipImage, InfoButton, ClearButton, UpdateButton } from "../../components"
+import EquipmentForm from "../EquipmentForm"
 
-import ShipStatsExpansionPanel from './ShipStatsExpansionPanel'
-import LevelChangeButton from './LevelChangeButton'
+import ShipStatsExpansionPanel from "./ShipStatsExpansionPanel"
+import LevelChangeButton from "./LevelChangeButton"
 
-import { ObservableShip } from '../../stores'
-import { useWorkspace } from '../../hooks'
+import { ObservableShip } from "../../stores"
+import { useWorkspace } from "../../hooks"
 
 const statsWidth = 8 * 28
 
 const useStyles = makeStyles({
   root: {
-    display: 'flex',
+    display: "flex",
     padding: 4,
     width: 8 * 60
   },
@@ -68,7 +68,7 @@ const ShipCard: React.FC<ShipCardProps> = ({
     }
   }
 
-  const visibility = !disableButton && visibleButtons ? undefined : 'hidden'
+  const visibility = !disableButton && visibleButtons ? undefined : "hidden"
 
   return (
     <Paper
@@ -85,7 +85,7 @@ const ShipCard: React.FC<ShipCardProps> = ({
             </Typography>
           </Tooltip>
           <LevelChangeButton value={ship.level} onInput={handleLevelChange} />
-          <div style={{ alignItems: 'right', visibility }}>
+          <div style={{ alignItems: "right", visibility }}>
             {visibleInfo && <InfoButton title="詳細" size="small" onClick={() => openShipCalculator(ship)} />}
             {onUpdate && <UpdateButton title="変更" size="small" onClick={onUpdate} />}
             <ClearButton title="削除" size="small" onClick={ship.remove} />

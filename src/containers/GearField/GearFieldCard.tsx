@@ -1,23 +1,23 @@
-import React from 'react'
-import { IGear } from 'kc-calculator'
-import clsx from 'clsx'
+import React from "react"
+import { IGear } from "kc-calculator"
+import clsx from "clsx"
 
-import Paper from '@material-ui/core/Paper'
-import Popover from '@material-ui/core/Popover'
-import { makeStyles, Theme } from '@material-ui/core/styles'
-import BuildIcon from '@material-ui/icons/Build'
+import Paper from "@material-ui/core/Paper"
+import Popover from "@material-ui/core/Popover"
+import { makeStyles, Theme } from "@material-ui/core/styles"
+import BuildIcon from "@material-ui/icons/Build"
 
-import { GearCard, GearLabel, ImprovementSelect, ProficiencySelect, SlotSizePopover } from '../../components'
+import { GearCard, GearLabel, ImprovementSelect, ProficiencySelect, SlotSizePopover } from "../../components"
 
-import { useBaseStyles, useAnchorEl } from '../../hooks'
+import { useBaseStyles, useAnchorEl } from "../../hooks"
 
 const useStyles = makeStyles((theme: Theme) => ({
   proficiency: {
     marginRight: 4
   },
   rightButtons: {
-    display: 'flex',
-    alignItems: 'center',
+    display: "flex",
+    alignItems: "center",
     margin: `0 4px`
   }
 }))
@@ -55,9 +55,9 @@ const GearFieldCard: React.FC<GearFieldCardProps> = ({
 
   return (
     <Paper className={clsx(baseClasses.flexbox, className)} elevation={1} {...paperProps}>
-      <div style={{ width: 16, textAlign: 'right' }}>
+      <div style={{ width: 16, textAlign: "right" }}>
         {slotSize === undefined || maxSlotSize === undefined ? (
-          <BuildIcon color="action" style={{ fontSize: '0.875rem', verticalAlign: 'middle' }} />
+          <BuildIcon color="action" style={{ fontSize: "0.875rem", verticalAlign: "middle" }} />
         ) : (
           onSlotSizeChange && <SlotSizePopover value={slotSize} max={maxSlotSize} onChange={onSlotSizeChange} />
         )}

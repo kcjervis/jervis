@@ -1,36 +1,36 @@
-import { FleetRole, FleetTypeName, nonNullable } from 'kc-calculator'
-import { range } from 'lodash-es'
-import React from 'react'
+import { FleetRole, FleetTypeName, nonNullable } from "kc-calculator"
+import { range } from "lodash-es"
+import React from "react"
 
-import Button from '@material-ui/core/Button'
-import Typography from '@material-ui/core/Typography'
-import Grid from '@material-ui/core/Grid'
-import Add from '@material-ui/icons/Add'
-import Remove from '@material-ui/icons/Remove'
-import Tooltip from '@material-ui/core/Tooltip'
-import Box from '@material-ui/core/Box'
-import { Theme, makeStyles, createStyles } from '@material-ui/core/styles'
+import Button from "@material-ui/core/Button"
+import Typography from "@material-ui/core/Typography"
+import Grid from "@material-ui/core/Grid"
+import Add from "@material-ui/icons/Add"
+import Remove from "@material-ui/icons/Remove"
+import Tooltip from "@material-ui/core/Tooltip"
+import Box from "@material-ui/core/Box"
+import { Theme, makeStyles, createStyles } from "@material-ui/core/styles"
 
-import { StatIcon, GearsSettingDialog, Flexbox } from '../../components'
-import ShipForm from '../ShipForm'
-import FleetDetail from './FleetDetail'
+import { StatIcon, GearsSettingDialog, Flexbox } from "../../components"
+import ShipForm from "../ShipForm"
+import FleetDetail from "./FleetDetail"
 
-import { ObservableFleet, ObservableOperation } from '../../stores'
+import { ObservableFleet, ObservableOperation } from "../../stores"
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
-      justifyContent: 'center'
+      justifyContent: "center"
     },
     ships: {
-      display: 'flex',
-      flexWrap: 'wrap',
-      alignItems: 'space-between',
+      display: "flex",
+      flexWrap: "wrap",
+      alignItems: "space-between",
       maxWidth: 8 * 125
     },
     bottomControl: {
-      display: 'flex',
-      justifyContent: 'center'
+      display: "flex",
+      justifyContent: "center"
     }
   })
 )

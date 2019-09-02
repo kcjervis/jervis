@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react"
 import {
   Shelling,
   ShipInformation,
@@ -9,19 +9,19 @@ import {
   Damage,
   BattleState,
   ShellingSupport
-} from 'kc-calculator'
-import { observer } from 'mobx-react-lite'
+} from "kc-calculator"
+import { observer } from "mobx-react-lite"
 
-import Box from '@material-ui/core/Box'
-import Typography from '@material-ui/core/Typography'
-import Tooltip from '@material-ui/core/Tooltip'
-import { makeStyles, createStyles } from '@material-ui/core/styles'
+import Box from "@material-ui/core/Box"
+import Typography from "@material-ui/core/Typography"
+import Tooltip from "@material-ui/core/Tooltip"
+import { makeStyles, createStyles } from "@material-ui/core/styles"
 
-import { toPercent } from '../../utils'
-import { Table, LabeledValue } from '../../components'
-import ShellingStats from './ShellingStats'
-import { getAttackName } from './ShipStatusCard'
-import { ColumnProps } from '../../components/Table'
+import { toPercent } from "../../utils"
+import { Table, LabeledValue } from "../../components"
+import ShellingStats from "./ShellingStats"
+import { getAttackName } from "./ShipStatusCard"
+import { ColumnProps } from "../../components/Table"
 
 const useStyles = makeStyles(
   createStyles({
@@ -37,10 +37,10 @@ const HitRateText: React.FC<{
   accuracyValue: number
   evasionValue: number
 }> = ({ hitRate, criticalRate, accuracyValue, evasionValue }) => {
-  const criticalText = criticalRate ? `(${toPercent(criticalRate)})` : ''
+  const criticalText = criticalRate ? `(${toPercent(criticalRate)})` : ""
   const factors: Array<{ label: string; value: number }> = [
-    { label: '攻撃側命中項', value: accuracyValue },
-    { label: '防御側回避項', value: evasionValue }
+    { label: "攻撃側命中項", value: accuracyValue },
+    { label: "防御側回避項", value: evasionValue }
   ]
   const hitStatus = factors.map((factor, index) => <LabeledValue key={index} {...factor} />)
 
@@ -56,10 +56,10 @@ const HitRateText: React.FC<{
 
 const damageToText = ({ min, max, scratchDamageProbability, isDeadly }: Damage) => {
   if (max === 0) {
-    return '確定割合'
+    return "確定割合"
   }
   const minText = min === 0 ? `(割合${toPercent(scratchDamageProbability)})` : min
-  return `${minText} - ${max}${isDeadly ? '(確殺)' : ''}`
+  return `${minText} - ${max}${isDeadly ? "(確殺)" : ""}`
 }
 
 type AttackStatusProps = {
@@ -165,17 +165,17 @@ const AttackStatus: React.FC<AttackStatusProps> = props => {
   }
 
   const dayCombatColumns: Array<ColumnProps<DayCombatSpecialAttack | undefined>> = [
-    { label: '攻撃種別', getValue: getAttackName, align: 'left' },
-    { label: '命中率(クリ率)', getValue: shellingHitRateCellRenderer },
-    { label: 'ヒット', getValue: createShellingDamageRenderer(false) },
-    { label: 'クリティカル', getValue: createShellingDamageRenderer(true) },
-    { label: '命中込み大破率', getValue: taihaRateRenderer }
+    { label: "攻撃種別", getValue: getAttackName, align: "left" },
+    { label: "命中率(クリ率)", getValue: shellingHitRateCellRenderer },
+    { label: "ヒット", getValue: createShellingDamageRenderer(false) },
+    { label: "クリティカル", getValue: createShellingDamageRenderer(true) },
+    { label: "命中込み大破率", getValue: taihaRateRenderer }
   ]
   const nightAttackColumns: Array<ColumnProps<NightCombatSpecialAttack | undefined>> = [
-    { label: '攻撃種別', getValue: getAttackName, align: 'left' },
-    { label: '命中率', getValue: nightAttackHitRateRenderer },
-    { label: 'ダメージ', getValue: createNightAttackCellRenderer(false) },
-    { label: 'クリティカル', getValue: createNightAttackCellRenderer(true) }
+    { label: "攻撃種別", getValue: getAttackName, align: "left" },
+    { label: "命中率", getValue: nightAttackHitRateRenderer },
+    { label: "ダメージ", getValue: createNightAttackCellRenderer(false) },
+    { label: "クリティカル", getValue: createNightAttackCellRenderer(true) }
   ]
 
   const getShellingSupport = (isCritical = false) =>
@@ -187,9 +187,9 @@ const AttackStatus: React.FC<AttackStatusProps> = props => {
   }
 
   const shellingSupportColumns = [
-    { label: '命中率', getValue: shellingSupportHitRateRenderer },
-    { label: 'ダメージ', getValue: () => damageToText(getShellingSupport().damage) },
-    { label: 'クリティカル', getValue: () => damageToText(getShellingSupport(true).damage) }
+    { label: "命中率", getValue: shellingSupportHitRateRenderer },
+    { label: "ダメージ", getValue: () => damageToText(getShellingSupport().damage) },
+    { label: "クリティカル", getValue: () => damageToText(getShellingSupport(true).damage) }
   ]
 
   return (

@@ -1,23 +1,23 @@
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useState } from "react"
 
-import Button from '@material-ui/core/Button'
-import Dialog, { DialogProps } from '@material-ui/core/Dialog'
-import DialogActions from '@material-ui/core/DialogActions'
-import DialogContent from '@material-ui/core/DialogContent'
-import DialogTitle from '@material-ui/core/DialogTitle'
-import Link from '@material-ui/core/Link'
-import TextField from '@material-ui/core/TextField'
-import Typography from '@material-ui/core/Typography'
+import Button from "@material-ui/core/Button"
+import Dialog, { DialogProps } from "@material-ui/core/Dialog"
+import DialogActions from "@material-ui/core/DialogActions"
+import DialogContent from "@material-ui/core/DialogContent"
+import DialogTitle from "@material-ui/core/DialogTitle"
+import Link from "@material-ui/core/Link"
+import TextField from "@material-ui/core/TextField"
+import Typography from "@material-ui/core/Typography"
 
-import green from '@material-ui/core/colors/green'
-import Snackbar from '@material-ui/core/Snackbar'
-import CheckCircleIcon from '@material-ui/icons/CheckCircle'
-import { makeStyles, Theme } from '@material-ui/core/styles'
+import green from "@material-ui/core/colors/green"
+import Snackbar from "@material-ui/core/Snackbar"
+import CheckCircleIcon from "@material-ui/icons/CheckCircle"
+import { makeStyles, Theme } from "@material-ui/core/styles"
 
-import { CopyButton } from '../components/IconButtons'
-import { useOpen } from '../hooks'
-import { ObservableOperation } from '../stores'
-import { setOperation, urlShortener } from '../stores/firebase'
+import { CopyButton } from "../components/IconButtons"
+import { useOpen } from "../hooks"
+import { ObservableOperation } from "../stores"
+import { setOperation, urlShortener } from "../stores/firebase"
 
 const useOperationShare = (operation: ObservableOperation) => {
   const [shareUrl, setShareUrl] = useState<string | undefined>()
@@ -25,23 +25,23 @@ const useOperationShare = (operation: ObservableOperation) => {
 
   const createShareUrl = useCallback(async () => {
     const url = new URL(window.location.href)
-    url.hash = ''
+    url.hash = ""
     const operationJson = JSON.stringify(operation)
-    url.searchParams.set('operation-json', operationJson)
+    url.searchParams.set("operation-json", operationJson)
     if (isLoading) {
       return
     }
     setIsLoading(true)
 
-    if (url.href.length > 6500 || operationJson.includes('#')) {
+    if (url.href.length > 6500 || operationJson.includes("#")) {
       const pathName = await setOperation(operation)
-      url.searchParams.delete('operation-json')
-      url.searchParams.set('operation-path', pathName)
+      url.searchParams.delete("operation-json")
+      url.searchParams.set("operation-path", pathName)
     }
 
-    const shortenerRes = await urlShortener(url.href, 'jervis')
+    const shortenerRes = await urlShortener(url.href, "jervis")
     setIsLoading(false)
-    if ('shortLink' in shortenerRes) {
+    if ("shortLink" in shortenerRes) {
       const { shortLink } = shortenerRes
       setShareUrl(shortLink)
       return shortLink
@@ -57,8 +57,8 @@ const useStyles = makeStyles({
     backgroundColor: green[500]
   },
   message: {
-    display: 'flex',
-    alignItems: 'center'
+    display: "flex",
+    alignItems: "center"
   },
   messageIcon: {
     fontSize: 20
@@ -82,7 +82,7 @@ const OperationShareDialog: React.FC<OperationShareDialogProps> = ({ operation, 
         </DialogTitle>
         <DialogContent>
           {shareUrl ? (
-            <div style={{ display: 'flex', alignItems: 'center' }}>
+            <div style={{ display: "flex", alignItems: "center" }}>
               <Link href={shareUrl} target="_blank">
                 {shareUrl}
               </Link>
@@ -111,14 +111,14 @@ const OperationShareDialog: React.FC<OperationShareDialogProps> = ({ operation, 
 
       <Snackbar
         anchorOrigin={{
-          vertical: 'bottom',
-          horizontal: 'left'
+          vertical: "bottom",
+          horizontal: "left"
         }}
         open={snackbarOpen}
         onClose={handleSnackbarClose}
         autoHideDuration={2000}
         ContentProps={{
-          'aria-describedby': 'message-id',
+          "aria-describedby": "message-id",
           className: classes.snackbar
         }}
         message={

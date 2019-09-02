@@ -1,32 +1,32 @@
-import { observer } from 'mobx-react-lite'
-import React from 'react'
+import { observer } from "mobx-react-lite"
+import React from "react"
 
-import { ShipStatKey } from 'kc-calculator'
+import { ShipStatKey } from "kc-calculator"
 
-import Button from '@material-ui/core/Button'
-import Dialog from '@material-ui/core/Dialog'
-import DialogActions from '@material-ui/core/DialogActions'
-import DialogContent from '@material-ui/core/DialogContent'
-import Grid from '@material-ui/core/Grid'
-import TextField from '@material-ui/core/TextField'
-import Typography from '@material-ui/core/Typography'
-import { makeStyles, createStyles, Theme } from '@material-ui/core/styles'
+import Button from "@material-ui/core/Button"
+import Dialog from "@material-ui/core/Dialog"
+import DialogActions from "@material-ui/core/DialogActions"
+import DialogContent from "@material-ui/core/DialogContent"
+import Grid from "@material-ui/core/Grid"
+import TextField from "@material-ui/core/TextField"
+import Typography from "@material-ui/core/Typography"
+import { makeStyles, createStyles, Theme } from "@material-ui/core/styles"
 
-import Tooltip from '@material-ui/core/Tooltip'
+import Tooltip from "@material-ui/core/Tooltip"
 
-import StatLabel from '../../components/StatLabel'
+import StatLabel from "../../components/StatLabel"
 
-import { ObservableShip } from '../../stores'
-import statKeys from '../../data/statKeys'
-import { useOpen, useBaseStyles } from '../../hooks'
+import { ObservableShip } from "../../stores"
+import statKeys from "../../data/statKeys"
+import { useOpen, useBaseStyles } from "../../hooks"
 
-import ShipStatLabel, { useShipStat } from './ShipStatLabel'
-import { NumberInput } from '../../components'
+import ShipStatLabel, { useShipStat } from "./ShipStatLabel"
+import { NumberInput } from "../../components"
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     button: {
-      justifyContent: 'start',
+      justifyContent: "start",
       padding: 4
     }
   })
