@@ -36,7 +36,10 @@ export default class GearsDataStore implements Store {
   }
 
   @computed public get gearsData() {
-    return masterData.gears.map(gear => kcObjectFactory.createGear({ masterId: gear.id })).filter(nonNullable)
+    return masterData.gears
+      .map(gear => kcObjectFactory.createGear({ masterId: gear.id }))
+      .filter(nonNullable)
+      .filter(gear => gear.name !== '')
   }
 
   public getVisibleGears = (...filters: GearFilter[]) => {
