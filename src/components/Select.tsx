@@ -5,9 +5,6 @@ import MuiSelect, { SelectProps as MuiSelectProps } from "@material-ui/core/Sele
 import MenuItem from "@material-ui/core/MenuItem"
 import FormControl from "@material-ui/core/FormControl"
 import InputLabel from "@material-ui/core/InputLabel"
-import Radio from "@material-ui/core/Radio"
-import RadioGroup from "@material-ui/core/RadioGroup"
-import FormControlLabel from "@material-ui/core/FormControlLabel"
 
 export const getDefaultOptionLabel = (option: unknown): string => {
   switch (typeof option) {

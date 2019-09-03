@@ -23,7 +23,7 @@ export default class ObservableShip implements IShipDataObject, ObservableGearSt
   }
 
   public static create = (data: IShipDataObject, store: StoreType) => {
-    const { masterId, level, slots, equipments = [], nowHp, increased } = data
+    const { masterId, level, slots, nowHp, increased } = data
     const observableShip = new ObservableShip()
     observableShip.masterId = masterId
 
@@ -32,10 +32,13 @@ export default class ObservableShip implements IShipDataObject, ObservableGearSt
       throw new Error(`masterId: ${masterId} ship is undefined`)
     }
 
+    if (masterShip.isAbyssal) {
+      observableShip.level = masterShip.shipType.isSubmarineClass ? 50 : 1
+    } else {
+      observableShip.level = 99
+    }
     if (level) {
       observableShip.level = level
-    } else {
-      observableShip.level = masterShip.isAbyssal ? 1 : 99
     }
 
     if (slots) {
@@ -44,9 +47,16 @@ export default class ObservableShip implements IShipDataObject, ObservableGearSt
       observableShip.slots = masterShip.slotCapacities.concat()
     }
 
+    let equipment: Array<IGearDataObject | undefined>
+    if (!data.equipments && masterShip.isAbyssal) {
+      equipment = masterShip.equipment.map(({ id, improvement }) => ({ masterId: id, improvement }))
+    } else {
+      equipment = data.equipments || []
+    }
+
     observableShip.equipments = observable(
       range(observableShip.slots.length + 1).map(index => {
-        const gear = equipments[index]
+        const gear = equipment[index]
         if (!gear || gear.masterId <= 0) {
           return undefined
         }
@@ -75,7 +85,7 @@ export default class ObservableShip implements IShipDataObject, ObservableGearSt
 
   @persist @observable public masterId = 30
 
-  @persist @observable public level = 0
+  @persist @observable public level = 1
 
   @persist("list", ObservableGear) @observable public equipments = observable<ObservableGear | undefined>([])
 

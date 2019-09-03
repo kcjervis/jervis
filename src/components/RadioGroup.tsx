@@ -37,7 +37,7 @@ function RadioGroup<OptionType>(props: RadioGroupProps<OptionType>) {
   const { options, value, onChange, label, getOptionLabel = getDefaultOptionLabel, ...muiProps } = props
 
   const handleChange = useCallback(
-    (event: React.ChangeEvent<MuiRadioGroupProps>) => onChange(options[Number(event.target.value)]),
+    (event: React.ChangeEvent<HTMLInputElement>) => onChange(options[Number(event.target.value)]),
     [options, onChange]
   )
 

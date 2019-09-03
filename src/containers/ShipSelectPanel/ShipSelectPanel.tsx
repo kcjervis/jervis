@@ -103,25 +103,7 @@ const ShipSelectPanel: React.FC<ShipSelectPanelProps> = ({
     if (!onSelect) {
       return
     }
-
-    const { slotCapacities, id: masterId } = masterShip
-    const level = masterShip.isAbyssal ? 1 : 99
-    const slots = slotCapacities.concat()
-
-    const equipments: Array<IGearDataObject | undefined> = []
-    if (masterShip.isAbyssal) {
-      const equipmentData = masterShip.equipment.map(gear => {
-        if (gear === undefined) {
-          return undefined
-        }
-        if (typeof gear === "number") {
-          return { masterId: gear }
-        }
-        return { masterId: gear.id, improvement: gear.improvement }
-      })
-      equipments.push(...equipmentData)
-    }
-    onSelect({ masterId, level, slots, equipments })
+    onSelect({ masterId: masterShip.id })
   }
 
   const handleFilterChange = (filter: ShipFilter) => {

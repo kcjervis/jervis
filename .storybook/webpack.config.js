@@ -9,9 +9,11 @@ module.exports = ({ config, mode }) =>  {
         transpileOnly: true,
         experimentalWatchApi: true
       }
-    }, {
-      loader: 'react-docgen-typescript-loader'
-    }]
+    }
+    // ,{
+    //   loader: 'react-docgen-typescript-loader'
+    // }
+  ]
   });
   config.resolve.extensions.push('.ts', '.tsx');
   return config;
