@@ -30,7 +30,7 @@ import { ObservableShip, EnemyShipStoreContext } from "../../stores"
 import ShipCard from "../ShipForm/ShipCard"
 import { useSelect, useInput, useCheck } from "../../hooks"
 import { ShipSelectPanelStateContext } from "../ShipSelectPanel"
-import { MapsPanelStateContext } from "../MapsPanel"
+import { SeamapPanelStateContext } from "../Dialogs"
 
 const getRoleLabel = (role: ShipRole) => (role === "Main" ? "主力艦" : "護衛艦")
 
@@ -82,7 +82,7 @@ interface ShipCalculatorProps {
 
 const ShipCalculator: React.FC<ShipCalculatorProps> = ({ ship }) => {
   const shipSelect = useContext(ShipSelectPanelStateContext)
-  const mapsPanelState = useContext(MapsPanelStateContext)
+  const mapPanelState = useContext(SeamapPanelStateContext)
   const enemyShipStore = useContext(EnemyShipStoreContext)
   const { form, state } = useBattleStateForm()
   const [fleetLosModifier, setFleetLosModifier] = useState(0)
@@ -114,7 +114,7 @@ const ShipCalculator: React.FC<ShipCalculatorProps> = ({ ship }) => {
   )
 
   const handleMapSelect = useCallback(() => {
-    mapsPanelState.onOpen({
+    mapPanelState.onOpen({
       onSelect: enemyOperation => {
         enemyOperation.fleets
           .flatMap(fleet => fleet.ships)
@@ -122,7 +122,7 @@ const ShipCalculator: React.FC<ShipCalculatorProps> = ({ ship }) => {
           .forEach(enemyShipStore.pushShip)
       }
     })
-  }, [mapsPanelState, enemyShipStore])
+  }, [mapPanelState, enemyShipStore])
 
   type DisplayMode = "Attack" | "Defense"
   const displayModeSelect = useSelect<DisplayMode>(["Attack", "Defense"])

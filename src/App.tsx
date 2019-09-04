@@ -9,8 +9,7 @@ import stores from "./stores"
 
 import Background from "./Background"
 
-import MapsPanel from "./containers/MapsPanel"
-import { ShipSelectPanel, Dialogs, Home, SettingPanel } from "./containers"
+import { ShipSelectPanel, Dialogs, Home, SettingPanel, SeamapPanel } from "./containers"
 
 import OperationsPage from "./containers/OperationsPage"
 
@@ -38,7 +37,7 @@ export default class App extends Component {
                   <Route exact={true} path="/operations" component={OperationsPage} />
                   <Route exact={true} path="/ships" component={ShipSelectPanel} />
                   <Route exact={true} path="/equipments" component={GearsDataTable} />
-                  <Route exact={true} path="/maps" component={MapsPanel} />
+                  <Route exact={true} path="/maps" component={SeamapPanel} />
 
                   <Route exact={true} path="/apps" component={AppsPage} />
                   <Route exact={true} path="/url-shortener" component={UrlShortener} />

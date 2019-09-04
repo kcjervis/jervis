@@ -16,7 +16,7 @@ import FleetField from "../FleetField"
 import LandBaseForm from "../LandBaseForm"
 import OperationShareDialog from "../OperationShareDialog"
 import OperationDescriptionField from "./OperationDescriptionField"
-import { SaveButton, ShareButton, FleetTypeSelect, NumberInput } from "../../components"
+import { SaveButton, ShareButton, FleetTypeSelect, NumberInput, Flexbox } from "../../components"
 
 import { ObservableOperation, SettingStoreContext } from "../../stores"
 import { useOpen, useOperationStore } from "../../hooks"
@@ -28,16 +28,15 @@ const useStyles = makeStyles({
   },
   name: { width: 8 * 25 },
   hqLevel: { marginRight: 8, width: 8 * 10 },
-  tabs: { display: "flex", flexWrap: "wrap" },
-  menu: {
-    display: "flex",
-    alignItems: "center",
-    marginLeft: 8,
-    flexWrap: "wrap"
-  },
   form: {
     display: "flex",
     alignItems: "flex-end"
+  },
+  iconButton: {
+    padding: 4
+  },
+  fighterPower: {
+    marginLeft: 8 * 5
   }
 })
 
@@ -85,53 +84,47 @@ const OperationPanel: React.FC<OperationPanelProps> = ({ operation }) => {
   const { activeFleetIndex } = operation
   const activeFleet = operation.activeFleet
 
-  const { mainFleet, escortFleet } = operation.asKcObject
-  let combinedFleetFighterPower = mainFleet.fighterPower
-  let combinedFleetFighterPowerLabel = ""
-  if (escortFleet) {
-    combinedFleetFighterPower += escortFleet.fighterPower
-    combinedFleetFighterPowerLabel = `連合戦制空: ${combinedFleetFighterPower}`
-  }
+  const { getFighterPower, isCombinedFleetOperation } = operation.asKcObject
 
   return (
     <div className={classes.root}>
-      <div className={classes.menu}>
-        <div className={classes.form}>
-          <TextField label="編成名" className={classes.name} value={operation.name} onChange={handleChangeName} />
-          <NumberInput
-            className={classes.hqLevel}
-            label="司令部Lv"
-            value={operation.hqLevel}
-            min={1}
-            max={120}
-            onChange={handleHqLevelChange}
-          />
-          <FleetTypeSelect fleetType={operation.fleetType} onChange={handleFleetTypeChange} />
-        </div>
-        <div>
-          <Typography variant="caption" style={{ margin: 8 }}>
-            第一艦隊制空: {mainFleet.fighterPower} {combinedFleetFighterPowerLabel}
-          </Typography>
+      <div className={classes.form}>
+        <TextField label="編成名" className={classes.name} value={operation.name} onChange={handleChangeName} />
+        <NumberInput
+          className={classes.hqLevel}
+          label="司令部Lv"
+          value={operation.hqLevel}
+          min={1}
+          max={120}
+          onChange={handleHqLevelChange}
+        />
+        <FleetTypeSelect fleetType={operation.fleetType} onChange={handleFleetTypeChange} />
 
-          <FormControlLabel
-            control={
-              <Checkbox checked={settingStore.operationPage.visibleShipStats} onChange={handleVisibleShipStatsChange} />
-            }
-            label="ステータス表示"
-          />
-        </div>
+        <FormControlLabel
+          control={
+            <Checkbox checked={settingStore.operationPage.visibleShipStats} onChange={handleVisibleShipStatsChange} />
+          }
+          label="ステータス表示"
+        />
         <FormControlLabel
           control={<Checkbox checked={operation.side === Side.Enemy} onChange={handleSideChange} />}
           label="敵艦隊"
         />
 
-        <ShareButton title="共有URLの生成、デッキビルダー、編成画像出力が使えます" onClick={onShareOpen} />
+        <ShareButton
+          className={classes.iconButton}
+          size="medium"
+          title="共有URLの生成、デッキビルダー、編成画像出力が使えます"
+          onClick={onShareOpen}
+        />
         <OperationShareDialog operation={operation} {...shareProps} />
 
-        {isTemporary(operation) && <SaveButton title="編成をローカルに保存" onClick={handleSave} />}
+        {isTemporary(operation) && (
+          <SaveButton className={classes.iconButton} title="編成をローカルに保存" onClick={handleSave} />
+        )}
       </div>
 
-      <div className={classes.tabs}>
+      <Flexbox flexWrap="wrap">
         <Tabs value={activeFleetIndex} onChange={handleChange}>
           {operation.fleets.map((fleet, index) => {
             if (operation.asKcObject.isCombinedFleetOperation && index < 2) {
@@ -141,7 +134,11 @@ const OperationPanel: React.FC<OperationPanelProps> = ({ operation }) => {
           })}
           {operation.landBase.length > 0 && <Tab label="基地航空隊" />}
         </Tabs>
-      </div>
+
+        <Typography className={classes.fighterPower} variant="caption">
+          第一艦隊制空: {getFighterPower()} {isCombinedFleetOperation ? `連合戦制空: ${getFighterPower(true)}` : ""}
+        </Typography>
+      </Flexbox>
 
       <Divider />
 

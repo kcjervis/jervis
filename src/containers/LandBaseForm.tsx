@@ -12,7 +12,7 @@ import AerialCombatSimulator, { operationToBattleFleet } from "./AerialCombatSim
 import LandBasedAirCorpsCard from "./LandBasedAirCorpsCard"
 
 import { EnemyFleet, GearsSettingDialog, Flexbox } from "../components"
-import MapsPanel from "./MapsPanel"
+import SeamapPanel from "./SeamapPanel"
 import { ObservableOperation } from "../stores"
 import { useOpen, useOperationStore } from "../hooks"
 
@@ -77,7 +77,7 @@ const LandBaseForm: React.FC<LandBaseForm> = ({ operation }) => {
       <AerialCombatSimulator operation={operation} />
 
       <Dialog PaperProps={{ style: { height: "80vh" } }} fullWidth maxWidth="xl" {...mapDialogProps}>
-        <MapsPanel onSelect={setEnemy} />
+        <SeamapPanel onSelect={setEnemy} />
       </Dialog>
 
       <Dialog {...dialogProps}>
