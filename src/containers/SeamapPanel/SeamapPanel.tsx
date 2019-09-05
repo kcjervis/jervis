@@ -125,7 +125,7 @@ const useStyles = makeStyles(theme => ({
   },
   img: {
     display: "block",
-    maxWidth: 8 * 50
+    width: 600
   },
   fleetCard: {
     marginTop: theme.spacing(2)
