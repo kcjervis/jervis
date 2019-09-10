@@ -45,14 +45,15 @@ export default class GearsDataStore implements Store {
   public getVisibleGears = (...filters: GearFilter[]) => {
     const { gearsData, visibleAlly, visibleAbysall, mode, activeGearList } = this
     const listGears = activeGearList ? activeGearList.asKcObject : gearsData
-    const gears = listGears.filter(({ masterId }) => {
-      if (mode !== "setting" && this.blackList.includes(masterId)) {
+    const gears = listGears.filter(gear => {
+      if (mode !== "setting" && this.blackList.includes(gear.gearId)) {
         return false
       }
-      if (!visibleAlly && masterId <= 500) {
+      const isAbyssal = gear.hasAttr("Abyssal")
+      if (!visibleAlly && !isAbyssal) {
         return false
       }
-      if (!visibleAbysall && masterId > 500) {
+      if (!visibleAbysall && isAbyssal) {
         return false
       }
 
