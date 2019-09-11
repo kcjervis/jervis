@@ -30,31 +30,29 @@ type FilterButtonProps = { name: string; filter: GearFilter }
 const baseFilterButtons: FilterButtonProps[] = [
   {
     name: "fighter",
-    filter: ({ category }) => category.isFighter && !category.isLandBasedAircraft && !category.isSeaplane
+    filter: gear => gear.category.isFighter && !gear.is("LandBasedAircraft") && !gear.is("Seaplane")
   },
   {
     name: "bomber",
-    filter: ({ category }) =>
-      (category.isDiveBomber || category.isTorpedoBomber) && !category.isLandBasedAircraft && !category.isSeaplane
+    filter: ({ category, is }) =>
+      (category.isDiveBomber || category.isTorpedoBomber) && !is("LandBasedAircraft") && !is("Seaplane")
   },
   {
     name: "reconnaissance",
-    filter: ({ category }) =>
-      category.isReconnaissanceAircraft ||
-      category.isSeaplane ||
-      category.any("Autogyro", "AntiSubmarinePatrolAircraft")
+    filter: ({ category, is }) =>
+      category.isReconnaissanceAircraft || is("Seaplane") || category.any("Autogyro", "AntiSubmarinePatrolAircraft")
   },
-  { name: "mainGun", filter: gear => gear.hasAttr("MainGun") },
+  { name: "mainGun", filter: gear => gear.is("MainGun") },
   { name: "secondary", filter: ({ category }) => category.any("SecondaryGun", "AntiAircraftGun") },
   { name: "torpedo", filter: ({ category }) => category.any("Torpedo", "SubmarineTorpedo", "MidgetSubmarine") },
   { name: "antiSubmarine", filter: ({ category }) => category.any("Sonar", "LargeSonar", "DepthCharge") },
-  { name: "radar", filter: gear => gear.hasAttr("Radar") },
+  { name: "radar", filter: gear => gear.is("Radar") },
   {
     name: "landing",
     filter: ({ category }) => category.any("LandingCraft", "SpecialAmphibiousTank", "SupplyTransportContainer")
   },
   { name: "ration", filter: ({ category }) => category.any("CombatRation", "Supplies") },
-  { name: "landBased", filter: ({ category }) => category.isLandBasedAircraft }
+  { name: "landBased", filter: gear => gear.is("LandBasedAircraft") }
 ]
 
 const baseFilters = baseFilterButtons.map(({ filter }) => filter)

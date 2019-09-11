@@ -49,7 +49,7 @@ export default class GearsDataStore implements Store {
       if (mode !== "setting" && this.blackList.includes(gear.gearId)) {
         return false
       }
-      const isAbyssal = gear.hasAttr("Abyssal")
+      const isAbyssal = gear.is("Abyssal")
       if (!visibleAlly && !isAbyssal) {
         return false
       }

@@ -48,12 +48,12 @@ export default class ObservableLandBasedAirCorps
 
   @persist("list") @observable public slots = [18, 18, 18, 18]
 
-  public canEquip({ category }: IGear, slotIndex: number) {
+  public canEquip(gear: IGear, slotIndex: number) {
     return (
-      category.isCarrierBasedAircraft ||
-      category.isSeaplane ||
-      category.isLandBasedAircraft ||
-      category.isJetPoweredAircraft
+      gear.is("CarrierBasedAircraft") ||
+      gear.is("Seaplane") ||
+      gear.is("LandBasedAircraft") ||
+      gear.is("JetPoweredAircraft")
     )
   }
 

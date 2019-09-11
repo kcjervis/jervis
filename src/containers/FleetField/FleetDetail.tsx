@@ -1,5 +1,4 @@
 import { FleetRole, IFleet, BattleType, IOperation, IPlane, Formation } from "kc-calculator"
-import { getCombinedFleetModifier } from "kc-calculator/dist/Battle/AerialCombat/antiAir"
 import { observable } from "mobx"
 import { observer } from "mobx-react-lite"
 import React, { createContext, useContext } from "react"

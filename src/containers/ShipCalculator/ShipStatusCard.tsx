@@ -121,7 +121,7 @@ const ShipShellingStatusCard: React.FC<ShipStatusCardProps> = props => {
     )
   }
 
-  const visibleAp = ship.hasGearCategory("ArmorPiercingShell") && ship.hasGear(gear => gear.hasAttr("MainGun"))
+  const visibleAp = ship.hasGear("ArmorPiercingShell") && ship.hasGear("MainGun")
 
   const createShellingSupportRenderer = (isCritical: boolean) => () => {
     const power = ShellingSupport.getShellingSupportPower({ battleState, attacker: shipInformation, isCritical })
