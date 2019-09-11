@@ -33,7 +33,7 @@ const GearsSettingDialog: React.FC<GearsSettingDialogProps> = ({ gears, restoreS
       const { category } = gear.asKcObject
       if (
         category.isAircraft &&
-        !category.either("LandBasedReconnaissanceAircraft", "Autogyro", "AntiSubmarinePatrolAircraft")
+        !category.any("LandBasedReconnaissanceAircraft", "Autogyro", "AntiSubmarinePatrolAircraft")
       ) {
         gear.proficiency = inter
       }

@@ -42,18 +42,18 @@ const baseFilterButtons: FilterButtonProps[] = [
     filter: ({ category }) =>
       category.isReconnaissanceAircraft ||
       category.isSeaplane ||
-      category.either("Autogyro", "AntiSubmarinePatrolAircraft")
+      category.any("Autogyro", "AntiSubmarinePatrolAircraft")
   },
-  { name: "mainGun", filter: ({ category }) => category.isMainGun },
-  { name: "secondary", filter: ({ category }) => category.either("SecondaryGun", "AntiAircraftGun") },
-  { name: "torpedo", filter: ({ category }) => category.either("Torpedo", "SubmarineTorpedo", "MidgetSubmarine") },
-  { name: "antiSubmarine", filter: ({ category }) => category.either("Sonar", "LargeSonar", "DepthCharge") },
-  { name: "radar", filter: ({ category }) => category.isRadar },
+  { name: "mainGun", filter: gear => gear.hasAttr("MainGun") },
+  { name: "secondary", filter: ({ category }) => category.any("SecondaryGun", "AntiAircraftGun") },
+  { name: "torpedo", filter: ({ category }) => category.any("Torpedo", "SubmarineTorpedo", "MidgetSubmarine") },
+  { name: "antiSubmarine", filter: ({ category }) => category.any("Sonar", "LargeSonar", "DepthCharge") },
+  { name: "radar", filter: gear => gear.hasAttr("Radar") },
   {
     name: "landing",
-    filter: ({ category }) => category.either("LandingCraft", "SpecialAmphibiousTank", "SupplyTransportContainer")
+    filter: ({ category }) => category.any("LandingCraft", "SpecialAmphibiousTank", "SupplyTransportContainer")
   },
-  { name: "ration", filter: ({ category }) => category.either("CombatRation", "Supplies") },
+  { name: "ration", filter: ({ category }) => category.any("CombatRation", "Supplies") },
   { name: "landBased", filter: ({ category }) => category.isLandBasedAircraft }
 ]
 

@@ -36,7 +36,7 @@ const shipTypeFilters: ShipFilter[] = [
   {
     name: "補助艦艇",
     filter: ship =>
-      ship.shipType.either(
+      ship.shipType.any(
         "Transport",
         "SeaplaneTender",
         "AmphibiousAssaultShip",

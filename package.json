@@ -9,7 +9,7 @@
     "devel": "webpack --mode development",
     "build": "webpack --mode production",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "tslint-check": "tslint-config-prettier-check ./tslint.json",
+    "ts-check": "yarn tsc  --noEmit",
     "storybook": "start-storybook -p 9001 -c .storybook"
   },
   "dependencies": {
