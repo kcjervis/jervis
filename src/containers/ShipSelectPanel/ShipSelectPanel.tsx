@@ -73,7 +73,9 @@ const ShipSelectPanel: React.FC<ShipSelectPanelProps> = ({
 
   const visibleMasterShips = useMemo(() => {
     if (searchText !== "") {
-      return masterData.ships.filter(({ name, id }) => name.includes(searchText) || id.toString() === searchText)
+      return masterData.ships.filter(
+        ({ name, shipId }) => name.includes(searchText) || shipId.toString() === searchText
+      )
     }
 
     const filter = (masterShip: MasterShip) => {
@@ -103,7 +105,7 @@ const ShipSelectPanel: React.FC<ShipSelectPanelProps> = ({
     if (!onSelect) {
       return
     }
-    onSelect({ masterId: masterShip.id })
+    onSelect({ masterId: masterShip.shipId })
   }
 
   const handleFilterChange = (filter: ShipFilter) => {
@@ -139,7 +141,7 @@ const ShipSelectPanel: React.FC<ShipSelectPanelProps> = ({
             </Typography>
           )}
           {masterShips.map(masterShip => (
-            <ShipButton key={masterShip.id} ship={masterShip} onClick={handleShipClick} />
+            <ShipButton key={masterShip.shipId} ship={masterShip} onClick={handleShipClick} />
           ))}
           <Divider />
         </div>

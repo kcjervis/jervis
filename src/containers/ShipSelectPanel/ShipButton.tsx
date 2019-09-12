@@ -18,11 +18,11 @@ const ShipButton: React.FC<ShipButtonProps> = ({ ship, onClick }) => {
   return (
     <Tooltip enterDelay={800} TransitionProps={{ style: { maxWidth: 1000 } }} title={<MasterShipCard ship={ship} />}>
       <Button style={{ padding: 4, justifyContent: "start", width: 8 * 30 }} onClick={handleClick}>
-        <ShipImage style={{ width: 8 * 15, flexShrink: 0 }} imageType="banner" masterId={ship.id} />
+        <ShipImage style={{ width: 8 * 15, flexShrink: 0 }} imageType="banner" masterId={ship.shipId} />
         <Box ml={1}>
           {ship.isAbyssal && (
             <Typography variant="caption" component="div" align="left">
-              ID:{ship.id}
+              ID:{ship.shipId}
             </Typography>
           )}
           <Typography variant="caption" component="div" align="left">

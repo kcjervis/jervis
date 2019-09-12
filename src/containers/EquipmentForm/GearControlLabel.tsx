@@ -71,7 +71,7 @@ const GearControlLabel: React.FC<GearControlLabelProps> = ({
 }) => {
   const classes = useStyles()
   const [isHovered, hoverRef] = useHover()
-  const visibleProficiency = gear.asKcObject.category.isAerialCombatAircraft
+  const visibleProficiency = gear.asKcObject.proficiency.visible
   return (
     <Flexbox className={classes.root}>
       <div className={classes.slotSize}>

@@ -68,7 +68,7 @@ export default class ObservableLandBasedAirCorps
   @action public createGear = (index: number, data: IGearDataObject) => {
     const gear = ObservableGear.create(data, this)
     this.set(index, gear)
-    if (gear.asKcObject.category.isReconnaissanceAircraft) {
+    if (gear.asKcObject.is("ReconnaissanceAircraft")) {
       this.slots[index] = 4
     } else {
       this.slots[index] = 18
@@ -91,7 +91,7 @@ export default class ObservableLandBasedAirCorps
         this.setSlotSize(index, 18)
         return
       }
-      const capacity = gear.asKcObject.category.isReconnaissanceAircraft ? 4 : 18
+      const capacity = gear.asKcObject.is("ReconnaissanceAircraft") ? 4 : 18
       this.setSlotSize(index, capacity)
     })
   }

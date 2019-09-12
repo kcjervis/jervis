@@ -30,17 +30,23 @@ type FilterButtonProps = { name: string; filter: GearFilter }
 const baseFilterButtons: FilterButtonProps[] = [
   {
     name: "fighter",
-    filter: gear => gear.category.isFighter && !gear.is("LandBasedAircraft") && !gear.is("Seaplane")
+    filter: gear => gear.is("CarrierBasedFighterAircraft") || gear.is("JetPoweredFighter")
   },
   {
     name: "bomber",
-    filter: ({ category, is }) =>
-      (category.isDiveBomber || category.isTorpedoBomber) && !is("LandBasedAircraft") && !is("Seaplane")
+    filter: gear =>
+      gear.is("CarrierBasedDiveBomber") ||
+      gear.is("CarrierBasedTorpedoBomber") ||
+      gear.is("JetPoweredFighterBomber") ||
+      gear.is("JetPoweredTorpedoBomber")
   },
   {
     name: "reconnaissance",
-    filter: ({ category, is }) =>
-      category.isReconnaissanceAircraft || is("Seaplane") || category.any("Autogyro", "AntiSubmarinePatrolAircraft")
+    filter: gear =>
+      gear.is("ReconnaissanceAircraft") ||
+      gear.is("Seaplane") ||
+      gear.is("Autogyro") ||
+      gear.is("AntiSubmarinePatrolAircraft")
   },
   { name: "mainGun", filter: gear => gear.is("MainGun") },
   { name: "secondary", filter: ({ category }) => category.any("SecondaryGun", "AntiAircraftGun") },

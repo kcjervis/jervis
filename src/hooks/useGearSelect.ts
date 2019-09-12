@@ -22,10 +22,10 @@ const useGearSelect = (props: EquippableProps) => {
     (gear: IGear) => {
       const { category, masterId } = gear
       let proficiency = 0
-      if (category.isAerialCombatAircraft) {
+      if (gear.is("DiveBomber") || gear.is("TorpedoBomber") || gear.is("Fighter")) {
         proficiency = 100
       }
-      if (category.isReconnaissanceAircraft) {
+      if (gear.is("ReconnaissanceAircraft")) {
         proficiency = 120
       }
       if (masterId > 500 || category.is("LandBasedReconnaissanceAircraft")) {

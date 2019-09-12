@@ -72,7 +72,7 @@ const GearFieldCard: React.FC<GearFieldCardProps> = ({
       />
 
       <div className={classes.rightButtons}>
-        {category.isAerialCombatAircraft && onProficiencyChange && (
+        {proficiency.visible && onProficiencyChange && (
           <div className={classes.proficiency}>
             <ProficiencySelect internal={proficiency.internal} onChange={onProficiencyChange} />
           </div>

@@ -30,11 +30,16 @@ const GearsSettingDialog: React.FC<GearsSettingDialogProps> = ({ gears, restoreS
 
   const handleProficiencyChange = (inter: number) => () => {
     gears.forEach(gear => {
-      const { category } = gear.asKcObject
+      const kcGear = gear.asKcObject
       if (
-        category.isAircraft &&
-        !category.any("LandBasedReconnaissanceAircraft", "Autogyro", "AntiSubmarinePatrolAircraft")
+        kcGear.is("LandBasedReconnaissanceAircraft") ||
+        kcGear.is("Autogyro") ||
+        kcGear.is("AntiSubmarinePatrolAircraft")
       ) {
+        return
+      }
+
+      if (kcGear.is("Aircraft")) {
         gear.proficiency = inter
       }
     })

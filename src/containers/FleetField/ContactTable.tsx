@@ -24,7 +24,7 @@ export default class ContactTable extends React.Component<ContactTableProps> {
       const airStateModifier = airControlState.contactMultiplier
 
       const totalTriggerFactor = sumBy(
-        planes.filter(plane => plane.category.isReconnaissanceAircraft),
+        planes.filter(plane => plane.is("ReconnaissanceAircraft")),
         plane => plane.contactTriggerFactor
       )
 

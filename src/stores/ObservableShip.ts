@@ -49,7 +49,7 @@ export default class ObservableShip implements IShipDataObject, ObservableGearSt
 
     let equipment: Array<IGearDataObject | undefined>
     if (!data.equipments && masterShip.isAbyssal) {
-      equipment = masterShip.equipment.map(({ id, improvement }) => ({ masterId: id, improvement }))
+      equipment = masterShip.initialEquipment.map(({ id, improvement }) => ({ masterId: id, improvement }))
     } else {
       equipment = data.equipments || []
     }

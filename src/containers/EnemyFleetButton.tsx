@@ -17,10 +17,10 @@ const masterIdToDataObject = (masterId: number) => {
     return undefined
   }
   return {
-    masterId: master.id,
+    masterId: master.shipId,
     level: 1,
     slots: master.slotCapacities.concat(),
-    equipments: master.equipment.map(gear => {
+    equipments: master.initialEquipment.map(gear => {
       if (gear === undefined) {
         return undefined
       }

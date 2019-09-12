@@ -46,7 +46,7 @@ const getRandomShipId = () => {
       ship = getRandomShip()
     }
   })
-  return ship.id
+  return ship.shipId
 }
 
 const Background: React.FC = props => {

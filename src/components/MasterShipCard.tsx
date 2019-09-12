@@ -32,12 +32,12 @@ type MasterShipCardProps = {
 
 const MasterShipCard: React.FC<MasterShipCardProps> = ({ ship }) => {
   const classes = useStyles()
-  const { id, name, shipType } = ship
+  const { shipId, name, shipType } = ship
   return (
     <div className={classes.root}>
       <Flexbox>
         <Typography align="center">
-          ID {id} {shipType.name}
+          ID {shipId} {shipType.name}
         </Typography>
         <Typography variant="h5"> {name}</Typography>
       </Flexbox>
@@ -52,7 +52,7 @@ const MasterShipCard: React.FC<MasterShipCardProps> = ({ ship }) => {
           <Typography>搭載 {ship.slotCapacities.toString()}</Typography>
         </CardContent>
 
-        <ShipImage className={classes.shipImage} masterId={id} imageType="full" />
+        <ShipImage className={classes.shipImage} masterId={shipId} imageType="full" />
       </Flexbox>
     </div>
   )

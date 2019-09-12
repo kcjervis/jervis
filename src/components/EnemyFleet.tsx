@@ -70,7 +70,7 @@ const EnemyFleet: React.FC<EnemyFleetProps> = ({ battleFleet, difficulty }) => {
 
   const allPlanes = battleFleet.allShips.flatMap(ship => ship.planes)
   const fighterPower = allPlanes
-    .filter(({ category }) => !category.isReconnaissanceAircraft)
+    .filter(plane => !plane.is("ReconnaissanceAircraft"))
     .reduce((value, plane) => value + plane.fighterPower, 0)
 
   const isUnknown = battleFleet.allShips.flatMap(ship => ship.slots).some(size => size < 0)
