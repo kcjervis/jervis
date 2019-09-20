@@ -24,7 +24,7 @@ export const useShipStat = ({ ship, statKey }: { ship: ObservableShip; statKey: 
         delete ship.increased[statKey]
       }
       if (statKey === "hp") {
-        ship.nowHp = ship.asKcObject.health.maxHp
+        ship.currentHp = ship.asKcObject.health.maxHp
       }
     },
     [ship, statKey]

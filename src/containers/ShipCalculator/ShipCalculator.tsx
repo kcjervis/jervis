@@ -147,14 +147,13 @@ const ShipCalculator: React.FC<ShipCalculatorProps> = ({ ship }) => {
       formation: state.enemyFormation
     }
   }
-  1
 
   return (
     <Box>
       <Typography variant="caption" color="error">
         攻撃可否未実装(陸上にFBAや魚雷CIはできないので注意)
         <br />
-        未実装なところが多いので参考程度に
+        未実装、不備が多いので参考程度に。何かあれば教えてください。
       </Typography>
 
       <Box m={1} maxWidth={8 * 125} width="100%" margin="auto">

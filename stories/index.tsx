@@ -5,14 +5,9 @@ import { MuiThemeProvider } from "@material-ui/core"
 
 import theme from "../src/theme"
 import ImprovementSelect from "../src/components/ImprovementSelect"
-import Seamap from "../src/containers/Seamap"
 
 const withTheme: StoryDecorator = story => <MuiThemeProvider theme={theme}>{story()}</MuiThemeProvider>
 
 storiesOf("ImprovementSelect", module)
   .addDecorator(withTheme)
   .add("view", () => <ImprovementSelect value={1} onChange={action("onChange")} />)
-
-storiesOf("Seamap", module)
-  .addDecorator(withTheme)
-  .add("view", () => <Seamap />)

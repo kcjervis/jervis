@@ -61,10 +61,10 @@ const ShipCard: React.FC<ShipCardProps> = ({
     const prev = ship.level
     ship.level = next
     if (prev <= 99 && next >= 100) {
-      ship.nowHp = ship.asKcObject.health.maxHp
+      ship.currentHp = ship.asKcObject.health.maxHp
     }
-    if (ship.nowHp > ship.asKcObject.health.maxHp) {
-      ship.nowHp = ship.asKcObject.health.maxHp
+    if (ship.currentHp > ship.asKcObject.health.maxHp) {
+      ship.currentHp = ship.asKcObject.health.maxHp
     }
   }
 

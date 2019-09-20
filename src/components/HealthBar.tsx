@@ -1,4 +1,4 @@
-import { IHealth } from "kc-calculator/dist/objects/Ship/Health"
+import { IHealth } from "kc-calculator/dist/objects/ship/Health"
 import React from "react"
 
 import green from "@material-ui/core/colors/green"
@@ -14,13 +14,13 @@ export const useBackgroundColorStyles = makeStyles({
   lessColor: {
     backgroundColor: green[500]
   },
-  minorColor: {
+  shouhaColor: {
     backgroundColor: yellow[500]
   },
-  moderateColor: {
+  chuuhaColor: {
     backgroundColor: orange[500]
   },
-  heavyColor: {
+  taihaColor: {
     backgroundColor: red[500]
   }
 })
@@ -42,17 +42,17 @@ interface HealthBarProps {
 const HealthBar: React.FC<HealthBarProps> = ({ health }) => {
   const backgroundColors = useBackgroundColorStyles()
   const classes = useStyles()
-  const { maxHp, nowHp, damage } = health
-  const rate = nowHp / maxHp
+  const { maxHp, currentHp, damage } = health
+  const rate = currentHp / maxHp
   let barColorPrimary: string
   if (damage === "Less") {
     barColorPrimary = backgroundColors.lessColor
-  } else if (damage === "Minor") {
-    barColorPrimary = backgroundColors.minorColor
-  } else if (damage === "Moderate") {
-    barColorPrimary = backgroundColors.moderateColor
+  } else if (damage === "Shouha") {
+    barColorPrimary = backgroundColors.shouhaColor
+  } else if (damage === "Chuuha") {
+    barColorPrimary = backgroundColors.chuuhaColor
   } else {
-    barColorPrimary = backgroundColors.heavyColor
+    barColorPrimary = backgroundColors.taihaColor
   }
   return (
     <div className={classes.root}>
@@ -67,7 +67,7 @@ const HealthBar: React.FC<HealthBarProps> = ({ health }) => {
       />
 
       <Typography variant="caption">
-        {nowHp}/{maxHp}
+        {currentHp}/{maxHp}
       </Typography>
     </div>
   )

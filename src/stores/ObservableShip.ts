@@ -1,5 +1,5 @@
 import { IGear, IGearDataObject, IShipDataObject, shipStatKeys } from "kc-calculator"
-import { action, computed, observable } from "mobx"
+import { action, computed, observable, autorun } from "mobx"
 import { persist } from "mobx-persist"
 import uuid from "uuid"
 import { range } from "lodash-es"
@@ -23,7 +23,7 @@ export default class ObservableShip implements IShipDataObject, ObservableGearSt
   }
 
   public static create = (data: IShipDataObject, store: StoreType) => {
-    const { masterId, level, slots, nowHp, increased } = data
+    const { masterId, level, slots, currentHp, increased } = data
     const observableShip = new ObservableShip()
     observableShip.masterId = masterId
 
@@ -70,10 +70,10 @@ export default class ObservableShip implements IShipDataObject, ObservableGearSt
       observableShip.increased = increased
     }
 
-    if (typeof nowHp === "number") {
-      observableShip.nowHp = nowHp
+    if (typeof currentHp === "number") {
+      observableShip.currentHp = currentHp
     } else {
-      observableShip.nowHp = observableShip.asKcObject.health.maxHp
+      observableShip.currentHp = observableShip.asKcObject.health.maxHp
     }
 
     return observableShip
@@ -91,13 +91,21 @@ export default class ObservableShip implements IShipDataObject, ObservableGearSt
 
   @persist("list") @observable public slots: number[] = []
 
-  @persist @observable public nowHp = -1
+  @persist @observable public currentHp = 0
 
   @persist @observable public morale = 49
 
   @persist("object") @observable public increased: NonNullable<IShipDataObject["increased"]> = {}
 
   @observable public visibleGears = true
+
+  constructor() {
+    autorun(() => {
+      if (this.currentHp === 0) {
+        this.currentHp = this.asKcObject.stats.hp
+      }
+    })
+  }
 
   public get gears() {
     return this.equipments
@@ -166,10 +174,10 @@ export default class ObservableShip implements IShipDataObject, ObservableGearSt
   }
 
   private toJSON(): IShipDataObject {
-    const { masterId, level, slots, equipments, nowHp, morale, increased } = this
+    const { masterId, level, slots, equipments, currentHp, morale, increased } = this
     const dataObject: IShipDataObject = { masterId, level, slots, equipments }
-    if (nowHp !== this.asKcObject.health.maxHp) {
-      dataObject.nowHp = nowHp
+    if (currentHp !== this.asKcObject.health.maxHp) {
+      dataObject.currentHp = currentHp
     }
     if (morale !== 49) {
       dataObject.morale = morale

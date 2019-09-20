@@ -183,6 +183,9 @@ const AttackStatus: React.FC<AttackStatusProps> = props => {
 
   const shellingSupportHitRateRenderer = () => {
     const { accuracy, defenderEvasionValue, hitRate } = getShellingSupport()
+    if (attacker.formation.id > 10) {
+      return "不明"
+    }
     return <HitRateText hitRate={hitRate} accuracyValue={accuracy.value} evasionValue={defenderEvasionValue} />
   }
 

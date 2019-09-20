@@ -113,6 +113,12 @@ const ShipSelectPanel: React.FC<ShipSelectPanelProps> = ({
     onFilterChange && onFilterChange(filter)
   }
 
+  const handleEnterDown = (event: React.KeyboardEvent) => {
+    if (event.keyCode === 13) {
+      handleSearchClick()
+    }
+  }
+
   return (
     <Box className={className} style={style} m={1} height="100%">
       <div>
@@ -123,6 +129,7 @@ const ShipSelectPanel: React.FC<ShipSelectPanelProps> = ({
             </IconButton>
           }
           inputRef={searchRef}
+          onKeyDown={handleEnterDown}
         />
         {"" !== searchText && <Chip variant="outlined" label={searchText} onDelete={() => setSearchText("")} />}
       </div>
@@ -134,12 +141,9 @@ const ShipSelectPanel: React.FC<ShipSelectPanelProps> = ({
       {/*艦娘一覧を表示*/}
       {Object.entries(classedMasterShips).map(([shipClassName, masterShips]) => (
         <div key={shipClassName}>
-          {/*深海棲艦なら艦型名は非表示*/}
-          {!abysallCheck.checked && (
-            <Typography variant="caption" component="div">
-              {shipClassName}
-            </Typography>
-          )}
+          <Typography variant="caption" component="div">
+            {shipClassName}
+          </Typography>
           {masterShips.map(masterShip => (
             <ShipButton key={masterShip.shipId} ship={masterShip} onClick={handleShipClick} />
           ))}

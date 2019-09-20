@@ -1,5 +1,5 @@
 import { IGearDataObject, IShipDataObject, formulas } from "kc-calculator"
-import { Proficiency } from "kc-calculator/dist/objects/Gear"
+import { Proficiency } from "kc-calculator/dist/objects/gear"
 
 import { masterData } from "../stores/kcObjectFactory"
 import { ObservableOperation } from "../stores"
