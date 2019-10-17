@@ -85,7 +85,7 @@ const WorkspaceTab: React.FC<WorkspaceTabProps> = ({ item }) => {
     if (!operation) {
       return null
     }
-    icon = <OperationIcon color={isTemporary(operation) ? "default" : "secondary"} />
+    icon = <OperationIcon color={isTemporary(operation) ? undefined : "secondary"} />
   } else {
     icon = <ShipIcon fontSize="inherit" />
   }

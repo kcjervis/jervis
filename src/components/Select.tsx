@@ -29,7 +29,7 @@ export const getDefaultOptionLabel = (option: unknown): string => {
 }
 
 export type BaseSelectProps<OptionType> = {
-  options: OptionType[]
+  options: readonly OptionType[]
   value: OptionType
   onChange: (option: OptionType) => void
   label?: string

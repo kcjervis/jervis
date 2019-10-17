@@ -5,8 +5,17 @@ import Button from "@material-ui/core/Button"
 import Box from "@material-ui/core/Box"
 import Tooltip from "@material-ui/core/Tooltip"
 import Typography from "@material-ui/core/Typography"
+import { makeStyles } from "@material-ui/core/styles"
 
-import { ShipImage, MasterShipCard } from "../../components"
+import { ShipImage, MasterShipCard, Text } from "../../components"
+
+const useStyles = makeStyles(theme => ({
+  button: { padding: 4, justifyContent: "start", width: theme.spacing(30) },
+  shipImage: {
+    width: theme.spacing(15),
+    flexShrink: 0
+  }
+}))
 
 type ShipButtonProps = {
   ship: MasterShip
@@ -14,20 +23,15 @@ type ShipButtonProps = {
 }
 
 const ShipButton: React.FC<ShipButtonProps> = ({ ship, onClick }) => {
+  const styles = useStyles()
   const handleClick = useCallback(() => onClick(ship), [ship, onClick])
   return (
     <Tooltip enterDelay={800} TransitionProps={{ style: { maxWidth: 1000 } }} title={<MasterShipCard ship={ship} />}>
-      <Button style={{ padding: 4, justifyContent: "start", width: 8 * 30 }} onClick={handleClick}>
-        <ShipImage style={{ width: 8 * 15, flexShrink: 0 }} imageType="banner" masterId={ship.shipId} />
+      <Button className={styles.button} onClick={handleClick}>
+        <ShipImage className={styles.shipImage} imageType="banner" masterId={ship.shipId} />
         <Box ml={1}>
-          {ship.isAbyssal && (
-            <Typography variant="caption" component="div" align="left">
-              ID:{ship.shipId}
-            </Typography>
-          )}
-          <Typography variant="caption" component="div" align="left">
-            {ship.name}
-          </Typography>
+          {ship.isAbyssal && <Text align="left">ID:{ship.shipId}</Text>}
+          <Text align="left">{ship.name}</Text>
         </Box>
       </Button>
     </Tooltip>

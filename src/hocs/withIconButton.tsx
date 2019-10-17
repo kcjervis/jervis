@@ -8,8 +8,6 @@ export interface WithIconButtonProps extends IconButtonProps {
   label?: string
   title?: string
   tooltipProps?: Partial<TooltipProps>
-  // バグ対策
-  href?: string
 }
 
 const withIconButton = (WrappedIcon: typeof SvgIcon) => {
@@ -30,7 +28,7 @@ const withIconButton = (WrappedIcon: typeof SvgIcon) => {
     return WrappedButton
   }
 
-  WithIconButton.displayName = `WithIconButton(${WrappedIcon.displayName})`
+  WithIconButton.displayName = `WithIconButton(${WrappedIcon.name})`
   return WithIconButton
 }
 

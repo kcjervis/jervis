@@ -61,10 +61,10 @@ export const useShipStat = ({ ship, statKey }: { ship: ObservableShip; statKey: 
   }
 }
 
-type ShipStatLabelProps = {
+type ShipStatLabelProps = React.ComponentProps<"div"> & {
   ship: ObservableShip
   statKey: ShipStatKey
-} & React.HTMLAttributes<HTMLDivElement>
+}
 
 const ShipStatLabel: React.FC<ShipStatLabelProps> = ({ ship, statKey, ...divProps }) => {
   const { stat, bonus, increasedStat } = useShipStat({ ship, statKey })

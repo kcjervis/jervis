@@ -11,7 +11,7 @@ const useStyles = makeStyles({
   banner: {}
 })
 
-interface ShipImageProps extends React.ImgHTMLAttributes<HTMLImageElement> {
+type ShipImageProps = React.ComponentProps<"img"> & {
   masterId: number
   imageType: "full" | "banner"
 }
@@ -31,7 +31,7 @@ const ShipImage: React.FC<ShipImageProps> = ({ masterId, imageType, className, .
   }
 
   return (
-    <Card style={{ display: "inline-block" }} className={imgClass} {...rest}>
+    <Card style={{ display: "inline-block" }} className={imgClass}>
       <Typography variant="h4">{masterId}</Typography>
     </Card>
   )

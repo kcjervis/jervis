@@ -1,5 +1,14 @@
 import React, { useMemo } from "react"
 import { MapEnemyFleet, MapEnemyShip } from "@jervis/data"
+import {
+  Formation,
+  Side,
+  FleetTypeName,
+  IShip,
+  calcDeadlyPower,
+  calcEvasionValue,
+  AirControlState
+} from "kc-calculator"
 
 import Typography from "@material-ui/core/Typography"
 import Divider from "@material-ui/core/Divider"
@@ -10,7 +19,6 @@ import Paper from "@material-ui/core/Paper"
 import { ShipNameplate, InfoButton, SaveButton } from "../../components"
 import { useOperationStore, useWorkspace } from "../../hooks"
 import { ObservableOperation } from "../../stores"
-import { Formation, Side, FleetTypeName, IShip, calcDeadlyPower, calcEvasionValue } from "kc-calculator"
 
 const toShipData = ({ id, level }: MapEnemyShip) => ({ masterId: id, level })
 
@@ -41,9 +49,8 @@ const toFighterPowerDescription = (fp: number | undefined) => {
   if (fp <= 0) {
     return `制空: ${fp}`
   }
-  const gte = (multiplier: number) => Math.ceil(fp * multiplier)
-  const gt = (multiplier: number) => Math.floor(fp * multiplier) + 1
-  return `制空: ${fp} 確保:${gte(3)} 優勢:${gte(1.5)} 均衡:${gt(2 / 3)} 劣勢:${gt(1 / 3)}`
+  const bounds = AirControlState.getBoundaryValues(fp)
+  return `制空: ${fp} 確保:${bounds.AirSupremacy} 優勢:${bounds.AirSuperiority} 均衡:${bounds.AirParity} 劣勢:${bounds.AirDenial}`
 }
 
 const EnemyShipNameplate: React.FC<{ ship: IShip; formation: Formation }> = props => {

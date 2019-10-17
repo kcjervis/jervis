@@ -9,7 +9,6 @@ export { default as GearLabel } from "./GearLabel"
 export { default as GearsSettingDialog } from "./GearsSettingDialog"
 export { default as FleetTypeSelect } from "./FleetTypeSelect"
 export { default as GearTooltip } from "./GearTooltip"
-export { default as Flexbox } from "./Flexbox"
 export { default as HorizontalScrollbar } from "./HorizontalScrollbar"
 export { default as ImprovementSelect } from "./ImprovementSelect"
 export { default as ItemLabel } from "./ItemLabel"
@@ -31,3 +30,5 @@ export { default as ShipNameplate } from "./ShipNameplate"
 export * from "./IconButtons"
 
 export { default as Table } from "./Table"
+
+export * from "./atoms"

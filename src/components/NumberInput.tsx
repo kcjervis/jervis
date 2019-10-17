@@ -4,33 +4,30 @@ import clsx from "clsx"
 import TextField, { TextFieldProps } from "@material-ui/core/TextField"
 import InputAdornment from "@material-ui/core/InputAdornment"
 import Button from "@material-ui/core/Button"
-import IconButton from "@material-ui/core/IconButton"
 import ArrowDropUpIcon from "@material-ui/icons/ArrowDropUp"
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown"
-import { makeStyles, createStyles, Theme } from "@material-ui/core/styles"
-import Flexbox from "./Flexbox"
+import { makeStyles } from "@material-ui/core/styles"
 
 import { IncreaseButton, DecreaseButton } from "./IconButtons"
+import { Flexbox } from "./atoms"
 import { useHover } from "../hooks"
 import { round } from "lodash-es"
 
-const useStyles = makeStyles(
-  createStyles({
-    input: {
-      width: 8 * 15
-    },
-    button: {
-      display: "block",
-      padding: 0,
-      width: 24,
-      height: 16,
-      lineHeight: 1
-    },
-    label: {
-      whiteSpace: "nowrap"
-    }
-  })
-)
+const useStyles = makeStyles({
+  input: {
+    width: 8 * 15
+  },
+  button: {
+    display: "block",
+    padding: 0,
+    width: 24,
+    height: 16,
+    lineHeight: 1
+  },
+  label: {
+    whiteSpace: "nowrap"
+  }
+})
 
 const { setTimeout } = window
 

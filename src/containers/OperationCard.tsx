@@ -52,7 +52,7 @@ const OperationCard: React.FC<OperationCardProps> = ({ operation }) => {
         )}
       </div>
       <CardContent>
-        <Typography component="div">{operation.name}</Typography>
+        <Typography>{operation.name}</Typography>
       </CardContent>
 
       <CardActions className={classes.actions}>

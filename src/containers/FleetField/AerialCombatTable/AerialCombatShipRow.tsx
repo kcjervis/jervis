@@ -41,9 +41,7 @@ const AerialCombatShipRow: React.FC<AerialCombatShipRowProps> = ({
   return (
     <TableRow>
       <Tooltip title={`連合艦隊補正${combinedFleetModifier}`}>
-        <TableCell component="th" scope="row">
-          {ship.name}
-        </TableCell>
+        <TableCell scope="row">{ship.name}</TableCell>
       </Tooltip>
       <TableCell align="right">{adjustedAntiAir}</TableCell>
       <TableCell align="right">{proportionalShotdownRate.toFixed(4)}</TableCell>

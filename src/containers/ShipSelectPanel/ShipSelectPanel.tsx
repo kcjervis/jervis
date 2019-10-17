@@ -141,9 +141,7 @@ const ShipSelectPanel: React.FC<ShipSelectPanelProps> = ({
       {/*艦娘一覧を表示*/}
       {Object.entries(classedMasterShips).map(([shipClassName, masterShips]) => (
         <div key={shipClassName}>
-          <Typography variant="caption" component="div">
-            {shipClassName}
-          </Typography>
+          <Typography variant="subtitle2">{shipClassName}</Typography>
           {masterShips.map(masterShip => (
             <ShipButton key={masterShip.shipId} ship={masterShip} onClick={handleShipClick} />
           ))}

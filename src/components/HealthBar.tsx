@@ -8,7 +8,8 @@ import yellow from "@material-ui/core/colors/yellow"
 import LinearProgress from "@material-ui/core/LinearProgress"
 import Typography from "@material-ui/core/Typography"
 
-import { makeStyles, Theme } from "@material-ui/core/styles"
+import { makeStyles } from "@material-ui/core/styles"
+import { Text } from "./atoms"
 
 export const useBackgroundColorStyles = makeStyles({
   lessColor: {
@@ -66,9 +67,9 @@ const HealthBar: React.FC<HealthBarProps> = ({ health }) => {
         value={rate * 100}
       />
 
-      <Typography variant="caption">
+      <Text>
         {currentHp}/{maxHp}
-      </Typography>
+      </Text>
     </div>
   )
 }

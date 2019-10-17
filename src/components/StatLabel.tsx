@@ -4,7 +4,7 @@ import clsx from "clsx"
 
 import Typography from "@material-ui/core/Typography"
 import Tooltip from "@material-ui/core/Tooltip"
-import { makeStyles, Theme } from "@material-ui/core/styles"
+import { makeStyles } from "@material-ui/core/styles"
 
 import StatIcon from "./StatIcon"
 
@@ -17,7 +17,7 @@ const useStyles = makeStyles({
   }
 })
 
-interface StatLabelProps extends React.HTMLAttributes<HTMLDivElement> {
+type StatLabelProps = React.ComponentProps<"div"> & {
   statKey: ShipStatKey | GearStatKey
   stat: number
   increased?: number
@@ -76,14 +76,10 @@ const StatLabel: React.FC<StatLabelProps> = props => {
       </Typography>
       {visibleBonus && (
         <>
-          <Typography variant="caption">(</Typography>
-          <Typography variant="caption" color="primary">
-            {valueToString(increased)}
-          </Typography>
-          <Typography variant="caption" color="secondary">
-            {valueToString(bonus)}
-          </Typography>
-          <Typography variant="caption">)</Typography>
+          <Typography>(</Typography>
+          <Typography color="primary">{valueToString(increased)}</Typography>
+          <Typography color="secondary">{valueToString(bonus)}</Typography>
+          <Typography>)</Typography>
         </>
       )}
     </div>

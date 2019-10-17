@@ -1,6 +1,6 @@
 import React from "react"
 
-interface GearImageProps extends React.ImgHTMLAttributes<HTMLImageElement> {
+type GearImageProps = React.ComponentProps<"img"> & {
   masterId: number
 }
 

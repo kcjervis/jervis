@@ -160,7 +160,7 @@ const ShipShellingStatusCard: React.FC<ShipStatusCardProps> = props => {
           { label: "クリティカル", getValue: createShellingCellRenderer(true) }
         ]}
       />
-      <Typography variant="caption">合計特殊攻撃率 {toPercent(specialAttackRate.total)}</Typography>
+      <Typography variant="body2">合計特殊攻撃率 {toPercent(specialAttackRate.total)}</Typography>
 
       <Box mt={1}>
         <Typography variant="subtitle2">夜戦</Typography>

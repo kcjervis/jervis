@@ -8,9 +8,9 @@ import "react-mde/lib/styles/css/react-mde-all.css"
 import Paper from "@material-ui/core/Paper"
 import EditIcon from "@material-ui/icons/Edit"
 import ClickAwayListener from "@material-ui/core/ClickAwayListener"
+import { makeStyles } from "@material-ui/core/styles"
 
 import { ObservableOperation } from "../../stores"
-import { makeStyles, Theme } from "@material-ui/core/styles"
 import { useOpen } from "../../hooks"
 import withIconButton from "../../hocs/withIconButton"
 
@@ -33,7 +33,7 @@ const useStyles = makeStyles({
   }
 })
 
-interface OperationDescriptionFieldProps extends React.HTMLAttributes<HTMLDivElement> {
+type OperationDescriptionFieldProps = React.ComponentProps<"div"> & {
   operation: ObservableOperation
 }
 

@@ -35,21 +35,9 @@ const LandBaseForm: React.FC<LandBaseForm> = ({ operation }) => {
 
   const gears = operation.landBase.flatMap(airCorps => airCorps.gears).filter(nonNullable)
 
-  const { mainFleet, escortFleet } = operation.asKcObject
-  let combinedFleetFighterPower = mainFleet.fighterPower
-  let combinedFleetFighterPowerLabel = ""
-  if (escortFleet) {
-    combinedFleetFighterPower += escortFleet.fighterPower
-    combinedFleetFighterPowerLabel = `連合戦制空: ${combinedFleetFighterPower}`
-  }
-
   return (
     <>
       <Flexbox>
-        <Typography variant="caption" style={{ margin: 8 }}>
-          第一艦隊制空: {mainFleet.fighterPower} {combinedFleetFighterPowerLabel}
-        </Typography>
-
         <GearsSettingDialog
           gears={gears}
           restoreSlotSize={() => operation.landBase.forEach(airCorps => airCorps.restoreSlotSize())}

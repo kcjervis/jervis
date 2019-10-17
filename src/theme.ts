@@ -9,6 +9,9 @@ const dialogPaperBackground = "rgba(66, 66, 77, 0.95)"
 const darkPaper = { paper: { background: darkBackground } }
 
 export default createMuiTheme({
+  typography: {
+    fontSize: 14
+  },
   palette: {
     type: "dark",
     background: {

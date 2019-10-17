@@ -53,7 +53,7 @@ const OperationLabel: React.FC<OperationLabelProps> = ({ operation, temporary })
 
   const handleClick = () => openOperation(operation)
 
-  const handleContextMenu = (event: React.MouseEvent<HTMLElement>) => {
+  const handleContextMenu = (event: Parameters<typeof onMenuClick>[0]) => {
     event.preventDefault()
     onMenuClick(event)
     return false

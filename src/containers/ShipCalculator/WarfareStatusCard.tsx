@@ -85,7 +85,7 @@ const WarfareStatusCard: React.FC<WarfareStatusCardProps> = props => {
         <Flexbox alignItems="end">
           <Select className={classes.enemyTypeSelect} label="敵種別" {...installationTypeSelect} />
           <NumberInput label="イベント特効(a11)" step={0.1} value={eventMapModifier} onChange={setEventMapModifier} />
-          <Typography variant="caption">確殺攻撃力: {calcDeadlyPower(enemyInformation.ship).toFixed(4)}</Typography>
+          <Typography variant="body2">確殺攻撃力: {calcDeadlyPower(enemyInformation.ship).toFixed(4)}</Typography>
         </Flexbox>
         <ShipCard ship={enemyShip} visibleInfo={false} elevation={0} />
       </Box>

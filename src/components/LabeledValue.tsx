@@ -1,11 +1,11 @@
 import React from "react"
 import clsx from "clsx"
 
-import { Theme, makeStyles, useTheme } from "@material-ui/core/styles"
+import { makeStyles } from "@material-ui/core/styles"
 import Box, { BoxProps } from "@material-ui/core/Box"
 import Typography from "@material-ui/core/Typography"
 
-const useStyles = makeStyles((theme: Theme) => ({
+const useStyles = makeStyles(theme => ({
   root: {
     height: 40,
     boxShadow: `inset 0 -1px ${theme.palette.text.secondary}`
@@ -27,7 +27,7 @@ const LabeledValue: React.FC<LabeledValueProps> = ({ label, value, className, ..
   const classes = useStyles()
   return (
     <Box className={clsx(classes.root, className)} {...boxProps}>
-      <Typography className={classes.label} variant="caption" component="div" noWrap color="textSecondary">
+      <Typography className={classes.label} variant="caption" noWrap color="textSecondary">
         {label}
       </Typography>
       <Typography className={classes.value} variant="body2" align="right">

@@ -5,10 +5,9 @@ import orange from "@material-ui/core/colors/orange"
 import red from "@material-ui/core/colors/red"
 import yellow from "@material-ui/core/colors/yellow"
 import LinearProgress from "@material-ui/core/LinearProgress"
-import Typography from "@material-ui/core/Typography"
-import Button from "@material-ui/core/Button"
 
-import { makeStyles, Theme } from "@material-ui/core/styles"
+import { makeStyles } from "@material-ui/core/styles"
+import { Text } from "./atoms"
 
 const useStyles = makeStyles({
   root: {
@@ -65,7 +64,7 @@ export default function MoraleBar({ value }: MoraleBarProps) {
         variant="determinate"
         value={value}
       />
-      <Typography variant="caption">{value}</Typography>
+      <Text>{value}</Text>
     </div>
   )
 }

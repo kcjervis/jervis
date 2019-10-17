@@ -56,7 +56,7 @@ const GearCard: React.FC<GearCardProps> = ({ gear, onRemove, onUpdate, onClose, 
   return (
     <Card elevation={12} {...cardProps}>
       <div style={{ display: "flex", justifyContent: "space-between" }}>
-        <Typography variant="caption">
+        <Typography variant="subtitle2">
           ID:{masterId} {category.name}
         </Typography>
 

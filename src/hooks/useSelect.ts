@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react"
 
-const useSelect = <OptionType>(options: OptionType[], defaultOption: OptionType = options[0]) => {
+const useSelect = <OptionType>(options: readonly OptionType[], defaultOption: OptionType = options[0]) => {
   const [value, onChange] = useState(defaultOption)
 
   useEffect(() => {

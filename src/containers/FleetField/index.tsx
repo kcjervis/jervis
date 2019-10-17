@@ -9,31 +9,29 @@ import Add from "@material-ui/icons/Add"
 import Remove from "@material-ui/icons/Remove"
 import Tooltip from "@material-ui/core/Tooltip"
 import Box from "@material-ui/core/Box"
-import { Theme, makeStyles, createStyles } from "@material-ui/core/styles"
+import { makeStyles } from "@material-ui/core/styles"
 
-import { StatIcon, GearsSettingDialog, Flexbox } from "../../components"
+import { StatIcon, GearsSettingDialog, Flexbox, Text } from "../../components"
 import ShipForm from "../ShipForm"
 import FleetDetail from "./FleetDetail"
 
 import { ObservableFleet, ObservableOperation } from "../../stores"
 
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    root: {
-      justifyContent: "center"
-    },
-    ships: {
-      display: "flex",
-      flexWrap: "wrap",
-      alignItems: "space-between",
-      maxWidth: 8 * 125
-    },
-    bottomControl: {
-      display: "flex",
-      justifyContent: "center"
-    }
-  })
-)
+const useStyles = makeStyles({
+  root: {
+    justifyContent: "center"
+  },
+  ships: {
+    display: "flex",
+    flexWrap: "wrap",
+    alignItems: "space-between",
+    maxWidth: 8 * 125
+  },
+  bottomControl: {
+    display: "flex",
+    justifyContent: "center"
+  }
+})
 
 interface FleetFieldProps {
   fleet: ObservableFleet
@@ -86,7 +84,7 @@ const FleetField: React.FC<FleetFieldProps> = ({ fleet, operation }) => {
             <Tooltip key={nodeDivaricatedFactor} title={`分岐点係数${nodeDivaricatedFactor}`}>
               <Flexbox ml={1}>
                 <StatIcon statKey="los" label={nodeDivaricatedFactor} />
-                <Typography variant="caption">{getEffectiveLos(nodeDivaricatedFactor).toFixed(2)}</Typography>
+                <Text>{getEffectiveLos(nodeDivaricatedFactor).toFixed(2)}</Text>
               </Flexbox>
             </Tooltip>
           ))}

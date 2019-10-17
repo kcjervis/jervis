@@ -1,13 +1,21 @@
 import { action } from "@storybook/addon-actions"
-import { storiesOf, StoryDecorator } from "@storybook/react"
+import { storiesOf, addDecorator } from "@storybook/react"
 import React from "react"
 import { MuiThemeProvider } from "@material-ui/core"
 
 import theme from "../src/theme"
-import ImprovementSelect from "../src/components/ImprovementSelect"
+import ShipClassSelect from "../src/components/molecules/ShipClassSelect"
+import ShipConditionForm from "../src/components/molecules/ShipConditionForm"
+import { useState } from "@storybook/addons"
 
-const withTheme: StoryDecorator = story => <MuiThemeProvider theme={theme}>{story()}</MuiThemeProvider>
+addDecorator(story => <MuiThemeProvider theme={theme}>{story()}</MuiThemeProvider>)
 
-storiesOf("ImprovementSelect", module)
-  .addDecorator(withTheme)
-  .add("view", () => <ImprovementSelect value={1} onChange={action("onChange")} />)
+storiesOf("ShipClassSelect", module)
+  .add("player", () => <ShipClassSelect shipClassId={1} onChange={action("onChange")} />)
+  .add("abyssal", () => <ShipClassSelect shipClassId={1001} onChange={action("onChange")} variant="abyssal" />)
+  .add("all", () => <ShipClassSelect shipClassId={1} onChange={action("onChange")} variant="all" />)
+
+storiesOf("ShipConditionForm", module).add("a", () => {
+  const [value, setValue] = useState<undefined | number | number[]>(undefined)
+  return <ShipConditionForm value={value} onChange={setValue} />
+})

@@ -10,7 +10,7 @@ import Typography from "@material-ui/core/Typography"
 import Tooltip from "@material-ui/core/Tooltip"
 import { makeStyles, createStyles } from "@material-ui/core/styles"
 
-import { ShipImage, InfoButton, ClearButton, UpdateButton } from "../../components"
+import { ShipImage, InfoButton, ClearButton, UpdateButton, Text } from "../../components"
 import EquipmentForm from "../EquipmentForm"
 
 import ShipStatsExpansionPanel from "./ShipStatsExpansionPanel"
@@ -80,9 +80,9 @@ const ShipCard: React.FC<ShipCardProps> = ({
       <div className={classes.stats}>
         <Box display="flex" alignItems="center" justifyContent="space-between" mr={2}>
           <Tooltip title={`ID: ${ship.masterId}`}>
-            <Typography variant="caption" noWrap style={{ maxWidth: 8 * 11 }}>
+            <Text noWrap style={{ maxWidth: 8 * 11 }}>
               {ship.index + 1} {ship.asKcObject.name}
-            </Typography>
+            </Text>
           </Tooltip>
           <LevelChangeButton value={ship.level} onInput={handleLevelChange} />
           <div style={{ alignItems: "right", visibility }}>

@@ -45,7 +45,7 @@ export default function ShellingAttackTable({ fleet, fleetRole }: ShellingAttack
 
   return (
     <>
-      <Typography variant="caption">艦隊索敵補正 {fleetLosModifier}</Typography>
+      <Typography variant="body2">艦隊索敵補正 {fleetLosModifier}</Typography>
       <Table
         data={attackData}
         columns={[

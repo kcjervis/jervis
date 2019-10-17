@@ -150,7 +150,7 @@ const ShipCalculator: React.FC<ShipCalculatorProps> = ({ ship }) => {
 
   return (
     <Box>
-      <Typography variant="caption" color="error">
+      <Typography variant="body2" color="error">
         攻撃可否未実装(陸上にFBAや魚雷CIはできないので注意)
         <br />
         未実装、不備が多いので参考程度に。何かあれば教えてください。

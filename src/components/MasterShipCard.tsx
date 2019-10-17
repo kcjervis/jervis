@@ -2,17 +2,16 @@ import React from "react"
 
 import { MasterShip, shipStatKeys } from "kc-calculator"
 
-import Card from "@material-ui/core/Card"
 import CardContent from "@material-ui/core/CardContent"
 
-import { makeStyles, Theme } from "@material-ui/core/styles"
+import { makeStyles } from "@material-ui/core/styles"
 import Typography from "@material-ui/core/Typography"
 
 import ShipImage from "./ShipImage"
 import StatChip from "./StatChip"
-import Flexbox from "./Flexbox"
+import { Flexbox } from "./atoms"
 
-const useStyles = makeStyles((theme: Theme) => ({
+const useStyles = makeStyles(theme => ({
   root: {},
   stats: {
     display: "flex",

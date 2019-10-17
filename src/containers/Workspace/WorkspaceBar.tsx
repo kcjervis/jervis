@@ -55,7 +55,7 @@ const WorkspaceBar: React.FC<WorkspaceBarPorps> = ({ workspaceStore, children, .
         </Box>
 
         {paths.map(({ label, path }) => (
-          <Button className={classes.button} key={path} href={"#" + path}>
+          <Button key={path} className={classes.button} href={"#" + path}>
             {label}
           </Button>
         ))}

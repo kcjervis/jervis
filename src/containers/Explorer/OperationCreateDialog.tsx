@@ -40,14 +40,14 @@ const OperationCreateDialog: React.FC<OperationCreateDialogProps> = ({ store, ..
     <Dialog {...dialogProps}>
       <DialogContent>
         <TextField label="編成名" fullWidth inputRef={nameRef} />
-        <Typography component="div" color="primary" variant="caption">
-          未入力は「<Typography variant="caption">{defaultName}</Typography>」になります。
+        <Typography color="primary" variant="overline">
+          未入力は「<Typography variant="overline">{defaultName}</Typography>」になります。
         </Typography>
       </DialogContent>
 
       <DialogContent>
         <TextField label="デッキビルダー形式" fullWidth inputRef={jsonRef} />
-        <Typography component="div" color="primary" variant="caption">
+        <Typography color="primary" variant="overline">
           デッキビルダー形式から編成を作成することもできます。
         </Typography>
       </DialogContent>

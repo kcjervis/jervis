@@ -9,8 +9,8 @@ import Typography from "@material-ui/core/Typography"
 import Tooltip from "@material-ui/core/Tooltip"
 
 import StatLabel from "./StatLabel"
-import Flexbox from "./Flexbox"
 import GearLabel from "./GearLabel"
+import { Flexbox } from "./atoms"
 
 type GearTooltipProps = {
   gear: IGear
@@ -31,7 +31,7 @@ const GearTooltip: React.FC<GearTooltipProps> = ({ gear, ...rest }) => {
       title={
         <Box>
           <GearLabel gear={gear} />
-          <Typography variant="caption">id: {gear.masterId}</Typography>
+          <Typography>id: {gear.masterId}</Typography>
           {statElements}
         </Box>
       }

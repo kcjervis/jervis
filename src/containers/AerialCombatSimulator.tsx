@@ -158,9 +158,7 @@ class AerialCombatSimulator extends React.Component<AerialCombatSimulatorProps, 
               {simulationResult.map(
                 ({ name, count: { 制空権喪失, 航空劣勢, 制空均衡, 航空優勢, 制空権確保 }, fighterPower }) => (
                   <TableRow key={name}>
-                    <TableCell component="th" scope="row">
-                      {name}
-                    </TableCell>
+                    <TableCell scope="row">{name}</TableCell>
                     <TableCell align="right">{制空権喪失}</TableCell>
                     <TableCell align="right">{航空劣勢}</TableCell>
                     <TableCell align="right">{制空均衡}</TableCell>

@@ -135,7 +135,7 @@ const OperationPanel: React.FC<OperationPanelProps> = ({ operation }) => {
           {operation.landBase.length > 0 && <Tab label="基地航空隊" />}
         </Tabs>
 
-        <Typography className={classes.fighterPower} variant="caption">
+        <Typography className={classes.fighterPower} variant="body2">
           第一艦隊制空: {getFighterPower()} {isCombinedFleetOperation ? `連合戦制空: ${getFighterPower(true)}` : ""}
         </Typography>
       </Flexbox>

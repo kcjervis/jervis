@@ -42,7 +42,7 @@ const useStyles = makeStyles({
 })
 
 export const DataTableCell: React.FC<TableCellProps> = props => (
-  <TableCell component="div" variant="body" style={{ display: "flex", alignItems: "center" }} {...props}>
+  <TableCell variant="body" style={{ display: "flex", alignItems: "center" }} {...props}>
     {props.children}
   </TableCell>
 )

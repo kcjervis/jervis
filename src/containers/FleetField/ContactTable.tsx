@@ -86,9 +86,7 @@ export default class ContactTable extends React.Component<ContactTableProps> {
             const { airControlState, successRate, triggerRate, selectionRateMap } = contactChanceInfo
             return (
               <TableRow key={airControlState.name}>
-                <TableCell component="th" scope="row">
-                  {airControlState.name}
-                </TableCell>
+                <TableCell scope="row">{airControlState.name}</TableCell>
                 <TableCell align="right">{toPercent(triggerRate)}</TableCell>
                 <TableCell align="right">{toPercent(successRate)}</TableCell>
                 <TableCell align="right">{toPercent(selectionRateMap[1.2])}</TableCell>

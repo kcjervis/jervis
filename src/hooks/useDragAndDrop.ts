@@ -7,7 +7,6 @@ import {
   DragElementWrapper
 } from "react-dnd"
 import { useRef, useEffect } from "react"
-import { setRef } from "@material-ui/core/utils"
 
 interface DragAndDropSourceHookSpec<DragObject extends DragObjectWithType, DropResult> {
   item: DragObject
