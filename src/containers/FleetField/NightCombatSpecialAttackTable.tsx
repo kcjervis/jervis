@@ -123,7 +123,7 @@ const NightCombatSpecialAttackTable: React.FC<NightCombatSpecialAttackTable> = p
       <Table
         data={data}
         columns={[
-          { label: "艦娘", getValue: datum => datum.name },
+          { label: "艦娘", getValue: datum => datum.name, align: "left" },
           { label: "補正無しCI項", getValue: datum => datum.preModifierValue },
           { label: "CI項", getValue: datum => datum.baseValue },
           { label: "発動率", getValue: datum => attackRateRenderer(datum.cutinRates) },

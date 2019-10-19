@@ -49,7 +49,7 @@ export default function ShellingAttackTable({ fleet, fleetRole }: ShellingAttack
       <Table
         data={attackData}
         columns={[
-          { label: "艦娘", getValue: datum => datum.name },
+          { label: "艦娘", getValue: datum => datum.name, align: "left" },
           { label: "観測項(確保)", getValue: datum => datum.airSupremacy.baseValue },
           { label: "発動率(確保)", getValue: datum => attackRateRenderer(datum.airSupremacy) },
           { label: "合計発動率(確保)", getValue: datum => toPercent(datum.airSupremacy.total) },

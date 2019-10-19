@@ -4,13 +4,11 @@ import { IGear, gearStatKeys } from "kc-calculator"
 import clsx from "clsx"
 
 import Box from "@material-ui/core/Box"
-
-import Typography from "@material-ui/core/Typography"
 import Tooltip from "@material-ui/core/Tooltip"
 
 import StatLabel from "./StatLabel"
 import GearLabel from "./GearLabel"
-import { Flexbox } from "./atoms"
+import { Flexbox, Text } from "./atoms"
 
 type GearTooltipProps = {
   gear: IGear
@@ -31,7 +29,7 @@ const GearTooltip: React.FC<GearTooltipProps> = ({ gear, ...rest }) => {
       title={
         <Box>
           <GearLabel gear={gear} />
-          <Typography>id: {gear.masterId}</Typography>
+          <Text>id: {gear.masterId}</Text>
           {statElements}
         </Box>
       }

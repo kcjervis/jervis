@@ -4,16 +4,16 @@ import { gearStatKeys, IGear } from "kc-calculator"
 
 import Card, { CardProps } from "@material-ui/core/Card"
 import CardContent from "@material-ui/core/CardContent"
-import { makeStyles, Theme } from "@material-ui/core/styles"
+import { makeStyles } from "@material-ui/core/styles"
 import Typography from "@material-ui/core/Typography"
 
 import GearIcon from "./GearIcon"
 import GearImage from "./GearImage"
 import StatChip from "./StatChip"
 import { RemoveButton, UpdateButton, CloseButton } from "./IconButtons"
-import { isBoolean } from "lodash-es"
+import { Text } from "./atoms"
 
-const useStyles = makeStyles((theme: Theme) => ({
+const useStyles = makeStyles(theme => ({
   icon: {
     width: 32,
     height: 32
@@ -56,9 +56,9 @@ const GearCard: React.FC<GearCardProps> = ({ gear, onRemove, onUpdate, onClose, 
   return (
     <Card elevation={12} {...cardProps}>
       <div style={{ display: "flex", justifyContent: "space-between" }}>
-        <Typography variant="subtitle2">
+        <Text>
           ID:{masterId} {category.name}
-        </Typography>
+        </Text>
 
         <div>
           {onRemove && <RemoveButton title="装備を削除" tooltipProps={{ placement: "top" }} onClick={onRemove} />}

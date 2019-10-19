@@ -147,7 +147,6 @@ const ShipCalculator: React.FC<ShipCalculatorProps> = ({ ship }) => {
       formation: state.enemyFormation
     }
   }
-
   return (
     <Box>
       <Typography variant="body2" color="error">
