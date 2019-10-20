@@ -15,8 +15,10 @@ const ShellingStats: React.FC<{ shellingPower: ShellingPowerInformation }> = ({ 
     { label: "連合艦隊補正", value: shellingPower.combinedFleetFactor },
 
     { label: "艦種加算補正", value: antiInstallationModifiers.shipTypeAdditive },
-    { label: "陸上特効加算補正", value: antiInstallationModifiers.additive },
-    { label: "陸上特効乗算補正", value: antiInstallationModifiers.multiplicative },
+    { label: "a13", value: antiInstallationModifiers.a13 },
+    { label: "b13", value: antiInstallationModifiers.b13 },
+    { label: "a13'", value: antiInstallationModifiers.a13d },
+    { label: "b13'", value: antiInstallationModifiers.b13d },
 
     { label: "陣形補正", value: shellingPower.formationModifier },
     { label: "交戦形態補正", value: shellingPower.engagementModifier },
