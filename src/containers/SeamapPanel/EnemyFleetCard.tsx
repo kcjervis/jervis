@@ -123,6 +123,7 @@ const EnemyFleetCard: React.FC<EnemyFleetCardProps> = ({ className, enemy, name,
       )}
       <div>{shipsRenderer(mainFleet.nonNullableShips, formation)}</div>
       <div>{escortFleet && shipsRenderer(escortFleet.nonNullableShips, formation)}</div>
+      <Typography>{formation.name}</Typography>
       <Typography>{toFighterPowerDescription(fighterPower)}</Typography>
       <Typography>{toFighterPowerDescription(interceptionPower)}</Typography>
     </Paper>

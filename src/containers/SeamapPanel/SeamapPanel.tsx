@@ -48,9 +48,9 @@ const difficultyToString = (difficulty: number) => {
 }
 
 class SeamapState {
-  @observable public worldId = 45
-  @observable public mapId = 453
-  @observable public nodeId = "A"
+  @observable public worldId = 6
+  @observable public mapId = 65
+  @observable public nodeId = "M"
   @observable public difficulty = 4
 
   get isEvent() {

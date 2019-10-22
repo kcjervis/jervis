@@ -1,5 +1,5 @@
 import { FleetRole, FleetTypeName, nonNullable } from "kc-calculator"
-import { range } from "lodash-es"
+import { range, floor } from "lodash-es"
 import React from "react"
 
 import Button from "@material-ui/core/Button"
@@ -84,7 +84,7 @@ const FleetField: React.FC<FleetFieldProps> = ({ fleet, operation }) => {
             <Tooltip key={nodeDivaricatedFactor} title={`分岐点係数${nodeDivaricatedFactor}`}>
               <Flexbox ml={1}>
                 <StatIcon statKey="los" label={nodeDivaricatedFactor} />
-                <Text>{getEffectiveLos(nodeDivaricatedFactor).toFixed(2)}</Text>
+                <Text>{floor(getEffectiveLos(nodeDivaricatedFactor), 2)}</Text>
               </Flexbox>
             </Tooltip>
           ))}

@@ -2,7 +2,7 @@ import React from "react"
 import clsx from "clsx"
 import { Redirect } from "react-router-dom"
 
-import { makeStyles, createStyles } from "@material-ui/core/styles"
+import { makeStyles } from "@material-ui/core/styles"
 
 import { CloseButton } from "../../components/IconButtons"
 import { ItemLabel } from "../../components"
@@ -18,7 +18,7 @@ const WorkspaceTabPanel: React.FC<WorkspaceTabPanelProps> = ({ item }) => {
   const { itemSelector } = useWorkspace()
   const state = itemSelector(item)
 
-  const display = item.isActive ? undefined : ("none" as const)
+  const display = item.isActive ? undefined : "none"
   let element: JSX.Element = <Redirect to="operations" />
 
   if (state instanceof ObservableOperation) {
