@@ -37,7 +37,14 @@ const OperationCreateDialog: React.FC<OperationCreateDialogProps> = ({ store, ..
     openOperation(newOperation)
   }
   return (
-    <Dialog {...dialogProps}>
+    <Dialog
+      {...dialogProps}
+      onKeyDown={event => {
+        if (event.keyCode === 13) {
+          handleCreateClick()
+        }
+      }}
+    >
       <DialogContent>
         <TextField label="編成名" fullWidth inputRef={nameRef} />
         <Typography color="primary" variant="overline">
