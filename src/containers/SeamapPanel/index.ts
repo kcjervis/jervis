@@ -1,3 +1,3 @@
-import { SeamapPanelProps } from "./SeamapPanel"
-export type SeamapPanelProps = SeamapPanelProps
+import { SeamapPanelProps as PropsType } from "./SeamapPanel"
+export type SeamapPanelProps = PropsType
 export { default } from "./SeamapPanel"

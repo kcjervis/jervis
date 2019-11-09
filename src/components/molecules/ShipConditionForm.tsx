@@ -1,5 +1,4 @@
 import React from "react"
-import { Condition } from "kc-calculator"
 
 import Typography from "@material-ui/core/Typography"
 import Paper from "@material-ui/core/Paper"

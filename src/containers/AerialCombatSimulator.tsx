@@ -110,7 +110,10 @@ class AerialCombatSimulator extends React.Component<AerialCombatSimulatorProps, 
       .filter(nonNullable)
       .flat()
     const mapper = ([name, battleResult]: [string, typeof battleResults]) => {
-      const count = mapValues(countBy(battleResult, result => result.airStateName), result => toPercent(result / times))
+      const count = mapValues(
+        countBy(battleResult, result => result.airStateName),
+        result => toPercent(result / times)
+      )
       const fighterPower95 = battleResult.map(({ fighterPower }) => fighterPower).sort((fp1, fp2) => fp2 - fp1)[
         Math.floor(times * 0.05)
       ]

@@ -18,9 +18,9 @@ import {
   TableHeaderRenderer,
   TableProps
 } from "react-virtualized"
-import useSort, { Sort } from "./useSort"
+import useSort, { Sort as SortType } from "./useSort"
 
-export type Sort<T> = Sort<T>
+export type Sort<T> = SortType<T>
 
 const useStyles = makeStyles({
   flexContainer: {

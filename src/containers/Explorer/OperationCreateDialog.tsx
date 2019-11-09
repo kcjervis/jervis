@@ -1,4 +1,4 @@
-import React, { useRef } from "react"
+import React, { useRef, useCallback } from "react"
 import clsx from "clsx"
 
 import Button from "@material-ui/core/Button"
@@ -20,7 +20,7 @@ const OperationCreateDialog: React.FC<OperationCreateDialogProps> = ({ store, ..
 
   const defaultName = `編成${store.operations.length}`
 
-  const handleCreateClick = () => {
+  const handleCreateClick = useCallback(() => {
     if (!nameRef.current || !jsonRef.current) {
       return
     }
@@ -32,19 +32,22 @@ const OperationCreateDialog: React.FC<OperationCreateDialogProps> = ({ store, ..
     } catch {
       newOperation = store.createOperation(name)
     }
-
     dialogProps.onClose()
     openOperation(newOperation)
-  }
+  }, [store, dialogProps.onClose])
+
+  const handleEnterClick = useCallback(
+    (event: React.KeyboardEvent) => {
+      if (event.keyCode === 13) {
+        event.preventDefault()
+        handleCreateClick()
+      }
+    },
+    [handleCreateClick]
+  )
+
   return (
-    <Dialog
-      {...dialogProps}
-      onKeyDown={event => {
-        if (event.keyCode === 13) {
-          handleCreateClick()
-        }
-      }}
-    >
+    <Dialog {...dialogProps} onKeyDown={handleEnterClick}>
       <DialogContent>
         <TextField label="編成名" fullWidth inputRef={nameRef} />
         <Typography color="primary" variant="overline">

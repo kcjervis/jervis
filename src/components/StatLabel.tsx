@@ -9,6 +9,7 @@ import { makeStyles } from "@material-ui/core/styles"
 import StatIcon from "./StatIcon"
 
 import statKeys from "../data/statKeys"
+import { Text } from "./atoms"
 
 const useStyles = makeStyles({
   root: {
@@ -71,15 +72,15 @@ const StatLabel: React.FC<StatLabelProps> = props => {
   const label = (
     <div className={clsx(classes.root, className)} {...rest}>
       <StatIcon statKey={statKey} label={visibleStatName ? statName : undefined} />
-      <Typography variant="subtitle2" style={{ lineHeight: undefined }}>
+      <Text variant="subtitle2" style={{ lineHeight: undefined }}>
         {displayValue}
-      </Typography>
+      </Text>
       {visibleBonus && (
         <>
-          <Typography>(</Typography>
-          <Typography color="primary">{valueToString(increased)}</Typography>
-          <Typography color="secondary">{valueToString(bonus)}</Typography>
-          <Typography>)</Typography>
+          <Text>(</Text>
+          <Text color="primary">{valueToString(increased)}</Text>
+          <Text color="secondary">{valueToString(bonus)}</Text>
+          <Text>)</Text>
         </>
       )}
     </div>

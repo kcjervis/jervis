@@ -12,7 +12,7 @@ export const useShipStat = ({ ship, statKey }: { ship: ObservableShip; statKey: 
   const stat = stats[statKey]
   const nakedStat = nakedStats[statKey]
   const totalEquipmentStat = ship.asKcObject.totalEquipmentStats(statKey)
-  const bonus = stats.statsBonus ? stats.statsBonus[statKey] : 0
+  const bonus = stats.getBonus(statKey)
   const increasedStat = ship.increased[statKey] || 0
   const rawStat = nakedStat - increasedStat
 

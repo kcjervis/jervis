@@ -44,8 +44,18 @@ const calcFleetCutinRate = (dataMap: RateDataMap, aaci: AntiAirCutin) => {
   let gtRate = 0
   let ltRate = 1
   dataMap.forEach(data => {
-    gtRate += (1 - gtRate) * sumBy(data.filter(datum => datum.cutin.id > aaci.id), datum => datum.rate)
-    ltRate *= 1 - sumBy(data.filter(datum => datum.cutin.id >= aaci.id), datum => datum.rate)
+    gtRate +=
+      (1 - gtRate) *
+      sumBy(
+        data.filter(datum => datum.cutin.id > aaci.id),
+        datum => datum.rate
+      )
+    ltRate *=
+      1 -
+      sumBy(
+        data.filter(datum => datum.cutin.id >= aaci.id),
+        datum => datum.rate
+      )
   })
 
   return 1 - (gtRate + ltRate)
