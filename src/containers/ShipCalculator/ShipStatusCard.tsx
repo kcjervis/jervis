@@ -5,7 +5,6 @@ import {
   Engagement,
   DayCombatSpecialAttack,
   ShipShellingStatus,
-  InstallationType,
   NightCombatSpecialAttack,
   ShipNightAttackStatus,
   BattleState,
@@ -27,6 +26,7 @@ import { toPercent } from "../../utils"
 import { Select, Table, Flexbox, NumberInput, AttackChip } from "../../components"
 import { useSelect, useInput, useCheck } from "../../hooks"
 import ShellingStats from "./ShellingStats"
+import EnemyType from "./EnemyType"
 
 const useStyles = makeStyles(
   createStyles({
@@ -40,22 +40,13 @@ export const getAttackName = (attack?: DayCombatSpecialAttack | NightCombatSpeci
   <AttackChip attack={attack} />
 )
 
-const installationTypes: InstallationType[] = ["None", "SoftSkinned", "Pillbox", "IsolatedIsland", "SupplyDepot"]
-const installationTypeToJp = (type: InstallationType) =>
-  ({ None: "水上艦", SoftSkinned: "ソフトスキン", Pillbox: "砲台", IsolatedIsland: "離島", SupplyDepot: "集積" }[type])
-
-export const useInstallationTypeSelect = (init?: InstallationType) => {
-  const select = useSelect(installationTypes, init)
-  const getOptionLabel = installationTypeToJp
-  return { ...select, getOptionLabel }
-}
-
 type ShipStatusCardProps = {
   battleState: BattleState
   shipInformation: ShipInformation
   combinedFleetFactor: number
   specialAttackRate: ReturnType<typeof DayCombatSpecialAttack.calcRate>
   nightContactModifier: number
+  eventMapModifier: number
 } & PaperProps
 
 const ShipShellingStatusCard: React.FC<ShipStatusCardProps> = props => {
@@ -66,6 +57,7 @@ const ShipShellingStatusCard: React.FC<ShipStatusCardProps> = props => {
     combinedFleetFactor,
     specialAttackRate,
     nightContactModifier,
+    eventMapModifier,
     className,
     ...paperProps
   } = props
@@ -77,8 +69,8 @@ const ShipShellingStatusCard: React.FC<ShipStatusCardProps> = props => {
   )
 
   const apCheck = useCheck()
-  const installationTypeSelect = useInstallationTypeSelect()
-  const [eventMapModifier, setEventMapModifier] = useState(1)
+  const enemyTypeSelect = useSelect(EnemyType.values)
+  const target = enemyTypeSelect.value.ship
 
   const createShellingCellRenderer = (isCritical: boolean) => (specialAttack?: DayCombatSpecialAttack) => {
     const shellingPower = shellingStatus.calcPower({
@@ -88,8 +80,8 @@ const ShipShellingStatusCard: React.FC<ShipStatusCardProps> = props => {
       combinedFleetFactor,
       specialAttack,
       isArmorPiercing: apCheck.checked,
-      installationType: installationTypeSelect.value,
-      eventMapModifier
+      eventMapModifier,
+      target
     })
     const color = shellingPower.isCapped ? "secondary" : "inherit"
     return (
@@ -107,10 +99,10 @@ const ShipShellingStatusCard: React.FC<ShipStatusCardProps> = props => {
     const nightAttackPower = nightStatus.calcPower({
       ...shipInformation,
       nightContactModifier,
-      installationType: installationTypeSelect.value,
       specialAttack,
       isCritical,
-      eventMapModifier
+      eventMapModifier,
+      target
     })
     const color = nightAttackPower.isCapped ? "secondary" : "inherit"
 
@@ -137,15 +129,8 @@ const ShipShellingStatusCard: React.FC<ShipStatusCardProps> = props => {
     <Paper className={clsx(className, classes.root)} {...paperProps}>
       <Flexbox mt={1}>
         <Typography variant="subtitle2">簡易計算機</Typography>
-        <Select label="敵種別" style={{ minWidth: 80, marginLeft: 8 }} {...installationTypeSelect} />
+        <Select label="敵種別" style={{ minWidth: 80, marginLeft: 8 }} {...enemyTypeSelect} />
         {visibleAp && <FormControlLabel label={`徹甲弾補正`} control={<Checkbox {...apCheck} />} />}
-        <NumberInput
-          label="イベント特効(a11)"
-          style={{ width: 8 * 17 }}
-          step={0.1}
-          value={eventMapModifier}
-          onChange={setEventMapModifier}
-        />
       </Flexbox>
 
       <Typography style={{ marginTop: 8 }} variant="subtitle2">

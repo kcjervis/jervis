@@ -68,7 +68,6 @@ type AttackStatusProps = {
   defender: ShipInformation
 
   eventMapModifier?: number
-  manualInstallationType?: InstallationType
 
   nightContactModifier?: number
   remainingAmmoModifier?: number
@@ -81,7 +80,6 @@ const AttackStatus: React.FC<AttackStatusProps> = props => {
     attacker,
     defender,
     eventMapModifier,
-    manualInstallationType,
     nightContactModifier,
     remainingAmmoModifier,
     fitGunBonus
@@ -107,7 +105,6 @@ const AttackStatus: React.FC<AttackStatusProps> = props => {
       isCritical,
       eventMapModifier,
       remainingAmmoModifier,
-      manualInstallationType,
       fitGunBonus
     )
 
@@ -142,8 +139,7 @@ const AttackStatus: React.FC<AttackStatusProps> = props => {
       isCritical,
       nightContactModifier,
       eventMapModifier,
-      remainingAmmoModifier,
-      manualInstallationType
+      remainingAmmoModifier
     )
 
   const nightAttackHitRateRenderer = (specialAttack?: NightCombatSpecialAttack) => {

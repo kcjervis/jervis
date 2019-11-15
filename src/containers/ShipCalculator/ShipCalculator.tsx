@@ -137,6 +137,8 @@ const ShipCalculator: React.FC<ShipCalculatorProps> = ({ ship }) => {
   const nightContactCheck = useCheck()
   const nightContactModifier = nightContactCheck.checked ? 5 : 0
 
+  const [eventMapModifier, setEventMapModifier] = useState(1)
+
   const getEnemyInfo = (ship: IShip) => {
     return {
       ship,
@@ -189,6 +191,13 @@ const ShipCalculator: React.FC<ShipCalculatorProps> = ({ ship }) => {
           <RadioGroup {...displayModeSelect} getOptionLabel={mode => (mode === "Attack" ? "攻撃" : "防御")} />
           <Select label="相手艦隊種別" style={{ width: 8 * 15 }} {...form.enemyFleetType} />
           <Select label="相手陣形" {...form.enemyFormation} />
+          <NumberInput
+            label="イベント特効(a11)"
+            style={{ width: 8 * 17 }}
+            step={0.1}
+            value={eventMapModifier}
+            onChange={setEventMapModifier}
+          />
         </Flexbox>
 
         <Box mt={1} display="flex" flexWrap="wrap" justifyContent="space-between">
@@ -200,6 +209,7 @@ const ShipCalculator: React.FC<ShipCalculatorProps> = ({ ship }) => {
             shipInformation={attacker}
             combinedFleetFactor={combinedFleetFactor}
             nightContactModifier={nightContactModifier}
+            eventMapModifier={eventMapModifier}
             specialAttackRate={specialAttackRate}
           />
         </Box>
@@ -213,6 +223,7 @@ const ShipCalculator: React.FC<ShipCalculatorProps> = ({ ship }) => {
               enemyShip={enemy}
               remainingAmmoModifier={remainingAmmoModifier}
               nightContactModifier={nightContactModifier}
+              eventMapModifier={eventMapModifier}
               fitGunBonus={fitGunBonus}
               isAttack={displayModeSelect.value === "Attack"}
             />
