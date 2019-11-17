@@ -72,9 +72,7 @@ const StatLabel: React.FC<StatLabelProps> = props => {
   const label = (
     <div className={clsx(classes.root, className)} {...rest}>
       <StatIcon statKey={statKey} label={visibleStatName ? statName : undefined} />
-      <Text variant="subtitle2" style={{ lineHeight: undefined }}>
-        {displayValue}
-      </Text>
+      <Text>{displayValue}</Text>
       {visibleBonus && (
         <>
           <Text>(</Text>

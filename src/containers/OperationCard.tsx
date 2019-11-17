@@ -5,27 +5,24 @@ import Card from "@material-ui/core/Card"
 import CardContent from "@material-ui/core/CardContent"
 import CardActions from "@material-ui/core/CardActions"
 import Typography from "@material-ui/core/Typography"
-import { makeStyles, createStyles, Theme } from "@material-ui/core/styles"
+import { makeStyles } from "@material-ui/core/styles"
 
-import { CopyButton, RemoveButton, ShareButton } from "../components/IconButtons"
-import ShipImage from "../components/ShipImage"
+import { CopyButton, RemoveButton, ShareButton, ShipImage } from "../components"
 import OperationShareDialog from "./OperationShareDialog"
 
 import { ObservableOperation } from "../stores"
 import { useWorkspace, useDragAndDrop, useOpen } from "../hooks"
 
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    root: {
-      margin: 8,
-      width: 8 * 40,
-      display: "flex",
-      flexDirection: "column",
-      justifyContent: "space-between"
-    },
-    actions: {}
-  })
-)
+const useStyles = makeStyles({
+  root: {
+    margin: 8,
+    width: 8 * 40,
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "space-between"
+  },
+  actions: {}
+})
 
 export interface OperationCardProps {
   operation: ObservableOperation

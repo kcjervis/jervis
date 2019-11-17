@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react"
+import React, { useState, useEffect, useCallback, useMemo } from "react"
 import clsx from "clsx"
 
 import TextField, { TextFieldProps } from "@material-ui/core/TextField"
@@ -26,6 +26,9 @@ const useStyles = makeStyles({
   },
   label: {
     whiteSpace: "nowrap"
+  },
+  adornment: {
+    visibility: "hidden"
   }
 })
 
@@ -131,7 +134,7 @@ export default function NumberInput({ value, onChange, min, max, step = 1, ...te
       InputLabelProps={{ className: classes.label }}
       InputProps={{
         endAdornment: (
-          <InputAdornment position="end" style={{ visibility: isHovered ? undefined : "hidden" }}>
+          <InputAdornment className={clsx({ [classes.adornment]: !isHovered })} position="end">
             <div>
               <Button className={classes.button} size="small" {...increaseProps}>
                 <ArrowDropUpIcon fontSize="inherit" />

@@ -3,22 +3,23 @@ import React from "react"
 import { GearStatKey, ShipStatKey } from "kc-calculator"
 
 import { makeStyles, Theme } from "@material-ui/core/styles"
+import { Text } from "./atoms"
 import Typography from "@material-ui/core/Typography"
 
 const useStyles = makeStyles({
   root: {
     display: "flex",
-    alignItems: "flex-end",
+    alignItems: "center",
     marginRight: 4
   },
-  icon: {
-    width: 8 * 2,
-    height: 8 * 2,
+  image: {
+    width: 15,
+    height: 15,
+    padding: 1,
     filter: "contrast(180%) opacity(0.9)"
   },
   label: {
-    fontSize: 10,
-    lineHeight: 1
+    fontSize: 10
   }
 })
 
@@ -38,8 +39,8 @@ const ShipIcon: React.FC<ShipIcon> = ({ statKey, label }) => {
 
   return (
     <div className={classes.root}>
-      <img className={classes.icon} src={image} />
-      <Typography className={classes.label}>{label}</Typography>
+      <img className={classes.image} src={image} />
+      <Text className={classes.label}>{label}</Text>
     </div>
   )
 }

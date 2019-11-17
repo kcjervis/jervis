@@ -62,6 +62,9 @@ const useStyles = makeStyles({
   },
   messageIcon: {
     fontSize: 20
+  },
+  jsonField: {
+    flexGrow: 1
   }
 })
 
@@ -95,8 +98,14 @@ const OperationShareDialog: React.FC<OperationShareDialogProps> = ({ operation, 
             </Button>
           )}
         </DialogContent>
-        <DialogContent>
-          <TextField color="primary" label="デッキビルダー形式" value={predeck} />
+        <DialogContent className={classes.message}>
+          <TextField
+            className={classes.jsonField}
+            color="primary"
+            variant="outlined"
+            label="デッキビルダー形式"
+            value={predeck}
+          />
           <CopyButton text={predeck} title="デッキビルダー形式をコピー" onCopy={handleSnackbarOpen} />
         </DialogContent>
         <DialogActions>

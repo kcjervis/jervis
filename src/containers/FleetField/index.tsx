@@ -78,8 +78,8 @@ const FleetField: React.FC<FleetFieldProps> = ({ fleet, operation }) => {
     <>
       <Flexbox>
         <Flexbox flexGrow={1}>
-          <Typography>制空: {fleet.asKcObject.fighterPower}</Typography>
-          <Typography style={{ marginLeft: 8 }}>マップ索敵: </Typography>
+          <Text>制空: {fleet.asKcObject.fighterPower}</Text>
+          <Text style={{ marginLeft: 8 }}>マップ索敵: </Text>
           {range(1, 6).map(nodeDivaricatedFactor => (
             <Tooltip key={nodeDivaricatedFactor} title={`分岐点係数${nodeDivaricatedFactor}`}>
               <Flexbox ml={1}>

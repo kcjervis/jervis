@@ -94,21 +94,21 @@ const OperationLabel: React.FC<OperationLabelProps> = ({ operation, temporary })
               <ListItemIcon>
                 <DeleteIcon />
               </ListItemIcon>
-              <ListItemText inset primary="編成を削除" />
+              <ListItemText primary="編成を削除" />
             </MenuItem>
 
             <MenuItem onClick={handleCopyClick}>
               <ListItemIcon>
                 <FileCopyIcon />
               </ListItemIcon>
-              <ListItemText inset primary="編成をコピー" />
+              <ListItemText primary="編成をコピー" />
             </MenuItem>
 
             <MenuItem onClick={onShareOpen}>
               <ListItemIcon>
                 <ShareIcon />
               </ListItemIcon>
-              <ListItemText inset primary="編成を共有" />
+              <ListItemText primary="編成を共有" />
             </MenuItem>
           </MenuList>
         </ClickAwayListener>

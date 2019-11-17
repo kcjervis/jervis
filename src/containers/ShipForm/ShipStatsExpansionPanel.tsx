@@ -9,7 +9,7 @@ import Button from "@material-ui/core/Button"
 import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary"
 import Box from "@material-ui/core/Box"
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore"
-import { makeStyles, createStyles, Theme } from "@material-ui/core/styles"
+import { makeStyles } from "@material-ui/core/styles"
 import Grid from "@material-ui/core/Grid"
 
 import ShipStatDialog from "./ShipStatDialog"
@@ -17,21 +17,19 @@ import HealthBarDialog from "./HealthBarDialog"
 import ShipStatLabel from "./ShipStatLabel"
 
 import { ObservableShip } from "../../stores"
-import { MoraleBar, MoraleDialog } from "../../components"
+import { MoraleBar, MoraleDialog, Text } from "../../components"
 
-const useStyles = makeStyles(
-  createStyles({
-    summary: {
-      padding: "0 8px"
-    },
-    summaryStat: {
-      minWidth: 8 * 7
-    },
-    expanded: {
-      opacity: 0
-    }
-  })
-)
+const useStyles = makeStyles({
+  summary: {
+    padding: "0 8px"
+  },
+  summaryStat: {
+    minWidth: 8 * 7
+  },
+  expanded: {
+    opacity: 0
+  }
+})
 
 interface ShipStatsExpansionPanelProps {
   ship: ObservableShip
@@ -57,9 +55,7 @@ const ShipStatsExpansionPanel: React.FC<ShipStatsExpansionPanelProps> = ({ ship,
             <ShipStatDialog statKey={statKey} ship={ship} />
           </Grid>
           <Grid item={true} xs={6}>
-            <Typography variant="subtitle2" style={{ padding: 4 }}>
-              制空: {ship.asKcObject.fighterPower}
-            </Typography>
+            <Text style={{ padding: 4 }}>制空: {ship.asKcObject.fighterPower}</Text>
           </Grid>
         </React.Fragment>
       )

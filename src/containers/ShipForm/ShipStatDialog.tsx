@@ -47,7 +47,7 @@ const ShipStatDialog: React.FC<ShipStatDialogProps> = props => {
   const { ship, statKey } = props
 
   const statData = statKeys.find(statData => statData.key === statKey)
-  const title = statData && statData.name
+  const title = statData?.name
   return (
     <div>
       <Tooltip title={title}>

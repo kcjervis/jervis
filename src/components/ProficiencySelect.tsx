@@ -4,12 +4,20 @@ import { Proficiency } from "kc-calculator/dist/objects/gear"
 import Button from "@material-ui/core/Button"
 import Tooltip from "@material-ui/core/Tooltip"
 import Popover from "@material-ui/core/Popover"
-import Input from "@material-ui/core/Input"
-import { makeStyles, Theme } from "@material-ui/core/styles"
+import { makeStyles } from "@material-ui/core/styles"
 
 import ProficiencyIcon from "./ProficiencyIcon"
-
+import NumberInput from "./NumberInput"
+import { Flexbox } from "./atoms"
 import { useAnchorEl, useBaseStyles } from "../hooks"
+
+const useStyles = makeStyles({
+  input: {
+    marginLeft: 8,
+    marginRight: 8,
+    width: 64
+  }
+})
 
 interface ProficiencySelectProps {
   internal: number
@@ -18,21 +26,16 @@ interface ProficiencySelectProps {
 
 const ProficiencySelect: React.FC<ProficiencySelectProps> = ({ internal, onChange }) => {
   const { anchorEl, onClick, onClose } = useAnchorEl()
-  const classes = useBaseStyles()
-
+  const baseClasses = useBaseStyles()
+  const classes = useStyles()
   const handleMenuItemClick = (internal: number) => () => {
     onClose()
     onChange(internal)
   }
-  const handleChange = useCallback(
-    (event: React.ChangeEvent<HTMLInputElement>) => onChange(Number(event.currentTarget.value)),
-    [onChange]
-  )
-
   return (
     <>
       <Tooltip title="熟練度選択">
-        <ProficiencyIcon className={classes.brightButton} onClick={onClick} internal={internal} />
+        <ProficiencyIcon className={baseClasses.brightButton} onClick={onClick} internal={internal} />
       </Tooltip>
 
       <Popover
@@ -44,19 +47,14 @@ const ProficiencySelect: React.FC<ProficiencySelectProps> = ({ internal, onChang
         anchorEl={anchorEl}
         onClose={onClose}
       >
-        <div style={{ height: 40, width: 384 }}>
+        <Flexbox>
           {Proficiency.internalBounds.concat(120).map(inter => (
-            <Button style={{ height: 40 }} key={inter} onClick={handleMenuItemClick(inter)}>
+            <Button key={inter} onClick={handleMenuItemClick(inter)}>
               <ProficiencyIcon internal={inter} />
             </Button>
           ))}
-          <Input
-            style={{ marginLeft: 8, width: 56 }}
-            inputProps={{ type: "number", min: 0, max: 120 }}
-            value={internal}
-            onChange={handleChange}
-          />
-        </div>
+          <NumberInput className={classes.input} value={internal} onChange={onChange} min={0} max={120} />
+        </Flexbox>
       </Popover>
     </>
   )
