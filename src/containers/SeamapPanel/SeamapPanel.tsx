@@ -57,6 +57,12 @@ class SeamapState {
     return this.mapId > 100
   }
 
+  get nodeName() {
+    const { worldId, mapId, nodeId, difficulty } = this
+    const area = Math.floor(this.mapId / 10)
+    return `${worldId}-${area}${nodeId} ${difficultyToString(difficulty)}`
+  }
+
   @computed get visibleMaps() {
     const { worldId } = this
     return formattedMaps.filter(map => Math.floor(map.mapId / 10) === worldId)
@@ -138,7 +144,6 @@ export type SeamapPanelProps = {
 
 const SeamapPanel: React.FC<SeamapPanelProps> = ({ onSelect }) => {
   const classes = useStyles()
-
   const state = useContext(SeamapStateContext)
 
   return (
@@ -154,7 +159,13 @@ const SeamapPanel: React.FC<SeamapPanelProps> = ({ onSelect }) => {
       </div>
 
       {state.visibleEnemies.map((enemy, index) => (
-        <EnemyFleetCard key={index} className={classes.fleetCard} enemy={enemy} name={name} onSelect={onSelect} />
+        <EnemyFleetCard
+          key={index}
+          className={classes.fleetCard}
+          enemy={enemy}
+          name={state.nodeName}
+          onSelect={onSelect}
+        />
       ))}
     </Box>
   )

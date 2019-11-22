@@ -1,4 +1,4 @@
-import { configure, addParameters } from '@storybook/react';
+import { configure, addParameters, addDecorator } from '@storybook/react';
 import { themes } from '@storybook/theming';
 
 // Option defaults.
@@ -8,10 +8,4 @@ addParameters({
   },
 });
 
-const req = require.context('../stories', true, /.tsx$/);
-
-function loadStories() {
-  req.keys().forEach(req);
-}
-
-configure(loadStories, module);
+configure(require.context('../src', true, /.stories.tsx$/), module);

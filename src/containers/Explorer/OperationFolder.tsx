@@ -38,19 +38,16 @@ type OperationsFolderProps = {
 const OperationsFolder: React.FC<OperationsFolderProps> = ({ store }) => {
   const { onOpen, ...dialogProps } = useOpen()
   const classes = useStyles()
-  const { temporaryOperationStore } = useOperationStore()
+  const { temporaryOperationStore, persistentOperationStore } = useOperationStore()
   const temporary = temporaryOperationStore === store
 
-  const [collectedProps, dropRef] = useDrop({
-    accept: "OperationLabel",
-    drop: (item: { type: "OperationLabel"; operation: ObservableOperation }) => {
-      store.push(item.operation)
-    }
-  })
+  const handleSave = (operation: ObservableOperation) => {
+    persistentOperationStore.push(operation)
+  }
 
   return (
     <>
-      <div className={classes.root} ref={dropRef}>
+      <div className={classes.root}>
         <ItemLabel
           className={classes.folder}
           icon={<FolderIcon fontSize="inherit" color={temporary ? undefined : "secondary"} />}
@@ -62,7 +59,7 @@ const OperationsFolder: React.FC<OperationsFolderProps> = ({ store }) => {
       </div>
       <div className={classes.inner}>
         {store.operations.map(operation => (
-          <OperationLabel key={operation.id} temporary={temporary} operation={operation} />
+          <OperationLabel key={operation.id} operation={operation} temporary={temporary} onSave={handleSave} />
         ))}
       </div>
 

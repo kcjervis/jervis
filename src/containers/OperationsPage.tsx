@@ -1,10 +1,12 @@
 import { observer } from "mobx-react-lite"
-import React from "react"
+import React, { useMemo } from "react"
 
+import Paper from "@material-ui/core/Paper"
 import Button from "@material-ui/core/Button"
+import List from "@material-ui/core/List"
 import Add from "@material-ui/icons/Add"
 
-import OperationCard from "./OperationCard"
+import SortableOperationListItem from "./SortableOperationListItem"
 
 import { ObservableOperation } from "../stores"
 import { useOperationStore, useOpen } from "../hooks"
@@ -16,19 +18,21 @@ const OperationsPage: React.FC = props => {
   const { onOpen: onDialogOpen, ...dialogProps } = useOpen()
 
   return (
-    <div style={{ margin: 8 }}>
-      <Button onClick={onDialogOpen} fullWidth size="large">
+    <div style={{ margin: 8, maxWidth: 1000 }}>
+      <Button onClick={onDialogOpen} variant="outlined" size="large">
         <Add />
-        編成を追加
+        編成を作成
       </Button>
 
       <OperationCreateDialog store={persistentOperationStore} {...dialogProps} />
 
-      <div style={{ display: "flex", flexWrap: "wrap" }}>
-        {persistentOperationStore.operations.map((operation, index) => (
-          <OperationCard key={index} operation={operation} />
-        ))}
-      </div>
+      <Paper>
+        <List>
+          {persistentOperationStore.operations.map((operation, index) => (
+            <SortableOperationListItem key={index} operation={operation} />
+          ))}
+        </List>
+      </Paper>
     </div>
   )
 }

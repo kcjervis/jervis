@@ -32,3 +32,5 @@ export * from "./IconButtons"
 export { default as Table } from "./Table"
 
 export * from "./atoms"
+export * from "./molecules"
+export * from "./organisms"

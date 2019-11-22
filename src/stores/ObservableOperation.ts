@@ -91,14 +91,22 @@ export default class ObservableOperation implements IOperationDataObject, StoreI
     }
   }
 
+  public get index() {
+    const { store } = this
+    if (!store) {
+      return -1
+    }
+    return store.operations.indexOf(this)
+  }
+
   @action public swap = (target: ObservableOperation) => {
     const { store } = this
     const targetStore = target.store
     if (!store || !targetStore) {
       return
     }
-    const index = store.operations.indexOf(this)
-    const targetIndex = targetStore.operations.indexOf(target)
+    const index = this.index
+    const targetIndex = target.index
     store.set(index, target)
     targetStore.set(targetIndex, this)
   }

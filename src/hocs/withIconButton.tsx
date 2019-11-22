@@ -12,8 +12,9 @@ export interface WithIconButtonProps extends IconButtonProps {
 
 const withIconButton = (WrappedIcon: typeof SvgIcon & React.FC) => {
   const WithIconButton: React.FC<WithIconButtonProps> = ({ title, label, tooltipProps, ...iconButonProps }) => {
+    const fontSize = iconButonProps.size === "small" ? undefined : 20
     const WrappedButton = (
-      <IconButton {...iconButonProps}>
+      <IconButton {...iconButonProps} style={{ fontSize }}>
         <WrappedIcon fontSize="inherit" />
         {label}
       </IconButton>

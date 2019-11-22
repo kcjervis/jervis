@@ -1,11 +1,4 @@
-import {
-  useDrag,
-  useDrop,
-  DragObjectWithType,
-  DropTargetMonitor,
-  DragSourceMonitor,
-  DragElementWrapper
-} from "react-dnd"
+import { useDrag, useDrop, DragObjectWithType, DropTargetMonitor, DragSourceMonitor } from "react-dnd"
 import { useRef, useEffect } from "react"
 
 interface DragAndDropSourceHookSpec<DragObject extends DragObjectWithType, DropResult> {
@@ -25,7 +18,7 @@ const useDragAndDrop = <DragObject extends DragObjectWithType, DropResult>(
     collect: monitor => ({ isDragging: monitor.isDragging() })
   })
 
-  const [dropCollectedProps, dropRef] = useDrop({ accept: item.type, drop })
+  const [, dropRef] = useDrop({ accept: item.type, drop })
 
   const { isDragging } = dragCollectedProps
 

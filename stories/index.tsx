@@ -10,12 +10,10 @@ import { useState } from "@storybook/addons"
 
 addDecorator(story => <MuiThemeProvider theme={theme}>{story()}</MuiThemeProvider>)
 
-storiesOf("ShipClassSelect", module)
-  .add("player", () => <ShipClassSelect shipClassId={1} onChange={action("onChange")} />)
-  .add("abyssal", () => <ShipClassSelect shipClassId={1001} onChange={action("onChange")} variant="abyssal" />)
-  .add("all", () => <ShipClassSelect shipClassId={1} onChange={action("onChange")} variant="all" />)
+export default { title: "atoms|ShipClassSelect" }
 
-storiesOf("ShipConditionForm", module).add("a", () => {
-  const [value, setValue] = useState<undefined | number | number[]>(undefined)
-  return <ShipConditionForm value={value} onChange={setValue} />
-})
+export const player = () => <ShipClassSelect shipClassId={1} onChange={action("onChange")} />
+
+export const abyssal = () => <ShipClassSelect shipClassId={1001} onChange={action("onChange")} variant="abyssal" />
+
+export const all = () => <ShipClassSelect shipClassId={1} onChange={action("onChange")} variant="all" />

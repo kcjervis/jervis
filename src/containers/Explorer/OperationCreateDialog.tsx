@@ -20,7 +20,7 @@ const OperationCreateDialog: React.FC<OperationCreateDialogProps> = ({ store, ..
 
   const defaultName = `編成${store.operations.length}`
 
-  const handleCreateClick = useCallback(() => {
+  const handleCreateClick = () => {
     if (!nameRef.current || !jsonRef.current) {
       return
     }
@@ -34,7 +34,7 @@ const OperationCreateDialog: React.FC<OperationCreateDialogProps> = ({ store, ..
     }
     dialogProps.onClose()
     openOperation(newOperation)
-  }, [store, dialogProps.onClose])
+  }
 
   const handleEnterClick = useCallback(
     (event: React.KeyboardEvent) => {

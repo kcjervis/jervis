@@ -6,25 +6,23 @@ import Chip from "@material-ui/core/Chip"
 import Tooltip from "@material-ui/core/Tooltip"
 import orange from "@material-ui/core/colors/orange"
 import indigo from "@material-ui/core/colors/indigo"
-import { makeStyles, createStyles } from "@material-ui/core/styles"
+import { makeStyles } from "@material-ui/core/styles"
 
 import LabeledValue from "./LabeledValue"
 
-const useStyles = makeStyles(
-  createStyles({
-    root: {
-      minWidth: 8 * 6
-    },
-    shelling: {
-      color: orange[500],
-      borderColor: orange[500]
-    },
-    nightAttack: {
-      color: indigo[200],
-      borderColor: indigo[200]
-    }
-  })
-)
+const useStyles = makeStyles({
+  root: {
+    minWidth: 8 * 6
+  },
+  shelling: {
+    color: orange[500],
+    borderColor: orange[500]
+  },
+  nightAttack: {
+    color: indigo[200],
+    borderColor: indigo[200]
+  }
+})
 
 type AttackChipProps = {
   attack?: DayCombatSpecialAttack | NightCombatSpecialAttack

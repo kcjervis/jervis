@@ -29,6 +29,11 @@ export default createMuiTheme({
       disabled: "rgba(180, 180, 216, 0.5)"
     }
   },
+  props: {
+    MuiTable: {
+      padding: "none"
+    }
+  },
   overrides: {
     MuiTypography: {
       root: {
@@ -100,12 +105,6 @@ export default createMuiTheme({
           color: "rgba( 255, 255, 255, 1 )",
           textShadow: "0 0 10px #fff,0 0 15px #fff"
         }
-      }
-    },
-
-    MuiTableCell: {
-      root: {
-        padding: 0
       }
     },
     MuiTableRow: {
