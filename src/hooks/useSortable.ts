@@ -25,13 +25,12 @@ export const useSortable = <T extends SortableProps>(props: T) => {
         return
       }
       const hoverBoundingRect = ref.current.getBoundingClientRect()
-      const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2
-      const hoverClientY = clientOffset.y - hoverBoundingRect.top
+      const clientOffsetY = clientOffset.y
 
-      if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
+      if (dragIndex < hoverIndex && clientOffsetY < hoverBoundingRect.top) {
         return
       }
-      if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) {
+      if (dragIndex > hoverIndex && clientOffsetY > hoverBoundingRect.bottom) {
         return
       }
       move(dragIndex, hoverIndex)

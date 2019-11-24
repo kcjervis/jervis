@@ -1,5 +1,5 @@
-import React from "react"
-import { DragPreviewImage } from "react-dnd"
+import React, { useEffect } from "react"
+import { observer } from "mobx-react-lite"
 import { getEmptyImage } from "react-dnd-html5-backend"
 import clsx from "clsx"
 import { isNonNullable } from "kc-calculator"
@@ -14,7 +14,7 @@ import { ObservableOperation } from "../stores"
 import { useWorkspace, useOpen, useSortable } from "../hooks"
 
 const useStyles = makeStyles({
-  dragging: { opacity: 0.5 }
+  root: {}
 })
 
 export interface SortableOperationListItemProps {
@@ -52,20 +52,20 @@ const SortableOperationListItem: React.FC<SortableOperationListItemProps> = ({ o
 
   return (
     <>
-      <div ref={ref} className={clsx({ [classes.dragging]: isDragging })}>
-        <OperationListItem
-          operationName={operation.name}
-          shipIds={shipIds}
-          onClick={handleOpen}
-          onCopy={handleCopy}
-          onShare={onOpen}
-          onRemove={operation.remove}
-        />
-      </div>
+      <OperationListItem
+        innerRef={ref}
+        className={classes.root}
+        operationName={operation.name}
+        shipIds={shipIds}
+        onClick={handleOpen}
+        onCopy={handleCopy}
+        onShare={onOpen}
+        onRemove={operation.remove}
+      />
       <Divider />
       <OperationShareDialog operation={operation} {...dialogProps} />
     </>
   )
 }
 
-export default SortableOperationListItem
+export default observer(SortableOperationListItem)

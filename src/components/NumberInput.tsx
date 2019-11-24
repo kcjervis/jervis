@@ -10,10 +10,14 @@ import { makeStyles } from "@material-ui/core/styles"
 
 import { IncreaseButton, DecreaseButton } from "./IconButtons"
 import { Flexbox } from "./atoms"
-import { useHover } from "../hooks"
 import { round } from "lodash-es"
 
 const useStyles = makeStyles({
+  root: {
+    "&:hover $adornment": {
+      visibility: "visible"
+    }
+  },
   input: {
     width: 8 * 15
   },
@@ -88,7 +92,6 @@ type NumberInputProps = {
 
 export default function NumberInput({ value, onChange, min, max, step = 1, ...textFieldProps }: NumberInputProps) {
   const classes = useStyles()
-  const [isHovered, hoverRef] = useHover()
   const [inputValue, setInputValue] = useState(value.toString())
 
   const handleBlur = useCallback(() => setInputValue(value.toString()), [value, setInputValue])
@@ -125,28 +128,29 @@ export default function NumberInput({ value, onChange, min, max, step = 1, ...te
   const decreaseProps = usePress(decrease)
 
   return (
-    <TextField
-      ref={hoverRef}
-      className={clsx(!textFieldProps.fullWidth && classes.input)}
-      value={inputValue}
-      onChange={handleChange}
-      onBlur={handleBlur}
-      InputLabelProps={{ className: classes.label }}
-      InputProps={{
-        endAdornment: (
-          <InputAdornment className={clsx({ [classes.adornment]: !isHovered })} position="end">
-            <div>
-              <Button className={classes.button} size="small" {...increaseProps}>
-                <ArrowDropUpIcon fontSize="inherit" />
-              </Button>
-              <Button className={classes.button} size="small" {...decreaseProps}>
-                <ArrowDropDownIcon fontSize="inherit" />
-              </Button>
-            </div>
-          </InputAdornment>
-        )
-      }}
-      {...textFieldProps}
-    />
+    <div className={classes.root}>
+      <TextField
+        className={clsx(!textFieldProps.fullWidth && classes.input)}
+        value={inputValue}
+        onChange={handleChange}
+        onBlur={handleBlur}
+        InputLabelProps={{ className: classes.label }}
+        InputProps={{
+          endAdornment: (
+            <InputAdornment className={classes.adornment} position="end">
+              <div>
+                <Button className={classes.button} size="small" {...increaseProps}>
+                  <ArrowDropUpIcon fontSize="inherit" />
+                </Button>
+                <Button className={classes.button} size="small" {...decreaseProps}>
+                  <ArrowDropDownIcon fontSize="inherit" />
+                </Button>
+              </div>
+            </InputAdornment>
+          )
+        }}
+        {...textFieldProps}
+      />
+    </div>
   )
 }

@@ -5,7 +5,7 @@ import ShipImage from "../../ShipImage"
 import { RemoveButton, ShareButton, CopyButton } from "../../IconButtons"
 
 import Paper from "@material-ui/core/Paper"
-import ListItem from "@material-ui/core/ListItem"
+import ListItem, { ListItemProps } from "@material-ui/core/ListItem"
 import ListItemText from "@material-ui/core/ListItemText"
 import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction"
 import { makeStyles } from "@material-ui/core/styles"
@@ -33,10 +33,9 @@ const useStyles = makeStyles({
   }
 })
 
-type OperationListItemProps = {
+type OperationListItemProps = ListItemProps & {
   operationName: string
   shipIds: number[]
-  onClick?: () => void
   onCopy?: () => void
   onShare?: () => void
   onRemove?: () => void
@@ -45,7 +44,7 @@ type OperationListItemProps = {
 const primaryTypographyProps = { noWrap: true, display: "block" } as const
 
 export default function OperationListItem(props: OperationListItemProps) {
-  const { operationName, shipIds, onClick, onCopy, onShare, onRemove } = props
+  const { className, operationName, shipIds, onCopy, onShare, onRemove, ...listItemProps } = props
   const classes = useStyles()
 
   const images = shipIds.map((shipId, index) => (
@@ -53,8 +52,8 @@ export default function OperationListItem(props: OperationListItemProps) {
   ))
 
   return (
-    <div className={classes.root}>
-      <ListItem onClick={onClick} button>
+    <div className={clsx(classes.root, className)}>
+      <ListItem button {...(listItemProps as any)}>
         <ListItemText
           className={classes.name}
           primary={operationName}
