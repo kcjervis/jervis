@@ -14,6 +14,9 @@ const useStyles = makeStyles({
   root: {
     "&:hover $action": {
       display: "block"
+    },
+    "&:hover $ships": {
+      marginRight: 100
     }
   },
   name: {
@@ -22,7 +25,6 @@ const useStyles = makeStyles({
     marginRight: 8
   },
   ships: {
-    paddingRight: 156,
     display: "flex",
     alignItems: "center",
     overflow: "hidden",
