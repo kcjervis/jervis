@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState } from "react"
 import {
   Shelling,
   ShipInformation,
@@ -8,7 +8,9 @@ import {
   NightCombatSpecialAttack,
   Damage,
   BattleState,
-  ShellingSupport
+  ShellingSupport,
+  TorpedoAttack,
+  AswAttack
 } from "kc-calculator"
 import { observer } from "mobx-react-lite"
 
@@ -18,49 +20,23 @@ import Tooltip from "@material-ui/core/Tooltip"
 import { makeStyles, createStyles } from "@material-ui/core/styles"
 
 import { toPercent } from "../../utils"
-import { Table, LabeledValue } from "../../components"
+import { useSelect } from "../../hooks"
+import { Table, SelectButtons } from "../../components"
 import ShellingStats from "./ShellingStats"
 import { getAttackName } from "./ShipStatusCard"
 import { ColumnProps } from "../../components/Table"
+import HitRateText, { damageToText } from "./HitRateText"
+import AswAttackStatus from "./AswAttackStatus"
+import TorpedoAttackStatus from "./TorpedoAttackStatus"
 
 const useStyles = makeStyles(
   createStyles({
     root: {
-      width: 8 * 60
+      width: 8 * 60,
+      minHeight: 240
     }
   })
 )
-
-const HitRateText: React.FC<{
-  hitRate: number
-  criticalRate?: number
-  accuracyValue: number
-  evasionValue: number
-}> = ({ hitRate, criticalRate, accuracyValue, evasionValue }) => {
-  const criticalText = criticalRate ? `(${toPercent(criticalRate)})` : ""
-  const factors: Array<{ label: string; value: number }> = [
-    { label: "攻撃側命中項", value: accuracyValue },
-    { label: "防御側回避項", value: evasionValue }
-  ]
-  const hitStatus = factors.map((factor, index) => <LabeledValue key={index} {...factor} />)
-
-  return (
-    <Tooltip enterDelay={500} title={hitStatus}>
-      <Typography variant="inherit">
-        {toPercent(hitRate)}
-        {criticalText}
-      </Typography>
-    </Tooltip>
-  )
-}
-
-const damageToText = ({ min, max, scratchDamageProbability, isDeadly }: Damage) => {
-  if (max === 0) {
-    return "確定割合"
-  }
-  const minText = min === 0 ? `(割合${toPercent(scratchDamageProbability)})` : min
-  return `${minText} - ${max}${isDeadly ? "(確殺)" : ""}`
-}
 
 type AttackStatusProps = {
   battleState: BattleState
@@ -86,7 +62,8 @@ const AttackStatus: React.FC<AttackStatusProps> = props => {
   } = props
 
   const classes = useStyles()
-
+  const attackTypeSelect = useSelect(["砲撃戦", "雷撃戦", "対潜", "夜戦"])
+  const { engagement } = battleState
   defender.ship.stats.luck
 
   const shellingAttacks = new Array<DayCombatSpecialAttack | undefined>(undefined).concat(
@@ -109,11 +86,11 @@ const AttackStatus: React.FC<AttackStatusProps> = props => {
     )
 
   const shellingHitRateCellRenderer = (specialAttack?: DayCombatSpecialAttack) => {
-    const { accuracy, defenderEvasionValue, hitRate, criticalRate } = getShelling(specialAttack)
+    const { accuracy, defenderEvasionValue, hitRate } = getShelling(specialAttack)
     return (
       <HitRateText
-        hitRate={hitRate}
-        criticalRate={criticalRate}
+        hitRate={hitRate.hitRate}
+        criticalRate={hitRate.criticalRate}
         accuracyValue={accuracy.value}
         evasionValue={defenderEvasionValue}
       />
@@ -144,7 +121,7 @@ const AttackStatus: React.FC<AttackStatusProps> = props => {
 
   const nightAttackHitRateRenderer = (specialAttack?: NightCombatSpecialAttack) => {
     const { accuracy, defenderEvasionValue, hitRate } = getNightAttack(specialAttack)
-    return <HitRateText hitRate={hitRate} accuracyValue={accuracy.value} evasionValue={defenderEvasionValue} />
+    return <HitRateText hitRate={hitRate.hitRate} accuracyValue={accuracy.value} evasionValue={defenderEvasionValue} />
   }
 
   const createNightAttackCellRenderer = (isCritical: boolean) => (specialAttack?: NightCombatSpecialAttack) => {
@@ -163,15 +140,15 @@ const AttackStatus: React.FC<AttackStatusProps> = props => {
   const dayCombatColumns: Array<ColumnProps<DayCombatSpecialAttack | undefined>> = [
     { label: "攻撃種別", getValue: getAttackName, align: "left" },
     { label: "命中率(クリ率)", getValue: shellingHitRateCellRenderer },
-    { label: "ヒット", getValue: createShellingDamageRenderer(false) },
-    { label: "クリティカル", getValue: createShellingDamageRenderer(true) },
+    { label: "ダメージ", getValue: createShellingDamageRenderer(false) },
+    { label: "クリダメージ", getValue: createShellingDamageRenderer(true) },
     { label: "命中込み大破率", getValue: taihaRateRenderer }
   ]
   const nightAttackColumns: Array<ColumnProps<NightCombatSpecialAttack | undefined>> = [
     { label: "攻撃種別", getValue: getAttackName, align: "left" },
     { label: "命中率", getValue: nightAttackHitRateRenderer },
     { label: "ダメージ", getValue: createNightAttackCellRenderer(false) },
-    { label: "クリティカル", getValue: createNightAttackCellRenderer(true) }
+    { label: "クリダメージ", getValue: createNightAttackCellRenderer(true) }
   ]
 
   const getShellingSupport = (isCritical = false) =>
@@ -182,7 +159,7 @@ const AttackStatus: React.FC<AttackStatusProps> = props => {
     if (attacker.formation.id > 10) {
       return "不明"
     }
-    return <HitRateText hitRate={hitRate} accuracyValue={accuracy.value} evasionValue={defenderEvasionValue} />
+    return <HitRateText hitRate={hitRate.hitRate} accuracyValue={accuracy.value} evasionValue={defenderEvasionValue} />
   }
 
   const shellingSupportColumns = [
@@ -196,16 +173,38 @@ const AttackStatus: React.FC<AttackStatusProps> = props => {
       <Typography>
         {attacker.ship.name} → {defender.ship.name}
       </Typography>
-      <Typography variant="subtitle2">砲撃戦</Typography>
-      <Table data={shellingAttacks} columns={dayCombatColumns} />
-      <Box mt={1}>
-        <Typography variant="subtitle2">夜戦</Typography>
-        <Table data={nightAttacks} columns={nightAttackColumns} />
-      </Box>
-      <Box mt={1}>
-        <Typography variant="subtitle2">砲撃支援</Typography>
-        <Table data={[0]} columns={shellingSupportColumns} />
-      </Box>
+      <SelectButtons {...attackTypeSelect} />
+
+      {attackTypeSelect.value === "砲撃戦" && (
+        <>
+          <Table data={shellingAttacks} columns={dayCombatColumns} />
+          <Box mt={1}>
+            <Typography variant="subtitle2">砲撃支援</Typography>
+            <Table data={[0]} columns={shellingSupportColumns} />
+          </Box>
+        </>
+      )}
+      {attackTypeSelect.value === "雷撃戦" && (
+        <TorpedoAttackStatus
+          attacker={attacker}
+          defender={defender}
+          engagement={engagement}
+          remainingAmmoModifier={remainingAmmoModifier}
+        />
+      )}
+      {attackTypeSelect.value === "対潜" && (
+        <AswAttackStatus
+          attacker={attacker}
+          defender={defender}
+          engagement={engagement}
+          remainingAmmoModifier={remainingAmmoModifier}
+        />
+      )}
+      {attackTypeSelect.value === "夜戦" && (
+        <Box mt={1}>
+          <Table data={nightAttacks} columns={nightAttackColumns} />
+        </Box>
+      )}
     </div>
   )
 }

@@ -1,4 +1,4 @@
-import { IShip, calcDeadlyPower, calcEvasionValue, BattleFleet, Formation } from "kc-calculator"
+import { IShip, calcDeadlyPower, BattleFleet, Formation } from "kc-calculator"
 import React from "react"
 
 import Typography from "@material-ui/core/Typography"
@@ -33,7 +33,7 @@ const getFighterPowers = (fp: number) => {
 const EnemyShipNameplate: React.FC<{ ship: IShip; formation: Formation }> = props => {
   const { ship, formation } = props
   const deadlyPower = calcDeadlyPower(ship)
-  const evasionValue = calcEvasionValue(ship, formation.getModifiersWithRole("Main").shelling.evasion)
+  const evasionValue = ship.calcEvasionValue(formation.getModifiersWithRole("Main").shelling.evasion)
   const title = (
     <>
       <Typography>確殺攻撃力: {deadlyPower}</Typography>

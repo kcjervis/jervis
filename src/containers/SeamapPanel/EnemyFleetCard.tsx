@@ -1,14 +1,6 @@
 import React, { useMemo } from "react"
 import { MapEnemyFleet, MapEnemyShip } from "@jervis/data"
-import {
-  Formation,
-  Side,
-  FleetTypeName,
-  IShip,
-  calcDeadlyPower,
-  calcEvasionValue,
-  AirControlState
-} from "kc-calculator"
+import { Formation, Side, FleetTypeName, IShip, calcDeadlyPower, AirControlState } from "kc-calculator"
 
 import Typography from "@material-ui/core/Typography"
 import Divider from "@material-ui/core/Divider"
@@ -56,7 +48,7 @@ const toFighterPowerDescription = (fp: number | undefined) => {
 const EnemyShipNameplate: React.FC<{ ship: IShip; formation: Formation }> = props => {
   const { ship, formation } = props
   const deadlyPower = calcDeadlyPower(ship)
-  const evasionValue = calcEvasionValue(ship, formation.getModifiersWithRole("Main").shelling.evasion)
+  const evasionValue = ship.calcEvasionValue(formation.getModifiersWithRole("Main").shelling.evasion)
   const title = (
     <>
       <Typography>確殺攻撃力: {deadlyPower}</Typography>

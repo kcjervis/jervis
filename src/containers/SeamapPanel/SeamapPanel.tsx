@@ -60,7 +60,8 @@ class SeamapState {
   get nodeName() {
     const { worldId, mapId, nodeId, difficulty } = this
     const area = Math.floor(this.mapId / 10)
-    return `${worldId}-${area}${nodeId} ${difficultyToString(difficulty)}`
+    const difficultyText = this.isEvent ? difficultyToString(difficulty) : ""
+    return `${worldId}-${area}${nodeId}${difficultyText}`
   }
 
   @computed get visibleMaps() {
