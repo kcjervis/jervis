@@ -1,5 +1,5 @@
 import { IOperation, ILandBasedAirCorps, IPlane, IShip, isNonNullable } from "kc-calculator"
-import { compressToEncodedURIComponent, decompressFromEncodedURIComponent } from "lz-string"
+import LZString from "lz-string"
 
 /*
   プリセットメモ
@@ -38,6 +38,10 @@ const encordLandBase = (landBase: ILandBasedAirCorps[]) => {
 const encordShip = (ship: IShip | undefined, index: number): NoroShip | undefined =>
   ship && [ship.shipId, ship.planes.map(encordPlane), index]
 
+const keyStrUriSafe = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_$"
+const compressToEncodedURIComponent = (input: string) =>
+  (LZString as any)._compress(input, 6, (a: number) => keyStrUriSafe.charAt(a))
+
 const encordOperation = (operation: IOperation) => {
   const landBasePreset = encordLandBase(operation.landBase)
   const friendFleetPreset = [operation.mainFleet.ships, operation.escortFleet?.ships]
@@ -50,5 +54,5 @@ const encordOperation = (operation: IOperation) => {
 
 export const createNoroUrl = (operation: IOperation) => {
   const preset64 = encordOperation(operation)
-  return `https://noro6.github.io/kcTools/?d=${preset64}`
+  return "https://noro6.github.io/kcTools/?d=" + preset64
 }
