@@ -62,7 +62,8 @@ const AttackStatus: React.FC<AttackStatusProps> = props => {
   } = props
 
   const classes = useStyles()
-  const attackTypeSelect = useSelect(["砲撃戦", "雷撃戦", "対潜", "夜戦"])
+  const defaultType = defender.ship.shipType.isSubmarineClass ? "対潜" : "砲撃戦"
+  const attackTypeSelect = useSelect(["砲撃戦", "雷撃戦", "対潜", "夜戦"], defaultType)
   const { engagement } = battleState
   defender.ship.stats.luck
 
