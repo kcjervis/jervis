@@ -8,7 +8,8 @@ import {
   NightCombatSpecialAttack,
   ShipNightAttackStatus,
   BattleState,
-  ShellingSupport
+  ShellingSupport,
+  getFleetFactors
 } from "kc-calculator"
 import { round } from "lodash-es"
 import clsx from "clsx"
@@ -20,21 +21,23 @@ import Tooltip from "@material-ui/core/Tooltip"
 import FormControlLabel from "@material-ui/core/FormControlLabel"
 import Checkbox from "@material-ui/core/Checkbox"
 import Divider from "@material-ui/core/Divider"
-import { makeStyles, createStyles, Theme } from "@material-ui/core/styles"
+import { makeStyles } from "@material-ui/core/styles"
 
 import { toPercent } from "../../utils"
-import { Select, Table, Flexbox, NumberInput, AttackChip } from "../../components"
+import { Select, Table, Flexbox, Text, AttackChip, SelectButtons } from "../../components"
 import { useSelect, useInput, useCheck } from "../../hooks"
 import ShellingStats from "./ShellingStats"
 import EnemyType from "./EnemyType"
 
-const useStyles = makeStyles(
-  createStyles({
-    root: {
-      padding: 4
-    }
-  })
-)
+import ShipTorpedoStatusCard from "./ShipTorpedoStatusCard"
+import ShipAswStatusCard from "./ShipAswStatusCard"
+
+const useStyles = makeStyles({
+  root: {
+    padding: 4
+  },
+  topText: { marginRight: 8 }
+})
 
 export const getAttackName = (attack?: DayCombatSpecialAttack | NightCombatSpecialAttack) => (
   <AttackChip attack={attack} />
@@ -43,7 +46,7 @@ export const getAttackName = (attack?: DayCombatSpecialAttack | NightCombatSpeci
 type ShipStatusCardProps = {
   battleState: BattleState
   shipInformation: ShipInformation
-  combinedFleetFactor: number
+  fleetFactors: ReturnType<typeof getFleetFactors>
   specialAttackRate: ReturnType<typeof DayCombatSpecialAttack.calcRate>
   nightContactModifier: number
   eventMapModifier: number
@@ -51,17 +54,20 @@ type ShipStatusCardProps = {
 
 const ShipShellingStatusCard: React.FC<ShipStatusCardProps> = props => {
   const classes = useStyles()
+  const attackTypeSelect = useSelect(["砲撃戦", "雷撃戦", "対潜", "夜戦"])
   const {
     battleState,
     shipInformation,
-    combinedFleetFactor,
+    fleetFactors,
     specialAttackRate,
     nightContactModifier,
     eventMapModifier,
     className,
     ...paperProps
   } = props
-  const { ship } = shipInformation
+  const { ship, formation, role } = shipInformation
+  const formationModifiers = formation.getModifiersWithRole(role)
+  const engagementModifier = battleState.engagement.modifier
   const shellingStatus = new ShipShellingStatus(ship)
 
   const nightAttacks = new Array<NightCombatSpecialAttack | undefined>(undefined).concat(
@@ -77,7 +83,7 @@ const ShipShellingStatusCard: React.FC<ShipStatusCardProps> = props => {
       ...shipInformation,
       isCritical,
       engagement: battleState.engagement,
-      combinedFleetFactor,
+      combinedFleetFactor: fleetFactors.shelling,
       specialAttack,
       isArmorPiercing: apCheck.checked,
       eventMapModifier,
@@ -94,7 +100,6 @@ const ShipShellingStatusCard: React.FC<ShipStatusCardProps> = props => {
   }
 
   const nightStatus = new ShipNightAttackStatus(ship)
-
   const createNightCellRenderer = (isCritical: boolean) => (specialAttack: NightCombatSpecialAttack | undefined) => {
     const nightAttackPower = nightStatus.calcPower({
       ...shipInformation,
@@ -127,50 +132,69 @@ const ShipShellingStatusCard: React.FC<ShipStatusCardProps> = props => {
 
   return (
     <Paper className={clsx(className, classes.root)} {...paperProps}>
-      <Flexbox mt={1}>
-        <Typography variant="subtitle2">簡易計算機</Typography>
+      <Flexbox>
+        <Text className={classes.topText}>簡易計算機</Text>
+        <Text>装備命中 {ship.totalEquipmentStats(gear => gear.accuracy)}</Text>
+      </Flexbox>
+      <Flexbox alignItems="flex-end" mt={1}>
+        <SelectButtons {...attackTypeSelect} />
         <Select label="敵種別" style={{ minWidth: 80, marginLeft: 8 }} {...enemyTypeSelect} />
         {visibleAp && <FormControlLabel label={`徹甲弾補正`} control={<Checkbox {...apCheck} />} />}
       </Flexbox>
 
-      <Typography style={{ marginTop: 8 }} variant="subtitle2">
-        砲撃戦
-      </Typography>
-      <Table
-        data={specialAttackRate.dayCombatAttacks}
-        columns={[
-          { label: "攻撃種別", getValue: getAttackName, align: "left" },
-          { label: "発動率", getValue: attack => toPercent(specialAttackRate.getAttackRate(attack)) },
-          { label: "最終攻撃力", getValue: createShellingCellRenderer(false) },
-          { label: "クリティカル", getValue: createShellingCellRenderer(true) }
-        ]}
-      />
-      <Typography variant="body2">合計特殊攻撃率 {toPercent(specialAttackRate.total)}</Typography>
-
-      <Box mt={1}>
-        <Typography variant="subtitle2">夜戦</Typography>
-        <Table
-          data={nightAttacks}
-          columns={[
-            { label: "攻撃種別", getValue: getAttackName, align: "left" },
-            { label: "最終攻撃力", getValue: createNightCellRenderer(false) },
-            { label: "クリティカル", getValue: createNightCellRenderer(true) }
-          ]}
+      {attackTypeSelect.value === "砲撃戦" && (
+        <Box mt={1}>
+          <Table
+            data={specialAttackRate.dayCombatAttacks}
+            columns={[
+              { label: "攻撃種別", getValue: getAttackName, align: "left" },
+              { label: "発動率", getValue: attack => toPercent(specialAttackRate.getAttackRate(attack)) },
+              { label: "最終攻撃力", getValue: createShellingCellRenderer(false) },
+              { label: "クリティカル", getValue: createShellingCellRenderer(true) }
+            ]}
+          />
+          <Typography variant="body2">合計特殊攻撃率 {toPercent(specialAttackRate.total)}</Typography>
+          <Typography variant="subtitle2" style={{ marginTop: 16 }}>
+            砲撃支援
+          </Typography>
+          <Table
+            data={[0]}
+            columns={[
+              { label: "最終攻撃力", getValue: createShellingSupportRenderer(false) },
+              { label: "クリティカル", getValue: createShellingSupportRenderer(true) }
+            ]}
+          />
+        </Box>
+      )}
+      {attackTypeSelect.value === "雷撃戦" && (
+        <ShipTorpedoStatusCard
+          ship={ship}
+          fleetFactor={fleetFactors.torpedo}
+          formationModifier={formationModifiers.torpedo.power}
+          engagementModifier={engagementModifier}
+          a11={eventMapModifier}
         />
-      </Box>
-
-      <Box mt={1}>
-        <Typography variant="subtitle2">砲撃支援</Typography>
-        <Table
-          data={[0]}
-          columns={[
-            { label: "最終攻撃力", getValue: createShellingSupportRenderer(false) },
-            { label: "クリティカル", getValue: createShellingSupportRenderer(true) }
-          ]}
+      )}
+      {attackTypeSelect.value === "対潜" && (
+        <ShipAswStatusCard
+          ship={ship}
+          formationModifier={formationModifiers.asw.power}
+          engagementModifier={engagementModifier}
+          a11={eventMapModifier}
         />
-      </Box>
-
-      <Typography>装備命中 {ship.totalEquipmentStats(gear => gear.accuracy)}</Typography>
+      )}
+      {attackTypeSelect.value === "夜戦" && (
+        <Box mt={1}>
+          <Table
+            data={nightAttacks}
+            columns={[
+              { label: "攻撃種別", getValue: getAttackName, align: "left" },
+              { label: "最終攻撃力", getValue: createNightCellRenderer(false) },
+              { label: "クリティカル", getValue: createNightCellRenderer(true) }
+            ]}
+          />
+        </Box>
+      )}
     </Paper>
   )
 }

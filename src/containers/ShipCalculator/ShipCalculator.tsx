@@ -9,11 +9,10 @@ import {
   DayCombatSpecialAttack,
   Side,
   Shelling,
-  NightCombatSpecialAttack,
-  ShipShellingStatus,
   BattleState,
   nonNullable,
-  IShip
+  IShip,
+  getFleetFactors
 } from "kc-calculator"
 
 import FormControlLabel from "@material-ui/core/FormControlLabel"
@@ -127,7 +126,7 @@ const ShipCalculator: React.FC<ShipCalculatorProps> = ({ ship }) => {
   type DisplayMode = "Attack" | "Defense"
   const displayModeSelect = useSelect<DisplayMode>(["Attack", "Defense"])
 
-  const combinedFleetFactor = Shelling.getCombinedFleetFactor(attacker, {
+  const fleetFactors = getFleetFactors(attacker, {
     side: Side.Enemy,
     fleetType: state.enemyFleetType,
     formation: state.enemyFormation,
@@ -207,7 +206,7 @@ const ShipCalculator: React.FC<ShipCalculatorProps> = ({ ship }) => {
             style={{ width: 8 * 60 }}
             battleState={battleState}
             shipInformation={attacker}
-            combinedFleetFactor={combinedFleetFactor}
+            fleetFactors={fleetFactors}
             nightContactModifier={nightContactModifier}
             eventMapModifier={eventMapModifier}
             specialAttackRate={specialAttackRate}

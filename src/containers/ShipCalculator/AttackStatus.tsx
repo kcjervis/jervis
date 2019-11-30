@@ -190,6 +190,7 @@ const AttackStatus: React.FC<AttackStatusProps> = props => {
           defender={defender}
           engagement={engagement}
           remainingAmmoModifier={remainingAmmoModifier}
+          optionalPowerModifiers={{ a11: eventMapModifier }}
         />
       )}
       {attackTypeSelect.value === "対潜" && (
@@ -198,6 +199,7 @@ const AttackStatus: React.FC<AttackStatusProps> = props => {
           defender={defender}
           engagement={engagement}
           remainingAmmoModifier={remainingAmmoModifier}
+          optionalPowerModifiers={{ a11: eventMapModifier }}
         />
       )}
       {attackTypeSelect.value === "夜戦" && (
