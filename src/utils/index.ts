@@ -1,4 +1,5 @@
 export * from "./deckbuilder"
+export * from "./noro"
 
 export const swap = <T>(array0: T[], index0: number, array1: T[], index1: number) => {
   const item0 = array0[index0]

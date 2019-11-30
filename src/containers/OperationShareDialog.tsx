@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react"
+import React, { useCallback, useState, useMemo } from "react"
 
 import Button from "@material-ui/core/Button"
 import Dialog, { DialogProps } from "@material-ui/core/Dialog"
@@ -14,10 +14,11 @@ import Snackbar from "@material-ui/core/Snackbar"
 import CheckCircleIcon from "@material-ui/icons/CheckCircle"
 import { makeStyles, Theme } from "@material-ui/core/styles"
 
-import { CopyButton } from "../components/IconButtons"
+import { CopyButton } from "../components"
 import { useOpen } from "../hooks"
 import { ObservableOperation } from "../stores"
 import { setOperation, urlShortener } from "../stores/firebase"
+import { createNoroUrl } from "../utils"
 
 const useOperationShare = (operation: ObservableOperation) => {
   const [shareUrl, setShareUrl] = useState<string | undefined>()
@@ -76,6 +77,7 @@ const OperationShareDialog: React.FC<OperationShareDialogProps> = ({ operation, 
   const classes = useStyles()
 
   const predeck = operation.toNishikumaJson
+  const noroUrl = createNoroUrl(operation.asKcObject)
 
   return (
     <>
@@ -109,11 +111,14 @@ const OperationShareDialog: React.FC<OperationShareDialogProps> = ({ operation, 
           <CopyButton text={predeck} title="デッキビルダー形式をコピー" onCopy={handleSnackbarOpen} />
         </DialogContent>
         <DialogActions>
+          <Button href={`http://kancolle-calc.net/deckbuilder.html?predeck=${predeck}`} target="_blank" color="primary">
+            デッキビルダーで開く
+          </Button>
           <Button href={`https://www.nishikuma.net/ImgKCbuilder?predeck=${predeck}`} target="_blank" color="primary">
             編成画像出力で開く
           </Button>
-          <Button href={`http://kancolle-calc.net/deckbuilder.html?predeck=${predeck}`} target="_blank" color="primary">
-            デッキビルダーで開く
+          <Button href={noroUrl} target="_blank" color="primary">
+            制空権シミュレータで開く
           </Button>
         </DialogActions>
       </Dialog>
