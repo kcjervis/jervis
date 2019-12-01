@@ -18,7 +18,7 @@ import { CopyButton } from "../components"
 import { useOpen } from "../hooks"
 import { ObservableOperation } from "../stores"
 import { setOperation, urlShortener } from "../stores/firebase"
-import { createNoroUrl } from "../utils"
+import { createNoroLandBase } from "../utils"
 
 const useOperationShare = (operation: ObservableOperation) => {
   const [shareUrl, setShareUrl] = useState<string | undefined>()
@@ -77,7 +77,7 @@ const OperationShareDialog: React.FC<OperationShareDialogProps> = ({ operation, 
   const classes = useStyles()
 
   const predeck = operation.toNishikumaJson
-  const noroUrl = createNoroUrl(operation.asKcObject)
+  const noroLb = createNoroLandBase(operation.asKcObject)
 
   return (
     <>
@@ -117,7 +117,11 @@ const OperationShareDialog: React.FC<OperationShareDialogProps> = ({ operation, 
           <Button href={`https://www.nishikuma.net/ImgKCbuilder?predeck=${predeck}`} target="_blank" color="primary">
             編成画像出力で開く
           </Button>
-          <Button href={noroUrl} target="_blank" color="primary">
+          <Button
+            href={`https://noro6.github.io/kcTools/?predeck=${predeck}&lb=${noroLb}`}
+            target="_blank"
+            color="primary"
+          >
             制空権シミュレータで開く
           </Button>
         </DialogActions>
