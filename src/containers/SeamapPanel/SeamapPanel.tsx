@@ -21,7 +21,7 @@ const worlds = [
   { id: 4, name: "西方海域" },
   { id: 5, name: "南方海域" },
   { id: 6, name: "中部海域" },
-  { id: 45, name: "シングル作戦" }
+  { id: 46, name: "第二次作戦「南方作戦」" }
 ]
 
 const worldIds = worlds.map(({ id }) => id)
@@ -48,9 +48,9 @@ const difficultyToString = (difficulty: number) => {
 }
 
 class SeamapState {
-  @observable public worldId = 6
-  @observable public mapId = 65
-  @observable public nodeId = "M"
+  @observable public worldId = 46
+  @observable public mapId = 461
+  @observable public nodeId = "H"
   @observable public difficulty = 4
 
   get isEvent() {
