@@ -32,7 +32,8 @@ module.exports = (env, argv) => {
           loader: "url-loader",
           options: {
             limit: 300,
-            name: "static/media/[path][name].[ext]"
+            name: "static/media/[path][name].[ext]",
+            esModule: false
           }
         }
       ]
