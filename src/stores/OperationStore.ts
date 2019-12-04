@@ -34,6 +34,10 @@ export default class OperationStore implements Store<ObservableOperation> {
     operation.store = this
   }
 
+  @action public setOperations = (list: ObservableOperation[]) => {
+    this.operations = observable(list)
+  }
+
   @action public fromNishikuma = (json: string, name?: string) => {
     const deckObject = JSON.parse(json.replace(/^http:\/\/kancolle-calc\.net\/deckbuilder\.html\?predeck=/, ""))
     const newOperation = this.createOperation(name)

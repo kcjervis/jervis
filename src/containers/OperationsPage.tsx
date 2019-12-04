@@ -1,5 +1,5 @@
 import { observer } from "mobx-react-lite"
-import React from "react"
+import React, { useState, useEffect } from "react"
 
 import Box from "@material-ui/core/Box"
 import Button from "@material-ui/core/Button"
@@ -11,11 +11,30 @@ import { Flexbox } from "../components"
 import { ObservableOperation } from "../stores"
 import { useOperationStore, useOpen } from "../hooks"
 import OperationCreateDialog from "./Explorer/OperationCreateDialog"
+import { swap } from "../utils"
 
 const OperationsPage: React.FC = props => {
   const { persistentOperationStore } = useOperationStore()
 
   const { onOpen: onDialogOpen, ...dialogProps } = useOpen()
+
+  const [list, setList] = useState(persistentOperationStore.operations.concat())
+
+  const handleMove = (dragIndex: number, hoverIndex: number) => {
+    setList(prevList => {
+      const nextList = prevList.concat()
+      swap(nextList, dragIndex, nextList, hoverIndex)
+      return nextList
+    })
+  }
+
+  const handleDragEnd = () => {
+    persistentOperationStore.setOperations(list)
+  }
+
+  useEffect(() => {
+    setList(persistentOperationStore.operations)
+  }, [persistentOperationStore.operations])
 
   return (
     <Flexbox justifyContent="center">
@@ -28,8 +47,14 @@ const OperationsPage: React.FC = props => {
         <OperationCreateDialog store={persistentOperationStore} {...dialogProps} />
 
         <List>
-          {persistentOperationStore.operations.map(operation => (
-            <SortableOperationListItem key={operation.id} operation={operation} />
+          {list.map((operation, index) => (
+            <SortableOperationListItem
+              key={operation.id}
+              operation={operation}
+              index={index}
+              onMove={handleMove}
+              onDragEnd={handleDragEnd}
+            />
           ))}
         </List>
       </Box>

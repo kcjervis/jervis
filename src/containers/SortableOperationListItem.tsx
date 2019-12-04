@@ -1,4 +1,4 @@
-import React, { useEffect } from "react"
+import React, { useMemo } from "react"
 import { observer } from "mobx-react-lite"
 import { getEmptyImage } from "react-dnd-html5-backend"
 import clsx from "clsx"
@@ -19,26 +19,26 @@ const useStyles = makeStyles({
 
 export interface SortableOperationListItemProps {
   operation: ObservableOperation
+  index: number
+  onMove: (dragIndex: number, hoverIndex: number) => void
+  onDragEnd: () => void
 }
 
-const SortableOperationListItem: React.FC<SortableOperationListItemProps> = ({ operation }) => {
+const SortableOperationListItem: React.FC<SortableOperationListItemProps> = ({
+  operation,
+  index,
+  onMove,
+  onDragEnd
+}) => {
   const classes = useStyles()
   const { onOpen, ...dialogProps } = useOpen()
   const { openOperation } = useWorkspace()
 
   const [{ isDragging }, ref, preview] = useSortable({
-    index: operation.index,
+    index,
     type: "OperationListItem",
-    move: (dragIndex, hoverIndex) => {
-      const { store } = operation
-      if (!store) {
-        return
-      }
-
-      const dragOperation = store.operations[dragIndex]
-      const hoverOperation = operation
-      dragOperation.swap(hoverOperation)
-    },
+    move: onMove,
+    onDragEnd,
     operation
   })
   preview(getEmptyImage())
@@ -48,7 +48,7 @@ const SortableOperationListItem: React.FC<SortableOperationListItemProps> = ({ o
   }
   const handleOpen = () => openOperation(operation)
 
-  const shipIds = operation.fleets[0].ships.filter(isNonNullable).map(ship => ship.masterId)
+  const shipIds = useMemo(() => operation.fleets[0].ships.filter(isNonNullable).map(ship => ship.masterId), [operation])
 
   return (
     <>

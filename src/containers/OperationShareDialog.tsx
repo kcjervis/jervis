@@ -1,4 +1,5 @@
 import React, { useCallback, useState, useMemo } from "react"
+import { observer } from "mobx-react-lite"
 
 import Button from "@material-ui/core/Button"
 import Dialog, { DialogProps } from "@material-ui/core/Dialog"
@@ -150,4 +151,4 @@ const OperationShareDialog: React.FC<OperationShareDialogProps> = ({ operation, 
   )
 }
 
-export default OperationShareDialog
+export default observer(OperationShareDialog)

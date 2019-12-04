@@ -1,13 +1,14 @@
-import { useDrag, useDrop, DragObjectWithType, DragSourceMonitor } from "react-dnd"
+import { useDrag, useDrop, DragObjectWithType, DragSourceMonitor, DragSourceHookSpec } from "react-dnd"
 import { useRef, useEffect } from "react"
 
 export type SortableProps = DragObjectWithType & {
   index: number
   move: (dragIndex: number, hoverIndex: number) => void
+  onDragEnd?: () => void
 }
 
 export const useSortable = <T extends SortableProps>(props: T) => {
-  const { type, index, move } = props
+  const { type, index, move, onDragEnd } = props
   const ref = useRef<HTMLDivElement>(null)
 
   const [, drop] = useDrop({
@@ -42,7 +43,8 @@ export const useSortable = <T extends SortableProps>(props: T) => {
     item: { ...props, key: Math.random() },
     collect: (monitor: DragSourceMonitor) => ({
       isDragging: monitor.isDragging()
-    })
+    }),
+    end: onDragEnd
   })
 
   drag(drop(ref))
