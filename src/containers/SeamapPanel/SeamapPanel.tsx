@@ -59,7 +59,7 @@ class SeamapState {
 
   get nodeName() {
     const { worldId, mapId, nodeId, difficulty } = this
-    const area = Math.floor(this.mapId / 10)
+    const area = mapId % 10
     const difficultyText = this.isEvent ? difficultyToString(difficulty) : ""
     return `${worldId}-${area}${nodeId}${difficultyText}`
   }

@@ -33,9 +33,6 @@ const useStyles = makeStyles((theme: Theme) =>
         display: "block"
       }
     },
-    dragging: {
-      opacity: 0
-    },
     item: {
       padding: 0,
       justifyContent: "start",
@@ -77,33 +74,13 @@ const OperationLabel: React.FC<OperationLabelProps> = props => {
 
   const handleSaveClick = () => props.onSave?.(operation)
 
-  const item = {
-    index: operation.index,
-    type: "OperationLabel",
-    move: (dragIndex: number, hoverIndex: number) => {
-      const { store } = operation
-      if (!store) {
-        return
-      }
-      const dragOperation = store.operations[dragIndex]
-      const hoverOperation = operation
-      dragOperation.swap(hoverOperation)
-    },
-    operation
-  }
-
-  const [{ isDragging }, sortableRef] = useSortable(item)
   return (
     <>
-      <div
-        ref={sortableRef}
-        className={clsx(classes.root, { [classes.dragging]: isDragging })}
-        onContextMenu={handleContextMenu}
-      >
+      <div className={clsx(classes.root)} onContextMenu={handleContextMenu}>
         <div className={classes.item} onClick={handleClick}>
           <ItemLabel icon={<OperationIcon temporary={temporary} />} text={operation.name} />
         </div>
-        {temporary && <SaveButton size="small" onClick={handleSaveClick} />}
+        {temporary && <SaveButton className={classes.button} size="small" onClick={handleSaveClick} />}
         <MoreVertButton className={classes.button} size="small" onClick={onMenuClick} />
       </div>
 

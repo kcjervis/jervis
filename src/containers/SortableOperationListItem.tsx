@@ -11,7 +11,7 @@ import { OperationListItem, Text } from "../components"
 import OperationShareDialog from "./OperationShareDialog"
 
 import { ObservableOperation } from "../stores"
-import { useWorkspace, useOpen, useSortable } from "../hooks"
+import { useWorkspace, useOpen } from "../hooks"
 
 const useStyles = makeStyles({
   root: {}
@@ -19,29 +19,12 @@ const useStyles = makeStyles({
 
 export interface SortableOperationListItemProps {
   operation: ObservableOperation
-  index: number
-  onMove: (dragIndex: number, hoverIndex: number) => void
-  onDragEnd: () => void
 }
 
-const SortableOperationListItem: React.FC<SortableOperationListItemProps> = ({
-  operation,
-  index,
-  onMove,
-  onDragEnd
-}) => {
+const SortableOperationListItem: React.FC<SortableOperationListItemProps> = ({ operation }) => {
   const classes = useStyles()
   const { onOpen, ...dialogProps } = useOpen()
   const { openOperation } = useWorkspace()
-
-  const [{ isDragging }, ref, preview] = useSortable({
-    index,
-    type: "OperationListItem",
-    move: onMove,
-    onDragEnd,
-    operation
-  })
-  preview(getEmptyImage())
 
   const handleCopy = () => {
     operation.copy()
@@ -53,7 +36,6 @@ const SortableOperationListItem: React.FC<SortableOperationListItemProps> = ({
   return (
     <>
       <OperationListItem
-        innerRef={ref}
         className={classes.root}
         operationName={operation.name}
         shipIds={shipIds}

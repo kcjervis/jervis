@@ -9,3 +9,7 @@ declare module "*package.json" {
   }
   export = package
 }
+
+declare module "react-beautiful-dnd/dist/react-beautiful-dnd.min" {
+  export * from "react-beautiful-dnd"
+}

@@ -1,5 +1,5 @@
 import { observer } from "mobx-react-lite"
-import React, { useState, useEffect } from "react"
+import React from "react"
 
 import Box from "@material-ui/core/Box"
 import Button from "@material-ui/core/Button"
@@ -7,34 +7,19 @@ import List from "@material-ui/core/List"
 import Add from "@material-ui/icons/Add"
 
 import SortableOperationListItem from "./SortableOperationListItem"
-import { Flexbox } from "../components"
-import { ObservableOperation } from "../stores"
+import { Flexbox, Sortable } from "../components"
 import { useOperationStore, useOpen } from "../hooks"
 import OperationCreateDialog from "./Explorer/OperationCreateDialog"
-import { swap } from "../utils"
+import { ObservableOperation } from "../stores"
+
+const renderItem = (operation: ObservableOperation) => <SortableOperationListItem operation={operation} />
 
 const OperationsPage: React.FC = props => {
   const { persistentOperationStore } = useOperationStore()
 
   const { onOpen: onDialogOpen, ...dialogProps } = useOpen()
 
-  const [list, setList] = useState(persistentOperationStore.operations.concat())
-
-  const handleMove = (dragIndex: number, hoverIndex: number) => {
-    setList(prevList => {
-      const nextList = prevList.concat()
-      swap(nextList, dragIndex, nextList, hoverIndex)
-      return nextList
-    })
-  }
-
-  const handleDragEnd = () => {
-    persistentOperationStore.setOperations(list)
-  }
-
-  useEffect(() => {
-    setList(persistentOperationStore.operations)
-  }, [persistentOperationStore.operations])
+  const { operations } = persistentOperationStore
 
   return (
     <Flexbox justifyContent="center">
@@ -47,15 +32,7 @@ const OperationsPage: React.FC = props => {
         <OperationCreateDialog store={persistentOperationStore} {...dialogProps} />
 
         <List>
-          {list.map((operation, index) => (
-            <SortableOperationListItem
-              key={operation.id}
-              operation={operation}
-              index={index}
-              onMove={handleMove}
-              onDragEnd={handleDragEnd}
-            />
-          ))}
+          <Sortable items={operations} renderItem={renderItem} onSortEnd={persistentOperationStore.setOperations} />
         </List>
       </Box>
     </Flexbox>

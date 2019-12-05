@@ -1,17 +1,12 @@
 import React, { useCallback } from "react"
 import { observer } from "mobx-react-lite"
-import { useDrop } from "react-dnd"
 
-import Button from "@material-ui/core/Button"
-import Typography from "@material-ui/core/Typography"
-import AddIcon from "@material-ui/icons/Add"
 import FolderIcon from "@material-ui/icons/Folder"
 import { makeStyles, createStyles, Theme } from "@material-ui/core/styles"
 
 import OperationLabel from "./OperationLabel"
 import OperationCreateDialog from "./OperationCreateDialog"
-import { ItemLabel } from "../../components"
-import { AddButton } from "../../components/IconButtons"
+import { ItemLabel, AddButton, Sortable } from "../../components"
 
 import { OperationStore, WorkspaceStore, ObservableOperation } from "../../stores"
 import { useOpen, useOperationStore } from "../../hooks"
@@ -58,9 +53,11 @@ const OperationsFolder: React.FC<OperationsFolderProps> = ({ store }) => {
         )}
       </div>
       <div className={classes.inner}>
-        {store.operations.map(operation => (
-          <OperationLabel key={operation.id} operation={operation} temporary={temporary} onSave={handleSave} />
-        ))}
+        <Sortable
+          items={store.operations}
+          renderItem={operation => <OperationLabel operation={operation} temporary={temporary} onSave={handleSave} />}
+          onSortEnd={store.setOperations}
+        />
       </div>
 
       <OperationCreateDialog store={store} {...dialogProps} />
