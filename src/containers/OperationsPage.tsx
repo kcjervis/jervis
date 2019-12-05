@@ -20,6 +20,7 @@ const OperationsPage: React.FC = props => {
   const { onOpen: onDialogOpen, ...dialogProps } = useOpen()
 
   const { operations } = persistentOperationStore
+  operations.forEach(o => o)
 
   return (
     <Flexbox justifyContent="center">

@@ -39,6 +39,7 @@ const OperationsFolder: React.FC<OperationsFolderProps> = ({ store }) => {
   const handleSave = (operation: ObservableOperation) => {
     persistentOperationStore.push(operation)
   }
+  store.operations.forEach(o => o)
 
   return (
     <>
