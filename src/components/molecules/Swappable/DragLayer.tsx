@@ -1,5 +1,5 @@
 import React, { useMemo, useRef, useLayoutEffect } from "react"
-import { useDragLayer, DragObjectWithType } from "react-dnd"
+import { useDragLayer, DragObjectWithType, XYCoord } from "react-dnd"
 import { styled } from "@material-ui/core/styles"
 
 export type DragObject<T> = DragObjectWithType & { index: number; item: T }
@@ -19,6 +19,27 @@ const Grabbing = styled("div")({
   height: "100%"
 })
 
+type InnerDragLayerProps = {
+  currentOffset: XYCoord
+  children: React.ReactNode
+}
+let count = 0
+const InnerDragLayer = React.memo<InnerDragLayerProps>(
+  ({ currentOffset, children }) => {
+    const ref = useRef<HTMLDivElement>(null)
+    useLayoutEffect(() => {
+      const node = ref.current
+      if (!node || !currentOffset) {
+        return
+      }
+      node.style.transform = `translate(${currentOffset.x}px, ${currentOffset.y}px)`
+    }, [ref, currentOffset])
+
+    return <Grabbing ref={ref}>{children}</Grabbing>
+  },
+  () => count++ % 5 !== 0
+)
+
 export default function DragLayer<T>({ type, renderItem }: DragLayerProps<T>) {
   const { itemType, dragObject, currentOffset } = useDragLayer(monitor => ({
     itemType: monitor.getItemType(),
@@ -26,25 +47,17 @@ export default function DragLayer<T>({ type, renderItem }: DragLayerProps<T>) {
     currentOffset: monitor.getSourceClientOffset()
   }))
 
+  const typeIsEqual = itemType === type
   const element = useMemo(() => {
-    if (!dragObject || itemType !== type) {
+    if (!dragObject || !typeIsEqual) {
       return null
     }
     return renderItem(dragObject.item)
-  }, [dragObject, itemType, type, renderItem])
+  }, [dragObject, typeIsEqual, renderItem])
 
-  const ref = useRef<HTMLDivElement>(null)
-  useLayoutEffect(() => {
-    const node = ref.current
-    if (!node || !currentOffset) {
-      return
-    }
-    node.style.transform = `translate(${currentOffset.x}px, ${currentOffset.y}px)`
-  }, [ref, currentOffset])
-
-  if (!element) {
+  if (!element || !currentOffset) {
     return null
   }
 
-  return <Grabbing ref={ref}>{element}</Grabbing>
+  return <InnerDragLayer currentOffset={currentOffset}>{element}</InnerDragLayer>
 }
