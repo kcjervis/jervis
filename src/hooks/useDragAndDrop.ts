@@ -12,7 +12,7 @@ const useDragAndDrop = <DragObject extends DragObjectWithType, DropResult>(
 ) => {
   const { item, canDrag, drop } = spec
 
-  const [dragCollectedProps, dragRef] = useDrag({
+  const [dragCollectedProps, dragRef, preview] = useDrag({
     item,
     canDrag,
     collect: monitor => ({ isDragging: monitor.isDragging() })
@@ -41,7 +41,7 @@ const useDragAndDrop = <DragObject extends DragObjectWithType, DropResult>(
     }
   }, [isDragging, ref.current, dragRef, dropRef])
 
-  return [dragCollectedProps, ref] as const
+  return [dragCollectedProps, ref, preview] as const
 }
 
 export default useDragAndDrop

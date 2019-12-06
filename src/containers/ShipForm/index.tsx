@@ -4,18 +4,16 @@ import React, { useContext } from "react"
 import Box from "@material-ui/core/Box"
 import Button from "@material-ui/core/Button"
 import Add from "@material-ui/icons/Add"
-import { makeStyles, createStyles, Theme } from "@material-ui/core/styles"
+import { makeStyles } from "@material-ui/core/styles"
 
 import { ObservableFleet, ObservableShip, SettingStoreContext, EnemyShipStore } from "../../stores"
 import ShipCard from "./ShipCard"
 import { useDragAndDrop } from "../../hooks"
 import { ShipSelectPanelStateContext } from "../ShipSelectPanel"
 
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    root: {}
-  })
-)
+const useStyles = makeStyles({
+  root: { width: 8 * 60 }
+})
 
 interface ShipFormProps {
   ship?: ObservableShip
@@ -45,7 +43,7 @@ const ShipForm: React.FC<ShipFormProps> = props => {
   let element: JSX.Element
   if (!ship) {
     element = (
-      <Button variant="outlined" fullWidth style={{ height: "100%" }} size="large" onClick={handleOpen}>
+      <Button variant="outlined" fullWidth size="large" onClick={handleOpen}>
         <Add />
         艦娘{index + 1}
       </Button>

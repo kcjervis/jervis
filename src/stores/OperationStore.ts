@@ -5,13 +5,6 @@ import ObservableOperation from "./ObservableOperation"
 import { setDeckbuilder } from "../utils"
 import { Store } from "../types"
 
-const switchArrayItems = <T>(array1: T[], index1: number, array2: T[], index2: number) => {
-  const item1 = array1[index1]
-  const item2 = array2[index2]
-  array1[index1] = item2
-  array2[index2] = item1
-}
-
 export default class OperationStore implements Store<ObservableOperation> {
   @persist("list", ObservableOperation) @observable public operations = observable<ObservableOperation>([])
 

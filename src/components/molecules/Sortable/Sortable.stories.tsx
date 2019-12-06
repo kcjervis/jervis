@@ -22,14 +22,13 @@ const decorators: DecoratorFn[] = [story => <MuiThemeProvider theme={theme}>{sto
 
 export default { title: "organisms|Sortable", decorators }
 
-export const sortableItems = () => (
-  <Sortable
-    items={items}
-    renderItem={item => (
-      <ListItem>
-        <Typography>{item.content}</Typography>
-      </ListItem>
-    )}
-    onSortEnd={console.log}
-  />
-)
+const renderItem = (item: any) => {
+  console.log("renderItem")
+  return (
+    <ListItem>
+      <Typography>{item.content}</Typography>
+    </ListItem>
+  )
+}
+
+export const sortableItems = () => <Sortable items={items} renderItem={renderItem} onSortEnd={console.log} />
