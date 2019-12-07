@@ -21,11 +21,8 @@ const useStyles = makeStyles({
   root: {
     justifyContent: "center"
   },
-  ships: {
-    display: "flex",
-    flexWrap: "wrap",
-    alignItems: "space-between",
-    maxWidth: 8 * 125
+  ship: {
+    minWidth: 8 * 60
   },
   bottomControl: {
     display: "flex",
@@ -111,7 +108,7 @@ const FleetField: React.FC<FleetFieldProps> = ({ fleet, operation }) => {
       <Box>
         <Grid container spacing={1}>
           {ships.map((ship, index) => (
-            <Grid key={index} item xs={6} style={{ minWidth: 8 * 60 }}>
+            <Grid key={index} className={classes.ship} item xs={6}>
               <ShipForm key={index} store={fleet} index={index} ship={ship} />
             </Grid>
           ))}
