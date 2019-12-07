@@ -1,6 +1,6 @@
 import { IGear, IFleet, IOperation, IShip } from "kc-calculator"
 
-import { DeckFleet, DeckGear, DeckShip, Nishikuma } from "../utils"
+import { DeckFleet, DeckGear, DeckShip, Deck } from "../utils"
 
 const toDeckGear = (gear: IGear): DeckGear => {
   const { masterId, improvement, proficiency } = gear
@@ -47,7 +47,7 @@ const toDeckFleet = (fleet: IFleet): DeckFleet => {
   return deckFleet
 }
 
-const toNishikuma = (operation: IOperation, hqlv: number): Nishikuma => {
+const toNishikuma = (operation: IOperation, hqlv: number): Deck => {
   const nishikumaObject: { [K in string]: DeckFleet } = {}
   operation.fleets.forEach((fleet, index) => {
     const key = `f${index + 1}`

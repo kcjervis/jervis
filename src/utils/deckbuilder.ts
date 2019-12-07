@@ -1,4 +1,4 @@
-import { IGearDataObject, IShipDataObject, formulas } from "kc-calculator"
+import { IGearDataObject, IShipDataObject, ILandBasedAirCorpsDataObject, formulas } from "kc-calculator"
 import { Proficiency } from "kc-calculator/dist/objects/gear"
 
 import { masterData } from "../stores/kcObjectFactory"
@@ -26,20 +26,39 @@ const toGearDataObject = (item: DeckGear | undefined): IGearDataObject | undefin
   }
 }
 
+export type DeckEquipment = Partial<{
+  i1: DeckGear
+  i2: DeckGear
+  i3: DeckGear
+  i4: DeckGear
+  i5: DeckGear
+  ix: DeckGear
+}>
+
+const toGears = (items: DeckEquipment, length = 0) => {
+  const gears = Array<IGearDataObject | undefined>(length)
+  Object.entries(items).forEach(([key, item]) => {
+    const index = Number(key.replace("i", ""))
+    if (!isNaN(index)) {
+      gears[index - 1] = toGearDataObject(item)
+    }
+  })
+
+  if ("ix" in items) {
+    const { ix } = items
+    gears.push(toGearDataObject(ix))
+  }
+
+  return gears
+}
+
 export interface DeckShip {
   id: string | number | null
   lv: number
   luck?: number
   hp?: number
   asw?: number
-  items: Partial<{
-    i1: DeckGear
-    i2: DeckGear
-    i3: DeckGear
-    i4: DeckGear
-    i5: DeckGear
-    ix: DeckGear
-  }>
+  items: DeckEquipment
 }
 
 const toShipDataObject = (deckShip: DeckShip | undefined): IShipDataObject | undefined => {
@@ -53,18 +72,8 @@ const toShipDataObject = (deckShip: DeckShip | undefined): IShipDataObject | und
     return undefined
   }
 
-  const equipments = Array<IGearDataObject | undefined>(masterShip.slotCapacities.length)
-  Object.entries(items).forEach(([key, item]) => {
-    const index = Number(key.replace("i", ""))
-    if (!isNaN(index)) {
-      equipments[index - 1] = toGearDataObject(item)
-    }
-  })
+  const gears = toGears(items)
 
-  if ("ix" in items) {
-    const { ix } = items
-    equipments.push(toGearDataObject(ix))
-  }
   const increased: { hp?: number; luck?: number; asw?: number } = {}
   if (hp) {
     increased.hp = hp - calcHpAtLevel(masterShip.hp, lv)
@@ -81,7 +90,7 @@ const toShipDataObject = (deckShip: DeckShip | undefined): IShipDataObject | und
   return {
     masterId: shipId,
     level: lv,
-    equipments,
+    equipments: gears,
     slots,
     increased
   }
@@ -97,7 +106,26 @@ export type DeckFleet = Partial<{
   s7: DeckShip
 }>
 
-export interface Nishikuma {
+export enum AirCorpsMode {
+  Standby,
+  Sortie,
+  AirDefense,
+  Retreat,
+  Rest
+}
+
+export type DeckAirCorps = {
+  mode: AirCorpsMode
+  items: DeckEquipment
+}
+
+const toAirCorps = (source: DeckAirCorps): ILandBasedAirCorpsDataObject => {
+  const { mode, items } = source
+  const gears = toGears(items)
+  return { slots: [], equipments: gears }
+}
+
+export interface Deck {
   version: number
   lang?: "ja" | "en" | "ko" | "scn" | "tcn"
   theme?: "dark"
@@ -108,7 +136,7 @@ export interface Nishikuma {
   f4?: DeckFleet
 }
 
-export const setDeckbuilder = (operation: ObservableOperation, { hqlv = 120, f1, f2, f3, f4 }: Nishikuma) => {
+export const setDeckbuilder = (operation: ObservableOperation, { hqlv = 120, f1, f2, f3, f4 }: Deck) => {
   operation.hqLevel = hqlv
   ;[f1, f2, f3, f4].forEach((deckFleet, fleetIndex) => {
     if (!deckFleet) {
