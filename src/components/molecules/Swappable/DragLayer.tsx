@@ -19,32 +19,11 @@ const Grabbing = styled("div")({
   height: "100%"
 })
 
-type InnerDragLayerProps = {
-  currentOffset: XYCoord
-  children: React.ReactNode
-}
-let count = 0
-const InnerDragLayer = React.memo<InnerDragLayerProps>(
-  ({ currentOffset, children }) => {
-    const ref = useRef<HTMLDivElement>(null)
-    useLayoutEffect(() => {
-      const node = ref.current
-      if (!node || !currentOffset) {
-        return
-      }
-      node.style.transform = `translate(${currentOffset.x}px, ${currentOffset.y}px)`
-    }, [ref, currentOffset])
-
-    return <Grabbing ref={ref}>{children}</Grabbing>
-  },
-  () => count++ % 5 !== 0
-)
-
 export default function DragLayer<T>({ type, renderItem }: DragLayerProps<T>) {
-  const { itemType, dragObject, currentOffset } = useDragLayer(monitor => ({
+  const { itemType, dragObject, offset } = useDragLayer(monitor => ({
     itemType: monitor.getItemType(),
     dragObject: monitor.getItem() as DragObject<T> | undefined,
-    currentOffset: monitor.getSourceClientOffset()
+    offset: monitor.getSourceClientOffset()
   }))
 
   const typeIsEqual = itemType === type
@@ -55,9 +34,10 @@ export default function DragLayer<T>({ type, renderItem }: DragLayerProps<T>) {
     return renderItem(dragObject.item)
   }, [dragObject, typeIsEqual, renderItem])
 
-  if (!element || !currentOffset) {
+  if (!element || !offset) {
     return null
   }
+  const transform = `translate(${offset.x}px, ${offset.y}px)`
 
-  return <InnerDragLayer currentOffset={currentOffset}>{element}</InnerDragLayer>
+  return <Grabbing style={{ transform }}>{element}</Grabbing>
 }
