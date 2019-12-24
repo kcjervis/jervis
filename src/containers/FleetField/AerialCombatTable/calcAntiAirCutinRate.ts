@@ -6,14 +6,12 @@ type AntiAirCutin = AerialCombat.AntiAirCutin
 
 export type AntiAirCutinRateDatum = { cutin: AntiAirCutin; rate: number }
 
-const isSpecialAaci = (aaci: AntiAirCutin) => [34, 35].includes(aaci.id)
-
 const getShipRateData = (ship: IShip) => {
   const antiAirCutins = AntiAirCutin.getPossibleAntiAirCutins(ship)
   const cutinRateData = new Array<AntiAirCutinRateDatum>()
 
-  const specialAntiAirCutins = antiAirCutins.filter(isSpecialAaci)
-  const normalAntiAirCutins = antiAirCutins.filter(aaci => !isSpecialAaci(aaci))
+  const specialAntiAirCutins = antiAirCutins.filter(aaci => aaci.isSpecialAaci())
+  const normalAntiAirCutins = antiAirCutins.filter(aaci => !aaci.isSpecialAaci())
 
   const totalSpecialAaciRate = specialAntiAirCutins.reduce((prevRate, aaci) => {
     const rate = (1 - prevRate) * (aaci.probability / 101)
