@@ -14,6 +14,7 @@ export const useOpen = (initialOpen = false) => {
 export { default as useBaseStyles } from "./useBaseStyles"
 export { default as useAnchorEl } from "./useAnchorEl"
 export { default as useHover } from "./useHover"
+export { default as useTimer } from "./useTimer"
 export { default as useSelect } from "./useSelect"
 export { default as useInput } from "./useInput"
 export { default as useCheck } from "./useCheck"

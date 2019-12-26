@@ -10,17 +10,19 @@ export default function useHover() {
 
   useEffect(() => {
     const node = ref.current
-    if (node) {
-      node.addEventListener("mouseenter", handleMouseEnter)
-      node.addEventListener("mouseleave", handleMouseLeave)
 
-      return () => {
-        node.removeEventListener("mouseenter", handleMouseEnter)
-        node.removeEventListener("mouseleave", handleMouseLeave)
-      }
+    if (!node) {
+      return
     }
-    return
-  }, [ref.current])
+
+    node.addEventListener("mouseenter", handleMouseEnter)
+    node.addEventListener("mouseleave", handleMouseLeave)
+
+    return () => {
+      node.removeEventListener("mouseenter", handleMouseEnter)
+      node.removeEventListener("mouseleave", handleMouseLeave)
+    }
+  }, [ref])
 
   return [value, ref] as const
 }
