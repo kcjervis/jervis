@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useMemo } from "react"
+import React, { useState, useEffect, useCallback, useMemo, useRef } from "react"
 import clsx from "clsx"
 
 import TextField, { TextFieldProps } from "@material-ui/core/TextField"
@@ -8,8 +8,8 @@ import ArrowDropUpIcon from "@material-ui/icons/ArrowDropUp"
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown"
 import { makeStyles } from "@material-ui/core/styles"
 
-import { IncreaseButton, DecreaseButton } from "./IconButtons"
-import { Flexbox } from "./atoms"
+import { IncreaseButton, DecreaseButton } from "../../IconButtons"
+import { Flexbox } from "../../atoms"
 import { round } from "lodash-es"
 
 const useStyles = makeStyles({
@@ -41,31 +41,32 @@ const { setTimeout } = window
 const usePress = (onPress: () => void) => {
   const [isDown, setIsDown] = useState(false)
   const [isPressed, setIsPressed] = useState(false)
-  const [timer, setTimer] = useState<number | undefined>()
+  const timer = useRef<number | null>(null)
+
+  const reset = useCallback(() => {
+    if (timer.current) {
+      clearTimeout(timer.current)
+      timer.current = null
+    }
+  }, [timer])
 
   useEffect(() => {
     if (isDown) {
       onPress()
-      setTimer(setTimeout(() => setIsPressed(true), 500))
+      timer.current = setTimeout(() => setIsPressed(true), 500)
     } else {
-      setTimer(curTimer => {
-        curTimer && clearTimeout(curTimer)
-        return undefined
-      })
+      reset()
       setIsPressed(false)
     }
-  }, [isDown, setTimer])
+  }, [isDown, timer])
 
   useEffect(() => {
     if (!isPressed) {
       return
     }
-
-    setTimer(curTimer => {
-      curTimer && clearTimeout(curTimer)
-      return setTimeout(onPress, 50)
-    })
-  }, [isPressed, onPress, setTimer])
+    reset()
+    timer.current = setTimeout(onPress, 50)
+  }, [isPressed, timer, onPress])
 
   const onMouseDown = useCallback(() => setIsDown(true), [setIsDown])
   const onMouseUp = useCallback(() => setIsDown(false), [setIsDown])
@@ -127,6 +128,8 @@ export default function NumberInput({ value, onChange, min, max, step = 1, ...te
   const increaseProps = usePress(increase)
   const decreaseProps = usePress(decrease)
 
+  const inputLabelProps = useMemo(() => ({ className: classes.label }), [])
+
   return (
     <div className={classes.root}>
       <TextField
@@ -134,7 +137,7 @@ export default function NumberInput({ value, onChange, min, max, step = 1, ...te
         value={inputValue}
         onChange={handleChange}
         onBlur={handleBlur}
-        InputLabelProps={{ className: classes.label }}
+        InputLabelProps={inputLabelProps}
         InputProps={{
           endAdornment: (
             <InputAdornment className={classes.adornment} position="end">
