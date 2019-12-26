@@ -10,7 +10,7 @@ import ExposureNeg1Icon from "@material-ui/icons/ExposureNeg1"
 import Slider from "@material-ui/core/Slider"
 import { makeStyles, Theme } from "@material-ui/core/styles"
 import { useAnchorEl, useBaseStyles } from "../hooks"
-import NumberInput from "./NumberInput"
+import { NumberInput } from "./molecules"
 
 type SlotSizePopoverProps = {
   value: number

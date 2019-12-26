@@ -7,8 +7,8 @@ import Popover from "@material-ui/core/Popover"
 import { makeStyles } from "@material-ui/core/styles"
 
 import ProficiencyIcon from "./ProficiencyIcon"
-import NumberInput from "./NumberInput"
 import { Flexbox } from "./atoms"
+import { NumberInput } from "./molecules"
 import { useAnchorEl, useBaseStyles } from "../hooks"
 
 const useStyles = makeStyles({
