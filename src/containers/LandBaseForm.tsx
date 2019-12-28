@@ -33,11 +33,21 @@ const LandBaseForm: React.FC<LandBaseForm> = ({ operation }) => {
     operation.enemy = enemyOperation
   }
 
+  const predeck = operation.toNishikumaJson
+
   const gears = operation.landBase.flatMap(airCorps => airCorps.gears).filter(nonNullable)
 
   return (
     <>
       <Flexbox>
+        <Button
+          size="small"
+          href={`https://noro6.github.io/kcTools/?predeck=${predeck}`}
+          target="_blank"
+          color="primary"
+        >
+          制空権シミュレータで開く
+        </Button>
         <GearsSettingDialog
           gears={gears}
           restoreSlotSize={() => operation.landBase.forEach(airCorps => airCorps.restoreSlotSize())}

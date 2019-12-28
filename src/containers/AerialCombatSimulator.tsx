@@ -20,6 +20,7 @@ import { ObservableOperation } from "../stores"
 import { LandBasedAirCorpsMode } from "../stores/ObservableLandBasedAirCorps"
 import kcObjectFactory from "../stores/kcObjectFactory"
 import { toPercent } from "../utils"
+import { NumberInput } from "../components"
 
 export const operationToBattleFleet = (operation: ObservableOperation, isEnemy?: boolean) => {
   const { side, fleetType, mainFleet, escortFleet, landBase } = kcObjectFactory.createOperation(operation)
@@ -46,9 +47,7 @@ interface AerialCombatSimulatorState {
 class AerialCombatSimulator extends React.Component<AerialCombatSimulatorProps, AerialCombatSimulatorState> {
   public state: AerialCombatSimulatorState = { simulationResult: null, times: 1000 }
 
-  public handleTimesChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState({ times: Number(event.currentTarget.value) })
-  }
+  public setTimes = (times: number) => this.setState({ times })
 
   public aerialBattle = () => {
     const observableOperation = this.props.operation
@@ -135,13 +134,7 @@ class AerialCombatSimulator extends React.Component<AerialCombatSimulatorProps, 
     return (
       <div style={{ margin: 8 }}>
         <div style={{ display: "flex", alignItems: "center" }}>
-          <TextField
-            label="試行回数"
-            type="number"
-            value={this.state.times}
-            inputProps={{ min: 1 }}
-            onChange={this.handleTimesChange}
-          />
+          <NumberInput label="試行回数" value={this.state.times} min={1} onChange={this.setTimes} />
           <Button onClick={this.simulate}>シミュレート</Button>
         </div>
         {simulationResult && (

@@ -118,11 +118,7 @@ const OperationShareDialog: React.FC<OperationShareDialogProps> = ({ operation, 
           <Button href={`https://www.nishikuma.net/ImgKCbuilder?predeck=${predeck}`} target="_blank" color="primary">
             編成画像出力で開く
           </Button>
-          <Button
-            href={`https://noro6.github.io/kcTools/?predeck=${predeck}&lb=${noroLb}`}
-            target="_blank"
-            color="primary"
-          >
+          <Button href={`https://noro6.github.io/kcTools/?predeck=${predeck}`} target="_blank" color="primary">
             制空権シミュレータで開く
           </Button>
         </DialogActions>

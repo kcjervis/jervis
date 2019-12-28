@@ -3,6 +3,7 @@ import { Proficiency } from "kc-calculator/dist/objects/gear"
 
 import { masterData } from "../stores/kcObjectFactory"
 import { ObservableOperation } from "../stores"
+import { LandBasedAirCorpsMode } from "../stores/ObservableLandBasedAirCorps"
 
 const { calcHpAtLevel, calcStatAtLevel } = formulas
 
@@ -26,7 +27,7 @@ const toGearDataObject = (item: DeckGear | undefined): IGearDataObject | undefin
   }
 }
 
-export type DeckEquipment = Partial<{
+export type DeckItems = Partial<{
   i1: DeckGear
   i2: DeckGear
   i3: DeckGear
@@ -35,7 +36,7 @@ export type DeckEquipment = Partial<{
   ix: DeckGear
 }>
 
-const toGears = (items: DeckEquipment, length = 0) => {
+const toGears = (items: DeckItems, length = 0) => {
   const gears = Array<IGearDataObject | undefined>(length)
   Object.entries(items).forEach(([key, item]) => {
     const index = Number(key.replace("i", ""))
@@ -58,7 +59,7 @@ export interface DeckShip {
   luck?: number
   hp?: number
   asw?: number
-  items: DeckEquipment
+  items: DeckItems
 }
 
 const toShipDataObject = (deckShip: DeckShip | undefined): IShipDataObject | undefined => {
@@ -116,13 +117,7 @@ export enum AirCorpsMode {
 
 export type DeckAirCorps = {
   mode: AirCorpsMode
-  items: DeckEquipment
-}
-
-const toAirCorps = (source: DeckAirCorps): ILandBasedAirCorpsDataObject => {
-  const { mode, items } = source
-  const gears = toGears(items)
-  return { slots: [], equipments: gears }
+  items: DeckItems
 }
 
 export interface Deck {
@@ -134,9 +129,12 @@ export interface Deck {
   f2?: DeckFleet
   f3?: DeckFleet
   f4?: DeckFleet
+  a1?: DeckAirCorps
+  a2?: DeckAirCorps
+  a3?: DeckAirCorps
 }
 
-export const setDeckbuilder = (operation: ObservableOperation, { hqlv = 120, f1, f2, f3, f4 }: Deck) => {
+export const setDeckbuilder = (operation: ObservableOperation, { hqlv = 120, f1, f2, f3, f4, a1, a2, a3 }: Deck) => {
   operation.hqLevel = hqlv
   ;[f1, f2, f3, f4].forEach((deckFleet, fleetIndex) => {
     if (!deckFleet) {
@@ -154,6 +152,26 @@ export const setDeckbuilder = (operation: ObservableOperation, { hqlv = 120, f1,
         fleet.createShip(shipIndex - 1, shipData)
       }
     })
+  })
+  ;[a1, a2, a3].forEach((deckAirCorps, acIndex) => {
+    if (!deckAirCorps) {
+      return
+    }
+
+    const lbac = operation.landBase[acIndex]
+    const { items, mode } = deckAirCorps
+    const gears = toGears(items)
+    gears.forEach((gear, gearIndex) => {
+      if (gear) {
+        lbac.createGear(gearIndex, gear)
+      }
+    })
+
+    if (mode === AirCorpsMode.Sortie) {
+      lbac.mode = LandBasedAirCorpsMode.Sortie2
+    } else {
+      lbac.mode = LandBasedAirCorpsMode.Standby
+    }
   })
 
   return operation

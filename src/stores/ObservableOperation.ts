@@ -7,7 +7,7 @@ import { times } from "lodash-es"
 import kcObjectFactory from "./kcObjectFactory"
 import ObservableFleet from "./ObservableFleet"
 import ObservableLandBasedAirCorps from "./ObservableLandBasedAirCorps"
-import toNishikuma from "./toNishikuma"
+import toDeck from "./toDeck"
 import OperationStore from "./OperationStore"
 import { StoreItem } from "../types"
 
@@ -132,7 +132,7 @@ export default class ObservableOperation implements IOperationDataObject, StoreI
   }
 
   public get toNishikumaJson() {
-    return JSON.stringify(toNishikuma(this.asKcObject, this.hqLevel))
+    return JSON.stringify(toDeck(this.asKcObject, this.hqLevel))
   }
 
   @action public initialize = (store: OperationStore) => {

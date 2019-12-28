@@ -1,4 +1,4 @@
-import React, { useCallback } from "react"
+import React from "react"
 import { Proficiency } from "kc-calculator/dist/objects/gear"
 
 import Button from "@material-ui/core/Button"
@@ -19,6 +19,11 @@ const useStyles = makeStyles({
   }
 })
 
+const anchorOrigin = {
+  vertical: "bottom",
+  horizontal: "center"
+} as const
+
 interface ProficiencySelectProps {
   internal: number
   onChange: (value: number) => void
@@ -38,15 +43,7 @@ const ProficiencySelect: React.FC<ProficiencySelectProps> = ({ internal, onChang
         <ProficiencyIcon className={baseClasses.brightButton} onClick={onClick} internal={internal} />
       </Tooltip>
 
-      <Popover
-        anchorOrigin={{
-          vertical: "bottom",
-          horizontal: "center"
-        }}
-        open={Boolean(anchorEl)}
-        anchorEl={anchorEl}
-        onClose={onClose}
-      >
+      <Popover anchorOrigin={anchorOrigin} open={Boolean(anchorEl)} anchorEl={anchorEl} onClose={onClose}>
         <Flexbox>
           {Proficiency.internalBounds.concat(120).map(inter => (
             <Button key={inter} onClick={handleMenuItemClick(inter)}>
