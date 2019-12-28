@@ -134,7 +134,8 @@ export default class ObservableOperation implements IOperationDataObject, StoreI
   public toDeckJson = (full = true) => {
     const deck = toDeck(this.asKcObject, this.hqLevel)
     const str = JSON.stringify(deck)
-    if (full || str.length < 8000) {
+
+    if (full || encodeURIComponent(str).length < 8000) {
       return str
     }
 
