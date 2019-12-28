@@ -24,6 +24,8 @@ const anchorOrigin = {
   horizontal: "center"
 } as const
 
+const internalBounds = Proficiency.internalBounds.concat(120)
+
 interface ProficiencySelectProps {
   internal: number
   onChange: (value: number) => void
@@ -45,7 +47,7 @@ const ProficiencySelect: React.FC<ProficiencySelectProps> = ({ internal, onChang
 
       <Popover anchorOrigin={anchorOrigin} open={Boolean(anchorEl)} anchorEl={anchorEl} onClose={onClose}>
         <Flexbox>
-          {Proficiency.internalBounds.concat(120).map(inter => (
+          {internalBounds.map(inter => (
             <Button key={inter} onClick={handleMenuItemClick(inter)}>
               <ProficiencyIcon internal={inter} />
             </Button>

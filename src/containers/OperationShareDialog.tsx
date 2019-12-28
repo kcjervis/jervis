@@ -19,7 +19,6 @@ import { CopyButton } from "../components"
 import { useOpen } from "../hooks"
 import { ObservableOperation } from "../stores"
 import { setOperation, urlShortener } from "../stores/firebase"
-import { createNoroLandBase } from "../utils"
 
 const useOperationShare = (operation: ObservableOperation) => {
   const [shareUrl, setShareUrl] = useState<string | undefined>()
@@ -77,8 +76,8 @@ const OperationShareDialog: React.FC<OperationShareDialogProps> = ({ operation, 
   const { shareUrl, createShareUrl } = useOperationShare(operation)
   const classes = useStyles()
 
-  const predeck = operation.toNishikumaJson
-  const noroLb = createNoroLandBase(operation.asKcObject)
+  const predeck = operation.toDeckJson()
+  const urlPredeck = operation.toDeckJson(false)
 
   return (
     <>
@@ -112,13 +111,17 @@ const OperationShareDialog: React.FC<OperationShareDialogProps> = ({ operation, 
           <CopyButton text={predeck} title="デッキビルダー形式をコピー" onCopy={handleSnackbarOpen} />
         </DialogContent>
         <DialogActions>
-          <Button href={`http://kancolle-calc.net/deckbuilder.html?predeck=${predeck}`} target="_blank" color="primary">
+          <Button
+            href={`http://kancolle-calc.net/deckbuilder.html?predeck=${urlPredeck}`}
+            target="_blank"
+            color="primary"
+          >
             デッキビルダーで開く
           </Button>
-          <Button href={`https://www.nishikuma.net/ImgKCbuilder?predeck=${predeck}`} target="_blank" color="primary">
+          <Button href={`https://www.nishikuma.net/ImgKCbuilder?predeck=${urlPredeck}`} target="_blank" color="primary">
             編成画像出力で開く
           </Button>
-          <Button href={`https://noro6.github.io/kcTools/?predeck=${predeck}`} target="_blank" color="primary">
+          <Button href={`https://noro6.github.io/kcTools/?predeck=${urlPredeck}`} target="_blank" color="primary">
             制空権シミュレータで開く
           </Button>
         </DialogActions>

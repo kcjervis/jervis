@@ -131,8 +131,16 @@ export default class ObservableOperation implements IOperationDataObject, StoreI
     return obj
   }
 
-  public get toNishikumaJson() {
-    return JSON.stringify(toDeck(this.asKcObject, this.hqLevel))
+  public toDeckJson = (full = true) => {
+    const deck = toDeck(this.asKcObject, this.hqLevel)
+    const str = JSON.stringify(deck)
+    if (full || str.length < 8000) {
+      return str
+    }
+
+    delete deck.f3
+    delete deck.f4
+    return JSON.stringify(deck)
   }
 
   @action public initialize = (store: OperationStore) => {

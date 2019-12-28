@@ -33,8 +33,7 @@ const LandBaseForm: React.FC<LandBaseForm> = ({ operation }) => {
     operation.enemy = enemyOperation
   }
 
-  const predeck = operation.toNishikumaJson
-
+  const predeck = operation.toDeckJson(false)
   const gears = operation.landBase.flatMap(airCorps => airCorps.gears).filter(nonNullable)
 
   return (
