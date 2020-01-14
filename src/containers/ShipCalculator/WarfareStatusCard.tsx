@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from "react"
-import { ShipInformation, calcDeadlyPower, BattleState } from "kc-calculator"
+import { ShipInformation, calcDeadlyPower, BattleState, AttackPowerModifierRecord } from "kc-calculator"
 import { observer } from "mobx-react-lite"
 
 import Box from "@material-ui/core/Box"
@@ -35,10 +35,12 @@ type WarfareStatusCardProps = {
   enemyInformation: ShipInformation
   enemyShip: ObservableShip
 
-  eventMapModifier: number
-
+  starshell: boolean
+  searchlight: boolean
   nightContactModifier?: number
+
   remainingAmmoModifier?: number
+  optionalPowerModifiers?: AttackPowerModifierRecord
   fitGunBonus?: number
   isAttack?: boolean
 }
@@ -49,9 +51,11 @@ const WarfareStatusCard: React.FC<WarfareStatusCardProps> = props => {
     shipInformation,
     enemyInformation,
     enemyShip,
-    eventMapModifier,
+    starshell,
+    searchlight,
     nightContactModifier,
     remainingAmmoModifier,
+    optionalPowerModifiers,
     fitGunBonus,
     isAttack
   } = props
@@ -67,14 +71,24 @@ const WarfareStatusCard: React.FC<WarfareStatusCardProps> = props => {
         battleState={battleState}
         attacker={shipInformation}
         defender={enemyInformation}
-        eventMapModifier={eventMapModifier}
+        starshell={starshell}
+        searchlight={searchlight}
         nightContactModifier={nightContactModifier}
         remainingAmmoModifier={remainingAmmoModifier}
+        optionalPowerModifiers={optionalPowerModifiers}
         fitGunBonus={fitGunBonus}
       />
     )
   } else {
-    attackStatusNode = <AttackStatus battleState={battleState} attacker={enemyInformation} defender={shipInformation} />
+    attackStatusNode = (
+      <AttackStatus
+        battleState={battleState}
+        attacker={enemyInformation}
+        defender={shipInformation}
+        starshell={false}
+        searchlight={false}
+      />
+    )
   }
 
   return (

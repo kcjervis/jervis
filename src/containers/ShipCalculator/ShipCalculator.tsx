@@ -8,7 +8,6 @@ import {
   FleetType,
   DayCombatSpecialAttack,
   Side,
-  Shelling,
   BattleState,
   nonNullable,
   IShip,
@@ -19,7 +18,6 @@ import FormControlLabel from "@material-ui/core/FormControlLabel"
 import Checkbox from "@material-ui/core/Checkbox"
 import Box from "@material-ui/core/Box"
 import Typography from "@material-ui/core/Typography"
-import TextField from "@material-ui/core/TextField"
 import Button from "@material-ui/core/Button"
 
 import ShipStatusCard from "./ShipStatusCard"
@@ -73,6 +71,18 @@ const useBattleStateForm = () => {
   }
 
   return { form, state }
+}
+
+const useNightState = () => {
+  const nightContactCheck = useCheck()
+  const starshellCheck = useCheck()
+  const searchlightCheck = useCheck()
+
+  const nightContactModifier = nightContactCheck.checked ? 5 : 0
+  const starshell = starshellCheck.checked
+  const searchlight = searchlightCheck.checked
+
+  return { nightContactCheck, starshellCheck, searchlightCheck, nightContactModifier, starshell, searchlight }
 }
 
 interface ShipCalculatorProps {
@@ -133,10 +143,10 @@ const ShipCalculator: React.FC<ShipCalculatorProps> = ({ ship }) => {
     role: state.enemyRole
   })
 
-  const nightContactCheck = useCheck()
-  const nightContactModifier = nightContactCheck.checked ? 5 : 0
+  const nightState = useNightState()
 
   const [eventMapModifier, setEventMapModifier] = useState(1)
+  const optionalPowerModifiers = { a11: eventMapModifier }
 
   const getEnemyInfo = (ship: IShip) => {
     return {
@@ -148,6 +158,7 @@ const ShipCalculator: React.FC<ShipCalculatorProps> = ({ ship }) => {
       formation: state.enemyFormation
     }
   }
+
   return (
     <Box>
       <Typography variant="body2" color="error">
@@ -183,7 +194,9 @@ const ShipCalculator: React.FC<ShipCalculatorProps> = ({ ship }) => {
             step={0.1}
           />
           <NumberInput label="フィット砲補正" value={fitGunBonus} onChange={setFitGunBonus} />
-          <FormControlLabel label="夜間触接" control={<Checkbox {...nightContactCheck} />} />
+          <FormControlLabel label="夜間触接" control={<Checkbox {...nightState.nightContactCheck} />} />
+          <FormControlLabel label="照明弾" control={<Checkbox {...nightState.starshellCheck} />} />
+          <FormControlLabel label="探照灯" control={<Checkbox {...nightState.searchlightCheck} />} />
         </Box>
 
         <Flexbox alignItems="end" mt={1}>
@@ -207,8 +220,8 @@ const ShipCalculator: React.FC<ShipCalculatorProps> = ({ ship }) => {
             battleState={battleState}
             shipInformation={attacker}
             fleetFactors={fleetFactors}
-            nightContactModifier={nightContactModifier}
-            eventMapModifier={eventMapModifier}
+            nightContactModifier={nightState.nightContactModifier}
+            optionalPowerModifiers={optionalPowerModifiers}
             specialAttackRate={specialAttackRate}
           />
         </Box>
@@ -221,8 +234,10 @@ const ShipCalculator: React.FC<ShipCalculatorProps> = ({ ship }) => {
               enemyInformation={getEnemyInfo(enemy.asKcObject)}
               enemyShip={enemy}
               remainingAmmoModifier={remainingAmmoModifier}
-              nightContactModifier={nightContactModifier}
-              eventMapModifier={eventMapModifier}
+              nightContactModifier={nightState.nightContactModifier}
+              starshell={nightState.starshell}
+              searchlight={nightState.searchlight}
+              optionalPowerModifiers={optionalPowerModifiers}
               fitGunBonus={fitGunBonus}
               isAttack={displayModeSelect.value === "Attack"}
             />

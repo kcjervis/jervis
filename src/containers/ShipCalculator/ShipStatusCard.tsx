@@ -4,12 +4,10 @@ import {
   ShipInformation,
   Engagement,
   DayCombatSpecialAttack,
-  ShipShellingStatus,
   NightCombatSpecialAttack,
-  ShipNightAttackStatus,
   BattleState,
-  ShellingSupport,
-  getFleetFactors
+  getFleetFactors,
+  AttackPowerModifierRecord
 } from "kc-calculator"
 import { round } from "lodash-es"
 import clsx from "clsx"
@@ -26,11 +24,12 @@ import { makeStyles } from "@material-ui/core/styles"
 import { toPercent } from "../../utils"
 import { Select, Table, Flexbox, Text, AttackChip, SelectButtons } from "../../components"
 import { useSelect, useInput, useCheck } from "../../hooks"
-import ShellingStats from "./ShellingStats"
 import EnemyType from "./EnemyType"
 
+import ShipShellingStatusCard from "./ShipShellingStatusCard"
 import ShipTorpedoStatusCard from "./ShipTorpedoStatusCard"
 import ShipAswStatusCard from "./ShipAswStatusCard"
+import ShipNightAttackStatus from "./ShipNightAttackStatus"
 
 const useStyles = makeStyles({
   root: {
@@ -49,10 +48,10 @@ type ShipStatusCardProps = {
   fleetFactors: ReturnType<typeof getFleetFactors>
   specialAttackRate: ReturnType<typeof DayCombatSpecialAttack.calcRate>
   nightContactModifier: number
-  eventMapModifier: number
+  optionalPowerModifiers: AttackPowerModifierRecord
 } & PaperProps
 
-const ShipShellingStatusCard: React.FC<ShipStatusCardProps> = props => {
+const ShipStatusCard: React.FC<ShipStatusCardProps> = props => {
   const classes = useStyles()
   const attackTypeSelect = useSelect(["砲撃戦", "雷撃戦", "対潜", "夜戦"])
   const {
@@ -61,74 +60,17 @@ const ShipShellingStatusCard: React.FC<ShipStatusCardProps> = props => {
     fleetFactors,
     specialAttackRate,
     nightContactModifier,
-    eventMapModifier,
+    optionalPowerModifiers,
     className,
     ...paperProps
   } = props
   const { ship, formation, role } = shipInformation
   const formationModifiers = formation.getModifiersWithRole(role)
   const engagementModifier = battleState.engagement.modifier
-  const shellingStatus = new ShipShellingStatus(ship)
-
-  const nightAttacks = new Array<NightCombatSpecialAttack | undefined>(undefined).concat(
-    NightCombatSpecialAttack.getPossibleSpecialAttacks(shipInformation.ship)
-  )
 
   const apCheck = useCheck()
   const enemyTypeSelect = useSelect(EnemyType.values)
   const target = enemyTypeSelect.value.ship
-
-  const createShellingCellRenderer = (isCritical: boolean) => (specialAttack?: DayCombatSpecialAttack) => {
-    const shellingPower = shellingStatus.calcPower({
-      ...shipInformation,
-      isCritical,
-      engagement: battleState.engagement,
-      combinedFleetFactor: fleetFactors.shelling,
-      specialAttack,
-      isArmorPiercing: apCheck.checked,
-      eventMapModifier,
-      target
-    })
-    const color = shellingPower.isCapped ? "secondary" : "inherit"
-    return (
-      <Tooltip title={<ShellingStats shellingPower={shellingPower} />}>
-        <Typography variant="inherit" color={color}>
-          {round(shellingPower.value, 4)}
-        </Typography>
-      </Tooltip>
-    )
-  }
-
-  const nightStatus = new ShipNightAttackStatus(ship)
-  const createNightCellRenderer = (isCritical: boolean) => (specialAttack: NightCombatSpecialAttack | undefined) => {
-    const nightAttackPower = nightStatus.calcPower({
-      ...shipInformation,
-      nightContactModifier,
-      specialAttack,
-      isCritical,
-      eventMapModifier,
-      target
-    })
-    const color = nightAttackPower.isCapped ? "secondary" : "inherit"
-
-    return (
-      <Typography variant="inherit" color={color}>
-        {round(nightAttackPower.value, 4)}
-      </Typography>
-    )
-  }
-
-  const visibleAp = ship.hasGear("ArmorPiercingShell") && ship.hasGear("MainGun")
-
-  const createShellingSupportRenderer = (isCritical: boolean) => () => {
-    const power = ShellingSupport.getShellingSupportPower({ battleState, attacker: shipInformation, isCritical })
-    const color = power.isCapped ? "secondary" : "inherit"
-    return (
-      <Typography variant="inherit" color={color}>
-        {round(power.value, 4)}
-      </Typography>
-    )
-  }
 
   return (
     <Paper className={clsx(className, classes.root)} {...paperProps}>
@@ -136,35 +78,21 @@ const ShipShellingStatusCard: React.FC<ShipStatusCardProps> = props => {
         <Text className={classes.topText}>簡易計算機</Text>
         <Text>装備命中 {ship.totalEquipmentStats(gear => gear.accuracy)}</Text>
       </Flexbox>
+
       <Flexbox alignItems="flex-end" mt={1}>
         <SelectButtons {...attackTypeSelect} />
         <Select label="敵種別" style={{ minWidth: 80, marginLeft: 8 }} {...enemyTypeSelect} />
-        {visibleAp && <FormControlLabel label={`徹甲弾補正`} control={<Checkbox {...apCheck} />} />}
+        <FormControlLabel label="徹甲弾有効" control={<Checkbox {...apCheck} />} />
       </Flexbox>
 
       {attackTypeSelect.value === "砲撃戦" && (
-        <Box mt={1}>
-          <Table
-            data={specialAttackRate.dayCombatAttacks}
-            columns={[
-              { label: "攻撃種別", getValue: getAttackName, align: "left" },
-              { label: "発動率", getValue: attack => toPercent(specialAttackRate.getAttackRate(attack)) },
-              { label: "最終攻撃力", getValue: createShellingCellRenderer(false) },
-              { label: "クリティカル", getValue: createShellingCellRenderer(true) }
-            ]}
-          />
-          <Typography variant="body2">合計特殊攻撃率 {toPercent(specialAttackRate.total)}</Typography>
-          <Typography variant="subtitle2" style={{ marginTop: 16 }}>
-            砲撃支援
-          </Typography>
-          <Table
-            data={[0]}
-            columns={[
-              { label: "最終攻撃力", getValue: createShellingSupportRenderer(false) },
-              { label: "クリティカル", getValue: createShellingSupportRenderer(true) }
-            ]}
-          />
-        </Box>
+        <ShipShellingStatusCard
+          battleState={battleState}
+          shipInformation={shipInformation}
+          fleetFactors={fleetFactors}
+          specialAttackRate={specialAttackRate}
+          optionalModifiers={optionalPowerModifiers}
+        />
       )}
       {attackTypeSelect.value === "雷撃戦" && (
         <ShipTorpedoStatusCard
@@ -172,7 +100,7 @@ const ShipShellingStatusCard: React.FC<ShipStatusCardProps> = props => {
           fleetFactor={fleetFactors.torpedo}
           formationModifier={formationModifiers.torpedo.power}
           engagementModifier={engagementModifier}
-          a11={eventMapModifier}
+          optionalModifiers={optionalPowerModifiers}
         />
       )}
       {attackTypeSelect.value === "対潜" && (
@@ -180,23 +108,20 @@ const ShipShellingStatusCard: React.FC<ShipStatusCardProps> = props => {
           ship={ship}
           formationModifier={formationModifiers.asw.power}
           engagementModifier={engagementModifier}
-          a11={eventMapModifier}
+          optionalModifiers={optionalPowerModifiers}
         />
       )}
       {attackTypeSelect.value === "夜戦" && (
-        <Box mt={1}>
-          <Table
-            data={nightAttacks}
-            columns={[
-              { label: "攻撃種別", getValue: getAttackName, align: "left" },
-              { label: "最終攻撃力", getValue: createNightCellRenderer(false) },
-              { label: "クリティカル", getValue: createNightCellRenderer(true) }
-            ]}
-          />
-        </Box>
+        <ShipNightAttackStatus
+          ship={ship}
+          formationModifier={formationModifiers.nightBattle.power}
+          nightContactModifier={nightContactModifier}
+          target={target}
+          optionalModifiers={optionalPowerModifiers}
+        />
       )}
     </Paper>
   )
 }
 
-export default observer(ShipShellingStatusCard)
+export default observer(ShipStatusCard)

@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import { IShip, TorpedoAttackStatus } from "kc-calculator"
+import { IShip, ShipTorpedoAttackCalculator, AttackPowerModifierRecord } from "kc-calculator"
 import { round } from "lodash-es"
 import clsx from "clsx"
 
@@ -20,23 +20,23 @@ type ShipTorpedoStatusCardProps = {
   fleetFactor: number
   formationModifier: number
   engagementModifier: number
-  a11: number
+  optionalModifiers: AttackPowerModifierRecord
 }
 
 const ShipTorpedoStatusCard: React.FC<ShipTorpedoStatusCardProps> = props => {
   const classes = useStyles()
-  const { ship, fleetFactor, formationModifier, engagementModifier, a11 } = props
+  const { ship, fleetFactor, formationModifier, engagementModifier, optionalModifiers } = props
   if (ship.nakedStats.torpedo === 0) {
     return null
   }
-  const status = new TorpedoAttackStatus(ship)
+  const calculator = ShipTorpedoAttackCalculator.fromShip(ship)
   const createCellRenderer = (isCritical: boolean) => () => {
-    const power = status.createPower({
+    const power = calculator.calcPower({
       fleetFactor,
       formationModifier,
       engagementModifier,
       isCritical,
-      optionalModifiers: { a11 }
+      optionalModifiers
     })
     return <Typography variant="inherit">{round(power.postcap, 4)}</Typography>
   }

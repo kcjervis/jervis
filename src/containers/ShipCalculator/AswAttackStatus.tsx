@@ -15,12 +15,12 @@ import HitRateText, { damageToText } from "./HitRateText"
 type AswAttackStatusProps = Omit<ConstructorParameters<typeof AswAttack>[0], "isCritical">
 
 export default function AswAttackStatus(props: AswAttackStatusProps) {
-  const { attacker, defender } = props
-  if (!AswAttack.isPossible(attacker.ship, defender.ship)) {
+  const createAttack = (isCritical = false) => new AswAttack({ ...props, isCritical })
+
+  if (!createAttack().isPossible()) {
     return <Typography>不可</Typography>
   }
 
-  const createAttack = (isCritical = false) => new AswAttack({ ...props, isCritical })
   const { accuracy, evasion, hitRate } = createAttack()
 
   const hitRateCellRenderer = () => {
