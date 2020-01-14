@@ -4,28 +4,22 @@ import { observer } from "mobx-react-lite"
 
 import Box from "@material-ui/core/Box"
 import Typography from "@material-ui/core/Typography"
-import { makeStyles, createStyles } from "@material-ui/core/styles"
 
 import { toPercent } from "../../utils"
-import { useSelect } from "../../hooks"
 import { Table } from "../../components"
 import { getAttackName } from "./ShipStatusCard"
 import { ColumnProps } from "../../components/Table"
 import HitRateText, { damageToText } from "./HitRateText"
 
-const useStyles = makeStyles(
-  createStyles({
-    root: {}
-  })
-)
-
 type ShellingAttackProps = Omit<ConstructorParameters<typeof ShellingAttack>[0], "isCritical" | "specialAttack">
 type ShellingAttackStatusProps = ShellingAttackProps
 
-const AttackStatus: React.FC<ShellingAttackStatusProps> = props => {
+const ShellingAttackStatus: React.FC<ShellingAttackStatusProps> = props => {
   const { battleState, attacker, defender, remainingAmmoModifier, fitGunBonus, optionalPowerModifiers } = props
 
-  const classes = useStyles()
+  if (defender.ship.shipType.isSubmarineClass) {
+    return null
+  }
 
   const shellingAttacks = new Array<DayCombatSpecialAttack | undefined>(undefined).concat(
     DayCombatSpecialAttack.getPossibleAttacks(attacker.ship)
@@ -109,4 +103,4 @@ const AttackStatus: React.FC<ShellingAttackStatusProps> = props => {
   )
 }
 
-export default observer(AttackStatus)
+export default observer(ShellingAttackStatus)

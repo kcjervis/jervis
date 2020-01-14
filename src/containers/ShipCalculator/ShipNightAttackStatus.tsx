@@ -1,11 +1,9 @@
 import React from "react"
 import { observer } from "mobx-react-lite"
 import {
-  ShipInformation,
   DayCombatSpecialAttack,
   NightCombatSpecialAttack,
   ShipNightAttackCalculator,
-  BattleState,
   AttackPowerModifierRecord,
   composeAttackPowerModifierRecord,
   IShip
@@ -18,7 +16,6 @@ import { makeStyles } from "@material-ui/core/styles"
 
 import { toPercent } from "../../utils"
 import { Table, AttackChip } from "../../components"
-import { useSelect, useInput, useCheck } from "../../hooks"
 
 const useStyles = makeStyles({
   root: {
@@ -27,9 +24,7 @@ const useStyles = makeStyles({
   topText: { marginRight: 8 }
 })
 
-export const getAttackName = (attack?: DayCombatSpecialAttack | NightCombatSpecialAttack) => (
-  <AttackChip attack={attack} />
-)
+const getAttackName = (attack?: NightCombatSpecialAttack) => <AttackChip attack={attack} />
 
 type ShipNightAttackStatusProps = {
   ship: IShip

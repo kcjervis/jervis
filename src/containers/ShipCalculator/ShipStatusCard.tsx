@@ -1,29 +1,22 @@
-import React, { useState } from "react"
+import React from "react"
 import { observer } from "mobx-react-lite"
 import {
   ShipInformation,
-  Engagement,
   DayCombatSpecialAttack,
   NightCombatSpecialAttack,
   BattleState,
   getFleetFactors,
   AttackPowerModifierRecord
 } from "kc-calculator"
-import { round } from "lodash-es"
 import clsx from "clsx"
 
-import Box from "@material-ui/core/Box"
 import Paper, { PaperProps } from "@material-ui/core/Paper"
-import Typography from "@material-ui/core/Typography"
-import Tooltip from "@material-ui/core/Tooltip"
 import FormControlLabel from "@material-ui/core/FormControlLabel"
 import Checkbox from "@material-ui/core/Checkbox"
-import Divider from "@material-ui/core/Divider"
 import { makeStyles } from "@material-ui/core/styles"
 
-import { toPercent } from "../../utils"
-import { Select, Table, Flexbox, Text, AttackChip, SelectButtons } from "../../components"
-import { useSelect, useInput, useCheck } from "../../hooks"
+import { Select, Flexbox, Text, AttackChip, SelectButtons } from "../../components"
+import { useSelect, useCheck } from "../../hooks"
 import EnemyType from "./EnemyType"
 
 import ShipShellingStatusCard from "./ShipShellingStatusCard"
@@ -91,6 +84,8 @@ const ShipStatusCard: React.FC<ShipStatusCardProps> = props => {
           shipInformation={shipInformation}
           fleetFactors={fleetFactors}
           specialAttackRate={specialAttackRate}
+          target={target}
+          isArmorPiercing={apCheck.checked}
           optionalModifiers={optionalPowerModifiers}
         />
       )}

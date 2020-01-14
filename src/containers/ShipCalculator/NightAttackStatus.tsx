@@ -2,27 +2,16 @@ import React from "react"
 import { NightAttack, NightCombatSpecialAttack } from "kc-calculator"
 import { observer } from "mobx-react-lite"
 
-import { makeStyles, createStyles } from "@material-ui/core/styles"
-
-import { Table, SelectButtons } from "../../components"
+import { Table } from "../../components"
 import { getAttackName } from "./ShipStatusCard"
 import { ColumnProps } from "../../components/Table"
 import HitRateText, { damageToText } from "./HitRateText"
-
-const useStyles = makeStyles(
-  createStyles({
-    root: {
-      width: 8 * 60,
-      minHeight: 240
-    }
-  })
-)
 
 type NightAttackProps = Omit<ConstructorParameters<typeof NightAttack>[0], "isCritical" | "specialAttack">
 
 type NightAttackStatusProps = NightAttackProps
 
-const AttackStatus: React.FC<NightAttackStatusProps> = props => {
+const NightAttackStatus: React.FC<NightAttackStatusProps> = props => {
   const {
     attacker,
     defender,
@@ -33,7 +22,9 @@ const AttackStatus: React.FC<NightAttackStatusProps> = props => {
     optionalPowerModifiers
   } = props
 
-  const classes = useStyles()
+  if (defender.ship.shipType.isSubmarineClass) {
+    return null
+  }
 
   const nightAttacks = new Array<NightCombatSpecialAttack | undefined>(undefined).concat(
     NightCombatSpecialAttack.getPossibleSpecialAttacks(attacker.ship)
@@ -73,4 +64,4 @@ const AttackStatus: React.FC<NightAttackStatusProps> = props => {
   return <Table data={nightAttacks} columns={nightAttackColumns} />
 }
 
-export default observer(AttackStatus)
+export default observer(NightAttackStatus)

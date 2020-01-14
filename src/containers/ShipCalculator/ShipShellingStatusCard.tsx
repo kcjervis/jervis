@@ -1,34 +1,25 @@
-import React, { useState } from "react"
+import React from "react"
 import { observer } from "mobx-react-lite"
 import {
   ShipInformation,
-  Engagement,
   DayCombatSpecialAttack,
   ShipShellingCalculator,
   ShipShellingSupportCalculator,
   BattleState,
   getFleetFactors,
   AttackPowerModifierRecord,
-  NightCombatSpecialAttack,
   composeAttackPowerModifierRecord,
-  Formation
+  IShip
 } from "kc-calculator"
 import { round } from "lodash-es"
 import clsx from "clsx"
 
 import Box from "@material-ui/core/Box"
-import Paper, { PaperProps } from "@material-ui/core/Paper"
 import Typography from "@material-ui/core/Typography"
-import Tooltip from "@material-ui/core/Tooltip"
-import FormControlLabel from "@material-ui/core/FormControlLabel"
-import Checkbox from "@material-ui/core/Checkbox"
-import Divider from "@material-ui/core/Divider"
 import { makeStyles } from "@material-ui/core/styles"
 
 import { toPercent } from "../../utils"
-import { Select, Table, Flexbox, Text, AttackChip, SelectButtons } from "../../components"
-import { useSelect, useInput, useCheck } from "../../hooks"
-import EnemyType from "./EnemyType"
+import { Table, AttackChip } from "../../components"
 
 const useStyles = makeStyles({
   root: {
@@ -37,33 +28,39 @@ const useStyles = makeStyles({
   topText: { marginRight: 8 }
 })
 
-export const getAttackName = (attack?: DayCombatSpecialAttack | NightCombatSpecialAttack) => (
-  <AttackChip attack={attack} />
-)
+const getAttackName = (attack?: DayCombatSpecialAttack) => <AttackChip attack={attack} />
 
 type ShipStatusCardProps = {
   battleState: BattleState
   shipInformation: ShipInformation
   fleetFactors: ReturnType<typeof getFleetFactors>
   specialAttackRate: ReturnType<typeof DayCombatSpecialAttack.calcRate>
+  target: IShip
+  isArmorPiercing: boolean
   optionalModifiers: AttackPowerModifierRecord
 }
 
 const ShipShellingStatusCard: React.FC<ShipStatusCardProps> = props => {
   const classes = useStyles()
-  const { battleState, shipInformation, fleetFactors, specialAttackRate, optionalModifiers } = props
+  const {
+    battleState,
+    shipInformation,
+    fleetFactors,
+    specialAttackRate,
+    target,
+    isArmorPiercing,
+    optionalModifiers
+  } = props
+
   const { ship, formation, role } = shipInformation
+
   const formationModifiers = formation.getModifiersWithRole(role)
   const engagementModifier = battleState.engagement.modifier
   const calculator = new ShipShellingCalculator(ship)
   const supportCalculator = new ShipShellingSupportCalculator(ship)
 
-  const apCheck = useCheck()
-  const enemyTypeSelect = useSelect(EnemyType.values)
-
-  const target = enemyTypeSelect.value.ship
   const isAntiInstallation = target.isInstallation
-  const specialEnemyModifiers = ship.getSpecialEnemyModifiers(ship)
+  const specialEnemyModifiers = ship.getSpecialEnemyModifiers(target)
 
   const createShellingCellRenderer = (isCritical: boolean) => (specialAttack?: DayCombatSpecialAttack) => {
     const modifiers = composeAttackPowerModifierRecord(specialEnemyModifiers, optionalModifiers)
@@ -76,7 +73,7 @@ const ShipShellingStatusCard: React.FC<ShipStatusCardProps> = props => {
 
       isCritical,
       isAntiInstallation,
-      isArmorPiercing: apCheck.checked,
+      isArmorPiercing,
 
       specialAttack
     })
