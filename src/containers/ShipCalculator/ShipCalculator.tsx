@@ -106,6 +106,8 @@ const ShipCalculator: React.FC<ShipCalculatorProps> = ({ ship }) => {
   const attacker = { ship: ship.asKcObject, side: attackerSide, isFlagship, fleetType, role, formation, engagement }
 
   ship.increased.firepower
+  ship.increased.torpedo
+  ship.increased.asw
 
   const specialAttackRate = DayCombatSpecialAttack.calcRate(
     ship.asKcObject,
