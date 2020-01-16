@@ -15,6 +15,8 @@ type StoreType = ObservableFleet | EnemyShipStore
 
 export default class ObservableShip implements IShipDataObject, ObservableGearStore, StoreItem<StoreType> {
   @computed public get asKcObject() {
+    // Observable
+    Object.values(this.increased)
     const ship = kcObjectFactory.createShip(this)
     if (!ship) {
       throw new Error(`masterId: ${this.masterId} ship is undefined`)

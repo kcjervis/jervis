@@ -62,8 +62,6 @@ const WarfareStatusCard: React.FC<WarfareStatusCardProps> = props => {
 
   const classes = useStyles()
 
-  enemyInformation.ship.stats.luck
-
   let attackStatusNode: React.ReactElement
   if (isAttack) {
     attackStatusNode = (
