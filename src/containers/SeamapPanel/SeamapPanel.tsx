@@ -49,7 +49,7 @@ const difficultyToString = (difficulty: number) => {
 
 class SeamapState {
   @observable public worldId = 6
-  @observable public mapId = 5
+  @observable public mapId = 65
   @observable public nodeId = "M"
   @observable public difficulty = 4
 
