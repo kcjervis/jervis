@@ -1,13 +1,11 @@
 import React from "react"
 import { IShip, ShipAswCalculator, AttackPowerModifierRecord } from "kc-calculator"
-import { round } from "lodash-es"
 import clsx from "clsx"
 
-import Box from "@material-ui/core/Box"
-import Typography from "@material-ui/core/Typography"
 import { makeStyles } from "@material-ui/core/styles"
 
 import { Table } from "../../components"
+import AttackPowerText from "./AttackPowerText"
 
 const useStyles = makeStyles({
   root: {
@@ -38,7 +36,8 @@ const ShipAswStatusCard: React.FC<ShipAswStatusCardProps> = props => {
       isCritical,
       optionalModifiers
     })
-    return <Typography variant="inherit">{round(power.postcap, 4)}</Typography>
+
+    return <AttackPowerText {...power} />
   }
 
   return (

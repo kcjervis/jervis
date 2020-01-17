@@ -11,7 +11,6 @@ import {
   composeAttackPowerModifierRecord,
   IShip
 } from "kc-calculator"
-import { round } from "lodash-es"
 import clsx from "clsx"
 
 import Box from "@material-ui/core/Box"
@@ -20,6 +19,7 @@ import { makeStyles } from "@material-ui/core/styles"
 
 import { toPercent } from "../../utils"
 import { Table, AttackChip } from "../../components"
+import AttackPowerText from "./AttackPowerText"
 
 const useStyles = makeStyles({
   root: {
@@ -78,13 +78,7 @@ const ShipShellingStatusCard: React.FC<ShipStatusCardProps> = props => {
       specialAttack
     })
 
-    const color = power.isCapped ? "secondary" : "inherit"
-
-    return (
-      <Typography variant="inherit" color={color}>
-        {round(power.postcap, 4)}
-      </Typography>
-    )
+    return <AttackPowerText {...power} />
   }
 
   const createShellingSupportRenderer = (isCritical: boolean) => () => {
@@ -97,12 +91,7 @@ const ShipShellingStatusCard: React.FC<ShipStatusCardProps> = props => {
       isAntiInstallation
     })
 
-    const color = power.isCapped ? "secondary" : "inherit"
-    return (
-      <Typography variant="inherit" color={color}>
-        {round(power.postcap, 4)}
-      </Typography>
-    )
+    return <AttackPowerText {...power} />
   }
 
   return (

@@ -8,14 +8,12 @@ import {
   composeAttackPowerModifierRecord,
   IShip
 } from "kc-calculator"
-import { round } from "lodash-es"
 import clsx from "clsx"
 
-import Typography from "@material-ui/core/Typography"
 import { makeStyles } from "@material-ui/core/styles"
 
-import { toPercent } from "../../utils"
 import { Table, AttackChip } from "../../components"
+import AttackPowerText from "./AttackPowerText"
 
 const useStyles = makeStyles({
   root: {
@@ -61,13 +59,7 @@ const ShipNightAttackStatus: React.FC<ShipNightAttackStatusProps> = props => {
       isAntiInstallation
     })
 
-    const color = power.isCapped ? "secondary" : "inherit"
-
-    return (
-      <Typography variant="inherit" color={color}>
-        {round(power.postcap, 4)}
-      </Typography>
-    )
+    return <AttackPowerText {...power} />
   }
 
   return (
