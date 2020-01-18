@@ -1,5 +1,6 @@
 import firebase from "firebase/app"
 import "firebase/storage"
+import "firebase/analytics"
 import uuid from "uuid"
 import ObservableOperation from "./ObservableOperation"
 
@@ -9,8 +10,12 @@ firebase.initializeApp({
   databaseURL: "https://jervis-6f57c.firebaseio.com",
   projectId: "jervis-6f57c",
   storageBucket: "jervis-6f57c.appspot.com",
-  messagingSenderId: "34493730451"
+  messagingSenderId: "34493730451",
+  appId: "1:34493730451:web:689724ef2c0a41949c4766",
+  measurementId: "G-5WJ5MCMQ9H"
 })
+
+const defaultAnalytics = firebase.analytics()
 
 const storageRef = firebase.storage().ref()
 
