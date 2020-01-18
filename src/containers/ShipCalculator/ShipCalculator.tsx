@@ -137,7 +137,6 @@ const ShipCalculator: React.FC<ShipCalculatorProps> = ({ ship }) => {
   const fleetFactors = getFleetFactors(attacker, {
     side: Side.Enemy,
     fleetType: state.enemyFleetType,
-    formation: state.enemyFormation,
     role: state.enemyRole
   })
 
