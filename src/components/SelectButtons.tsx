@@ -1,12 +1,12 @@
 import React from "react"
+import clsx from "clsx"
 
 import Button, { ButtonProps } from "@material-ui/core/Button"
 import { makeStyles, createStyles, Theme } from "@material-ui/core/styles"
 
 import { BaseSelectProps, getDefaultOptionLabel } from "./Select"
-import clsx from "clsx"
 
-const useStyles = makeStyles((theme: Theme) =>
+export const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     button: {
       borderRadius: 0,
@@ -33,7 +33,7 @@ function SelectButtons<OptionType>(props: SelectButtonsProps<OptionType>) {
           onClick={() => onChange(option)}
           {...buttonProps}
         >
-          {getOptionLabel(option)}{" "}
+          {getOptionLabel(option)}
         </Button>
       ))}
     </>

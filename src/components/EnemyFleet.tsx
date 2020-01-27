@@ -33,7 +33,7 @@ const getFighterPowers = (fp: number) => {
 const EnemyShipNameplate: React.FC<{ ship: IShip; formation: Formation }> = props => {
   const { ship, formation } = props
   const deadlyPower = calcDeadlyPower(ship)
-  const evasionValue = ship.calcEvasionValue(formation.getModifiersWithRole("Main").shelling.evasion)
+  const evasionValue = ship.calcEvasionValue(formation.getModifiers("Main").shelling.evasion)
   const title = (
     <>
       <Typography>確殺攻撃力: {deadlyPower}</Typography>

@@ -1,5 +1,5 @@
 import React from "react"
-import { IShip, ShipAswCalculator, AttackPowerModifierRecord } from "kc-calculator"
+import { createShipAttackCalculator } from "kc-calculator"
 import clsx from "clsx"
 
 import { makeStyles } from "@material-ui/core/styles"
@@ -14,29 +14,19 @@ const useStyles = makeStyles({
 })
 
 type ShipAswStatusCardProps = {
-  ship: IShip
-  formationModifier: number
-  engagementModifier: number
-  optionalModifiers: AttackPowerModifierRecord
+  calculator: ReturnType<typeof createShipAttackCalculator>
 }
 
 const ShipAswStatusCard: React.FC<ShipAswStatusCardProps> = props => {
   const classes = useStyles()
-  const { ship, formationModifier, engagementModifier, optionalModifiers } = props
-  const calculator = ShipAswCalculator.fromShip(ship, "Day")
+  const { calculator } = props
 
-  if (calculator.type === "None") {
+  if (!calculator.canDoAsw) {
     return null
   }
 
   const createAswCellRenderer = (isCritical: boolean) => () => {
-    const power = calculator.calcPower({
-      formationModifier,
-      engagementModifier,
-      isCritical,
-      optionalModifiers
-    })
-
+    const power = calculator.calcAswPower(isCritical)
     return <AttackPowerText {...power} />
   }
 

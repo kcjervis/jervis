@@ -1,5 +1,5 @@
 import React from "react"
-import { IShip, ShipTorpedoAttackCalculator, AttackPowerModifierRecord } from "kc-calculator"
+import { IShip, createShipAttackCalculator } from "kc-calculator"
 import clsx from "clsx"
 
 import { makeStyles } from "@material-ui/core/styles"
@@ -14,29 +14,17 @@ const useStyles = makeStyles({
 })
 
 type ShipTorpedoStatusCardProps = {
-  ship: IShip
-  fleetFactor: number
-  formationModifier: number
-  engagementModifier: number
-  optionalModifiers: AttackPowerModifierRecord
+  calculator: ReturnType<typeof createShipAttackCalculator>
 }
 
 const ShipTorpedoStatusCard: React.FC<ShipTorpedoStatusCardProps> = props => {
   const classes = useStyles()
-  const { ship, fleetFactor, formationModifier, engagementModifier, optionalModifiers } = props
-  if (ship.nakedStats.torpedo === 0) {
+  const { calculator } = props
+  if (!calculator.canDoTorpedoAttack) {
     return null
   }
-  const calculator = ShipTorpedoAttackCalculator.fromShip(ship)
   const createCellRenderer = (isCritical: boolean) => () => {
-    const power = calculator.calcPower({
-      fleetFactor,
-      formationModifier,
-      engagementModifier,
-      isCritical,
-      optionalModifiers
-    })
-
+    const power = calculator.calcTorpedoPower(isCritical)
     return <AttackPowerText {...power} />
   }
 

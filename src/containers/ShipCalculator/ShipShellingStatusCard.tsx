@@ -1,16 +1,6 @@
 import React from "react"
 import { observer } from "mobx-react-lite"
-import {
-  ShipInformation,
-  DayCombatSpecialAttack,
-  ShipShellingCalculator,
-  ShipShellingSupportCalculator,
-  BattleState,
-  getFleetFactors,
-  AttackPowerModifierRecord,
-  composeAttackPowerModifierRecord,
-  IShip
-} from "kc-calculator"
+import { createShipAttackCalculator, DayCombatSpecialAttack } from "kc-calculator"
 import clsx from "clsx"
 
 import Box from "@material-ui/core/Box"
@@ -31,66 +21,21 @@ const useStyles = makeStyles({
 const getAttackName = (attack?: DayCombatSpecialAttack) => <AttackChip attack={attack} />
 
 type ShipStatusCardProps = {
-  battleState: BattleState
-  shipInformation: ShipInformation
-  fleetFactors: ReturnType<typeof getFleetFactors>
+  calculator: ReturnType<typeof createShipAttackCalculator>
   specialAttackRate: ReturnType<typeof DayCombatSpecialAttack.calcRate>
-  target: IShip
-  isArmorPiercing: boolean
-  optionalModifiers: AttackPowerModifierRecord
 }
 
 const ShipShellingStatusCard: React.FC<ShipStatusCardProps> = props => {
   const classes = useStyles()
-  const {
-    battleState,
-    shipInformation,
-    fleetFactors,
-    specialAttackRate,
-    target,
-    isArmorPiercing,
-    optionalModifiers
-  } = props
-
-  const { ship, formation, role } = shipInformation
-
-  const formationModifiers = formation.getModifiersWithRole(role)
-  const engagementModifier = battleState.engagement.modifier
-  const calculator = new ShipShellingCalculator(ship)
-  const supportCalculator = new ShipShellingSupportCalculator(ship)
-
-  const isAntiInstallation = target.isInstallation
-  const specialEnemyModifiers = ship.getSpecialEnemyModifiers(target)
+  const { calculator, specialAttackRate } = props
 
   const createShellingCellRenderer = (isCritical: boolean) => (specialAttack?: DayCombatSpecialAttack) => {
-    const modifiers = composeAttackPowerModifierRecord(specialEnemyModifiers, optionalModifiers)
-
-    const power = calculator.calcPower({
-      fleetFactor: fleetFactors.shelling,
-      formationModifier: formationModifiers.shelling.power,
-      engagementModifier,
-      modifiers,
-
-      isCritical,
-      isAntiInstallation,
-      isArmorPiercing,
-
-      specialAttack
-    })
-
+    const power = calculator.calcShellingPower(isCritical, specialAttack)
     return <AttackPowerText {...power} />
   }
 
   const createShellingSupportRenderer = (isCritical: boolean) => () => {
-    const formationModifier = formation.shellingSupportModifiers.power
-
-    const power = supportCalculator.calcPower({
-      formationModifier,
-      engagementModifier,
-      isCritical,
-      isAntiInstallation
-    })
-
+    const power = calculator.calcShellingSupportPower(isCritical)
     return <AttackPowerText {...power} />
   }
 

@@ -5,8 +5,6 @@ import React, { useContext, useCallback, useState } from "react"
 import Checkbox from "@material-ui/core/Checkbox"
 import Divider from "@material-ui/core/Divider"
 import FormControlLabel from "@material-ui/core/FormControlLabel"
-import Tab from "@material-ui/core/Tab"
-import Tabs from "@material-ui/core/Tabs"
 import TextField from "@material-ui/core/TextField"
 import Typography from "@material-ui/core/Typography"
 import Box from "@material-ui/core/Box"
@@ -16,6 +14,7 @@ import FleetField from "../FleetField"
 import LandBaseForm from "../LandBaseForm"
 import OperationShareDialog from "../OperationShareDialog"
 import OperationDescriptionField from "./OperationDescriptionField"
+import OperationTab from "./OperationTab"
 import { SaveButton, ShareButton, FleetTypeSelect, NumberInput, Flexbox } from "../../components"
 
 import { ObservableOperation, SettingStoreContext } from "../../stores"
@@ -52,10 +51,6 @@ const OperationPanel: React.FC<OperationPanelProps> = ({ operation }) => {
 
   const handleSave = () => {
     save(operation)
-  }
-
-  const handleChange = (e: unknown, value: number) => {
-    operation.activeFleetIndex = value
   }
 
   const handleFleetTypeChange = (fleetType: FleetTypeName) => {
@@ -125,15 +120,7 @@ const OperationPanel: React.FC<OperationPanelProps> = ({ operation }) => {
       </div>
 
       <Flexbox flexWrap="wrap">
-        <Tabs value={activeFleetIndex} onChange={handleChange}>
-          {operation.fleets.map((fleet, index) => {
-            if (operation.asKcObject.isCombinedFleetOperation && index < 2) {
-              return <Tab key={`fleetTab${index}`} label={`連合第${index + 1}`} />
-            }
-            return <Tab key={`fleetTab${index}`} label={`${index + 1}`} />
-          })}
-          {operation.landBase.length > 0 && <Tab label="基地航空隊" />}
-        </Tabs>
+        <OperationTab operation={operation} />
 
         <Typography className={classes.fighterPower} variant="body2">
           第一艦隊制空: {getFighterPower()} {isCombinedFleetOperation ? `連合戦制空: ${getFighterPower(true)}` : ""}

@@ -6,7 +6,8 @@ import {
   NightCombatSpecialAttack,
   BattleState,
   getFleetFactors,
-  AttackPowerModifierRecord
+  AttackPowerModifierRecord,
+  createShipAttackCalculator
 } from "kc-calculator"
 import clsx from "clsx"
 
@@ -57,13 +58,25 @@ const ShipStatusCard: React.FC<ShipStatusCardProps> = props => {
     className,
     ...paperProps
   } = props
-  const { ship, formation, role } = shipInformation
-  const formationModifiers = formation.getModifiersWithRole(role)
-  const engagementModifier = battleState.engagement.modifier
+
+  const { ship } = shipInformation
 
   const apCheck = useCheck()
   const enemyTypeSelect = useSelect(EnemyType.values)
   const target = enemyTypeSelect.value.ship
+
+  const calculator = createShipAttackCalculator({
+    ...battleState,
+    ...shipInformation,
+    target,
+    fleetFactors,
+
+    isArmorPiercing: apCheck.checked,
+
+    nightContactModifier,
+
+    optionalPowerModifiers
+  })
 
   return (
     <Paper className={clsx(className, classes.root)} {...paperProps}>
@@ -79,42 +92,11 @@ const ShipStatusCard: React.FC<ShipStatusCardProps> = props => {
       </Flexbox>
 
       {attackTypeSelect.value === "砲撃戦" && (
-        <ShipShellingStatusCard
-          battleState={battleState}
-          shipInformation={shipInformation}
-          fleetFactors={fleetFactors}
-          specialAttackRate={specialAttackRate}
-          target={target}
-          isArmorPiercing={apCheck.checked}
-          optionalModifiers={optionalPowerModifiers}
-        />
+        <ShipShellingStatusCard calculator={calculator} specialAttackRate={specialAttackRate} />
       )}
-      {attackTypeSelect.value === "雷撃戦" && (
-        <ShipTorpedoStatusCard
-          ship={ship}
-          fleetFactor={fleetFactors.torpedo}
-          formationModifier={formationModifiers.torpedo.power}
-          engagementModifier={engagementModifier}
-          optionalModifiers={optionalPowerModifiers}
-        />
-      )}
-      {attackTypeSelect.value === "対潜" && (
-        <ShipAswStatusCard
-          ship={ship}
-          formationModifier={formationModifiers.asw.power}
-          engagementModifier={engagementModifier}
-          optionalModifiers={optionalPowerModifiers}
-        />
-      )}
-      {attackTypeSelect.value === "夜戦" && (
-        <ShipNightAttackStatus
-          ship={ship}
-          formationModifier={formationModifiers.nightBattle.power}
-          nightContactModifier={nightContactModifier}
-          target={target}
-          optionalModifiers={optionalPowerModifiers}
-        />
-      )}
+      {attackTypeSelect.value === "雷撃戦" && <ShipTorpedoStatusCard calculator={calculator} />}
+      {attackTypeSelect.value === "対潜" && <ShipAswStatusCard calculator={calculator} />}
+      {attackTypeSelect.value === "夜戦" && <ShipNightAttackStatus ship={ship} calculator={calculator} />}
     </Paper>
   )
 }
