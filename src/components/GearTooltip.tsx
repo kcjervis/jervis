@@ -3,7 +3,7 @@ import { IGear, gearStatKeys } from "kc-calculator"
 import clsx from "clsx"
 
 import Box from "@material-ui/core/Box"
-import { makeStyles, Theme } from "@material-ui/core/styles"
+import { makeStyles } from "@material-ui/core/styles"
 
 import StatLabel from "./StatLabel"
 import GearLabel from "./GearLabel"
@@ -33,7 +33,7 @@ const GearTooltip: React.FC<GearTooltipProps> = ({ gear, ...rest }) => {
         </Box>
       }
       {...rest}
-    />
+    ></Tooltip>
   )
 }
 

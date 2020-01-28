@@ -4,7 +4,7 @@ import clsx from "clsx"
 import NoSimOutlined from "@material-ui/icons/NoSimOutlined"
 
 import { makeStyles } from "@material-ui/core/styles"
-import { useImageSrc } from "../../../hooks"
+import { loadImageSrc } from "../../../utils"
 
 const useStyles = makeStyles(theme => ({
   default: {
@@ -19,19 +19,15 @@ type GearImageProps = {
 
 const GearImage: React.FC<GearImageProps> = ({ gearId, className }) => {
   const classes = useStyles()
-  const [src, status] = useImageSrc(`equipments/itemOn/${gearId}.png`)
-
-  if (status === "loading") {
-    return null
-  }
-
   const imgClass = clsx(classes.default, className)
 
-  if (status === "loaded") {
-    return <img src={src} className={imgClass} />
+  const src = loadImageSrc(`equipments/itemOn/${gearId}.png`)
+
+  if (!src) {
+    return <NoSimOutlined className={imgClass} />
   }
 
-  return <NoSimOutlined className={imgClass} />
+  return <img src={src} className={imgClass} />
 }
 
 export default GearImage

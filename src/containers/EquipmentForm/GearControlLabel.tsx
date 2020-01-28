@@ -10,7 +10,6 @@ import {
   GearIcon,
   Flexbox,
   SlotSizePopover,
-  GearLabel,
   ProficiencySelect,
   ImprovementSelect,
   UpdateButton,
@@ -40,7 +39,6 @@ const useStyles = makeStyles((theme: Theme) =>
       marginRight: 4
     },
     icon: {
-      height: 24,
       marginRight: 4
     },
     name: {
@@ -84,7 +82,7 @@ const GearControlLabel: React.FC<GearControlLabelProps> = ({
 
       <Flexbox ref={hoverRef} height="100%" width={`calc(100% - ${visibleProficiency ? 64 : 40}px)`}>
         <GearTooltip gear={gear.asKcObject}>
-          <GearIcon className={classes.icon} iconId={gear.asKcObject.iconId} />
+          <GearIcon className={classes.icon} size="small" iconId={gear.asKcObject.iconId} />
         </GearTooltip>
         <div style={{ display: isHovered ? undefined : "none" }}>
           <UpdateButton title="変更" tooltipProps={{ placement: "top" }} size="small" onClick={onUpdateClick} />

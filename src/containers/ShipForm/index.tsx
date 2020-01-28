@@ -49,9 +49,7 @@ const ShipForm: React.FC<ShipFormProps> = props => {
       </Button>
     )
   } else {
-    element = (
-      <ShipCard ship={ship} defaultStatsExpanded={settingStore.operationPage.visibleShipStats} onUpdate={handleOpen} />
-    )
+    element = <ShipCard ship={ship} expanded={settingStore.operationPage.visibleShipStats} onUpdate={handleOpen} />
   }
 
   return (

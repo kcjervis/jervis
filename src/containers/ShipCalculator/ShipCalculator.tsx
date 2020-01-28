@@ -210,7 +210,7 @@ const ShipCalculator: React.FC<ShipCalculatorProps> = ({ ship }) => {
         </Flexbox>
 
         <Box mt={1} display="flex" flexWrap="wrap" justifyContent="space-between">
-          <ShipCard ship={ship} defaultStatsExpanded={true} disableButton />
+          <ShipCard ship={ship} expanded disableButton />
 
           <ShipStatusCard
             style={{ width: 8 * 60 }}

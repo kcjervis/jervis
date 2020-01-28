@@ -33,6 +33,7 @@ const useStyles = makeStyles((theme: Theme) =>
 )
 
 interface ShipStatDialogProps {
+  className?: string
   ship: ObservableShip
   statKey: ShipStatKey
 }
@@ -44,12 +45,12 @@ const ShipStatDialog: React.FC<ShipStatDialogProps> = props => {
   const { stat, nakedStat, totalEquipmentStat, bonus, changeStat, changeIncreasedStat, increasedStat } = useShipStat(
     props
   )
-  const { ship, statKey } = props
+  const { className, ship, statKey } = props
 
   const statData = statKeys.find(statData => statData.key === statKey)
   const title = statData?.name
   return (
-    <div>
+    <div className={className}>
       <Tooltip title={title}>
         <Button className={classes.button} onClick={onOpen} fullWidth>
           <ShipStatLabel statKey={statKey} ship={ship} />

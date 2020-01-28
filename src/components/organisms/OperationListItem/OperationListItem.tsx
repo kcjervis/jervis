@@ -32,9 +32,6 @@ const useStyles = makeStyles({
   },
   action: {
     display: "none"
-  },
-  shipBanner: {
-    height: 24
   }
 })
 
@@ -52,9 +49,7 @@ export default function OperationListItem(props: OperationListItemProps) {
   const { className, operationName, shipIds, onCopy, onShare, onRemove, ...listItemProps } = props
   const classes = useStyles()
 
-  const images = shipIds.map((shipId, index) => (
-    <ShipBanner key={index} className={classes.shipBanner} shipId={shipId} />
-  ))
+  const images = shipIds.map((shipId, index) => <ShipBanner key={index} size="small" shipId={shipId} />)
 
   return (
     <div className={clsx(classes.root, className)}>

@@ -10,7 +10,6 @@ import { GearIcon } from "./molecules"
 
 const useStyles = makeStyles({
   icon: {
-    height: 24,
     marginRight: 4
   }
 })
@@ -25,7 +24,7 @@ const GearLabel: React.FC<GearLabelProps> = ({ gear, slotSize, equippable = true
   const classes = useStyles()
   return (
     <Box display="flex" alignItems="center" {...boxProps}>
-      <GearIcon className={classes.icon} iconId={gear.iconId} />
+      <GearIcon className={classes.icon} size="small" iconId={gear.iconId} />
       <Text noWrap color={equippable ? "initial" : "secondary"}>
         {gear.name}
       </Text>

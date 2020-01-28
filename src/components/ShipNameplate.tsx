@@ -8,7 +8,6 @@ import { ShipBanner } from "./molecules"
 
 const useStyles = makeStyles({
   banner: {
-    width: 8 * 15,
     flexShrink: 0
   }
 })
@@ -23,7 +22,7 @@ const ShipNameplate = React.forwardRef<HTMLDivElement, ShipNameplateProps>((prop
   const classes = useStyles()
   return (
     <Flexbox ref={ref} display="inline-flex" width={8 * 30}>
-      <ShipBanner className={classes.banner} shipId={masterId} />
+      <ShipBanner className={classes.banner} size="small" shipId={masterId} />
       <Box ml={1}>
         {masterId > 1500 && <Text>ID:{masterId}</Text>}
         <Text>{name}</Text>

@@ -4,12 +4,12 @@ import clsx from "clsx"
 import HelpOutline from "@material-ui/icons/HelpOutline"
 import { makeStyles } from "@material-ui/core/styles"
 
-import { useImageSrc } from "../../../hooks"
+import { loadImageSrc } from "../../../utils"
 
 const useStyles = makeStyles(theme => ({
   default: {
-    width: 40,
-    height: 40,
+    width: 32,
+    height: 32,
     color: theme.palette.text.primary
   },
   small: {
@@ -26,15 +26,11 @@ type GearIconProps = {
 
 const GearIcon = React.forwardRef<HTMLImageElement, GearIconProps>((props, ref) => {
   const classes = useStyles()
-  const [src, status] = useImageSrc(`equipmentIcons/${props.iconId}.png`)
-
-  if (status === "loading") {
-    return null
-  }
-
   const className = clsx(classes.default, { [classes.small]: props.size === "small" }, props.className)
 
-  if (status === "failed") {
+  const src = loadImageSrc(`equipmentIcons/${props.iconId}.png`)
+
+  if (!src) {
     return <HelpOutline innerRef={ref} className={className} />
   }
 

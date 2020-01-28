@@ -80,10 +80,7 @@ const ShipStatusCard: React.FC<ShipStatusCardProps> = props => {
 
   return (
     <Paper className={clsx(className, classes.root)} {...paperProps}>
-      <Flexbox>
-        <Text className={classes.topText}>簡易計算機</Text>
-        <Text>装備命中 {ship.totalEquipmentStats(gear => gear.accuracy)}</Text>
-      </Flexbox>
+      <Text className={classes.topText}>簡易計算機</Text>
 
       <Flexbox alignItems="flex-end" mt={1}>
         <SelectButtons {...attackTypeSelect} />

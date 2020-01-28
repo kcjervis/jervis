@@ -1,23 +1,19 @@
-import React, { useState, useCallback, useEffect } from "react"
-import { shipStatKeys, ShipStatKey } from "kc-calculator"
+import React from "react"
+import { ShipStatKey } from "kc-calculator"
 import { observer } from "mobx-react-lite"
 import clsx from "clsx"
 
-import ExpansionPanel from "@material-ui/core/ExpansionPanel"
-import Typography from "@material-ui/core/Typography"
 import Button from "@material-ui/core/Button"
-import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary"
 import Box from "@material-ui/core/Box"
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore"
+
 import { makeStyles } from "@material-ui/core/styles"
-import Grid from "@material-ui/core/Grid"
+
+import { MoraleBar, MoraleDialog, Text } from "../../components"
+import { ObservableShip } from "../../stores"
 
 import ShipStatDialog from "./ShipStatDialog"
 import HealthBarDialog from "./HealthBarDialog"
-import ShipStatLabel from "./ShipStatLabel"
-
-import { ObservableShip } from "../../stores"
-import { MoraleBar, MoraleDialog, Text } from "../../components"
+import ShipBasicStats from "./ShipBasicStats"
 
 const useStyles = makeStyles({
   summary: {
@@ -33,69 +29,44 @@ const useStyles = makeStyles({
 
 interface ShipStatsExpansionPanelProps {
   ship: ObservableShip
-  defaultExpanded?: boolean
+  expanded?: boolean
 }
 
-const ShipStatsExpansionPanel: React.FC<ShipStatsExpansionPanelProps> = ({ ship, defaultExpanded = false }) => {
-  const [expanded, setExpanded] = useState(defaultExpanded)
-  const toggle = useCallback(() => setExpanded(value => !value), [])
-
-  useEffect(() => {
-    setExpanded(defaultExpanded)
-  }, [defaultExpanded])
-
+const ShipStatsExpansionPanel: React.FC<ShipStatsExpansionPanelProps> = ({ ship, expanded = false }) => {
   const classes = useStyles()
   const summaryStatKeys: ShipStatKey[] = ["hp", "asw", "luck"]
 
-  const shipStatRenderer = (statKey: ShipStatKey) => {
-    if (statKey === "antiAir") {
-      return (
-        <React.Fragment key={statKey}>
-          <Grid item={true} xs={6} key={statKey}>
-            <ShipStatDialog statKey={statKey} ship={ship} />
-          </Grid>
-          <Grid item={true} xs={6}>
-            <Text style={{ padding: 4 }}>制空: {ship.asKcObject.fighterPower}</Text>
-          </Grid>
-        </React.Fragment>
-      )
-    }
-    return (
-      <Grid item={true} xs={6} key={statKey}>
-        <ShipStatDialog statKey={statKey} ship={ship} />
-      </Grid>
-    )
-  }
+  const kcShip = ship.asKcObject
 
-  const { morale } = ship.asKcObject
   const handleMoraleChange = (value: number) => {
     ship.morale = value
   }
 
-  return (
-    <ExpansionPanel style={{ margin: 0 }} expanded={expanded} elevation={0}>
-      <ExpansionPanelSummary className={classes.summary} onClick={toggle} expandIcon={<ExpandMoreIcon />}>
-        <Box display="flex" flexGrow={1} className={clsx({ [classes.expanded]: expanded })}>
-          {summaryStatKeys.map(statKey => (
-            <ShipStatLabel key={statKey} className={classes.summaryStat} ship={ship} statKey={statKey} />
-          ))}
-        </Box>
-      </ExpansionPanelSummary>
+  if (!expanded) {
+    return (
+      <Box display="flex" flexGrow={1} className={clsx({ [classes.expanded]: expanded })}>
+        {summaryStatKeys.map(statKey => (
+          <ShipStatDialog key={statKey} className={classes.summaryStat} ship={ship} statKey={statKey} />
+        ))}
+      </Box>
+    )
+  }
 
+  return (
+    <>
       <HealthBarDialog ship={ship} />
       <MoraleDialog
         button={
           <Button fullWidth>
-            <MoraleBar value={morale.value} />
+            <MoraleBar value={kcShip.morale.value} />
           </Button>
         }
-        value={morale.value}
+        value={kcShip.morale.value}
         onChange={handleMoraleChange}
       />
-
-      <Grid container={true}>{shipStatKeys.map(shipStatRenderer)}</Grid>
-    </ExpansionPanel>
+      <ShipBasicStats ship={ship} />
+    </>
   )
 }
 
-export default ShipStatsExpansionPanel
+export default observer(ShipStatsExpansionPanel)

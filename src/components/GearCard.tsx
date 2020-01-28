@@ -13,10 +13,6 @@ import { Text } from "./atoms"
 import { GearIcon, GearImage } from "./molecules"
 
 const useStyles = makeStyles(theme => ({
-  icon: {
-    width: 32,
-    height: 32
-  },
   title: {
     display: "flex",
     justifyContent: "center",
@@ -67,7 +63,7 @@ const GearCard: React.FC<GearCardProps> = ({ gear, onRemove, onUpdate, onClose, 
       </div>
 
       <Typography className={classes.title} variant="subtitle1">
-        <GearIcon className={classes.icon} iconId={iconId} />
+        <GearIcon iconId={iconId} />
         {name}
       </Typography>
 
