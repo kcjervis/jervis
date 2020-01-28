@@ -7,11 +7,10 @@ import CardContent from "@material-ui/core/CardContent"
 import { makeStyles } from "@material-ui/core/styles"
 import Typography from "@material-ui/core/Typography"
 
-import GearIcon from "./GearIcon"
-import GearImage from "./GearImage"
 import StatChip from "./StatChip"
 import { RemoveButton, UpdateButton, CloseButton } from "./IconButtons"
 import { Text } from "./atoms"
+import { GearIcon, GearImage } from "./molecules"
 
 const useStyles = makeStyles(theme => ({
   icon: {
@@ -83,7 +82,7 @@ const GearCard: React.FC<GearCardProps> = ({ gear, onRemove, onUpdate, onClose, 
             return <StatChip key={statKey} statKey={statKey} value={value} />
           })}
         </CardContent>
-        <GearImage className={classes.image} masterId={masterId} />
+        <GearImage className={classes.image} gearId={masterId} />
       </div>
     </Card>
   )

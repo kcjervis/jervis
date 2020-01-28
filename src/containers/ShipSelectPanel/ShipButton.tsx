@@ -5,7 +5,7 @@ import Button from "@material-ui/core/Button"
 import Box from "@material-ui/core/Box"
 import { makeStyles } from "@material-ui/core/styles"
 
-import { ShipImage, MasterShipCard, Text, Tooltip } from "../../components"
+import { ShipBanner, MasterShipCard, Text, Tooltip } from "../../components"
 
 const useStyles = makeStyles(theme => ({
   button: { padding: 4, justifyContent: "start", width: theme.spacing(30) },
@@ -26,7 +26,7 @@ const ShipButton: React.FC<ShipButtonProps> = ({ ship, onClick }) => {
   return (
     <Tooltip enterDelay={800} TransitionProps={{ style: { maxWidth: 1000 } }} title={<MasterShipCard ship={ship} />}>
       <Button className={styles.button} onClick={handleClick}>
-        <ShipImage className={styles.shipImage} imageType="banner" masterId={ship.shipId} />
+        <ShipBanner className={styles.shipImage} shipId={ship.shipId} />
         <Box ml={1}>
           {ship.isAbyssal && <Text align="left">ID:{ship.shipId}</Text>}
           <Text align="left">{ship.name}</Text>

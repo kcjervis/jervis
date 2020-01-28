@@ -1,7 +1,7 @@
 import React from "react"
 import clsx from "clsx"
 import { Text, Flexbox } from "../../atoms"
-import ShipImage from "../../ShipImage"
+import { ShipBanner } from "../../molecules"
 import { RemoveButton, ShareButton, CopyButton } from "../../IconButtons"
 
 import Paper from "@material-ui/core/Paper"
@@ -32,6 +32,9 @@ const useStyles = makeStyles({
   },
   action: {
     display: "none"
+  },
+  shipBanner: {
+    height: 24
   }
 })
 
@@ -50,7 +53,7 @@ export default function OperationListItem(props: OperationListItemProps) {
   const classes = useStyles()
 
   const images = shipIds.map((shipId, index) => (
-    <ShipImage key={index} masterId={shipId} height={24} imageType="banner" />
+    <ShipBanner key={index} className={classes.shipBanner} shipId={shipId} />
   ))
 
   return (

@@ -5,8 +5,8 @@ import { IGear } from "kc-calculator"
 import Box, { BoxProps } from "@material-ui/core/Box"
 import { makeStyles } from "@material-ui/core/styles"
 
-import GearIcon from "./GearIcon"
 import { Text } from "./atoms"
+import { GearIcon } from "./molecules"
 
 const useStyles = makeStyles({
   icon: {

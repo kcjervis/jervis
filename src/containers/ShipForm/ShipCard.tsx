@@ -10,7 +10,7 @@ import Typography from "@material-ui/core/Typography"
 import Tooltip from "@material-ui/core/Tooltip"
 import { makeStyles, createStyles } from "@material-ui/core/styles"
 
-import { ShipImage, InfoButton, ClearButton, UpdateButton, Text } from "../../components"
+import { ShipBanner, InfoButton, ClearButton, UpdateButton, Text } from "../../components"
 import EquipmentForm from "../EquipmentForm"
 
 import ShipStatsExpansionPanel from "./ShipStatsExpansionPanel"
@@ -92,7 +92,7 @@ const ShipCard: React.FC<ShipCardProps> = ({
           </div>
         </Box>
 
-        <ShipImage masterId={ship.masterId} imageType="banner" />
+        <ShipBanner shipId={ship.masterId} />
 
         <ShipStatsExpansionPanel ship={ship} defaultExpanded={defaultStatsExpanded} />
       </div>

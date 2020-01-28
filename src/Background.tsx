@@ -2,7 +2,7 @@ import { makeStyles, Theme } from "@material-ui/core/styles"
 import { random, range } from "lodash-es"
 import React from "react"
 
-import ShipImage from "./components/ShipImage"
+import { ShipFull } from "./components"
 
 import { masterData } from "./stores/kcObjectFactory"
 
@@ -53,7 +53,7 @@ const Background: React.FC = props => {
   const classes = useStyles()
   return (
     <div className={classes.background}>
-      <ShipImage className={classes.image} imageType="full" masterId={getRandomShipId()} />
+      <ShipFull className={classes.image} shipId={getRandomShipId()} />
     </div>
   )
 }

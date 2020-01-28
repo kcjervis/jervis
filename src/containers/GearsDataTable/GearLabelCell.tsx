@@ -2,12 +2,10 @@ import { IGear } from "kc-calculator"
 import React, { useCallback, useContext } from "react"
 
 import Button from "@material-ui/core/Button"
-import Typography from "@material-ui/core/Typography"
 
 import { DataTableCell } from "../../components/DataTable"
-import GearIcon from "../../components/GearIcon"
 
-import { ImprovementSelect, Text } from "../../components"
+import { GearIcon, ImprovementSelect, Text } from "../../components"
 import { GearsDataStoreContext } from "../../stores"
 
 export type GearLabelCellProps = {
@@ -33,7 +31,7 @@ const GearLabelCell: React.FC<GearLabelCellProps> = ({ gear, onSelect }) => {
         onClick={handleClick}
         style={{ display: "flex", height: 50, alignItems: "center", justifyContent: "flex-start" }}
       >
-        <GearIcon width={24} height={24} iconId={gear.iconId} />
+        <GearIcon size="small" iconId={gear.iconId} />
         <Text>{gear.name}</Text>
       </Button>
       {state && <ImprovementSelect value={gear.improvement.value} onChange={handleImprovementChange} />}

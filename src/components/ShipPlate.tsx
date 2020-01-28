@@ -8,8 +8,8 @@ import CardContent from "@material-ui/core/CardContent"
 import { makeStyles, Theme } from "@material-ui/core/styles"
 import Typography from "@material-ui/core/Typography"
 
-import ShipImage from "./ShipImage"
 import StatChip from "./StatChip"
+import { ShipBanner } from "./molecules"
 
 const useStyles = makeStyles((theme: Theme) => ({
   flexContainer: {
@@ -46,7 +46,7 @@ const ShipPlate: React.FC<ShipPlateProps> = ({ ship, children }) => {
   return (
     <Card>
       <CardContent style={{ display: "flex", alignItems: "center" }}>
-        <ShipImage masterId={ship.masterId} imageType="banner" />
+        <ShipBanner shipId={ship.shipId} />
         <Typography>{name}</Typography>
         <Typography>Lv {level}</Typography>
       </CardContent>

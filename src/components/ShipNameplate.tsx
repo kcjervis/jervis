@@ -1,9 +1,17 @@
 import React from "react"
 
 import Box from "@material-ui/core/Box"
+import { makeStyles } from "@material-ui/core/styles"
 
-import ShipImage from "./ShipImage"
 import { Text, Flexbox } from "./atoms"
+import { ShipBanner } from "./molecules"
+
+const useStyles = makeStyles({
+  banner: {
+    width: 8 * 15,
+    flexShrink: 0
+  }
+})
 
 type ShipNameplateProps = {
   masterId: number
@@ -12,9 +20,10 @@ type ShipNameplateProps = {
 
 const ShipNameplate = React.forwardRef<HTMLDivElement, ShipNameplateProps>((props, ref) => {
   const { masterId, name } = props
+  const classes = useStyles()
   return (
     <Flexbox ref={ref} display="inline-flex" width={8 * 30}>
-      <ShipImage style={{ width: 8 * 15, flexShrink: 0 }} imageType="banner" masterId={masterId} />
+      <ShipBanner className={classes.banner} shipId={masterId} />
       <Box ml={1}>
         {masterId > 1500 && <Text>ID:{masterId}</Text>}
         <Text>{name}</Text>

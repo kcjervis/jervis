@@ -7,9 +7,9 @@ import CardContent from "@material-ui/core/CardContent"
 import { makeStyles } from "@material-ui/core/styles"
 import Typography from "@material-ui/core/Typography"
 
-import ShipImage from "./ShipImage"
 import StatChip from "./StatChip"
 import { Flexbox } from "./atoms"
+import { ShipFull } from "./molecules"
 
 const useStyles = makeStyles(theme => ({
   root: {},
@@ -51,7 +51,7 @@ const MasterShipCard: React.FC<MasterShipCardProps> = ({ ship }) => {
           <Typography>搭載 {ship.slotCapacities.toString()}</Typography>
         </CardContent>
 
-        <ShipImage className={classes.shipImage} masterId={shipId} imageType="full" />
+        <ShipFull className={classes.shipImage} shipId={shipId} />
       </Flexbox>
     </div>
   )
