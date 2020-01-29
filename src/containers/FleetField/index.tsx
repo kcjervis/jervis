@@ -1,9 +1,9 @@
 import { FleetRole, FleetTypeName, nonNullable } from "kc-calculator"
 import { range, floor } from "lodash-es"
 import React from "react"
+import { observer } from "mobx-react-lite"
 
 import Button from "@material-ui/core/Button"
-import Typography from "@material-ui/core/Typography"
 import Grid from "@material-ui/core/Grid"
 import Add from "@material-ui/icons/Add"
 import Remove from "@material-ui/icons/Remove"
@@ -14,8 +14,9 @@ import { makeStyles } from "@material-ui/core/styles"
 import { StatIcon, GearsSettingDialog, Flexbox, Text } from "../../components"
 import ShipForm from "../ShipForm"
 import FleetDetail from "./FleetDetail"
+import AirstrikeSimulatorPanel from "./AirstrikeSimulatorPanel"
 
-import { ObservableFleet, ObservableOperation } from "../../stores"
+import { ObservableFleet, ObservableOperation, useSettingStore } from "../../stores"
 
 const useStyles = makeStyles({
   root: {
@@ -71,6 +72,8 @@ const FleetField: React.FC<FleetFieldProps> = ({ fleet, operation }) => {
     return fleet.asKcObject.effectiveLos(factor, hqLevel)
   }
 
+  const setting = useSettingStore()
+
   return (
     <>
       <Flexbox>
@@ -122,9 +125,11 @@ const FleetField: React.FC<FleetFieldProps> = ({ fleet, operation }) => {
           combinedFleetPlanes={combinedFleetPlanes}
           defaultFormation={operation.formation}
         />
+
+        {setting.cup4 && <AirstrikeSimulatorPanel fleet={fleet.asKcObject} />}
       </Box>
     </>
   )
 }
 
-export default FleetField
+export default observer(FleetField)

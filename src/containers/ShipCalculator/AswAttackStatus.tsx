@@ -26,7 +26,7 @@ export default function AswAttackStatus(props: AswAttackStatusProps) {
   const hitRateCellRenderer = () => {
     return (
       <HitRateText
-        hitRate={hitRate.hitRate}
+        hitRate={hitRate.total}
         criticalRate={hitRate.criticalRate}
         accuracyValue={accuracy}
         evasionValue={evasion}

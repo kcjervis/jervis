@@ -45,7 +45,7 @@ const NightAttackStatus: React.FC<NightAttackStatusProps> = props => {
 
   const nightAttackHitRateRenderer = (specialAttack?: NightCombatSpecialAttack) => {
     const { accuracy, defenderEvasionValue, hitRate } = getNightAttack(specialAttack)
-    return <HitRateText hitRate={hitRate.hitRate} accuracyValue={accuracy} evasionValue={defenderEvasionValue} />
+    return <HitRateText hitRate={hitRate.total} accuracyValue={accuracy} evasionValue={defenderEvasionValue} />
   }
 
   const createNightAttackCellRenderer = (isCritical: boolean) => (specialAttack?: NightCombatSpecialAttack) => {

@@ -42,7 +42,7 @@ export default class App extends Component {
                   <Route exact={true} path="/apps" component={AppsPage} />
                   <Route exact={true} path="/url-shortener" component={UrlShortener} />
 
-                  <Route exact={true} path="/setting" component={SettingPanel} />
+                  <Route exact={true} path="/cup4" component={SettingPanel} />
                 </Workspace>
               </DataLoader>
             </HashRouter>

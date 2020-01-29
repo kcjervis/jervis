@@ -61,9 +61,9 @@ export default function OperationListItem(props: OperationListItemProps) {
         />
         <div className={classes.ships}>{images}</div>
         <ListItemSecondaryAction className={classes.action}>
-          <CopyButton title="コピー" onClick={onCopy} />
-          <ShareButton title="共有URLの生成、デッキビルダー、編成画像出力が使えます" onClick={onShare} />
-          <RemoveButton title="削除" onClick={onRemove} />
+          {onCopy && <CopyButton title="コピー" onClick={onCopy} />}
+          {onShare && <ShareButton title="共有URLの生成、デッキビルダー、編成画像出力が使えます" onClick={onShare} />}
+          {onRemove && <RemoveButton title="削除" onClick={onRemove} />}
         </ListItemSecondaryAction>
       </ListItem>
     </div>

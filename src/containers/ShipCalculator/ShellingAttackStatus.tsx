@@ -41,7 +41,7 @@ const ShellingAttackStatus: React.FC<ShellingAttackStatusProps> = props => {
     const { accuracy, defenderEvasionValue, hitRate } = getShelling(specialAttack)
     return (
       <HitRateText
-        hitRate={hitRate.hitRate}
+        hitRate={hitRate.total}
         criticalRate={hitRate.criticalRate}
         accuracyValue={accuracy}
         evasionValue={defenderEvasionValue}
@@ -83,7 +83,7 @@ const ShellingAttackStatus: React.FC<ShellingAttackStatusProps> = props => {
     if (attacker.formation.id > 10) {
       return "不明"
     }
-    return <HitRateText hitRate={hitRate.hitRate} accuracyValue={accuracy} evasionValue={defenderEvasionValue} />
+    return <HitRateText hitRate={hitRate.total} accuracyValue={accuracy} evasionValue={defenderEvasionValue} />
   }
 
   const shellingSupportColumns = [

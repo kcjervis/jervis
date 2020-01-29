@@ -33,17 +33,18 @@ type HitRateTextProps = {
 }
 
 const HitRateText: React.FC<HitRateTextProps> = ({ hitRate, criticalRate, accuracyValue, evasionValue }) => {
-  const criticalText = criticalRate ? `(${toPercent(criticalRate)})` : ""
   const factors: Array<{ label: string; value: number }> = [
     { label: "攻撃側命中項", value: accuracyValue },
     { label: "防御側回避項", value: evasionValue }
   ]
   const hitStatus = factors.map((factor, index) => <LabeledValue key={index} {...factor} />)
 
+  const criticalText = criticalRate ? `(${toPercent(criticalRate, 0)})` : ""
+
   return (
     <Tooltip enterDelay={500} title={hitStatus}>
       <Typography variant="inherit">
-        {toPercent(hitRate)}
+        {toPercent(hitRate, 0)}
         {criticalText}
       </Typography>
     </Tooltip>

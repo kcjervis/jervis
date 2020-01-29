@@ -1,4 +1,4 @@
-import { FleetRole, IFleet, BattleType, IOperation, IPlane, Formation } from "kc-calculator"
+import { FleetRole, IFleet, IOperation, IPlane, Formation } from "kc-calculator"
 import { observable } from "mobx"
 import { observer } from "mobx-react-lite"
 import React, { createContext, useContext } from "react"

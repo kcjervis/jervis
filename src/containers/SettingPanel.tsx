@@ -9,7 +9,18 @@ import { observer } from "mobx-react-lite"
 
 const SettingPanel = () => {
   const setting = useContext(SettingStoreContext)
-  return <Box m={4}></Box>
+  return (
+    <Box m={4}>
+      <FormControlLabel
+        label="なんか"
+        checked={setting.cup4}
+        onChange={() => {
+          setting.cup4 = !setting.cup4
+        }}
+        control={<Checkbox />}
+      />
+    </Box>
+  )
 }
 
 export default observer(SettingPanel)

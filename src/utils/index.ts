@@ -8,7 +8,7 @@ export const swap = <T>(array0: T[], index0: number, array1: T[], index1: number
   array1[index1] = item0
 }
 
-export const toPercent = (value: number) => (value * 100).toFixed(1) + "%"
+export const toPercent = (value: number, fractionDigits = 1) => (value * 100).toFixed(fractionDigits) + "%"
 
 export const loadImageSrc = (path: string): string | undefined => {
   try {

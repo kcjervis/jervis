@@ -1,5 +1,5 @@
 import { create } from "mobx-persist"
-import { createContext } from "react"
+import { createContext, useContext } from "react"
 
 import OperationStore from "./OperationStore"
 
@@ -33,6 +33,8 @@ export const TemporaryOperationStoreContext = createContext(temporaryOperationSt
 
 export const GearsDataStoreContext = createContext(gearsDataStore)
 export const EnemyShipStoreContext = createContext(new EnemyShipStore())
+
+export const useSettingStore = () => useContext(SettingStoreContext)
 
 export { OperationStore, SettingStore, WorkspaceStore, EnemyShipStore }
 
