@@ -72,7 +72,7 @@ const OperationPanel: React.FC<OperationPanelProps> = ({ operation }) => {
 
   const handleSideChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { checked } = event.target
-    const side = checked ? Side.Enemy : Side.Player
+    const side = checked ? "Enemy" : "Player"
     operation.side = side
   }
 
@@ -102,7 +102,7 @@ const OperationPanel: React.FC<OperationPanelProps> = ({ operation }) => {
           label="ステータス表示"
         />
         <FormControlLabel
-          control={<Checkbox checked={operation.side === Side.Enemy} onChange={handleSideChange} />}
+          control={<Checkbox checked={operation.side === "Enemy"} onChange={handleSideChange} />}
           label="敵艦隊"
         />
 

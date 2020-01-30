@@ -24,7 +24,7 @@ import { NumberInput } from "../components"
 
 export const operationToBattleFleet = (operation: ObservableOperation, isEnemy?: boolean) => {
   const { side, fleetType, mainFleet, escortFleet, landBase } = kcObjectFactory.createOperation(operation)
-  const battleFleet = new BattleFleet(isEnemy ? Side.Enemy : side, fleetType, landBase, mainFleet, escortFleet)
+  const battleFleet = new BattleFleet(isEnemy ? "Enemy" : "Player", fleetType, landBase, mainFleet, escortFleet)
   battleFleet.formation = operation.formation
   return battleFleet
 }

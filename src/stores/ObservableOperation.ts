@@ -51,7 +51,7 @@ export default class ObservableOperation implements IOperationDataObject, StoreI
 
   @persist @observable public hqLevel = 120
 
-  @persist @observable public side = Side.Player
+  @persist @observable public side: Side = "Player"
 
   @persist @observable public fleetType = FleetTypeName.Single
 

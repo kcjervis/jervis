@@ -1,4 +1,4 @@
-import { AirstrikeSimulator, DamageCounter, IFleet, Formation } from "kc-calculator"
+import { BattleSimulator, DamageCounter, IFleet, Formation } from "kc-calculator"
 import React from "react"
 import { SeamapPanelStateContext } from "../Dialogs"
 
@@ -35,13 +35,13 @@ const AirstrikeSimulatorPanel: React.FC<{ fleet: IFleet }> = ({ fleet }) => {
     })
   }, [mapPanelState, setName, setEnemyFleet, setFormation])
 
-  const [result, setResult] = React.useState<AirstrikeSimulator["record"]>()
+  const [result, setResult] = React.useState<BattleSimulator["record"]>()
 
   const handleStart = () => {
     if (!enemyFleet) {
       return
     }
-    const simulator = new AirstrikeSimulator(fleet, enemyFleet, formation)
+    const simulator = new BattleSimulator(fleet, enemyFleet, formation)
     setResult(simulator.do(trialNumber))
   }
 

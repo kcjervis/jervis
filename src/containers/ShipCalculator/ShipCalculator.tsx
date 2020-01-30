@@ -100,8 +100,8 @@ const ShipCalculator: React.FC<ShipCalculatorProps> = ({ ship }) => {
   const { fleetType, formation, engagement, role, airControlState, isFlagship } = state
   const [isEnemy, setIsEnemy] = useState(false)
 
-  const attackerSide = isEnemy ? Side.Enemy : Side.Player
-  const defenderSide = isEnemy ? Side.Player : Side.Enemy
+  const attackerSide: Side = isEnemy ? "Enemy" : "Player"
+  const defenderSide: Side = isEnemy ? "Player" : "Enemy"
   const battleState: BattleState = { engagement, airControlState }
   const attacker = { ship: ship.asKcObject, side: attackerSide, isFlagship, fleetType, role, formation, engagement }
 
@@ -135,7 +135,7 @@ const ShipCalculator: React.FC<ShipCalculatorProps> = ({ ship }) => {
   const displayModeSelect = useSelect<DisplayMode>(["Attack", "Defense"])
 
   const fleetFactors = getFleetFactors(attacker, {
-    side: Side.Enemy,
+    side: "Enemy",
     fleetType: state.enemyFleetType,
     role: state.enemyRole
   })

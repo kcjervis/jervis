@@ -31,7 +31,7 @@ const calcNightContactRate = (arg: IShip | IShip[]): number => {
 }
 
 class NightCombatStore {
-  public side = Side.Player
+  public side: Side = "Player"
   public formation = Formation.LineAhead
 
   @observable
@@ -51,7 +51,12 @@ class NightCombatStore {
 
 const NightCombatStoreContext = createContext(new NightCombatStore())
 
-const enemyBattleState = { side: Side.Enemy, formation: Formation.LineAhead, starshell: false, searchlight: false }
+const enemyBattleState = {
+  side: "Enemy",
+  formation: Formation.LineAhead,
+  starshell: false,
+  searchlight: false
+} as const
 
 const attackRateRenderer = (cutinRates: Array<{ ci: NightCombatSpecialAttack; rate: number }>) => {
   return cutinRates.map(({ ci, rate }, index) => (

@@ -22,7 +22,7 @@ const mapEnemyToOperation = (enemy: MapEnemyFleet, name: string) => {
 
   const operation = ObservableOperation.create({
     name: "",
-    side: Side.Enemy,
+    side: "Enemy",
     fleetType: isCombinedFleet ? FleetTypeName.Combined : FleetTypeName.Single,
     fleets,
     landBase: []

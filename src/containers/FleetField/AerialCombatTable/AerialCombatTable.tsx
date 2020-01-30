@@ -98,7 +98,7 @@ const AerialCombatTable: React.FC<AerialCombatTableProps> = ({
         />
         <NumberInput label="艦隊防空補正" value={fleetAntiAirModifier} onChange={setFleetAntiAirModifier} step={0.1} />
         <Typography color="primary">艦隊防空: {fleetAntiAir.toFixed(2)}</Typography>
-        {side === Side.Enemy && (
+        {side === "Enemy" && (
           <Typography style={{ marginLeft: 8 }} color="secondary">
             敵側式
           </Typography>
