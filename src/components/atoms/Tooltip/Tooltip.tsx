@@ -3,7 +3,7 @@ import MuiTooltip, { TooltipProps } from "@material-ui/core/Tooltip"
 
 import { useHover, useTimer } from "../../../hooks"
 
-export default function Tooltip(props: TooltipProps) {
+const Tooltip: React.FC<TooltipProps> = props => {
   const [open, setOpen] = React.useState(false)
   const [isHovered, hoverRef] = useHover()
 
@@ -24,3 +24,5 @@ export default function Tooltip(props: TooltipProps) {
 
   return <MuiTooltip ref={hoverRef} open={open} {...props} />
 }
+
+export default Tooltip

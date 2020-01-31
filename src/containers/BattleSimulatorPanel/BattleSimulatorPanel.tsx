@@ -1,23 +1,13 @@
-import { BattleSimulator, DamageCounter, IFleet, Formation } from "kc-calculator"
+import { BattleSimulator, IFleet, Formation } from "kc-calculator"
 import React from "react"
 import { SeamapPanelStateContext } from "../Dialogs"
 
 import Button from "@material-ui/core/Button"
 
 import { Text, ShipBanner, Flexbox, NumberInput } from "../../components"
-import { toPercent } from "../../utils"
+import BattleLogPanel from "./BattleLogPanel"
 
-const DamageCounterText: React.FC<{ counter: DamageCounter }> = ({ counter }) => {
-  const { sunkRate, taihaRate, chuuhaRate, shouhaRate, lessRate } = counter
-  return (
-    <Text>
-      撃沈: {toPercent(sunkRate)}, 大破: {toPercent(taihaRate)}, 中破: {toPercent(chuuhaRate)}, 小破:{" "}
-      {toPercent(shouhaRate)}, 無傷: {toPercent(lessRate)}
-    </Text>
-  )
-}
-
-const AirstrikeSimulatorPanel: React.FC<{ fleet: IFleet }> = ({ fleet }) => {
+const BattleSimulatorPanel: React.FC<{ fleet: IFleet }> = ({ fleet }) => {
   const mapPanelState = React.useContext(SeamapPanelStateContext)
   const [enemyFleet, setEnemyFleet] = React.useState<IFleet>()
   const [name, setName] = React.useState<string>("")
@@ -62,25 +52,13 @@ const AirstrikeSimulatorPanel: React.FC<{ fleet: IFleet }> = ({ fleet }) => {
     )
   }
 
-  let resultElem: React.ReactNode
-  if (result) {
-    resultElem = Array.from(result.entries()).map(([ship, counter], index) => {
-      return (
-        <Flexbox key={index} style={{ margin: 4 }}>
-          <ShipBanner size="small" shipId={ship.shipId} />
-          <DamageCounterText counter={counter} />
-        </Flexbox>
-      )
-    })
-  }
-
   return (
     <>
       <Button onClick={handleMapSelect}>敵艦隊を選択</Button>
       {enemyElem}
-      {resultElem}
+      {result && <BattleLogPanel record={result} />}
     </>
   )
 }
 
-export default AirstrikeSimulatorPanel
+export default BattleSimulatorPanel

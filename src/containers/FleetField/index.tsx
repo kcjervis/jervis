@@ -14,7 +14,7 @@ import { makeStyles } from "@material-ui/core/styles"
 import { StatIcon, GearsSettingDialog, Flexbox, Text } from "../../components"
 import ShipForm from "../ShipForm"
 import FleetDetail from "./FleetDetail"
-import AirstrikeSimulatorPanel from "./AirstrikeSimulatorPanel"
+import BattleSimulatorPanel from "../BattleSimulatorPanel"
 
 import { ObservableFleet, ObservableOperation, useSettingStore } from "../../stores"
 
@@ -126,7 +126,7 @@ const FleetField: React.FC<FleetFieldProps> = ({ fleet, operation }) => {
           defaultFormation={operation.formation}
         />
 
-        {setting.cup4 && <AirstrikeSimulatorPanel fleet={fleet.asKcObject} />}
+        {setting.cup4 && <BattleSimulatorPanel fleet={fleet.asKcObject} />}
       </Box>
     </>
   )
