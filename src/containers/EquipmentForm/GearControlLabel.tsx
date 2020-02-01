@@ -1,32 +1,17 @@
-import React, { useState } from "react"
+import React from "react"
 import clsx from "clsx"
 
 import Box, { BoxProps } from "@material-ui/core/Box"
 import { makeStyles, createStyles, Theme } from "@material-ui/core/styles"
-import Typography from "@material-ui/core/Typography"
 import BuildIcon from "@material-ui/icons/Build"
 
-import {
-  GearIcon,
-  Flexbox,
-  SlotSizePopover,
-  ProficiencySelect,
-  ImprovementSelect,
-  UpdateButton,
-  ClearButton,
-  GearTooltip
-} from "../../components"
+import { Flexbox, SlotSizePopover, GearControlBar } from "../../components"
 import { ObservableGear } from "../../stores"
-import { useHover } from "../../hooks"
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
-      height: "100%",
-      justifyContent: "space-between",
-      "&:hover": {
-        background: "rgba(200, 200, 200, 0.1)"
-      }
+      height: "100%"
     },
     slotSize: {
       color: theme.palette.grey[500],
@@ -34,17 +19,6 @@ const useStyles = makeStyles((theme: Theme) =>
       paddingRight: 2,
       textAlign: "right",
       flexShrink: 0
-    },
-    proficiency: {
-      marginRight: 4
-    },
-    icon: {
-      marginRight: 4
-    },
-    name: {
-      fontSize: "0.75rem",
-      overflow: "hidden",
-      whiteSpace: "nowrap"
     }
   })
 )
@@ -68,8 +42,6 @@ const GearControlLabel: React.FC<GearControlLabelProps> = ({
   ...boxProps
 }) => {
   const classes = useStyles()
-  const [isHovered, hoverRef] = useHover()
-  const visibleProficiency = gear.asKcObject.proficiency.visible
   return (
     <Flexbox className={classes.root}>
       <div className={classes.slotSize}>
@@ -80,31 +52,13 @@ const GearControlLabel: React.FC<GearControlLabelProps> = ({
         )}
       </div>
 
-      <Flexbox ref={hoverRef} height="100%" width={`calc(100% - ${visibleProficiency ? 64 : 40}px)`}>
-        <GearTooltip gear={gear.asKcObject}>
-          <GearIcon className={classes.icon} size="small" iconId={gear.asKcObject.iconId} />
-        </GearTooltip>
-        <div style={{ display: isHovered ? undefined : "none" }}>
-          <UpdateButton title="変更" tooltipProps={{ placement: "top" }} size="small" onClick={onUpdateClick} />
-          <ClearButton title="削除" tooltipProps={{ placement: "top" }} size="small" onClick={gear.remove} />
-        </div>
-        <Typography
-          className={classes.name}
-          style={{ display: isHovered ? "none" : undefined }}
-          color={equippable ? "initial" : "secondary"}
-        >
-          {gear.asKcObject.name}
-        </Typography>
-      </Flexbox>
-
-      <Flexbox>
-        {visibleProficiency && (
-          <div className={classes.proficiency}>
-            <ProficiencySelect internal={gear.proficiency} onChange={gear.changeProficiency} />
-          </div>
-        )}
-        <ImprovementSelect value={gear.improvement} onChange={gear.changeImprovement} />
-      </Flexbox>
+      <GearControlBar
+        gear={gear.asKcObject}
+        onRemove={gear.remove}
+        onGearChange={onUpdateClick}
+        onStarChange={gear.changeImprovement}
+        onExpChange={gear.changeProficiency}
+      />
     </Flexbox>
   )
 }

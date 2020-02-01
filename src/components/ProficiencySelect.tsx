@@ -26,21 +26,23 @@ const anchorOrigin = {
 
 const internalBounds = Proficiency.internalBounds.concat(120)
 
-interface ProficiencySelectProps {
+type Props = {
+  className?: string
   internal: number
-  onChange: (value: number) => void
+  onChange?: (value: number) => void
 }
 
-const ProficiencySelect: React.FC<ProficiencySelectProps> = ({ internal, onChange }) => {
+const ProficiencySelect: React.FC<Props> = ({ className, internal, onChange }) => {
   const { anchorEl, onClick, onClose } = useAnchorEl()
   const baseClasses = useBaseStyles()
   const classes = useStyles()
+
   const handleMenuItemClick = (internal: number) => () => {
     onClose()
-    onChange(internal)
+    onChange && onChange(internal)
   }
   return (
-    <>
+    <div className={className}>
       <Tooltip title="熟練度選択">
         <ProficiencyIcon className={baseClasses.brightButton} onClick={onClick} internal={internal} />
       </Tooltip>
@@ -55,7 +57,7 @@ const ProficiencySelect: React.FC<ProficiencySelectProps> = ({ internal, onChang
           <NumberInput className={classes.input} value={internal} onChange={onChange} min={0} max={120} />
         </Flexbox>
       </Popover>
-    </>
+    </div>
   )
 }
 

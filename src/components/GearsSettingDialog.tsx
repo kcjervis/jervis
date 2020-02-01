@@ -7,7 +7,7 @@ import DialogContent from "@material-ui/core/DialogContent"
 import DialogTitle from "@material-ui/core/DialogTitle"
 
 import ProficiencyIcon from "./ProficiencyIcon"
-import { ImprovementButtons } from "./ImprovementSelect"
+import { StarButtons } from "./ImprovementSelect"
 
 import { ObservableGear } from "../stores"
 import { useOpen } from "../hooks"
@@ -53,7 +53,7 @@ const GearsSettingDialog: React.FC<GearsSettingDialogProps> = ({ gears, restoreS
       <Dialog {...dialogProps}>
         <DialogTitle>一括設定</DialogTitle>
         <DialogContent>
-          <ImprovementButtons onClick={handleImprovementChange} />
+          <StarButtons onClick={handleImprovementChange} />
           <div>
             {Proficiency.internalBounds.concat(120).map(inter => (
               <Button key={inter} onClick={handleProficiencyChange(inter)}>

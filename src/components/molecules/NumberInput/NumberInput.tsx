@@ -85,7 +85,7 @@ const stepValue = (value: number, step: number) => {
 
 type NumberInputProps = {
   value: number
-  onChange: (value: number) => void
+  onChange?: (value: number) => void
   min?: number
   max?: number
   step?: number
@@ -98,6 +98,15 @@ export default function NumberInput({ value, onChange, min, max, step = 1, ...te
   const handleBlur = useCallback(() => setInputValue(value.toString()), [value, setInputValue])
   useEffect(handleBlur, [handleBlur])
 
+  const changeValue = useCallback(
+    (next: number) => {
+      next = typeof min === "number" ? Math.max(next, min) : next
+      next = typeof max === "number" ? Math.min(next, max) : next
+      onChange && onChange(next)
+    },
+    [min, max, onChange]
+  )
+
   const handleChange = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
       const str = event.target.value.replace(/[０-９]/g, s => String.fromCharCode(s.charCodeAt(0) - 0xfee0))
@@ -108,20 +117,12 @@ export default function NumberInput({ value, onChange, min, max, step = 1, ...te
       setInputValue(str)
 
       if (str !== "") {
-        onChange(next)
+        changeValue(next)
       }
     },
-    [onChange, setInputValue]
+    [changeValue, setInputValue]
   )
 
-  const changeValue = useCallback(
-    (next: number) => {
-      next = typeof min === "number" ? Math.max(next, min) : next
-      next = typeof max === "number" ? Math.min(next, max) : next
-      onChange(next)
-    },
-    [min, max, onChange]
-  )
   const increase = useCallback(() => changeValue(stepValue(value, step)), [value, step, changeValue])
   const decrease = useCallback(() => changeValue(stepValue(value, -step)), [value, step, changeValue])
 

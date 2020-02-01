@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     color: theme.palette.action.disabled,
     width: 8 * 3
   },
-  improvementColor: {
+  starColor: {
     color: cyan[500]
   },
   selectButton: {
@@ -31,14 +31,14 @@ const useStyles = makeStyles((theme: Theme) => ({
   }
 }))
 
-export const ImprovementButtons: React.FC<{ onClick?: (value: number) => void }> = ({ onClick }) => {
+export const StarButtons: React.FC<{ onClick?: (value: number) => void }> = ({ onClick }) => {
   const classes = useStyles()
   return (
     <>
       {range(11).map(improveValue => (
         <Button
           key={improveValue}
-          className={clsx(classes.improvementColor, classes.selectButton)}
+          className={clsx(classes.starColor, classes.selectButton)}
           onClick={() => onClick && onClick(improveValue)}
         >
           {improvementValueToString(improveValue)}
@@ -50,7 +50,7 @@ export const ImprovementButtons: React.FC<{ onClick?: (value: number) => void }>
 
 interface ImprovementSelectProps {
   value: number
-  onChange: (value: number) => void
+  onChange?: (value: number) => void
 }
 
 const ImprovementSelect: React.FC<ImprovementSelectProps> = ({ value, onChange }) => {
@@ -58,15 +58,16 @@ const ImprovementSelect: React.FC<ImprovementSelectProps> = ({ value, onChange }
   const baseClasses = useBaseStyles()
   const classes = useStyles()
 
-  const handleImprovementClick = (improveValue: number) => {
+  const handleStarClick = (star: number) => {
     onClose()
-    onChange(improveValue)
+    onChange && onChange(star)
   }
+
   return (
     <>
       <Tooltip title="改修値選択">
         <Typography
-          className={clsx(classes.root, { [classes.improvementColor]: value !== 0 }, baseClasses.brightButton)}
+          className={clsx(classes.root, { [classes.starColor]: value !== 0 }, baseClasses.brightButton)}
           onClick={onClick}
           variant="subtitle2"
         >
@@ -83,7 +84,7 @@ const ImprovementSelect: React.FC<ImprovementSelectProps> = ({ value, onChange }
         anchorEl={anchorEl}
         onClose={onClose}
       >
-        <ImprovementButtons onClick={handleImprovementClick} />
+        <StarButtons onClick={handleStarClick} />
       </Popover>
     </>
   )

@@ -29,7 +29,10 @@ const PlaneLossCounterText: React.FC<{ counter: PlaneLossCounter }> = ({ counter
 }
 
 const BattleLogPanel: React.FC<{ record: BattleSimulator["record"] }> = ({ record }) => {
-  const { damageLog, planeLossLog } = record
+  const { damageLog, planeLossLog, sunkCounter } = record
+
+  const sunkRateList = sunkCounter.getRateList()
+
   return (
     <>
       {damageLog.entries().map(([ship, counter], index) => {
@@ -38,6 +41,14 @@ const BattleLogPanel: React.FC<{ record: BattleSimulator["record"] }> = ({ recor
             <ShipBanner size="small" shipId={ship.shipId} />
             <DamageCounterText counter={counter} />
           </Flexbox>
+        )
+      })}
+
+      {sunkRateList.map(([count, rate]) => {
+        return (
+          <Text key={count} style={{ margin: 4 }}>
+            {count}隻撃沈 {toPercent(rate)}
+          </Text>
         )
       })}
 
