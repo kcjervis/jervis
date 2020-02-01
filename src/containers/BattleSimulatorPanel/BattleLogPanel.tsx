@@ -31,7 +31,7 @@ const PlaneLossCounterText: React.FC<{ counter: PlaneLossCounter }> = ({ counter
 const BattleLogPanel: React.FC<{ record: BattleSimulator["record"] }> = ({ record }) => {
   const { damageLog, planeLossLog, sunkCounter } = record
 
-  const sunkRateList = sunkCounter.getRateList()
+  const sunkRateList = sunkCounter.getRateList().sort(([count1], [count2]) => count2 - count1)
 
   return (
     <>
