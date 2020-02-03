@@ -25,7 +25,7 @@ const attackRateRenderer = (attackRate: AttackRate) => {
   ))
 }
 
-export default function ShellingAttackTable({ fleet, fleetRole }: ShellingAttackTableProps) {
+const Component: React.FC<ShellingAttackTableProps> = ({ fleet, fleetRole }) => {
   const fleetLosModifier = DayCombatSpecialAttack.calcFleetLosModifier(fleet)
   const attackData = fleet.ships
     .map((ship, index) => {
@@ -61,3 +61,5 @@ export default function ShellingAttackTable({ fleet, fleetRole }: ShellingAttack
     </>
   )
 }
+
+export default observer(Component)

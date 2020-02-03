@@ -1,27 +1,29 @@
 import React from "react"
 import clsx from "clsx"
 
-import Box, { BoxProps } from "@material-ui/core/Box"
-import { makeStyles, createStyles, Theme } from "@material-ui/core/styles"
-import BuildIcon from "@material-ui/icons/Build"
+import { makeStyles } from "@material-ui/core/styles"
 
-import { Flexbox, SlotSizePopover, GearControlBar } from "../../components"
+import { Flexbox, GearControlBar } from "../../components"
 import { ObservableGear } from "../../stores"
 
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    root: {
-      height: "100%"
-    },
-    slotSize: {
-      color: theme.palette.grey[500],
-      width: 16,
-      paddingRight: 2,
-      textAlign: "right",
-      flexShrink: 0
-    }
-  })
-)
+import SlotSizeButton from "./SlotSizeButton"
+
+const slotSizeWidth = 16
+
+const useStyles = makeStyles({
+  root: {
+    height: "100%"
+  },
+  slot: {
+    width: slotSizeWidth,
+    paddingRight: 2,
+    textAlign: "right",
+    flexShrink: 0
+  },
+  gear: {
+    width: `calc(100% - ${slotSizeWidth}px)`
+  }
+})
 
 type GearControlLabelProps = {
   gear: ObservableGear
@@ -30,7 +32,7 @@ type GearControlLabelProps = {
   onSlotSizeChange?: (value: number) => void
   onUpdateClick?: () => void
   equippable?: boolean
-} & BoxProps
+}
 
 const GearControlLabel: React.FC<GearControlLabelProps> = ({
   gear,
@@ -38,22 +40,17 @@ const GearControlLabel: React.FC<GearControlLabelProps> = ({
   slotSize,
   maxSlotSize,
   onSlotSizeChange,
-  equippable = true,
-  ...boxProps
+  equippable = true
 }) => {
   const classes = useStyles()
   return (
     <Flexbox className={classes.root}>
-      <div className={classes.slotSize}>
-        {slotSize === undefined || maxSlotSize === undefined ? (
-          <BuildIcon style={{ fontSize: "0.875rem", verticalAlign: "middle" }} />
-        ) : (
-          onSlotSizeChange && <SlotSizePopover value={slotSize} max={maxSlotSize} onChange={onSlotSizeChange} />
-        )}
-      </div>
+      <SlotSizeButton className={classes.slot} value={slotSize} max={maxSlotSize} onChange={onSlotSizeChange} />
 
       <GearControlBar
+        className={classes.gear}
         gear={gear.asKcObject}
+        equippable={equippable}
         onRemove={gear.remove}
         onGearChange={onUpdateClick}
         onStarChange={gear.changeImprovement}

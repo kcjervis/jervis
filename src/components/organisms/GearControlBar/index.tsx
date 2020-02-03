@@ -2,7 +2,8 @@ import React from "react"
 import clsx from "clsx"
 import { IGear } from "kc-calculator"
 
-import { makeStyles, Theme } from "@material-ui/core/styles"
+import { makeStyles } from "@material-ui/core/styles"
+import Box from "@material-ui/core/Box"
 
 import {
   GearIcon,
@@ -15,12 +16,11 @@ import {
   Text
 } from "../.."
 
-const useStyles = makeStyles((theme: Theme) => ({
+const useStyles = makeStyles(theme => ({
   root: {
     width: "100%",
 
     transition: "0.3s",
-
     "&:hover": {
       background: "rgba(200, 200, 200, 0.1)"
     },
@@ -28,6 +28,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     "&:hover $buttons": {
       display: "block"
     },
+
     "&:hover $name": {
       display: "none"
     }
@@ -48,6 +49,9 @@ const useStyles = makeStyles((theme: Theme) => ({
 }))
 
 type Props = {
+  className?: string
+  style?: React.CSSProperties
+
   gear: IGear
   equippable?: boolean
 
@@ -61,6 +65,9 @@ type Props = {
 const tooltipProps = { placement: "top" } as const
 
 export const Component: React.FC<Props> = ({
+  className,
+  style,
+
   gear,
   equippable = true,
   onRemove,
@@ -73,8 +80,8 @@ export const Component: React.FC<Props> = ({
   const visibleProficiency = gear.proficiency.visible
 
   return (
-    <Flexbox className={classes.root} justifyContent="space-between">
-      <Flexbox height="100%" width={`calc(100% - ${visibleProficiency ? 64 : 40}px)`}>
+    <Flexbox className={clsx(classes.root, className)} style={style} justifyContent="space-between">
+      <Flexbox height="100%" width={`calc(100% - ${visibleProficiency ? 46 : 24}px)`}>
         <GearTooltip gear={gear}>
           <GearIcon className={classes.icon} size="small" iconId={gear.iconId} />
         </GearTooltip>
