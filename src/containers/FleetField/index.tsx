@@ -40,11 +40,11 @@ const FleetField: React.FC<FleetFieldProps> = ({ fleet, operation }) => {
   const { ships } = fleet
   const classes = useStyles()
 
-  const addShipForm = () => {
+  const addShipSpace = () => {
     ships.push(undefined)
   }
 
-  const removeShipForm = () => {
+  const removeShipSpace = () => {
     if (ships.length > 6) {
       ships.pop()
     }
@@ -99,10 +99,10 @@ const FleetField: React.FC<FleetFieldProps> = ({ fleet, operation }) => {
         />
 
         <div className={classes.bottomControl}>
-          <Button title="艦娘枠を増やす" onClick={addShipForm}>
+          <Button title="艦娘枠を増やす" onClick={addShipSpace}>
             <Add />
           </Button>
-          <Button title="艦娘枠を減らす" onClick={removeShipForm}>
+          <Button title="艦娘枠を減らす" onClick={removeShipSpace}>
             <Remove />
           </Button>
         </div>

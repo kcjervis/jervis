@@ -8,7 +8,7 @@ import FormControlLabel from "@material-ui/core/FormControlLabel"
 import TextField from "@material-ui/core/TextField"
 import Typography from "@material-ui/core/Typography"
 import Box from "@material-ui/core/Box"
-import { makeStyles, Theme } from "@material-ui/core/styles"
+import { makeStyles } from "@material-ui/core/styles"
 
 import FleetField from "../FleetField"
 import LandBaseForm from "../LandBaseForm"
@@ -25,8 +25,17 @@ const useStyles = makeStyles({
     margin: 8,
     marginBottom: 8 * 10
   },
-  name: { width: 8 * 25 },
-  hqLevel: { marginRight: 8, width: 8 * 10 },
+  center: {
+    margin: "auto",
+    maxWidth: 1000
+  },
+  name: {
+    width: 8 * 25
+  },
+  hqLevel: {
+    marginRight: 8,
+    width: 8 * 10
+  },
   form: {
     display: "flex",
     alignItems: "flex-end"
@@ -70,71 +79,72 @@ const OperationPanel: React.FC<OperationPanelProps> = ({ operation }) => {
     operation.hqLevel = value
   }
 
-  const handleSideChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { checked } = event.target
-    const side = checked ? "Enemy" : "Player"
-    operation.side = side
+  const handleSideChange = () => {
+    const next = operation.side === "Player" ? "Enemy" : "Player"
+    operation.side = next
   }
 
-  const { activeFleetIndex } = operation
   const activeFleet = operation.activeFleet
 
   const { getFighterPower, isCombinedFleetOperation } = operation.asKcObject
 
   return (
     <div className={classes.root}>
-      <div className={classes.form}>
-        <TextField label="編成名" className={classes.name} value={operation.name} onChange={handleChangeName} />
-        <NumberInput
-          className={classes.hqLevel}
-          label="司令部Lv"
-          value={operation.hqLevel}
-          min={1}
-          max={120}
-          onChange={handleHqLevelChange}
-        />
-        <FleetTypeSelect fleetType={operation.fleetType} onChange={handleFleetTypeChange} />
+      <div className={classes.center}>
+        <div className={classes.form}>
+          <TextField label="編成名" className={classes.name} value={operation.name} onChange={handleChangeName} />
+          <NumberInput
+            className={classes.hqLevel}
+            label="司令部Lv"
+            value={operation.hqLevel}
+            min={1}
+            max={120}
+            onChange={handleHqLevelChange}
+          />
+          <FleetTypeSelect fleetType={operation.fleetType} onChange={handleFleetTypeChange} />
 
-        <FormControlLabel
-          control={
-            <Checkbox checked={settingStore.operationPage.visibleShipStats} onChange={handleVisibleShipStatsChange} />
-          }
-          label="ステータス表示"
-        />
-        <FormControlLabel
-          control={<Checkbox checked={operation.side === "Enemy"} onChange={handleSideChange} />}
-          label="敵艦隊"
-        />
+          <FormControlLabel
+            label="ステータス表示"
+            checked={settingStore.operationPage.visibleShipStats}
+            onChange={handleVisibleShipStatsChange}
+            control={<Checkbox />}
+          />
+          <FormControlLabel
+            label="敵艦隊"
+            checked={operation.side === "Enemy"}
+            onChange={handleSideChange}
+            control={<Checkbox />}
+          />
 
-        <ShareButton
-          className={classes.iconButton}
-          size="medium"
-          title="共有URLの生成、デッキビルダー、編成画像出力が使えます"
-          onClick={onShareOpen}
-        />
-        <OperationShareDialog operation={operation} {...shareProps} />
+          <ShareButton
+            className={classes.iconButton}
+            title="共有URLの生成、デッキビルダー、編成画像出力が使えます"
+            onClick={onShareOpen}
+          />
+          <OperationShareDialog operation={operation} {...shareProps} />
 
-        {isTemporary(operation) && (
-          <SaveButton className={classes.iconButton} title="編成をローカルに保存" onClick={handleSave} />
-        )}
+          {isTemporary(operation) && (
+            <SaveButton className={classes.iconButton} title="編成をローカルに保存" onClick={handleSave} />
+          )}
+        </div>
+
+        <Flexbox flexWrap="wrap">
+          <OperationTab operation={operation} />
+
+          <Typography className={classes.fighterPower} variant="body2">
+            第一艦隊制空: {getFighterPower()} {isCombinedFleetOperation ? `連合戦制空: ${getFighterPower(true)}` : ""}
+          </Typography>
+        </Flexbox>
       </div>
-
-      <Flexbox flexWrap="wrap">
-        <OperationTab operation={operation} />
-
-        <Typography className={classes.fighterPower} variant="body2">
-          第一艦隊制空: {getFighterPower()} {isCombinedFleetOperation ? `連合戦制空: ${getFighterPower(true)}` : ""}
-        </Typography>
-      </Flexbox>
 
       <Divider />
 
-      <Box margin="auto" maxWidth={8 * 125}>
+      <div className={classes.center}>
         {activeFleet && <FleetField fleet={activeFleet} operation={operation} />}
         {!activeFleet && <LandBaseForm operation={operation} />}
 
         <OperationDescriptionField operation={operation} />
-      </Box>
+      </div>
     </div>
   )
 }

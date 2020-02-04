@@ -1,6 +1,8 @@
 import React from "react"
+import clsx from "clsx"
 
-import { SvgIcon } from "@material-ui/core"
+import { makeStyles } from "@material-ui/styles"
+import SvgIcon from "@material-ui/core/SvgIcon"
 import IconButton, { IconButtonProps } from "@material-ui/core/IconButton"
 import Tooltip, { TooltipProps } from "@material-ui/core/Tooltip"
 
@@ -12,13 +14,13 @@ export interface WithIconButtonProps extends IconButtonProps {
 
 const withIconButton = (WrappedIcon: typeof SvgIcon & React.FC) => {
   const WithIconButton: React.FC<WithIconButtonProps> = ({ title, label, tooltipProps, ...iconButonProps }) => {
-    const fontSize = iconButonProps.size === "small" ? undefined : 20
     const WrappedButton = (
-      <IconButton {...iconButonProps} style={{ fontSize }}>
+      <IconButton {...iconButonProps}>
         <WrappedIcon fontSize="inherit" />
         {label}
       </IconButton>
     )
+
     if (title || (tooltipProps && tooltipProps.title)) {
       return (
         <Tooltip title={title} {...tooltipProps}>

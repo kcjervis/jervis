@@ -1,13 +1,24 @@
 import React from "react"
 import { observer } from "mobx-react-lite"
 import clsx from "clsx"
-import { makeStyles } from "@material-ui/core/styles"
+import { makeStyles, withStyles } from "@material-ui/core/styles"
 
-import Button from "@material-ui/core/Button"
+import MuiButton from "@material-ui/core/Button"
 
 import { ObservableOperation } from "../../stores"
 import { useDragAndDrop } from "../../hooks"
 import { swap } from "../../utils"
+
+const Button = withStyles({
+  root: {
+    padding: "0px 8px",
+    boxSizing: "border-box"
+  },
+  label: {
+    height: 40,
+    minWidth: 24
+  }
+})(MuiButton)
 
 const useStyles = makeStyles(theme => ({
   button: {
@@ -36,9 +47,10 @@ const FleetTab: React.FC<FleetTabProps> = ({ className, onClick, index, isCombin
     item: { type: "FleetTab", index },
     drop: dragItem => onSwap(dragItem.index, index)
   })
+
   const label = isCombinedFleet && index < 2 ? `連合第${index + 1}` : `${index + 1}`
   return (
-    <Button innerRef={ref} variant="text" size="large" className={className} onClick={handleClick}>
+    <Button innerRef={ref} size="large" className={className} onClick={handleClick}>
       {label}
     </Button>
   )
@@ -55,7 +67,7 @@ const Component: React.FC<Props> = ({ operation }) => {
   const lbIndex = operation.fleets.length
   const isCombinedFleet = operation.asKcObject.isCombinedFleetOperation
 
-  const handleChange = React.useCallback(
+  const handleTabChange = React.useCallback(
     (value: number) => {
       operation.activeFleetIndex = value
     },
@@ -70,7 +82,7 @@ const Component: React.FC<Props> = ({ operation }) => {
     [operation]
   )
 
-  const handleLbClick = React.useCallback(() => handleChange(lbIndex), [handleChange, lbIndex])
+  const handleLbClick = React.useCallback(() => handleTabChange(lbIndex), [handleTabChange, lbIndex])
 
   return (
     <>
@@ -78,7 +90,7 @@ const Component: React.FC<Props> = ({ operation }) => {
         <FleetTab
           key={index}
           className={clsx(classes.button, { [classes.selected]: index === value })}
-          onClick={handleChange}
+          onClick={handleTabChange}
           index={index}
           isCombinedFleet={isCombinedFleet}
           onSwap={handleSwap}
