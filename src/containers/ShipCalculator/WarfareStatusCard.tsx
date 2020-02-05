@@ -92,7 +92,7 @@ const WarfareStatusCard: React.FC<WarfareStatusCardProps> = props => {
   return (
     <Paper className={classes.root}>
       <Box>
-        <ShipCard className={classes.shipCard} ship={enemyShip} visibleInfo={false} elevation={0} />
+        <ShipCard className={classes.shipCard} ship={enemyShip} visibleInfo={false} expanded elevation={0} />
         <Text>確殺攻撃力: {calcDeadlyPower(enemyInformation.ship).toFixed(4)}</Text>
       </Box>
 
