@@ -25,9 +25,9 @@ export default class GearList implements ObservableGearStore {
   }
 
   @action public createGear = (gear: IGear) => {
-    const { masterId } = gear
+    const { gearId } = gear
     const improvement = gear.improvement.value
-    this.gears.push(ObservableGear.create({ masterId, improvement }, this))
+    this.gears.push(ObservableGear.create({ masterId: gearId, improvement }, this))
   }
 
   @action public removeGear = (gear: ObservableGear) => this.gears.remove(gear)

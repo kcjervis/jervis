@@ -12,14 +12,14 @@ import { GearsDataStoreContext } from "../../stores"
 
 const GearVisibilityCell: React.FC<{ gear: IGear }> = ({ gear }) => {
   const gearsDataStore = useContext(GearsDataStoreContext)
-  const { masterId } = gear
+  const { gearId } = gear
   const { blackList } = gearsDataStore
-  const Visible = !blackList.includes(masterId)
+  const Visible = !blackList.includes(gearId)
   const toggleVisible = useCallback(() => {
     if (Visible) {
-      blackList.push(masterId)
+      blackList.push(gearId)
     } else {
-      gearsDataStore.blackList.splice(blackList.indexOf(masterId), 1)
+      gearsDataStore.blackList.splice(blackList.indexOf(gearId), 1)
     }
   }, [gear, Visible])
   return (

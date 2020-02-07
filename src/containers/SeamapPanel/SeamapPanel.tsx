@@ -1,15 +1,13 @@
 import React, { useMemo, createContext, useContext } from "react"
-import { formattedMaps, MapEnemyFleet, MapEnemyShip } from "@jervis/data"
+import { formattedMaps } from "@jervis/data"
 import { action, computed, observable } from "mobx"
 
 import Box from "@material-ui/core/Box"
-import Typography from "@material-ui/core/Typography"
 import { makeStyles } from "@material-ui/core/styles"
 
-import { Select, SelectButtons, ShipNameplate } from "../../components"
-import { useSelect } from "../../hooks"
+import { Select, SelectButtons } from "../../components"
 import EnemyFleetCard from "./EnemyFleetCard"
-import { ObservableOperation } from "../../stores"
+import { ObservableOperation, useRootStore } from "../../stores"
 import { observer } from "mobx-react-lite"
 import { SelectProps } from "../../components/Select"
 

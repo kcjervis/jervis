@@ -19,7 +19,7 @@ import GearList from "../../stores/GearList"
 const GearListDialog: React.FC<{ gear: IGear }> = ({ gear }) => {
   const store = useContext(GearsDataStoreContext)
   const { blackList, activeGearList } = store
-  const initialVisible = !blackList.includes(gear.masterId)
+  const initialVisible = !blackList.includes(gear.gearId)
   const [open, setOpen] = useState(false)
   const [visible, setVisible] = useState(initialVisible)
   const toggleVisible = () => setVisible(value => !value)
@@ -28,7 +28,7 @@ const GearListDialog: React.FC<{ gear: IGear }> = ({ gear }) => {
 
   const handleOpen = useCallback(() => setOpen(true), [])
   const handleClose = useCallback(() => {
-    store.setGearVisibility(gear.masterId, visible)
+    store.setGearVisibility(gear.gearId, visible)
     setOpen(false)
   }, [gear, visible])
 
@@ -51,7 +51,7 @@ const GearListDialog: React.FC<{ gear: IGear }> = ({ gear }) => {
           <DialogActions>
             {store.gearLists.map(list => (
               <Button key={list.id} onClick={handleCreate(list)}>
-                {list.name}に追加({list.countGear(gear.masterId)})
+                {list.name}に追加({list.countGear(gear.gearId)})
               </Button>
             ))}
             <VisibilityButton visible={visible} onClick={toggleVisible} />

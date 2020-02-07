@@ -45,20 +45,22 @@ interface GearCardProps extends CardProps {
   onClose?: () => void
 }
 
+const tooltipProps = { placement: "top" } as const
+
 const GearCard: React.FC<GearCardProps> = ({ gear, onRemove, onUpdate, onClose, ...cardProps }) => {
   const classes = useStyles()
-  const { masterId, category, iconId, name } = gear
+  const { gearId, category, iconId, name } = gear
   return (
     <Card elevation={12} {...cardProps}>
       <div style={{ display: "flex", justifyContent: "space-between" }}>
         <Text>
-          ID:{masterId} {category.name}
+          ID:{gearId} {category.name}
         </Text>
 
         <div>
-          {onRemove && <RemoveButton title="装備を削除" tooltipProps={{ placement: "top" }} onClick={onRemove} />}
-          {onUpdate && <UpdateButton title="装備を変更" tooltipProps={{ placement: "top" }} onClick={onUpdate} />}
-          {onClose && <CloseButton title="閉じる" tooltipProps={{ placement: "top" }} onClick={onClose} />}
+          {onRemove && <RemoveButton title="装備を削除" tooltipProps={tooltipProps} onClick={onRemove} />}
+          {onUpdate && <UpdateButton title="装備を変更" tooltipProps={tooltipProps} onClick={onUpdate} />}
+          {onClose && <CloseButton title="閉じる" tooltipProps={tooltipProps} onClick={onClose} />}
         </div>
       </div>
 
@@ -78,7 +80,7 @@ const GearCard: React.FC<GearCardProps> = ({ gear, onRemove, onUpdate, onClose, 
             return <StatChip key={statKey} statKey={statKey} value={value} />
           })}
         </CardContent>
-        <GearImage className={classes.image} gearId={masterId} />
+        <GearImage className={classes.image} gearId={gearId} />
       </div>
     </Card>
   )

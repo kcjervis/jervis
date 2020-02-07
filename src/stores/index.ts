@@ -1,5 +1,6 @@
+import { MobXProviderContext } from "mobx-react"
 import { create } from "mobx-persist"
-import { createContext, useContext } from "react"
+import React, { createContext, useContext } from "react"
 
 import OperationStore from "./OperationStore"
 
@@ -13,9 +14,23 @@ const hydrate = create()
 
 const operationStore = new OperationStore()
 const temporaryOperationStore = new OperationStore()
+
 const settingStore = new SettingStore()
+const workspaceStore = new WorkspaceStore()
 
 const gearsDataStore = new GearsDataStore()
+const enemyShipStore = new EnemyShipStore()
+
+export const StoresContext = React.createContext({
+  operationStore,
+  temporaryOperationStore,
+  settingStore,
+  workspaceStore,
+  gearsDataStore,
+  enemyShipStore
+})
+
+export const useRootStore = () => useContext(MobXProviderContext)
 
 export const loadStores = async () => {
   await hydrate("operationStore", operationStore)
@@ -26,13 +41,13 @@ export const loadStores = async () => {
 }
 
 export const SettingStoreContext = createContext(settingStore)
-export const WorkspaceStoreContext = createContext(new WorkspaceStore())
+export const WorkspaceStoreContext = createContext(workspaceStore)
 
 export const OperationStoreContext = createContext(operationStore)
 export const TemporaryOperationStoreContext = createContext(temporaryOperationStore)
 
 export const GearsDataStoreContext = createContext(gearsDataStore)
-export const EnemyShipStoreContext = createContext(new EnemyShipStore())
+export const EnemyShipStoreContext = createContext(enemyShipStore)
 
 export const useSettingStore = () => useContext(SettingStoreContext)
 

@@ -115,9 +115,9 @@ const GearsDataTable: React.FC<GearsDataTableProps> = ({ label, filter, onSelect
   const customSort: Sort<IGear> = params => {
     const { sortBy, defaultSort, data: currentData } = params
     if (sortBy === "name") {
-      return lodashSortBy(currentData, "iconId", "masterId")
+      return lodashSortBy(currentData, "iconId", "gearId")
     } else if (sortBy === "visibility") {
-      return lodashSortBy(currentData, ({ masterId }) => gearsDataStore.blackList.includes(masterId))
+      return lodashSortBy(currentData, ({ gearId }) => gearsDataStore.blackList.includes(gearId))
     } else {
       return defaultSort(params)
     }
@@ -126,7 +126,7 @@ const GearsDataTable: React.FC<GearsDataTableProps> = ({ label, filter, onSelect
   let dataElement: React.ReactNode
   if (mode === "simple") {
     dataElement = data.map(gear => (
-      <GearTooltip key={gear.masterId} gear={gear}>
+      <GearTooltip key={gear.gearId} gear={gear}>
         <Button onClick={() => onSelect && onSelect(gear)}>
           <GearLabel width={8 * 40} gear={gear} />
         </Button>

@@ -28,7 +28,7 @@ const GearTooltip: React.FC<GearTooltipProps> = ({ gear, ...rest }) => {
       title={
         <Box>
           <GearLabel gear={gear} />
-          <Text>id: {gear.masterId}</Text>
+          <Text>id: {gear.gearId}</Text>
           {statElements}
         </Box>
       }

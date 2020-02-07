@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState } from "react"
 
+import Box from "@material-ui/core/Box"
 import CircularProgress from "@material-ui/core/CircularProgress"
 
 import { loadStores, ObservableOperation, TemporaryOperationStoreContext } from "../stores"
@@ -40,9 +41,9 @@ const DataLoader: React.FC = ({ children }) => {
 
   if (!isReady) {
     return (
-      <div style={{ width: "100vw", height: "100vh", display: "flex", justifyContent: "center", alignItems: "center" }}>
+      <Box width="100vw" height="100vh" display="flex" justifyContent="center" alignItems="center">
         <CircularProgress size={120} />
-      </div>
+      </Box>
     )
   }
 

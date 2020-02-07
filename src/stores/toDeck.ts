@@ -3,9 +3,9 @@ import { IGear, IFleet, IOperation, IShip, ILandBasedAirCorps } from "kc-calcula
 import { DeckFleet, DeckGear, DeckItems, DeckShip, DeckAirCorps, AirCorpsMode, Deck } from "../utils"
 
 const toDeckGear = (gear: IGear): DeckGear => {
-  const { masterId, improvement, proficiency } = gear
+  const { gearId, improvement, proficiency } = gear
   return {
-    id: masterId,
+    id: gearId,
     rf: improvement.value,
     mas: proficiency.level
   }

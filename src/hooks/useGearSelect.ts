@@ -20,7 +20,7 @@ const useGearSelect = (props: EquippableProps) => {
 
   const onSelect = useCallback(
     (gear: IGear) => {
-      const { category, masterId } = gear
+      const { category, gearId } = gear
       let proficiency = 0
       if (gear.is("DiveBomber") || gear.is("TorpedoBomber") || gear.is("Fighter")) {
         proficiency = 100
@@ -28,11 +28,11 @@ const useGearSelect = (props: EquippableProps) => {
       if (gear.is("ReconnaissanceAircraft")) {
         proficiency = 120
       }
-      if (masterId > 500 || category.is("LandBasedReconnaissanceAircraft")) {
+      if (gearId > 500 || category.is("LandBasedReconnaissanceAircraft")) {
         proficiency = 0
       }
       store.createGear(index, {
-        masterId: gear.masterId,
+        masterId: gear.gearId,
         proficiency,
         improvement: gear.improvement.value
       })
