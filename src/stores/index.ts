@@ -1,4 +1,3 @@
-import { MobXProviderContext } from "mobx-react"
 import { create } from "mobx-persist"
 import React, { createContext, useContext } from "react"
 
@@ -29,8 +28,6 @@ export const StoresContext = React.createContext({
   gearsDataStore,
   enemyShipStore
 })
-
-export const useRootStore = () => useContext(MobXProviderContext)
 
 export const loadStores = async () => {
   await hydrate("operationStore", operationStore)

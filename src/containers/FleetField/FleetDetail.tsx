@@ -13,6 +13,7 @@ import NightCombatSpecialAttackTable from "./NightCombatSpecialAttackTable"
 import AerialCombatTable from "./AerialCombatTable"
 import { useBaseStyles } from "../../hooks"
 import ShellingAttackTable from "./ShellingAttackTable"
+import { floor } from "lodash-es"
 
 interface FleetDetailProps {
   operation: IOperation
@@ -45,6 +46,7 @@ const FleetDetail: React.FC<FleetDetailProps> = props => {
           <Tab label="触接率" />
           <Tab label="夜戦CI" />
           <Tab label="航空戦" />
+          <Tab label="その他" />
         </Tabs>
       </div>
 
@@ -74,6 +76,11 @@ const FleetDetail: React.FC<FleetDetailProps> = props => {
           fleetRole={fleetRole}
           defaultFormation={defaultFormation}
         />
+      )}
+      {activeTab === 4 && (
+        <>
+          <Typography>航空索敵スコア: {floor(fleet.aviationDetectionScore, 2)}</Typography>
+        </>
       )}
     </Paper>
   )
