@@ -8,3 +8,5 @@ export { default as GearIcon } from "./GearIcon/GearIcon"
 export { default as GearImage } from "./GearImage/GearImage"
 export { default as ShipBanner } from "./ShipBanner/ShipBanner"
 export { default as ShipFull } from "./ShipFull/ShipFull"
+
+export { default as CopyTextButton } from "./CopyTextButton"

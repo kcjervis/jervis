@@ -1,6 +1,5 @@
 import React from "react"
 import { observer } from "mobx-react-lite"
-import packageJson from "../../../package.json"
 
 import AppBar, { AppBarProps } from "@material-ui/core/AppBar"
 import Button from "@material-ui/core/Button"
@@ -10,6 +9,7 @@ import { makeStyles, createStyles, Theme } from "@material-ui/core/styles"
 
 import WorkspaceTab from "./WorkspaceTab"
 
+import { version } from "../../version"
 import { WorkspaceStore } from "../../stores"
 import { HorizontalScrollbar } from "../../components"
 
@@ -45,7 +45,7 @@ const WorkspaceBar: React.FC<WorkspaceBarPorps> = ({ workspaceStore, children, .
     <AppBar {...appBarProps}>
       <div className={classes.bar}>
         {children}
-        <Typography variant="subtitle2">Jervis v{packageJson.version}</Typography>
+        <Typography variant="subtitle2">Jervis v{version}</Typography>
         <Box flexGrow={1} className={classes.bar}>
           <HorizontalScrollbar>
             {workspaceStore.items.map(item => (

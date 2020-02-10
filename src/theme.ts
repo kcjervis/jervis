@@ -32,6 +32,10 @@ export default createMuiTheme({
   props: {
     MuiTable: {
       padding: "none"
+    },
+    MuiLink: {
+      target: "_blank",
+      rel: "noopener"
     }
   },
   overrides: {

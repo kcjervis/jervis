@@ -19,6 +19,7 @@ import Checkbox from "@material-ui/core/Checkbox"
 import Box from "@material-ui/core/Box"
 import Typography from "@material-ui/core/Typography"
 import Button from "@material-ui/core/Button"
+import Alert from "@material-ui/lab/Alert"
 
 import ShipStatusCard from "./ShipStatusCard"
 import WarfareStatusCard from "./WarfareStatusCard"
@@ -157,92 +158,88 @@ const ShipCalculator: React.FC<ShipCalculatorProps> = ({ ship }) => {
   }
 
   return (
-    <Box>
-      <Typography variant="body2" color="error">
-        攻撃可否未実装(陸上にFBAや魚雷CIはできないので注意)
-        <br />
-        未実装、不備が多いので参考程度に。何かあれば教えてください。
-      </Typography>
+    <Box m={1} maxWidth={8 * 125} width="100%" margin="auto">
+      <Alert severity="warning" variant="outlined">
+        攻撃可否未実装(陸上にFBAや魚雷CIはできないので注意) 未実装、不備が多いので参考程度に。何かあれば教えてください。
+      </Alert>
 
-      <Box m={1} maxWidth={8 * 125} width="100%" margin="auto">
-        <Box display="flex">
-          <Select {...form.fleetType} />
-          <Select {...form.formation} />
-          <Select {...form.engagement} />
-          <Select {...form.airControlState} />
-          <FormControlLabel label="旗艦" control={<Checkbox {...form.isFlagship} />} />
-          <FormControlLabel
-            label="敵側"
-            value={isEnemy}
-            onChange={() => setIsEnemy(value => !value)}
-            control={<Checkbox />}
-          />
-          {visibleRoleSelect && <RadioGroup {...form.role} />}
-        </Box>
+      <Box display="flex">
+        <Select {...form.fleetType} />
+        <Select {...form.formation} />
+        <Select {...form.engagement} />
+        <Select {...form.airControlState} />
+        <FormControlLabel label="旗艦" control={<Checkbox {...form.isFlagship} />} />
+        <FormControlLabel
+          label="敵側"
+          value={isEnemy}
+          onChange={() => setIsEnemy(value => !value)}
+          control={<Checkbox />}
+        />
+        {visibleRoleSelect && <RadioGroup {...form.role} />}
+      </Box>
 
-        <Box display="flex" mt={1}>
-          <NumberInput label="艦隊索敵補正" value={fleetLosModifier} onChange={setFleetLosModifier} min={0} />
-          <NumberInput
-            label="弾薬量補正"
-            value={remainingAmmoModifier}
-            onChange={setRemainingAmmoModifier}
-            min={0}
-            max={1}
-            step={0.1}
-          />
-          <NumberInput label="フィット砲補正" value={fitGunBonus} onChange={setFitGunBonus} />
-          <FormControlLabel label="夜間触接" control={<Checkbox {...nightState.nightContactCheck} />} />
-          <FormControlLabel label="照明弾" control={<Checkbox {...nightState.starshellCheck} />} />
-          <FormControlLabel label="探照灯" control={<Checkbox {...nightState.searchlightCheck} />} />
-        </Box>
+      <Box display="flex" mt={1}>
+        <NumberInput label="艦隊索敵補正" value={fleetLosModifier} onChange={setFleetLosModifier} min={0} />
+        <NumberInput
+          label="弾薬量補正"
+          value={remainingAmmoModifier}
+          onChange={setRemainingAmmoModifier}
+          min={0}
+          max={1}
+          step={0.1}
+        />
+        <NumberInput label="フィット砲補正" value={fitGunBonus} onChange={setFitGunBonus} />
+        <FormControlLabel label="夜間触接" control={<Checkbox {...nightState.nightContactCheck} />} />
+        <FormControlLabel label="照明弾" control={<Checkbox {...nightState.starshellCheck} />} />
+        <FormControlLabel label="探照灯" control={<Checkbox {...nightState.searchlightCheck} />} />
+      </Box>
 
-        <Flexbox alignItems="end" mt={1}>
-          <RadioGroup {...displayModeSelect} getOptionLabel={mode => (mode === "Attack" ? "攻撃" : "防御")} />
-          <Select label="相手艦隊種別" style={{ width: 8 * 15 }} {...form.enemyFleetType} />
-          <Select label="相手陣形" {...form.enemyFormation} />
-          <NumberInput
-            label="イベント特効(a11)"
-            style={{ width: 8 * 17 }}
-            step={0.1}
-            value={eventMapModifier}
-            onChange={setEventMapModifier}
-          />
-        </Flexbox>
+      <Flexbox alignItems="end" mt={1}>
+        <RadioGroup {...displayModeSelect} getOptionLabel={mode => (mode === "Attack" ? "攻撃" : "防御")} />
+        <Select label="相手艦隊種別" style={{ width: 8 * 15 }} {...form.enemyFleetType} />
+        <Select label="相手陣形" {...form.enemyFormation} />
+        <NumberInput
+          label="イベント特効(a11)"
+          style={{ width: 8 * 17 }}
+          step={0.1}
+          value={eventMapModifier}
+          onChange={setEventMapModifier}
+        />
+      </Flexbox>
 
-        <Box mt={1} display="flex" flexWrap="wrap" justifyContent="space-between">
-          <ShipCard ship={ship} expanded disableButton />
+      <Box mt={1} display="flex" flexWrap="wrap" justifyContent="space-between">
+        <ShipCard ship={ship} expanded disableButton />
 
-          <ShipStatusCard
-            style={{ width: 8 * 60 }}
+        <ShipStatusCard
+          style={{ width: 8 * 60 }}
+          battleState={battleState}
+          shipInformation={attacker}
+          fleetFactors={fleetFactors}
+          nightContactModifier={nightState.nightContactModifier}
+          optionalPowerModifiers={optionalPowerModifiers}
+          specialAttackRate={specialAttackRate}
+        />
+      </Box>
+
+      {enemyShipStore.ships.map(enemy => (
+        <Box key={enemy.id} mt={1}>
+          <WarfareStatusCard
             battleState={battleState}
             shipInformation={attacker}
-            fleetFactors={fleetFactors}
+            enemyInformation={getEnemyInfo(enemy.asKcObject)}
+            enemyShip={enemy}
+            remainingAmmoModifier={remainingAmmoModifier}
             nightContactModifier={nightState.nightContactModifier}
+            starshell={nightState.starshell}
+            searchlight={nightState.searchlight}
             optionalPowerModifiers={optionalPowerModifiers}
-            specialAttackRate={specialAttackRate}
+            fitGunBonus={fitGunBonus}
+            isAttack={displayModeSelect.value === "Attack"}
           />
         </Box>
-
-        {enemyShipStore.ships.map(enemy => (
-          <Box key={enemy.id} mt={1}>
-            <WarfareStatusCard
-              battleState={battleState}
-              shipInformation={attacker}
-              enemyInformation={getEnemyInfo(enemy.asKcObject)}
-              enemyShip={enemy}
-              remainingAmmoModifier={remainingAmmoModifier}
-              nightContactModifier={nightState.nightContactModifier}
-              starshell={nightState.starshell}
-              searchlight={nightState.searchlight}
-              optionalPowerModifiers={optionalPowerModifiers}
-              fitGunBonus={fitGunBonus}
-              isAttack={displayModeSelect.value === "Attack"}
-            />
-          </Box>
-        ))}
-        <Button onClick={handleAddEnemyClick}>敵と比較</Button>
-        <Button onClick={handleMapSelect}>マップから</Button>
-      </Box>
+      ))}
+      <Button onClick={handleAddEnemyClick}>敵と比較</Button>
+      <Button onClick={handleMapSelect}>マップから</Button>
     </Box>
   )
 }
