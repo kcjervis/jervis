@@ -12,8 +12,8 @@ const useStyles = makeStyles({
   background: {
     background: `linear-gradient(
       180deg,
-      rgba(30, 45, 70, 0.6),
-      rgba(15, 20, 30, 0.7)
+      rgba(30, 45, 70, 0.7),
+      rgba(15, 20, 30, 0.8)
     )`,
     height: `calc(100vh + ${blur * 4}px)`,
     width: `calc(100vw + ${blur * 4}px)`,

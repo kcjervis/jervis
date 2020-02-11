@@ -2,6 +2,7 @@ import React from "react"
 import { Mention, Timeline } from "react-twitter-widgets"
 
 import Container from "@material-ui/core/Container"
+import Box from "@material-ui/core/Box"
 import Link from "@material-ui/core/Link"
 import Divider from "@material-ui/core/Divider"
 import Typography from "@material-ui/core/Typography"
@@ -35,12 +36,12 @@ const H2: React.FC = ({ children }) => {
 const Home: React.FC = () => {
   const classes = useStyles()
   return (
-    <Container maxWidth="md">
-      <Typography variant="h4" component="h1">
+    <Container>
+      <Typography className={classes.margin} variant="h4" component="h1">
         作戦室 v{version}
       </Typography>
       <Alert severity="warning" variant="outlined">
-        当サイトは現在開発中です。
+        当サイトは現在開発中です。大幅な仕様変更が頻繁に発生します。
       </Alert>
 
       <Typography className={classes.margin}>
@@ -51,6 +52,24 @@ const Home: React.FC = () => {
         </Link>
         してみましょう。
       </Typography>
+
+      <H2>よくある質問</H2>
+      <Box m={1}>
+        <Typography>
+          Q.なんで
+          <Link href="#help" target="_self">
+            使い方
+          </Link>
+          ちゃんと書かないの？
+        </Typography>
+        <Typography>A.仕様変更の頻度が高すぎて書けないごめん。</Typography>
+      </Box>
+      <Box m={1}>
+        <Typography>Q.このサイト何ができるの？</Typography>
+        <Typography>
+          A.編成保存、編成共有、索敵計算、夜戦CI率、昼CI率、対空CI率、触接率とか。基地削り計算は制空権シミュレータを使った方がいいと思う。ダメージと命中率計算もできるけど作りかけだからあんまり信用しないでね。
+        </Typography>
+      </Box>
 
       <H2>連絡先</H2>
       <Link href="https://marshmallow-qa.com/madonoharu">マシュマロ(匿名でメッセージを送る)</Link>

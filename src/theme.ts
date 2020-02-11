@@ -36,6 +36,9 @@ export default createMuiTheme({
     MuiLink: {
       target: "_blank",
       rel: "noopener"
+    },
+    MuiContainer: {
+      maxWidth: "md"
     }
   },
   overrides: {
