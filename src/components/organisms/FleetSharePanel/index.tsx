@@ -24,11 +24,12 @@ const LinkListItem: React.FC<{ href: string; secondary?: string }> = ({ href, se
 
 type ComponentProps = {
   predeck: string
+  full: string
   shareUrl?: string
   onCreateUrl?: () => void
 }
 
-export const Component: React.FC<ComponentProps> = ({ predeck, shareUrl, onCreateUrl }) => {
+export const Component: React.FC<ComponentProps> = ({ predeck, full, shareUrl, onCreateUrl }) => {
   return (
     <div>
       {shareUrl ? (
@@ -58,7 +59,7 @@ export const Component: React.FC<ComponentProps> = ({ predeck, shareUrl, onCreat
           デッキビルダーで開く
         </LinkListItem>
       </List>
-      <CopyableTextarea label="デッキビルダー形式" value={predeck} />
+      <CopyableTextarea label="デッキビルダー形式" value={full} />
     </div>
   )
 }
@@ -108,8 +109,9 @@ type Props = {
 const Container: React.FC<Props> = ({ operation }) => {
   const { shareUrl, createUrl } = useOperationShare(operation)
   const predeck = operation.toDeckJson(false)
+  const full = operation.toDeckJson()
 
-  return <Component predeck={predeck} shareUrl={shareUrl} onCreateUrl={createUrl} />
+  return <Component predeck={predeck} full={full} shareUrl={shareUrl} onCreateUrl={createUrl} />
 }
 
 export default Container
