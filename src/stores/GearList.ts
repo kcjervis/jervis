@@ -1,12 +1,12 @@
 import { IGear } from "kc-calculator"
 import { action, computed, observable } from "mobx"
 import { persist } from "mobx-persist"
-import uuid from "uuid"
+import { v4 as uuidv4 } from "uuid"
 
 import ObservableGear, { ObservableGearStore } from "./ObservableGear"
 
 export default class GearList implements ObservableGearStore {
-  @persist public id = uuid()
+  @persist public id = uuidv4()
 
   @persist @observable public name = ""
 

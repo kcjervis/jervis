@@ -116,7 +116,7 @@ export enum AirCorpsMode {
 }
 
 export type DeckAirCorps = {
-  mode: AirCorpsMode
+  mode?: AirCorpsMode
   items: DeckItems
 }
 

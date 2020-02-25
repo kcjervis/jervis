@@ -1,7 +1,7 @@
 import firebase from "firebase/app"
 import "firebase/storage"
 import "firebase/analytics"
-import uuid from "uuid"
+import { v4 as uuidv4 } from "uuid"
 import ObservableOperation from "./ObservableOperation"
 
 firebase.initializeApp({
@@ -42,7 +42,7 @@ export const urlShortener = async (url: string, domain: "jervis" | "kancolle") =
 
 export const setOperation = async (operation: ObservableOperation) => {
   const file = new File([JSON.stringify(operation)], "name", { type: "application/json" })
-  const filePath = `operations/${uuid()}.json`
+  const filePath = `operations/${uuidv4()}.json`
   const snapshot = await storageRef.child(filePath).put(file)
   return filePath
 }

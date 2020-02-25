@@ -1,7 +1,7 @@
 import { FleetTypeName, IOperationDataObject, Side, Formation } from "kc-calculator"
 import { action, computed, observable } from "mobx"
 import { persist } from "mobx-persist"
-import uuid from "uuid"
+import { v4 as uuidv4 } from "uuid"
 import { times } from "lodash-es"
 
 import kcObjectFactory from "./kcObjectFactory"
@@ -43,7 +43,7 @@ export default class ObservableOperation implements IOperationDataObject, StoreI
 
   public store?: OperationStore
 
-  @persist public id = uuid()
+  @persist public id = uuidv4()
 
   @persist @observable public name = ""
 

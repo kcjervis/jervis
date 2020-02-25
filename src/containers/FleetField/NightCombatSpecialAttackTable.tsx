@@ -10,7 +10,7 @@ import Typography from "@material-ui/core/Typography"
 import { toPercent } from "../../utils"
 import { Table, AttackChip } from "../../components"
 
-const { calcPreModifierValue, calcBaseValue, getPossibleSpecialAttacks } = NightCombatSpecialAttack
+const { calcPreModifierValue, calcBaseValue, getPossibleAttacks } = NightCombatSpecialAttack
 
 const calcComplementaryProbability = (num: number) => 1 - (num > 1 ? 1 : num < 0 ? 0 : num)
 
@@ -86,7 +86,7 @@ const NightCombatSpecialAttackTable: React.FC<NightCombatSpecialAttackTable> = p
     const preModifierValue = calcPreModifierValue(ship)
     const baseValue = calcBaseValue(ship, isFlagship, nightBattleStore, enemyBattleState)
 
-    const cis = getPossibleSpecialAttacks(ship)
+    const cis = getPossibleAttacks(ship)
     const cutinRates = new Array<{ ci: NightCombatSpecialAttack; rate: number }>()
     const totalRate = cis.reduce((acc, curCutin) => {
       let currentRate = (1 - acc) * curCutin.calcRate(baseValue)

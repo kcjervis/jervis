@@ -27,7 +27,7 @@ const NightAttackStatus: React.FC<NightAttackStatusProps> = props => {
   }
 
   const nightAttacks = new Array<NightCombatSpecialAttack | undefined>(undefined).concat(
-    NightCombatSpecialAttack.getPossibleSpecialAttacks(attacker.ship)
+    NightCombatSpecialAttack.getPossibleAttacks(attacker.ship, defender.ship.isInstallation)
   )
 
   const getNightAttack = (specialAttack?: NightCombatSpecialAttack, isCritical = false) =>

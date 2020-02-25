@@ -1,7 +1,7 @@
 import { IFleetDataObject, IShipDataObject } from "kc-calculator"
 import { action, computed, observable } from "mobx"
 import { persist } from "mobx-persist"
-import uuid from "uuid"
+import { v4 as uuidv4 } from "uuid"
 
 import kcObjectFactory from "./kcObjectFactory"
 import ObservableShip from "./ObservableShip"
@@ -22,7 +22,7 @@ export default class ObservableFleet
 
   public store?: ObservableOperation
 
-  @persist public id = uuid()
+  @persist public id = uuidv4()
 
   @persist("list", ObservableShip) @observable public ships = observable<ObservableShip | undefined>(new Array(6))
 

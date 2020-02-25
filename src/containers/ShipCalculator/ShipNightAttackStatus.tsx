@@ -27,7 +27,7 @@ const ShipNightAttackStatus: React.FC<ShipNightAttackStatusProps> = props => {
   const { calculator, ship } = props
 
   const nightAttacks = new Array<NightCombatSpecialAttack | undefined>(undefined).concat(
-    NightCombatSpecialAttack.getPossibleSpecialAttacks(ship)
+    NightCombatSpecialAttack.getPossibleAttacks(ship)
   )
 
   const createNightCellRenderer = (isCritical: boolean) => (specialAttack: NightCombatSpecialAttack | undefined) => {

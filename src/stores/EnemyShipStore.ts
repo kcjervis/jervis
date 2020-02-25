@@ -1,13 +1,13 @@
 import { IShipDataObject } from "kc-calculator"
-import { action, computed, observable } from "mobx"
+import { action, observable } from "mobx"
 import { persist } from "mobx-persist"
-import uuid from "uuid"
+import { v4 as uuidv4 } from "uuid"
 
 import ObservableShip from "./ObservableShip"
 import { ShipStore } from "../types"
 
 export default class EnemyShipStore implements ShipStore<ObservableShip> {
-  @persist public id = uuid()
+  @persist public id = uuidv4()
 
   @observable public ships = observable<ObservableShip>([])
 

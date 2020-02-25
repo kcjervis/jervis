@@ -1,7 +1,7 @@
-import { IGear, IGearDataObject, ILandBasedAirCorpsDataObject, nonNullable } from "kc-calculator"
+import { IGear, IGearDataObject, ILandBasedAirCorpsDataObject } from "kc-calculator"
 import { action, computed, observable } from "mobx"
 import { persist } from "mobx-persist"
-import uuid from "uuid"
+import { v4 as uuidv4 } from "uuid"
 
 import kcObjectFactory from "./kcObjectFactory"
 import ObservableGear, { ObservableGearStore } from "./ObservableGear"
@@ -34,7 +34,7 @@ export default class ObservableLandBasedAirCorps
 
   public store?: ObservableOperation
 
-  @persist public id = uuid()
+  @persist public id = uuidv4()
 
   @persist @observable public mode = LandBasedAirCorpsMode.Sortie2
 

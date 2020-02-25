@@ -1,7 +1,7 @@
 import { IGear, IGearDataObject, IShipDataObject, shipStatKeys } from "kc-calculator"
 import { action, computed, observable, autorun } from "mobx"
 import { persist } from "mobx-persist"
-import uuid from "uuid"
+import { v4 as uuidv4 } from "uuid"
 import { range } from "lodash-es"
 
 import kcObjectFactory, { masterData } from "./kcObjectFactory"
@@ -83,7 +83,7 @@ export default class ObservableShip implements IShipDataObject, ObservableGearSt
 
   public store?: StoreType
 
-  @persist public id = uuid()
+  @persist public id = uuidv4()
 
   @persist @observable public masterId = 30
 
