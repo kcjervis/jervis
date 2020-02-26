@@ -1,5 +1,5 @@
 import React, { useCallback } from "react"
-import { observer } from "mobx-react-lite"
+import { observer } from "mobx-react"
 
 import FolderIcon from "@material-ui/icons/Folder"
 import { makeStyles, createStyles, Theme } from "@material-ui/core/styles"

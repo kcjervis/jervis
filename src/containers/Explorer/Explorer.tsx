@@ -1,6 +1,6 @@
 import React, { useContext, useCallback } from "react"
 import clsx from "clsx"
-import { observer } from "mobx-react-lite"
+import { observer } from "mobx-react"
 
 import Button from "@material-ui/core/Button"
 import Divider from "@material-ui/core/Divider"

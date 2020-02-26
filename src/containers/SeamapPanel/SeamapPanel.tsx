@@ -8,7 +8,7 @@ import { makeStyles } from "@material-ui/core/styles"
 import { Select, SelectButtons } from "../../components"
 import EnemyFleetCard from "./EnemyFleetCard"
 import { ObservableOperation } from "../../stores"
-import { observer } from "mobx-react-lite"
+import { observer } from "mobx-react"
 import { SelectProps } from "../../components/Select"
 
 const worlds = [

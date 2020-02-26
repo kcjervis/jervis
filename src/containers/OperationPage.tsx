@@ -1,4 +1,4 @@
-import { observer } from "mobx-react-lite"
+import { observer } from "mobx-react"
 import React from "react"
 import { RouteComponentProps } from "react-router"
 import { Redirect } from "react-router-dom"

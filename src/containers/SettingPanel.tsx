@@ -5,7 +5,7 @@ import FormControlLabel from "@material-ui/core/FormControlLabel"
 import Checkbox from "@material-ui/core/Checkbox"
 
 import { SettingStoreContext } from "../stores"
-import { observer } from "mobx-react-lite"
+import { observer } from "mobx-react"
 
 const SettingPanel = () => {
   const setting = useContext(SettingStoreContext)

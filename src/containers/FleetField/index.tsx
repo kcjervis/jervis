@@ -1,7 +1,7 @@
 import { FleetRole, FleetTypeName, nonNullable } from "kc-calculator"
 import { range, floor } from "lodash-es"
 import React from "react"
-import { observer } from "mobx-react-lite"
+import { observer } from "mobx-react"
 
 import Button from "@material-ui/core/Button"
 import Grid from "@material-ui/core/Grid"

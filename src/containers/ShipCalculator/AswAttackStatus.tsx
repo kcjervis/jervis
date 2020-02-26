@@ -1,6 +1,6 @@
 import React from "react"
 import { AswAttack } from "kc-calculator"
-import { observer } from "mobx-react-lite"
+import { observer } from "mobx-react"
 
 import Box from "@material-ui/core/Box"
 import Typography from "@material-ui/core/Typography"

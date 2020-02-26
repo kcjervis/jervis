@@ -1,4 +1,4 @@
-import { observer } from "mobx-react-lite"
+import { observer } from "mobx-react"
 import React, { useContext, useCallback, useState } from "react"
 import {
   AirControlState,
@@ -160,7 +160,7 @@ const ShipCalculator: React.FC<ShipCalculatorProps> = ({ ship }) => {
   return (
     <Box m={1} maxWidth={8 * 125} width="100%" margin="auto">
       <Alert severity="warning" variant="outlined">
-        攻撃可否未実装(陸上にFBAや魚雷CIはできないので注意) 未実装、不備が多いので参考程度に。何かあれば教えてください。
+        戦爆連合などの命中率は参考にならないので注意。未実装、不備が多いので参考程度にしてください。
       </Alert>
 
       <Box display="flex">

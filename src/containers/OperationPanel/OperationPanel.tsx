@@ -1,5 +1,5 @@
 import { FleetTypeName, Side, FleetType } from "kc-calculator"
-import { observer } from "mobx-react-lite"
+import { observer } from "mobx-react"
 import React, { useContext, useCallback, useState } from "react"
 
 import Checkbox from "@material-ui/core/Checkbox"

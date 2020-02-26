@@ -1,6 +1,6 @@
 import React from "react"
 import { NightAttack, NightCombatSpecialAttack } from "kc-calculator"
-import { observer } from "mobx-react-lite"
+import { observer } from "mobx-react"
 
 import { Table } from "../../components"
 import { getAttackName } from "./ShipStatusCard"

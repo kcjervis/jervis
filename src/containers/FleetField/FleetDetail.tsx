@@ -1,6 +1,6 @@
 import { FleetRole, IFleet, IOperation, IPlane, Formation } from "kc-calculator"
 import { observable } from "mobx"
-import { observer } from "mobx-react-lite"
+import { observer } from "mobx-react"
 import React, { createContext, useContext } from "react"
 
 import Tab from "@material-ui/core/Tab"

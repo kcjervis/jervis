@@ -2,7 +2,7 @@ import { IFleet, FleetRole, nonNullable, BattleType, IOperation, Formation, Side
 import { AntiAirCutin, FleetAntiAir } from "kc-calculator/dist/Battle/AerialCombat"
 import React, { useState } from "react"
 import { union } from "lodash-es"
-import { observer } from "mobx-react-lite"
+import { observer } from "mobx-react"
 
 import Table from "@material-ui/core/Table"
 import TableBody from "@material-ui/core/TableBody"

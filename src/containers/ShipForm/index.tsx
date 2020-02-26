@@ -1,4 +1,4 @@
-import { observer } from "mobx-react-lite"
+import { observer } from "mobx-react"
 import React, { useContext } from "react"
 
 import Box from "@material-ui/core/Box"

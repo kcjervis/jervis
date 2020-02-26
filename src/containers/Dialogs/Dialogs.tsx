@@ -1,6 +1,6 @@
 import React, { useContext, createContext } from "react"
 import { action, observable } from "mobx"
-import { observer } from "mobx-react-lite"
+import { observer } from "mobx-react"
 
 import Dialog from "@material-ui/core/Dialog"
 

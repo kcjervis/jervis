@@ -1,6 +1,6 @@
 import { AirControlState, FleetRole, IFleet, IShip, DayCombatSpecialAttack, nonNullable } from "kc-calculator"
 import { action, observable } from "mobx"
-import { observer } from "mobx-react-lite"
+import { observer } from "mobx-react"
 import React from "react"
 
 import Typography from "@material-ui/core/Typography"

@@ -1,5 +1,5 @@
 import React, { useMemo } from "react"
-import { observer } from "mobx-react-lite"
+import { observer } from "mobx-react"
 import { getEmptyImage } from "react-dnd-html5-backend"
 import clsx from "clsx"
 import { isNonNullable } from "kc-calculator"

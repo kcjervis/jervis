@@ -1,6 +1,6 @@
 import React from "react"
 import { ShipStatKey } from "kc-calculator"
-import { observer } from "mobx-react-lite"
+import { observer } from "mobx-react"
 import clsx from "clsx"
 
 import Button from "@material-ui/core/Button"

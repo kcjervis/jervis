@@ -1,6 +1,6 @@
 import React from "react"
 import { ShellingAttack, ShellingSupportAttack, DayCombatSpecialAttack } from "kc-calculator"
-import { observer } from "mobx-react-lite"
+import { observer } from "mobx-react"
 
 import Box from "@material-ui/core/Box"
 import Typography from "@material-ui/core/Typography"
@@ -22,7 +22,7 @@ const ShellingAttackStatus: React.FC<ShellingAttackStatusProps> = props => {
   }
 
   const shellingAttacks = new Array<DayCombatSpecialAttack | undefined>(undefined).concat(
-    DayCombatSpecialAttack.getPossibleAttacks(attacker.ship)
+    DayCombatSpecialAttack.getPossibleAttacks(attacker.ship, defender.ship.isInstallation)
   )
 
   const getShelling = (specialAttack?: DayCombatSpecialAttack, isCritical = false) =>

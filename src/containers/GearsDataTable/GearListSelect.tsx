@@ -1,5 +1,5 @@
 import { makeStyles, Theme } from "@material-ui/core/styles"
-import { observer } from "mobx-react-lite"
+import { observer } from "mobx-react"
 import React, { useCallback, useState } from "react"
 
 import ClickAwayListener from "@material-ui/core/ClickAwayListener"

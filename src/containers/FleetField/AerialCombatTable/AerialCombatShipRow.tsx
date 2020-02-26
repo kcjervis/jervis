@@ -1,7 +1,7 @@
 import React from "react"
 import { IShip, Side, AerialCombat } from "kc-calculator"
 import { ShipAntiAir } from "kc-calculator/dist/Battle/AerialCombat"
-import { observer } from "mobx-react-lite"
+import { observer } from "mobx-react"
 
 import calcAntiAirCutinRates from "./calcAntiAirCutinRate"
 

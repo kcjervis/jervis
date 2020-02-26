@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from "react"
 import { ShipInformation, calcDeadlyPower, BattleState, AttackPowerModifierRecord } from "kc-calculator"
-import { observer } from "mobx-react-lite"
+import { observer } from "mobx-react"
 
 import Box from "@material-ui/core/Box"
 import Paper from "@material-ui/core/Paper"

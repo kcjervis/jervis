@@ -1,6 +1,6 @@
 import { Formation, IFleet, IShip, Side, NightCombatSpecialAttack, nonNullable } from "kc-calculator"
 import { observable } from "mobx"
-import { observer } from "mobx-react-lite"
+import { observer } from "mobx-react"
 import React, { createContext, useContext } from "react"
 
 import Checkbox from "@material-ui/core/Checkbox"

@@ -1,5 +1,5 @@
 import { IGear } from "kc-calculator"
-import { observer } from "mobx-react-lite"
+import { observer } from "mobx-react"
 import React, { useCallback, useContext, useEffect, useState } from "react"
 
 import Button from "@material-ui/core/Button"

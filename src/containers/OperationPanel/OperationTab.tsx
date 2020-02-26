@@ -1,5 +1,5 @@
 import React from "react"
-import { observer } from "mobx-react-lite"
+import { observer } from "mobx-react"
 import clsx from "clsx"
 import { makeStyles, withStyles } from "@material-ui/core/styles"
 

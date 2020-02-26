@@ -1,6 +1,6 @@
 import { makeStyles, Theme } from "@material-ui/core/styles"
 import { sortBy as lodashSortBy } from "lodash-es"
-import { observer } from "mobx-react-lite"
+import { observer } from "mobx-react"
 import React, { useCallback, useContext, useMemo } from "react"
 import { IGear } from "kc-calculator"
 import clsx from "clsx"

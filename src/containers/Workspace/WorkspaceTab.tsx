@@ -1,7 +1,7 @@
 import React, { useState, useCallback, useMemo } from "react"
 import clsx from "clsx"
 import useReactRouter from "use-react-router"
-import { observer } from "mobx-react-lite"
+import { observer } from "mobx-react"
 
 import { makeStyles, createStyles, Theme } from "@material-ui/core/styles"
 

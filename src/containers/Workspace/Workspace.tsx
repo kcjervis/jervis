@@ -1,6 +1,6 @@
 import React from "react"
 import clsx from "clsx"
-import { observer } from "mobx-react-lite"
+import { observer } from "mobx-react"
 import { Redirect } from "react-router"
 
 import Button from "@material-ui/core/Button"

@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from "react"
-import { observer } from "mobx-react-lite"
+import { observer } from "mobx-react"
 import ReactMde from "react-mde"
 import clsx from "clsx"
 import ReactMarkdown from "react-markdown"

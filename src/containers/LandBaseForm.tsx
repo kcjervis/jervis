@@ -1,6 +1,6 @@
 import { nonNullable } from "kc-calculator"
 import React from "react"
-import { observer } from "mobx-react-lite"
+import { observer } from "mobx-react"
 
 import Box from "@material-ui/core/Box"
 import Button from "@material-ui/core/Button"
