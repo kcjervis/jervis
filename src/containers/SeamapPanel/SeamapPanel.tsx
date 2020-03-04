@@ -19,7 +19,7 @@ const worlds = [
   { id: 4, name: "西方海域" },
   { id: 5, name: "南方海域" },
   { id: 6, name: "中部海域" },
-  { id: 46, name: "第二次作戦「南方作戦」" }
+  { id: 47, name: "桃の節句！沖に立つ波" }
 ]
 
 const worldIds = worlds.map(({ id }) => id)
@@ -145,6 +145,13 @@ const SeamapPanel: React.FC<SeamapPanelProps> = ({ onSelect }) => {
   const classes = useStyles()
   const state = useContext(SeamapStateContext)
 
+  let mapImgSrc: string | undefined
+  try {
+    mapImgSrc = require(`../../images/maps/${state.mapId}.png`)
+  } catch {
+    console.warn(`${state.mapId}.png not found`)
+  }
+
   return (
     <Box m={1}>
       <div>
@@ -152,7 +159,7 @@ const SeamapPanel: React.FC<SeamapPanelProps> = ({ onSelect }) => {
         <Select className={classes.select} {...state.mapSelect} />
         {state.isEvent && <Select className={classes.select} {...state.difficultySelect} />}
       </div>
-      <img className={classes.img} src={require(`../../images/maps/${state.mapId}.png`)} />
+      <img className={classes.img} src={mapImgSrc} />
       <div>
         <SelectButtons buttonProps={{ size: "large" }} {...state.nodeSelect} />
       </div>
