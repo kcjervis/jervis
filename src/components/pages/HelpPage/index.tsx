@@ -5,10 +5,12 @@ import MuiTypography from "@material-ui/core/Typography"
 import List from "@material-ui/core/List"
 import ListItem from "@material-ui/core/ListItem"
 import ListItemText from "@material-ui/core/ListItemText"
+import TextField from "@material-ui/core/TextField"
 import Share from "@material-ui/icons/Share"
 import { makeStyles, styled } from "@material-ui/core/styles"
 
 import kcs2jervis from "./kcs2jervis"
+import { CopyTextButton } from "../../molecules"
 
 const Typography = styled(MuiTypography)({
   lineHeight: 2
@@ -106,7 +108,8 @@ const list = [
     title: "艦これから直接編成を読み込む",
     content: () => (
       <>
-        <Typography>{kcs2jervis}</Typography>
+        <TextField value={kcs2jervis} />
+        <CopyTextButton value={kcs2jervis} />
       </>
     )
   }

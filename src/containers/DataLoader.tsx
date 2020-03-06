@@ -24,7 +24,7 @@ const loadOperation = async () => {
     return ObservableOperation.create(JSON.parse(dataObject))
   }
   if (crushed) {
-    return ObservableOperation.create(JSON.parse(JSONUncrush(crushed)))
+    return ObservableOperation.create(JSON.parse(JSONUncrush(decodeURIComponent(crushed))))
   }
 
   return undefined

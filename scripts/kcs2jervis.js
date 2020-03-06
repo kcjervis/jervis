@@ -63,19 +63,6 @@
     return l.b.length && (r += "" + l.b), encodeURIComponent(r)
   }
 
-  function JSONUncrush(e) {
-    const t = e.split("")
-    let n = t[0]
-    if (t.length > 1) {
-      let e = t[1]
-      for (let t of e) {
-        let e = n.split(t)
-        n = e.join(e.pop())
-      }
-    }
-    return JSONCrushSwap(n, 0)
-  }
-
   function JSONCrushSwap(e, t = 1) {
     const n = [
         ['"', "'"],
