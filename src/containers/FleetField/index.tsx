@@ -74,6 +74,11 @@ const FleetField: React.FC<FleetFieldProps> = ({ fleet, operation }) => {
 
   const setting = useSettingStore()
 
+  let tp = fleet.asKcObject.tp
+  if (isCombinedFleet) {
+    tp = mainFleet.tp + escortFleet.tp
+  }
+
   return (
     <>
       <Flexbox>
@@ -121,6 +126,7 @@ const FleetField: React.FC<FleetFieldProps> = ({ fleet, operation }) => {
           operation={operation.asKcObject}
           fleet={fleet.asKcObject}
           fleetRole={fleetRole}
+          tp={tp}
           isCombinedFleet={isCombinedFleet}
           combinedFleetPlanes={combinedFleetPlanes}
           defaultFormation={operation.formation}

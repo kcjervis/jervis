@@ -21,6 +21,8 @@ interface FleetDetailProps {
   fleet: IFleet
   fleetRole: FleetRole
 
+  tp: number
+
   isCombinedFleet?: boolean
   combinedFleetPlanes?: IPlane[]
   defaultFormation?: Formation
@@ -35,7 +37,7 @@ const FleetDetail: React.FC<FleetDetailProps> = props => {
     fleetDetailStore.activeTab = next
   }
 
-  const { operation, fleet, fleetRole, isCombinedFleet, combinedFleetPlanes, defaultFormation } = props
+  const { operation, fleet, fleetRole, tp, isCombinedFleet, combinedFleetPlanes, defaultFormation } = props
   const { activeTab } = fleetDetailStore
 
   return (
@@ -79,6 +81,8 @@ const FleetDetail: React.FC<FleetDetailProps> = props => {
       )}
       {activeTab === 4 && (
         <>
+          <Typography>TP(S勝利): {tp}</Typography>
+          <Typography>TP(A勝利): {Math.floor(tp * 0.7)}</Typography>
           <Typography>航空索敵スコア: {floor(fleet.aviationDetectionScore, 2)}</Typography>
         </>
       )}
