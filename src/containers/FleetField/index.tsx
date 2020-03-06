@@ -11,12 +11,15 @@ import Tooltip from "@material-ui/core/Tooltip"
 import Box from "@material-ui/core/Box"
 import { makeStyles } from "@material-ui/core/styles"
 
-import { StatIcon, GearsSettingDialog, Flexbox, Text } from "../../components"
+import { StatIcon, GearsSettingDialog, Flexbox, Text, RemoveButton, AddButton } from "../../components"
 import ShipForm from "../ShipForm"
 import FleetDetail from "./FleetDetail"
 import BattleSimulatorPanel from "../BattleSimulatorPanel"
 
 import { ObservableFleet, ObservableOperation, useSettingStore } from "../../stores"
+import { withIconButton } from "../../hocs"
+
+const MinusBotton = withIconButton(Remove)
 
 const useStyles = makeStyles({
   root: {
@@ -28,6 +31,9 @@ const useStyles = makeStyles({
   bottomControl: {
     display: "flex",
     justifyContent: "center"
+  },
+  iconButton: {
+    padding: 8
   }
 })
 
@@ -40,15 +46,17 @@ const FleetField: React.FC<FleetFieldProps> = ({ fleet, operation }) => {
   const { ships } = fleet
   const classes = useStyles()
 
-  const addShipSpace = () => {
+  const addShipSpace = React.useCallback(() => {
     ships.push(undefined)
-  }
+  }, [fleet])
 
-  const removeShipSpace = () => {
+  const removeShipSpace = React.useCallback(() => {
     if (ships.length > 6) {
       ships.pop()
     }
-  }
+  }, [fleet])
+
+  const removeAllShips = React.useCallback(() => ships.forEach(ship => ship?.remove()), [fleet])
 
   const fleetIndex = operation.fleets.indexOf(fleet)
   const { fleetType } = operation
@@ -104,12 +112,9 @@ const FleetField: React.FC<FleetFieldProps> = ({ fleet, operation }) => {
         />
 
         <div className={classes.bottomControl}>
-          <Button title="艦娘枠を増やす" onClick={addShipSpace}>
-            <Add />
-          </Button>
-          <Button title="艦娘枠を減らす" onClick={removeShipSpace}>
-            <Remove />
-          </Button>
+          <AddButton className={classes.iconButton} title="艦娘枠を増やす" onClick={addShipSpace} />
+          <MinusBotton className={classes.iconButton} title="艦娘枠を減らす" onClick={removeShipSpace} />
+          <RemoveButton className={classes.iconButton} title="艦隊の艦娘を全て削除" onClick={removeAllShips} />
         </div>
       </Flexbox>
 

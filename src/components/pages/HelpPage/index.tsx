@@ -8,6 +8,8 @@ import ListItemText from "@material-ui/core/ListItemText"
 import Share from "@material-ui/icons/Share"
 import { makeStyles, styled } from "@material-ui/core/styles"
 
+import kcs2jervis from "./kcs2jervis"
+
 const Typography = styled(MuiTypography)({
   lineHeight: 2
 })
@@ -97,6 +99,14 @@ const list = [
         </Typography>
         <Typography>そこから「共有URLを生成する」をクリックして少し待つと生成されます。</Typography>
         <img src="https://i.gyazo.com/b2e429abf2aa42c718b02f8e2ffbc6ac.gif" alt="Image from Gyazo" width="800" />
+      </>
+    )
+  },
+  {
+    title: "艦これから直接編成を読み込む",
+    content: () => (
+      <>
+        <Typography>{kcs2jervis}</Typography>
       </>
     )
   }

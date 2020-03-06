@@ -37,7 +37,10 @@ const ShipForm: React.FC<ShipFormProps> = props => {
 
   const handleOpen = () =>
     shipSelect.onOpen({
-      onSelect: data => store.createShip(index, data)
+      onSelect: data => {
+        data.equipments = ship?.equipments.toJS()
+        store.createShip(index, data)
+      }
     })
 
   let element: JSX.Element

@@ -6,18 +6,27 @@ import CircularProgress from "@material-ui/core/CircularProgress"
 import { loadStores, ObservableOperation, TemporaryOperationStoreContext } from "../stores"
 import { getOperation } from "../stores/firebase"
 import { useWorkspace } from "../hooks"
+import { JSONUncrush } from "../utils"
 
 const loadOperation = async () => {
   const url = new URL(window.location.href)
   const filePath = url.searchParams.get("operation-path")
   const dataObject = url.searchParams.get("operation-json")
+  const crushed = url.searchParams.get("crushed")
+
   url.search = ""
   window.history.replaceState("", "", url.href)
+
   if (filePath) {
     return await getOperation(filePath)
-  } else if (dataObject) {
+  }
+  if (dataObject) {
     return ObservableOperation.create(JSON.parse(dataObject))
   }
+  if (crushed) {
+    return ObservableOperation.create(JSON.parse(JSONUncrush(crushed)))
+  }
+
   return undefined
 }
 
