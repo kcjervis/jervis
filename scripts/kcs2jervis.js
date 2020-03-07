@@ -97,15 +97,21 @@
   const getShip = id => {
     if (!ship._map[id]) return
 
-    const { _o } = ship._map[id]
+    const { _o, gradeUpLuck, gradeUpTaikyu, gradeUpTaisen } = ship._map[id]
     const equipments = times(_o.api_slotnum).map(i => getItem(_o.api_slot[i]))
     const ex = getItem(_o.api_slot_ex)
     ex && equipments.push(ex)
 
+    let increased
+    if (gradeUpLuck || gradeUpTaikyu || gradeUpTaisen) {
+      increased = { hp: gradeUpTaikyu, asw: gradeUpTaisen, luck: gradeUpLuck }
+    }
+
     return {
       masterId: _o.api_ship_id,
       level: _o.api_lv,
-      equipments
+      equipments,
+      increased
     }
   }
   const getFleet = i => {
@@ -127,6 +133,7 @@
 
   const url = new URL("https://kcjervis.github.io/jervis")
   const json = JSON.stringify({
+    name: deck._map[1].name,
     side: "Player",
     fleetType: ["Single", "CarrierTaskForce", "SurfaceTaskForce", "TransportEscort"][deck.combined.type],
     fleets: times(4).map(getFleet),
