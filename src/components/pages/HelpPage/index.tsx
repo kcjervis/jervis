@@ -5,12 +5,12 @@ import MuiTypography from "@material-ui/core/Typography"
 import List from "@material-ui/core/List"
 import ListItem from "@material-ui/core/ListItem"
 import ListItemText from "@material-ui/core/ListItemText"
-import TextField from "@material-ui/core/TextField"
+import Link from "@material-ui/core/Link"
 import Share from "@material-ui/icons/Share"
 import { makeStyles, styled } from "@material-ui/core/styles"
 
 import kcs2jervis from "./kcs2jervis"
-import { CopyTextButton } from "../../molecules"
+import CopyableTextarea from "../../organisms/FleetSharePanel/CopyableTextarea"
 
 const Typography = styled(MuiTypography)({
   lineHeight: 2
@@ -108,8 +108,19 @@ const list = [
     title: "艦これから直接編成を読み込む",
     content: () => (
       <>
-        <TextField value={kcs2jervis} />
-        <CopyTextButton value={kcs2jervis} />
+        <Typography>
+          <Link href="https://kancolle-fleetanalysis.firebaseapp.com/">艦隊分析</Link>
+          の艦隊反映と同様の手順で編成を直接読み込めます。
+        </Typography>
+        <Typography>1. 艦隊反映と同じ</Typography>
+        <Typography>2. 艦隊反映と同じ</Typography>
+        <Typography>3. 艦隊反映と同じ</Typography>
+        <Typography>4. 艦隊反映と同じ</Typography>
+
+        <Typography>5. 下記のJavaScriptコードをconsoleに貼り付けてEnterを押下</Typography>
+        <CopyableTextarea label="JavaScriptコード" value={kcs2jervis} />
+        <Typography>6. 編成が開きます</Typography>
+        <img src="https://i.gyazo.com/2d9a9f783167a39cfa0e575cbdb168ec.gif" alt="Image from Gyazo" width="800" />
       </>
     )
   }

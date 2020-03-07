@@ -135,5 +135,5 @@
 
   const crushed = JSONCrush(json)
   url.searchParams.set("crushed", crushed)
-  console.log(url.href)
+  open(url.href)
 }
