@@ -14,6 +14,7 @@ import AerialCombatTable from "./AerialCombatTable"
 import { useBaseStyles } from "../../hooks"
 import ShellingAttackTable from "./ShellingAttackTable"
 import { floor } from "lodash-es"
+import { toPercent } from "../../utils"
 
 interface FleetDetailProps {
   operation: IOperation
@@ -83,6 +84,7 @@ const FleetDetail: React.FC<FleetDetailProps> = props => {
         <>
           <Typography>TP(S勝利): {tp}</Typography>
           <Typography>TP(A勝利): {Math.floor(tp * 0.7)}</Typography>
+          <Typography>遠征ボーナス: +{toPercent(fleet.expeditionBonus)}</Typography>
           <Typography>航空索敵スコア: {floor(fleet.aviationDetectionScore, 2)}</Typography>
         </>
       )}
