@@ -34,6 +34,9 @@ const useStyles = makeStyles({
   },
   iconButton: {
     padding: 8
+  },
+  withoutEx: {
+    opacity: 0.8
   }
 })
 
@@ -73,11 +76,16 @@ const FleetField: React.FC<FleetFieldProps> = ({ fleet, operation }) => {
 
   const { hqLevel } = operation
 
-  const getEffectiveLos = (factor: number) => {
+  const getEffectiveLos = (factor: number, withoutExslot?: boolean) => {
+    let value: number
     if (isCombinedFleet) {
-      return mainFleet.effectiveLos(factor, hqLevel) + escortFleet.effectiveLos(factor, hqLevel)
+      value =
+        mainFleet.effectiveLos(factor, hqLevel, withoutExslot) +
+        escortFleet.effectiveLos(factor, hqLevel, withoutExslot)
+    } else {
+      value = fleet.asKcObject.effectiveLos(factor, hqLevel, withoutExslot)
     }
-    return fleet.asKcObject.effectiveLos(factor, hqLevel)
+    return floor(value, 2)
   }
 
   const setting = useSettingStore()
@@ -97,10 +105,26 @@ const FleetField: React.FC<FleetFieldProps> = ({ fleet, operation }) => {
             <Tooltip key={nodeDivaricatedFactor} title={`分岐点係数${nodeDivaricatedFactor}`}>
               <Flexbox ml={1}>
                 <StatIcon statKey="los" label={nodeDivaricatedFactor} />
-                <Text>{floor(getEffectiveLos(nodeDivaricatedFactor), 2)}</Text>
+                <Text>{getEffectiveLos(nodeDivaricatedFactor)}</Text>
               </Flexbox>
             </Tooltip>
           ))}
+
+          <Flexbox className={classes.withoutEx}>
+            <Tooltip title={`分岐点係数3 増設無し`}>
+              <Flexbox ml={1}>
+                <StatIcon statKey="los" label="3?" />
+                <Text color="textSecondary">{getEffectiveLos(3, true)}</Text>
+              </Flexbox>
+            </Tooltip>
+
+            <Tooltip title={`分岐点係数4 増設無し`}>
+              <Flexbox ml={1}>
+                <StatIcon statKey="los" label="4?" />
+                <Text color="textSecondary">{getEffectiveLos(4, true)}</Text>
+              </Flexbox>
+            </Tooltip>
+          </Flexbox>
         </Flexbox>
         <GearsSettingDialog
           gears={ships.flatMap(ship => ship && ship.gears).filter(nonNullable)}

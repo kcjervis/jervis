@@ -1,4 +1,5 @@
-import React, { useCallback, useRef } from "react"
+import React, { useRef } from "react"
+import { observer } from "mobx-react"
 
 import Button from "@material-ui/core/Button"
 import DialogActions from "@material-ui/core/DialogActions"
@@ -16,18 +17,18 @@ const HealthBarDialog: React.FC<{ ship: ObservableShip }> = ({ ship }) => {
   const inputRef = useRef({ value: ship.currentHp.toString() })
   const { health } = ship.asKcObject
   const { currentHp, maxHp } = health
-  const setcurrentHp = useCallback(
-    (value: number) => {
-      ship.currentHp = value
-    },
-    [ship]
-  )
 
-  const handleChange = useCallback(() => setcurrentHp(Number(inputRef.current.value)), [])
-  const handleClickMax = useCallback(() => setcurrentHp(maxHp), [maxHp])
-  const handleClickShouha = useCallback(() => setcurrentHp(Math.floor(maxHp * (3 / 4))), [maxHp])
-  const handleClickChuuha = useCallback(() => setcurrentHp(Math.floor(maxHp / 2)), [maxHp])
-  const handleClickHeavy = useCallback(() => setcurrentHp(Math.floor(maxHp / 4)), [maxHp])
+  console.log(ship.name)
+
+  const setCurrentHp = (value: number) => {
+    ship.currentHp = value
+  }
+
+  const handleChange = () => setCurrentHp(Number(inputRef.current.value))
+  const handleClickMax = () => setCurrentHp(maxHp)
+  const handleClickShouha = () => setCurrentHp(Math.floor(maxHp * (3 / 4)))
+  const handleClickChuuha = () => setCurrentHp(Math.floor(maxHp / 2))
+  const handleClickHeavy = () => setCurrentHp(Math.floor(maxHp / 4))
 
   return (
     <DialogComponent
@@ -63,4 +64,4 @@ const HealthBarDialog: React.FC<{ ship: ObservableShip }> = ({ ship }) => {
   )
 }
 
-export default HealthBarDialog
+export default observer(HealthBarDialog)

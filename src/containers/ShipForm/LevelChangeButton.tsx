@@ -1,4 +1,3 @@
-import { observer } from "mobx-react"
 import React, { useState, useCallback, useEffect } from "react"
 
 import { ShipStatKey } from "kc-calculator"
