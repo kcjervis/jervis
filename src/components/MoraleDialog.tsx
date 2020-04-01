@@ -8,7 +8,8 @@ import MoraleBar, { MoraleBarProps } from "./MoraleBar"
 import Dialog, { DialogProps } from "./Dialog"
 import { Flexbox } from "./atoms"
 
-type MoraleDialogProps = { onChange: (value: number) => void } & MoraleBarProps & Omit<DialogProps, "onChange">
+type MoraleDialogProps = { onChange: (value: number) => void } & MoraleBarProps &
+  Omit<DialogProps, "onChange" | "children">
 
 export default function MoraleDialog({ value, onChange, ...dialogProps }: MoraleDialogProps) {
   const setSparkling = useCallback(() => onChange(85), [onChange])

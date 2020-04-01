@@ -11,7 +11,7 @@ import DialogContent from "@material-ui/core/DialogContent"
 import { OperationStore, ObservableOperation } from "../../stores"
 import { useWorkspace } from "../../hooks"
 
-type OperationCreateDialogProps = { store: OperationStore; onClose: () => void } & DialogProps
+type OperationCreateDialogProps = { store: OperationStore; onClose: () => void } & Omit<DialogProps, "children">
 
 const OperationCreateDialog: React.FC<OperationCreateDialogProps> = ({ store, ...dialogProps }) => {
   const nameRef = useRef<HTMLInputElement>()

@@ -41,6 +41,9 @@ const FleetDetail: React.FC<FleetDetailProps> = props => {
   const { operation, fleet, fleetRole, tp, isCombinedFleet, combinedFleetPlanes, defaultFormation } = props
   const { activeTab } = fleetDetailStore
 
+  type Key = "firepower" | "antiAir" | "asw" | "los"
+  const total = (key: Key) => fleet.totalShipStats(ship => ship.stats[key])
+
   return (
     <Paper style={{ padding: 8, maxWidth: 8 * 125, minWidth: 8 * 80, minHeight: 8 * 35 }}>
       <div className={classes.flexbox}>
@@ -86,6 +89,10 @@ const FleetDetail: React.FC<FleetDetailProps> = props => {
           <Typography>TP(A勝利): {Math.floor(tp * 0.7)}</Typography>
           <Typography>遠征ボーナス: +{toPercent(fleet.expeditionBonus)}</Typography>
           <Typography>航空索敵スコア: {floor(fleet.aviationDetectionScore, 2)}</Typography>
+          <Typography>合計火力: {total("firepower")}</Typography>
+          <Typography>合計対潜: {total("asw")}</Typography>
+          <Typography>合計索敵: {total("los")}</Typography>
+          <Typography>合計対空: {total("antiAir")}</Typography>
         </>
       )}
     </Paper>

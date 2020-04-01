@@ -9,7 +9,7 @@ import Typography from "@material-ui/core/Typography"
 import { FleetSharePanel } from "../components"
 import { ObservableOperation } from "../stores"
 
-type OperationShareDialogProps = { operation: ObservableOperation } & DialogProps
+type OperationShareDialogProps = { operation: ObservableOperation } & Omit<DialogProps, "children">
 
 const OperationShareDialog: React.FC<OperationShareDialogProps> = ({ operation, ...dialogProps }) => {
   return (
