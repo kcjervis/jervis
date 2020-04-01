@@ -83,12 +83,14 @@ const FleetDetail: React.FC<FleetDetailProps> = props => {
           defaultFormation={defaultFormation}
         />
       )}
+
       {activeTab === 4 && (
         <>
           <Typography>TP(S勝利): {tp}</Typography>
           <Typography>TP(A勝利): {Math.floor(tp * 0.7)}</Typography>
-          <Typography>遠征ボーナス: +{toPercent(fleet.expeditionBonus)}</Typography>
           <Typography>航空索敵スコア: {floor(fleet.aviationDetectionScore, 2)}</Typography>
+          <Typography>遠征ボーナス: +{toPercent(fleet.expeditionBonus)}</Typography>
+          <Typography>合計レベル: {fleet.totalShipStats(ship => ship.level)}</Typography>
           <Typography>合計火力: {total("firepower")}</Typography>
           <Typography>合計対潜: {total("asw")}</Typography>
           <Typography>合計索敵: {total("los")}</Typography>

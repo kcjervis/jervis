@@ -18,7 +18,9 @@ import ShareIcon from "@material-ui/icons/Share"
 import VisibilityIcon from "@material-ui/icons/Visibility"
 import VisibilityOffIcon from "@material-ui/icons/VisibilityOff"
 
-import withIconButton, { WithIconButtonProps } from "../hocs/withIconButton"
+import withIconButton from "../hocs/withIconButton"
+
+export type WithIconButtonProps = import("../hocs/withIconButton").WithIconButtonProps
 
 export const AddButton = withIconButton(AddIcon)
 export const IncreaseButton = AddButton
