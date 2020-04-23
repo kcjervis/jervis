@@ -109,22 +109,6 @@ const FleetField: React.FC<FleetFieldProps> = ({ fleet, operation }) => {
               </Flexbox>
             </Tooltip>
           ))}
-
-          <Flexbox className={classes.withoutEx}>
-            <Tooltip title={`分岐点係数3 増設無し`}>
-              <Flexbox ml={1}>
-                <StatIcon statKey="los" label="3?" />
-                <Text color="textSecondary">{getEffectiveLos(3, true)}</Text>
-              </Flexbox>
-            </Tooltip>
-
-            <Tooltip title={`分岐点係数4 増設無し`}>
-              <Flexbox ml={1}>
-                <StatIcon statKey="los" label="4?" />
-                <Text color="textSecondary">{getEffectiveLos(4, true)}</Text>
-              </Flexbox>
-            </Tooltip>
-          </Flexbox>
         </Flexbox>
         <GearsSettingDialog
           gears={ships.flatMap(ship => ship && ship.gears).filter(nonNullable)}
