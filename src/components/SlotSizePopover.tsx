@@ -22,13 +22,11 @@ const SlotSizePopover: React.FC<SlotSizePopoverProps> = ({ value, max, onChange 
   const { anchorEl, onClick, onClose } = useAnchorEl()
   const classes = useBaseStyles()
 
+  const actualMax = max > 0 ? max : 200
+
   const handleSliderChange = (event: unknown, value: number | number[]) => {
-    if (typeof value !== "number") {
-      return
-    }
-    if (value > 0) {
-      onChange(Math.min(value, max))
-    }
+    if (typeof value !== "number") return
+    if (value > 0) onChange(Math.min(value, actualMax))
   }
   return (
     <>
@@ -54,11 +52,11 @@ const SlotSizePopover: React.FC<SlotSizePopoverProps> = ({ value, max, onChange 
         onClose={onClose}
       >
         <Box m={2}>
-          <NumberInput label="slot size" fullWidth value={value} onChange={onChange} min={0} max={max} />
+          <NumberInput label="slot size" fullWidth value={value} onChange={onChange} min={0} max={actualMax} />
         </Box>
 
         <Box m={2}>
-          <Slider value={value} onChange={handleSliderChange} min={0} max={max} step={1} />
+          <Slider value={value} onChange={handleSliderChange} min={0} max={actualMax} step={1} />
         </Box>
         {/* <div style={{ display: 'flex', justifyContent: 'space-around' }}>
           <IconButton onClick={handleDecrementClick}>
