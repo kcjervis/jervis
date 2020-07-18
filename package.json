@@ -21,6 +21,7 @@
     "core-js": "^3.6.4",
     "firebase": "^7.16.1",
     "history": "^4.10.1",
+    "lodash": "^4.17.19",
     "lodash-es": "^4.17.15",
     "mobx": "5.15.4",
     "mobx-persist": "^0.4.1",
