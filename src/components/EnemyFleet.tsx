@@ -36,7 +36,7 @@ const EnemyShipNameplate: React.FC<{ ship: IShip; formation: Formation }> = prop
   const evasionValue = ship.calcEvasionValue(formation.getModifiers("Main").shelling.evasion)
   const title = (
     <>
-      <Typography>確殺攻撃力: {deadlyPower}</Typography>
+      <Typography>確殺攻撃力: {deadlyPower.toFixed(4)}</Typography>
       <Typography>回避項: {evasionValue}</Typography>
     </>
   )
