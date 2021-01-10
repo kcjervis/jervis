@@ -83,7 +83,7 @@ const ShipSelectPanel: React.FC<ShipSelectPanelProps> = ({
         return false
       }
       if (!preRemodelingCheck.checked) {
-        if (!masterShip.canConvert && masterShip.canRemodel) {
+        if (!["丹陽", "大鯨"].includes(masterShip.name) && !masterShip.canConvert && masterShip.canRemodel) {
           return false
         }
       }
