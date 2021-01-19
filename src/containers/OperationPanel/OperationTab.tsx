@@ -64,7 +64,7 @@ const Component: React.FC<Props> = ({ operation }) => {
   const classes = useStyles()
 
   const value = operation.activeFleetIndex
-  const lbIndex = operation.fleets.length
+  const { lbIndex, gkcoiIndex } = operation
   const isCombinedFleet = operation.asKcObject.isCombinedFleetOperation
 
   const handleTabChange = React.useCallback(
@@ -83,7 +83,7 @@ const Component: React.FC<Props> = ({ operation }) => {
   )
 
   const handleLbClick = React.useCallback(() => handleTabChange(lbIndex), [handleTabChange, lbIndex])
-
+  const handleGkcoiClick = React.useCallback(() => handleTabChange(gkcoiIndex), [handleTabChange, gkcoiIndex])
   return (
     <>
       {operation.fleets.map((fleet, index) => (
@@ -106,6 +106,14 @@ const Component: React.FC<Props> = ({ operation }) => {
           基地航空隊
         </Button>
       )}
+      <Button
+        className={clsx(classes.button, { [classes.selected]: gkcoiIndex === value })}
+        variant="text"
+        size="large"
+        onClick={handleGkcoiClick}
+      >
+        画像出力
+      </Button>
     </>
   )
 }

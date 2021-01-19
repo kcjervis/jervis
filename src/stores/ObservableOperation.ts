@@ -3,6 +3,7 @@ import { action, computed, observable } from "mobx"
 import { persist } from "mobx-persist"
 import { v4 as uuidv4 } from "uuid"
 import { times } from "lodash-es"
+import { DeckBuilder as GkcoiDeck } from "gkcoi"
 
 import kcObjectFactory from "./kcObjectFactory"
 import ObservableFleet from "./ObservableFleet"
@@ -10,6 +11,7 @@ import ObservableLandBasedAirCorps from "./ObservableLandBasedAirCorps"
 import toDeck from "./toDeck"
 import OperationStore from "./OperationStore"
 import { StoreItem } from "../types"
+import { GkcoiLang, GkcoiTheme, toGkcoiDeck } from "./GkcoiDeck"
 
 type OperationData = IOperationDataObject & {
   version?: number
@@ -56,6 +58,10 @@ export default class ObservableOperation implements IOperationDataObject, StoreI
   @persist @observable public fleetType = FleetTypeName.Single
 
   @persist @observable private formationId = 0
+
+  @persist @observable public gkcoiTheme: GkcoiTheme = "dark"
+
+  @persist @observable public gkcoiLang: GkcoiLang = "jp"
 
   public get formation(): Formation {
     const res = Formation.fromId(this.formationId)
@@ -118,6 +124,14 @@ export default class ObservableOperation implements IOperationDataObject, StoreI
     }
   }
 
+  public get lbIndex() {
+    return this.fleets.length
+  }
+
+  public get gkcoiIndex() {
+    return this.lbIndex + 1
+  }
+
   public get activeFleet() {
     const { fleets, activeFleetIndex } = this
     if (fleets.length > activeFleetIndex) {
@@ -129,6 +143,10 @@ export default class ObservableOperation implements IOperationDataObject, StoreI
   @computed public get asKcObject() {
     const obj = kcObjectFactory.createOperation(this)
     return obj
+  }
+
+  public toGkcoiDeck = () => {
+    return toGkcoiDeck(this)
   }
 
   public toDeckJson = (full = true) => {

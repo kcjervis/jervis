@@ -13,8 +13,11 @@ import { makeStyles } from "@material-ui/core/styles"
 import FleetField from "../FleetField"
 import LandBaseForm from "../LandBaseForm"
 import OperationShareDialog from "../OperationShareDialog"
+
 import OperationDescriptionField from "./OperationDescriptionField"
 import OperationTab from "./OperationTab"
+import GkcoiPanel from "./GkcoiPanel"
+
 import { SaveButton, ShareButton, FleetTypeSelect, NumberInput, Flexbox } from "../../components"
 
 import { ObservableOperation, SettingStoreContext } from "../../stores"
@@ -84,7 +87,7 @@ const OperationPanel: React.FC<OperationPanelProps> = ({ operation }) => {
     operation.side = next
   }
 
-  const activeFleet = operation.activeFleet
+  const { activeFleetIndex, activeFleet, lbIndex, gkcoiIndex } = operation
 
   const { getFighterPower, isCombinedFleetOperation } = operation.asKcObject
 
@@ -141,7 +144,8 @@ const OperationPanel: React.FC<OperationPanelProps> = ({ operation }) => {
 
       <div className={classes.center}>
         {activeFleet && <FleetField fleet={activeFleet} operation={operation} />}
-        {!activeFleet && <LandBaseForm operation={operation} />}
+        {activeFleetIndex === lbIndex && <LandBaseForm operation={operation} />}
+        {activeFleetIndex === gkcoiIndex && <GkcoiPanel operation={operation} />}
 
         <OperationDescriptionField operation={operation} />
       </div>

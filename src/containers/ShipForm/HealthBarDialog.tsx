@@ -18,8 +18,6 @@ const HealthBarDialog: React.FC<{ ship: ObservableShip }> = ({ ship }) => {
   const { health } = ship.asKcObject
   const { currentHp, maxHp } = health
 
-  console.log(ship.name)
-
   const setCurrentHp = (value: number) => {
     ship.currentHp = value
   }

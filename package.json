@@ -28,6 +28,7 @@
     "mobx-persist": "^0.4.1",
     "mobx-react": "^6.1.5",
     "react": "^16.13.1",
+    "react-async-hook": "^3.6.2",
     "react-beautiful-dnd": "^13.0.0",
     "react-copy-to-clipboard": "^5.0.2",
     "react-custom-scrollbars": "^4.2.1",

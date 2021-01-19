@@ -1,5 +1,6 @@
 import { IGearDataObject, IShipDataObject, ILandBasedAirCorpsDataObject, formulas } from "kc-calculator"
 import { Proficiency } from "kc-calculator/dist/objects/gear"
+import { DeckBuilderItem } from "gkcoi"
 
 import { masterData } from "../stores/kcObjectFactory"
 import { ObservableOperation } from "../stores"
@@ -7,11 +8,7 @@ import { LandBasedAirCorpsMode } from "../stores/ObservableLandBasedAirCorps"
 
 const { calcHpAtLevel, calcStatAtLevel } = formulas
 
-export interface DeckGear {
-  id: number | null
-  rf: number | string
-  mas: number | string
-}
+export type DeckGear = DeckBuilderItem
 
 const toGearDataObject = (item: DeckGear | undefined): IGearDataObject | undefined => {
   if (!item || !item.id) {

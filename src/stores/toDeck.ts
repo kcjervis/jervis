@@ -11,7 +11,7 @@ const toDeckGear = (gear: IGear): DeckGear => {
   }
 }
 
-const toItems = (gears: Array<IGear | undefined>, length: number): DeckItems => {
+export const toItems = (gears: Array<IGear | undefined>, length: number): DeckItems => {
   const items: DeckItems = {}
   gears.forEach((gear, index) => {
     if (!gear) {
