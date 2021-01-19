@@ -33,7 +33,9 @@ const fleetToDeck = (fleet: IFleet): DeckBuilderFleet => {
   const deck: Partial<Record<string, DeckBuilderShip>> = {}
 
   fleet.ships.forEach((ship, index) => {
-    deck[`s${index + 1}`] = ship && shipToDeckShip(ship)
+    if (ship) {
+      deck[`s${index + 1}`] = shipToDeckShip(ship)
+    }
   })
 
   return deck as DeckBuilderFleet
