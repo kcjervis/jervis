@@ -84,7 +84,7 @@ const StatLabel: React.FC<StatLabelProps> = props => {
     </div>
   )
 
-  if (disableTooltip) {
+  if (disableTooltip || !statName) {
     return label
   }
 

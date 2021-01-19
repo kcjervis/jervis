@@ -21,7 +21,7 @@ const withIconButton = (WrappedIcon: typeof SvgIcon & React.FC) => {
       </IconButton>
     )
 
-    if (title || (tooltipProps && tooltipProps.title)) {
+    if (title) {
       return (
         <Tooltip title={title} {...tooltipProps}>
           {WrappedButton}
