@@ -42,10 +42,10 @@ const fleetToDeck = (fleet: IFleet): DeckBuilderFleet => {
 }
 
 export const toGkcoiDeck = (operation: ObservableOperation) => {
-  const { gkcoiTheme, gkcoiLang, hqLevel } = operation
+  const { gkcoiTheme, gkcoiLang, hqLevel, description } = operation
   const kc = operation.asKcObject
 
-  const deck = { hqlv: hqLevel, theme: gkcoiTheme, lang: gkcoiLang } as Mutable<GkcoiDeck>
+  const deck = { hqlv: hqLevel, theme: gkcoiTheme, lang: gkcoiLang, cmt: description } as Mutable<GkcoiDeck>
 
   kc.fleets.forEach((fleet, index) => {
     if (!fleet.nonNullableShips.length) return

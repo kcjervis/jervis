@@ -35,7 +35,7 @@ type GkcoiPanelProps = {
 
 const GkcoiPanel: React.FC<GkcoiPanelProps> = ({ operation }) => {
   return (
-    <Paper style={{ padding: 8 }}>
+    <Paper style={{ padding: 8, minHeight: 480 }}>
       <div style={{ marginBottom: 8 }}>
         <Select
           label="Theme"
