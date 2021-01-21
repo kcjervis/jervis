@@ -6460,10 +6460,10 @@ getpass@^0.1.1:
   dependencies:
     assert-plus "^1.0.0"
 
-gkcoi@^1.1.9:
-  version "1.1.9"
-  resolved "https://registry.yarnpkg.com/gkcoi/-/gkcoi-1.1.9.tgz#a734a76732f67758495a2fad78c4588d78629a9b"
-  integrity sha512-xCxu+vnwW6xenQ4C6Dr7xRlT6+P+XiD+BayUJAB+VWIxEpcwHmzE7mrLaB2w+iYpaLC//5SFdSVey92L2EKyHg==
+gkcoi@^1.2.1:
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/gkcoi/-/gkcoi-1.2.1.tgz#1f340119c1879a9fa3b32ba9e73e999961c23b67"
+  integrity sha512-FfQnb6Q/jQWSs4E9mQSGNu8t14LGJ4YPoL0xET3mpfb0YuFUUVGPLECCaslKi4nvONJYyQxe5v74Jfp/OZPEcQ==
   dependencies:
     chart.js "^2.9.4"
     chartjs-plugin-colorschemes "^0.4.0"

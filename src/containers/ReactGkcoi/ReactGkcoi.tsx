@@ -19,7 +19,7 @@ const ReactGkcoi: React.FC<Props> = ({ deck }) => {
     return <CircularProgress style={{ display: "block", margin: "auto" }} size={80} />
 
   if (asyncCanvas.status === "error") {
-    console.error(asyncCanvas.error?.stack)
+    console.error(asyncCanvas.error)
     return (
       <Alert color="error" variant="outlined">
         Error
