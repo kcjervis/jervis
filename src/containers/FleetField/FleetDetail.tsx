@@ -92,9 +92,9 @@ const FleetDetail: React.FC<FleetDetailProps> = props => {
           <Typography>遠征ボーナス: +{toPercent(fleet.expeditionBonus)}</Typography>
           <Typography>合計レベル: {fleet.totalShipStats(ship => ship.level)}</Typography>
           <Typography>合計火力: {total("firepower")}</Typography>
+          <Typography>合計対空: {total("antiAir")}</Typography>
           <Typography>合計対潜: {total("asw")}</Typography>
           <Typography>合計索敵: {total("los")}</Typography>
-          <Typography>合計対空: {total("antiAir")}</Typography>
         </>
       )}
     </Paper>
