@@ -4,7 +4,6 @@ import clsx from "clsx"
 import NoSimOutlined from "@material-ui/icons/NoSimOutlined"
 
 import { makeStyles } from "@material-ui/core/styles"
-import { loadImageSrc } from "../../../utils"
 
 const useStyles = makeStyles(theme => ({
   default: {
@@ -21,7 +20,14 @@ const GearImage: React.FC<GearImageProps> = ({ gearId, className }) => {
   const classes = useStyles()
   const imgClass = clsx(classes.default, className)
 
-  const src = loadImageSrc(`equipments/itemOn/${gearId}.png`)
+  let src = ""
+  let path = `equipments/itemOn/${gearId}.png`
+
+  try {
+    src = require(`../../../images/${path}`)
+  } catch {
+    console.warn(`Cannot find: ${path}`)
+  }
 
   if (!src) {
     return <NoSimOutlined className={imgClass} />
