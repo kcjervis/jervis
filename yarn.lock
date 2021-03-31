@@ -1298,6 +1298,9 @@
   resolved "https://registry.yarnpkg.com/@istanbuljs/schema/-/schema-0.1.2.tgz#26520bf09abe4a5644cd5414e37125a8954241dd"
   integrity sha512-tsAQNx32a8CoFhjhijUIhI4kccIAgmGhy8LZMZgGfmXcpMbPRUqn5LWmgRttILi6yeGmBJd2xsPkFMs0PzgPCw==
 
+"@jervis/data@../data":
+  version "0.14.10"
+
 "@jest/console@^25.5.0":
   version "25.5.0"
   resolved "https://registry.yarnpkg.com/@jest/console/-/console-25.5.0.tgz#770800799d510f37329c508a9edd0b7b447d9abb"
@@ -5387,6 +5390,11 @@ enzyme@^3.11.0:
     rst-selector-parser "^2.2.3"
     string.prototype.trim "^1.2.1"
 
+equipment-bonus@^6.0.5:
+  version "6.0.5"
+  resolved "https://registry.yarnpkg.com/equipment-bonus/-/equipment-bonus-6.0.5.tgz#16804824d041bc9785c4a0fb926cfb2adbad74b2"
+  integrity sha512-2F9/iZ38PzKAATLFVQGDavUQbMh5C3xfLwasCe0xk9HblQXwGgk7kH0Q+QznS91yxehiT/AwNlQDEM2Vc3nZUA==
+
 errno@^0.1.3, errno@~0.1.7:
   version "0.1.8"
   resolved "https://registry.yarnpkg.com/errno/-/errno-0.1.8.tgz#8bb3e9c7d463be4976ff888f76b4809ebc2e811f"
@@ -8359,6 +8367,15 @@ jws@^4.0.0:
   dependencies:
     jwa "^2.0.0"
     safe-buffer "^5.0.1"
+
+kc-calculator@../kc-calculator:
+  version "0.23.4"
+  dependencies:
+    "@jervis/data" "../data"
+    equipment-bonus "^6.0.5"
+    lodash "^4.17.19"
+    lodash-es "^4.17.15"
+    sift "^9.0.7"
 
 killable@^1.0.1:
   version "1.0.1"
@@ -11501,6 +11518,11 @@ side-channel@^1.0.2, side-channel@^1.0.3:
     call-bind "^1.0.0"
     get-intrinsic "^1.0.2"
     object-inspect "^1.9.0"
+
+sift@^9.0.7:
+  version "9.0.7"
+  resolved "https://registry.yarnpkg.com/sift/-/sift-9.0.7.tgz#7b6e10466d9c3d580f87bef8670b26da9acc7786"
+  integrity sha512-q8Wvt15s0UJfIgVBEupXwITi8AKoHwCZbIO/bz+YMgEZRPh5qj/gjvYtqhKjHWe9srbuq5DyYeRyWPVjkOihPg==
 
 signal-exit@^3.0.0, signal-exit@^3.0.2:
   version "3.0.3"
