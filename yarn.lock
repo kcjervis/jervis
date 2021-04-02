@@ -1298,8 +1298,8 @@
   resolved "https://registry.yarnpkg.com/@istanbuljs/schema/-/schema-0.1.2.tgz#26520bf09abe4a5644cd5414e37125a8954241dd"
   integrity sha512-tsAQNx32a8CoFhjhijUIhI4kccIAgmGhy8LZMZgGfmXcpMbPRUqn5LWmgRttILi6yeGmBJd2xsPkFMs0PzgPCw==
 
-"@jervis/data@../data":
-  version "0.14.10"
+"@jervis/data@file:../data":
+  version "0.14.12"
 
 "@jest/console@^25.5.0":
   version "25.5.0"
@@ -5390,10 +5390,10 @@ enzyme@^3.11.0:
     rst-selector-parser "^2.2.3"
     string.prototype.trim "^1.2.1"
 
-equipment-bonus@^6.0.5:
-  version "6.0.5"
-  resolved "https://registry.yarnpkg.com/equipment-bonus/-/equipment-bonus-6.0.5.tgz#16804824d041bc9785c4a0fb926cfb2adbad74b2"
-  integrity sha512-2F9/iZ38PzKAATLFVQGDavUQbMh5C3xfLwasCe0xk9HblQXwGgk7kH0Q+QznS91yxehiT/AwNlQDEM2Vc3nZUA==
+equipment-bonus@^6.0.9:
+  version "6.0.9"
+  resolved "https://registry.yarnpkg.com/equipment-bonus/-/equipment-bonus-6.0.9.tgz#35d2cb5ec2d05e8551590cff277e007857ddd4b4"
+  integrity sha512-++tAWyO0l//O8fdIL2TLAByRqZu4srekc1Sa/JPKwqWDRHU5JC0vVPQO2HURAV7m8/sTWcxCgbMQq5zkKLOo5A==
 
 errno@^0.1.3, errno@~0.1.7:
   version "0.1.8"
@@ -8368,11 +8368,11 @@ jws@^4.0.0:
     jwa "^2.0.0"
     safe-buffer "^5.0.1"
 
-kc-calculator@../kc-calculator:
-  version "0.23.4"
+"kc-calculator@file:../kc-calculator":
+  version "0.23.6"
   dependencies:
-    "@jervis/data" "../data"
-    equipment-bonus "^6.0.5"
+    "@jervis/data" "file:../../scoop/apps/yarn/current/cache/v6/npm-kc-calculator-0.23.6-4c054393-1a58-43fe-9755-7c71ac916a5e-1617361209482/node_modules/data"
+    equipment-bonus "^6.0.9"
     lodash "^4.17.19"
     lodash-es "^4.17.15"
     sift "^9.0.7"
