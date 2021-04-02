@@ -1301,6 +1301,10 @@
 "@jervis/data@file:../data":
   version "0.14.12"
 
+"@jervis/data@link:../data":
+  version "0.0.0"
+  uid ""
+
 "@jest/console@^25.5.0":
   version "25.5.0"
   resolved "https://registry.yarnpkg.com/@jest/console/-/console-25.5.0.tgz#770800799d510f37329c508a9edd0b7b447d9abb"
@@ -8368,14 +8372,9 @@ jws@^4.0.0:
     jwa "^2.0.0"
     safe-buffer "^5.0.1"
 
-"kc-calculator@file:../kc-calculator":
-  version "0.23.6"
-  dependencies:
-    "@jervis/data" "file:../../scoop/apps/yarn/current/cache/v6/npm-kc-calculator-0.23.6-4c054393-1a58-43fe-9755-7c71ac916a5e-1617361209482/node_modules/data"
-    equipment-bonus "^6.0.9"
-    lodash "^4.17.19"
-    lodash-es "^4.17.15"
-    sift "^9.0.7"
+"kc-calculator@link:../kc-calculator":
+  version "0.0.0"
+  uid ""
 
 killable@^1.0.1:
   version "1.0.1"
