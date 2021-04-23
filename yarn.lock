@@ -1298,9 +1298,6 @@
   resolved "https://registry.yarnpkg.com/@istanbuljs/schema/-/schema-0.1.2.tgz#26520bf09abe4a5644cd5414e37125a8954241dd"
   integrity sha512-tsAQNx32a8CoFhjhijUIhI4kccIAgmGhy8LZMZgGfmXcpMbPRUqn5LWmgRttILi6yeGmBJd2xsPkFMs0PzgPCw==
 
-"@jervis/data@file:../data":
-  version "0.14.12"
-
 "@jervis/data@link:../data":
   version "0.0.0"
   uid ""
@@ -5394,10 +5391,10 @@ enzyme@^3.11.0:
     rst-selector-parser "^2.2.3"
     string.prototype.trim "^1.2.1"
 
-equipment-bonus@^6.0.9:
-  version "6.0.9"
-  resolved "https://registry.yarnpkg.com/equipment-bonus/-/equipment-bonus-6.0.9.tgz#35d2cb5ec2d05e8551590cff277e007857ddd4b4"
-  integrity sha512-++tAWyO0l//O8fdIL2TLAByRqZu4srekc1Sa/JPKwqWDRHU5JC0vVPQO2HURAV7m8/sTWcxCgbMQq5zkKLOo5A==
+equipment-bonus@^6.0.10:
+  version "6.0.10"
+  resolved "https://registry.yarnpkg.com/equipment-bonus/-/equipment-bonus-6.0.10.tgz#b6f34988b6ed39325a61cc72cacdfb1d977dc17a"
+  integrity sha512-gkM1JFUGlj/hujfCx6OTRgHHH1NEXgTda2LbwXasZJ/oxd1pHN501MLv7jvGjEt2LJwR3xebookT4NyY0oB/Ng==
 
 errno@^0.1.3, errno@~0.1.7:
   version "0.1.8"
