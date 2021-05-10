@@ -15,12 +15,12 @@ const useStyles = makeStyles({
       rgba(30, 45, 70, 0.7),
       rgba(15, 20, 30, 0.8)
     )`,
-    height: `calc(100vh + ${blur * 4}px)`,
-    width: `calc(100vw + ${blur * 4}px)`,
+    height: `calc(100vh + ${blur * 8}px)`,
+    width: `calc(100vw + ${blur * 8}px)`,
     zIndex: -10000,
-    position: "fixed",
-    top: -blur * 2,
-    left: -blur * 2,
+    position: "absolute",
+    top: -blur * 4,
+    left: -blur * 4,
     textAlign: "right",
     filter: `blur(${blur}px)`,
     "&:before": {

@@ -5391,10 +5391,10 @@ enzyme@^3.11.0:
     rst-selector-parser "^2.2.3"
     string.prototype.trim "^1.2.1"
 
-equipment-bonus@^6.0.10:
-  version "6.0.10"
-  resolved "https://registry.yarnpkg.com/equipment-bonus/-/equipment-bonus-6.0.10.tgz#b6f34988b6ed39325a61cc72cacdfb1d977dc17a"
-  integrity sha512-gkM1JFUGlj/hujfCx6OTRgHHH1NEXgTda2LbwXasZJ/oxd1pHN501MLv7jvGjEt2LJwR3xebookT4NyY0oB/Ng==
+equipment-bonus@^6.0.12:
+  version "6.0.12"
+  resolved "https://registry.yarnpkg.com/equipment-bonus/-/equipment-bonus-6.0.12.tgz#f9c7a46b21bdb6fe23cf4beee151de7536ae97d7"
+  integrity sha512-KPP0nhGOET8QN5Aryi7NEfSiCK1yJvx5gsq5WhFIRCMZqLAHNyRT4wksj1UEhxvuelsFnHuaT4rPzNo2YSkOyw==
 
 errno@^0.1.3, errno@~0.1.7:
   version "0.1.8"
