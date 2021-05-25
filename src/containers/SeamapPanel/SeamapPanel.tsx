@@ -21,7 +21,8 @@ const worlds = [
   { id: 6, name: "中部海域" },
   { id: 47, name: "桃の節句！沖に立つ波" },
   { id: 48, name: "侵攻阻止！島嶼防衛強化作戦" },
-  { id: 49, name: "護衛せよ！船団輸送作戦" }
+  { id: 49, name: "護衛せよ！船団輸送作戦" },
+  { id: 50, name: "激突！ルンガ沖夜戦" }
 ]
 
 const worldIds = worlds.map(({ id }) => id)
