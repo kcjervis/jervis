@@ -1,5 +1,5 @@
 import React from "react"
-import { Proficiency } from "kc-calculator/dist/objects/gear"
+import { Proficiency } from "kc-calculator"
 
 import Button from "@material-ui/core/Button"
 import Tooltip from "@material-ui/core/Tooltip"

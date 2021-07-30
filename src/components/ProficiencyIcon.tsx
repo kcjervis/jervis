@@ -1,4 +1,4 @@
-import { Proficiency } from "kc-calculator/dist/objects/gear"
+import { Proficiency } from "kc-calculator"
 import React from "react"
 import clsx from "clsx"
 

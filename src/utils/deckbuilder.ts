@@ -1,5 +1,4 @@
-import { IGearDataObject, IShipDataObject, ILandBasedAirCorpsDataObject, formulas } from "kc-calculator"
-import { Proficiency } from "kc-calculator/dist/objects/gear"
+import { IGearDataObject, IShipDataObject, Proficiency, formulas } from "kc-calculator"
 import { DeckBuilderItem } from "gkcoi"
 
 import { masterData } from "../stores/kcObjectFactory"

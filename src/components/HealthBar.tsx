@@ -1,4 +1,4 @@
-import { IHealth } from "kc-calculator/dist/objects/ship/Health"
+import { IHealth } from "kc-calculator"
 import React from "react"
 
 import green from "@material-ui/core/colors/green"
