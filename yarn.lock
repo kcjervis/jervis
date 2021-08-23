@@ -5392,9 +5392,9 @@ enzyme@^3.11.0:
     string.prototype.trim "^1.2.1"
 
 equipment-bonus@^6.0.15:
-  version "6.0.18"
-  resolved "https://registry.yarnpkg.com/equipment-bonus/-/equipment-bonus-6.0.18.tgz#accbec4edd1b8a5e269bded48917201109552803"
-  integrity sha512-QzmOvEHErt/TgWbtZVAYs+AfJ+NYczEBd1TTLFMUYcmTU2sxXWIz5ahbg2bAV4GKl5Hv2xubclSIkbh1wcfywg==
+  version "6.0.20"
+  resolved "https://registry.yarnpkg.com/equipment-bonus/-/equipment-bonus-6.0.20.tgz#e0542e1d33f80cc037e6d55f27fb5fa04a76387e"
+  integrity sha512-IUM1JVgoDjfOiKxutzXmqH3Jqu+w99F8yb4HhMljdDLmZYh+M6SVQPLYla6YekTzbe/5gJNW9C2WNVLXGsMvzQ==
 
 errno@^0.1.3, errno@~0.1.7:
   version "0.1.8"
