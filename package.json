@@ -1,6 +1,6 @@
 {
   "name": "jervis",
-  "version": "0.29.27",
+  "version": "0.29.28",
   "license": "UNLICENSED",
   "author": "madono (https://github.com/MadonoHaru)",
   "main": "index.js",
@@ -20,7 +20,7 @@
     "calculate-size": "^1.1.1",
     "clsx": "^1.1.0",
     "core-js": "^3.6.4",
-    "equipment-bonus": "^7.0.9",
+    "equipment-bonus": "^7.0.10",
     "firebase": "^7.16.1",
     "gkcoi": "^1.2.2",
     "history": "^4.10.1",
