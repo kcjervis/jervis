@@ -105,7 +105,7 @@ module.exports = (env, argv) => {
       clientLogLevel: "warning",
       contentBase: path.resolve(__dirname, "docs"),
       openPage: "jervis/",
-      port: 3000,
+      port: 8000,
       historyApiFallback: true,
       headers: {
         "Access-Control-Allow-Origin": "*",

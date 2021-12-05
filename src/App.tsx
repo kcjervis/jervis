@@ -24,6 +24,7 @@ import UrlShortener from "./containers/UrlShortener"
 
 import theme from "./theme"
 import Workspace from "./containers/Workspace/Workspace"
+import Transfer from "./Transfer"
 
 const App: React.FC = () => {
   return (
@@ -46,6 +47,7 @@ const App: React.FC = () => {
                 <Route exact={true} path="/url-shortener" component={UrlShortener} />
 
                 <Route exact={true} path="/cup4" component={SettingPanel} />
+                <Route exact={true} path="/transfer" component={Transfer} />
 
                 <Box minHeight={320} />
               </Workspace>
