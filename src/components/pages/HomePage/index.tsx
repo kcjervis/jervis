@@ -6,8 +6,11 @@ import Box from "@material-ui/core/Box"
 import Link from "@material-ui/core/Link"
 import Divider from "@material-ui/core/Divider"
 import Typography from "@material-ui/core/Typography"
-import Alert from "@material-ui/lab/Alert"
 import { makeStyles, styled } from "@material-ui/core/styles"
+
+import Card from "@material-ui/core/Card"
+import CardHeader from "@material-ui/core/CardHeader"
+import CardContent from "@material-ui/core/CardContent"
 
 import { version } from "../../../version"
 
@@ -40,18 +43,24 @@ const Home: React.FC = () => {
       <Typography className={classes.margin} variant="h4" component="h1">
         作戦室 v{version}
       </Typography>
-      <Alert severity="warning" variant="outlined">
-        当サイトは現在開発中です。大幅な仕様変更が頻繁に発生します。
-      </Alert>
 
-      <Typography className={classes.margin}>
-        作戦室では艦隊作成に必要な様々な計算が行えます。
-        <br />
-        <Link href="#operations" target="_self">
-          編成を作成
-        </Link>
-        してみましょう。
-      </Typography>
+      <Card style={{ marginTop: 16, backgroundColor: "rgba(15, 20, 20, 0.9)" }}>
+        <CardHeader title={<Typography variant="h4">サイト移転のお知らせ</Typography>} />
+
+        <CardContent>
+          <p>
+            長らく更新が滞っており申し訳ありませんでした。
+            <br />
+            今後こちらでの更新は停止して、
+            <Link href="https://jervis.vercel.app">移転先</Link>
+            にて開発していきます。
+          </p>
+
+          <Link href="https://jervis.vercel.app" variant="h5" color="secondary" underline="always">
+            jervis.vercel.app
+          </Link>
+        </CardContent>
+      </Card>
 
       <H2>よくある質問</H2>
       <Box m={1}>
