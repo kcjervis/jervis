@@ -6,11 +6,8 @@ import Box from "@material-ui/core/Box"
 import Link from "@material-ui/core/Link"
 import Divider from "@material-ui/core/Divider"
 import Typography from "@material-ui/core/Typography"
-import { makeStyles, styled } from "@material-ui/core/styles"
-
-import Card from "@material-ui/core/Card"
-import CardHeader from "@material-ui/core/CardHeader"
-import CardContent from "@material-ui/core/CardContent"
+import Alert from "@material-ui/lab/Alert"
+import { makeStyles } from "@material-ui/core/styles"
 
 import { version } from "../../../version"
 
@@ -44,23 +41,11 @@ const Home: React.FC = () => {
         作戦室 v{version}
       </Typography>
 
-      <Card style={{ marginTop: 16, backgroundColor: "rgba(15, 20, 20, 0.9)" }}>
-        <CardHeader title={<Typography variant="h4">サイト移転のお知らせ</Typography>} />
-
-        <CardContent>
-          <p>
-            長らく更新が滞っており申し訳ありませんでした。
-            <br />
-            今後こちらでの更新は停止して、
-            <Link href="https://jervis.vercel.app">移転先</Link>
-            にて開発していきます。
-          </p>
-
-          <Link href="https://jervis.vercel.app" variant="h5" color="secondary" underline="always">
-            jervis.vercel.app
-          </Link>
-        </CardContent>
-      </Card>
+      <Link href="https://jervis.vercel.app" underline="none">
+        <Alert className={classes.margin} severity="error" variant="outlined">
+          jervis.vercel.app に移転しました
+        </Alert>
+      </Link>
 
       <H2>よくある質問</H2>
       <Box m={1}>

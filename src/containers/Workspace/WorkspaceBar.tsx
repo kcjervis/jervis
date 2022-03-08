@@ -7,11 +7,13 @@ import Typography from "@material-ui/core/Typography"
 import Box from "@material-ui/core/Box"
 import { makeStyles, createStyles, Theme, styled } from "@material-ui/core/styles"
 
-import WorkspaceTab from "./WorkspaceTab"
-
 import { version } from "../../version"
 import { WorkspaceStore } from "../../stores"
 import { HorizontalScrollbar } from "../../components"
+
+import NotificationButton from "../NotificationButton"
+
+import WorkspaceTab from "./WorkspaceTab"
 
 const Button = styled(MuiButton)({ height: "100%" })
 
@@ -53,6 +55,8 @@ const WorkspaceBar: React.FC<WorkspaceBarPorps> = ({ workspaceStore, children, .
             ))}
           </HorizontalScrollbar>
         </Box>
+
+        <NotificationButton />
 
         {paths.map(({ label, path }) => (
           <Button key={path} href={"#" + path}>

@@ -11,4 +11,8 @@ export default class SettingStore {
   @persist
   @observable
   public cup4 = false
+
+  @persist
+  @observable
+  public disableNotification = false
 }
